@@ -21,4 +21,12 @@
                               fromAddress="harishbn@arithaconsulting.com"/>
 
 
+    <!-- NEW_EMP_ADDED - New Employee added to the Org -->
+    <Enumeration description="New Org Employee Email" enumCode="NEW_EMP_ADDED" enumId="NEW_EMP_ADDED" enumTypeId="EMAIL_NOTIFICATION" sequenceId="102"/>
+    <ProductStoreEmailSetting productStoreId="AUTOPATT_STORE" emailType="NEW_EMP_ADDED"
+                              bodyScreenLocation="component://admin/widget/AdminEmailScreens.xml#NewEmployeeAddedEmail"
+                              subject="Your Account has been created"
+                              bccAddress=""
+                              fromAddress="harishbn@arithaconsulting.com"/>
+
 </entity-engine-xml>

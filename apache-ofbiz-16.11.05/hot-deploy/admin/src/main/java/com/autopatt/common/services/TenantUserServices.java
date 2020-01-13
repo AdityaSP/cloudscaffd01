@@ -3,10 +3,7 @@ package com.autopatt.common.services;
 import com.autopatt.admin.constants.UserStatusConstants;
 import com.autopatt.admin.utils.TenantCommonUtils;
 import com.autopatt.common.utils.SecurityGroupUtils;
-import org.apache.ofbiz.base.util.Debug;
-import org.apache.ofbiz.base.util.UtilDateTime;
-import org.apache.ofbiz.base.util.UtilMisc;
-import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -43,9 +40,10 @@ public class TenantUserServices {
             return ServiceUtil.returnError("Invalid tenant Id.");
         }
         // Get Organization Party Id
-        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", "ORGANIZATION_PARTY",null, tenantDelegator);
+        String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey,null, tenantDelegator);
         if(UtilValidate.isEmpty(tenantOrganizationPartyId)) {
-            return ServiceUtil.returnError("Unable to find ORGANIZATION_PARTY for tenant " + tenantId);
+            return ServiceUtil.returnError("Unable to find "+organizationPartyKey+" for tenant " + tenantId);
         }
 
         List<EntityCondition> condList = new LinkedList<EntityCondition>();
@@ -125,7 +123,8 @@ public class TenantUserServices {
             return ServiceUtil.returnError("Invalid tenant Id.");
         }
         // Get Organization Party Id
-        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", "ORGANIZATION_PARTY",null, tenantDelegator);
+        String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey,null, tenantDelegator);
         if(UtilValidate.isEmpty(tenantOrganizationPartyId)) {
             return ServiceUtil.returnError("Unable to find ORGANIZATION_PARTY for tenant " + tenantId);
         }

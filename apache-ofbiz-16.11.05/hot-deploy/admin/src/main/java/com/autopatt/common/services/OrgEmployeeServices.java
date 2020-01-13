@@ -3,6 +3,7 @@ package com.autopatt.common.services;
 import com.autopatt.admin.utils.UserLoginUtils;
 import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.base.util.UtilProperties;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
@@ -34,7 +35,8 @@ public class OrgEmployeeServices {
         Delegator delegator = ctx.getDelegator();
         GenericValue userLogin = (GenericValue) context.get("userLogin");
         String orgEmployeePartyId = (String) context.get("orgEmployeePartyId");
-        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", "ORGANIZATION_PARTY",null, delegator);
+        String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey,null, delegator);
         try {
             // thruDate the PartyRelationship
             List<EntityCondition> condList = new LinkedList<EntityCondition>();

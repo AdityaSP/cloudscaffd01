@@ -26,11 +26,23 @@ under the License.
 
     <service name="sendNewCustomerOnboardedEmail" engine="groovy" location="component://admin/script/NewCustomerOnboardedEmail.groovy" invoke="">
         <description>Send email to Organization contact person to notify about new organization created</description>
+        <attribute name="tenantId" type="String" mode="IN" optional="false"/>
         <attribute name="customerOrganizationName" type="String" mode="IN" optional="false"/>
         <attribute name="customerContactPartyId" type="String" mode="IN" optional="false"/>
         <attribute name="customerContactPartyName" type="String" mode="IN" optional="false"/>
         <attribute name="customerContactEmail" type="String" mode="IN" optional="false"/>
         <attribute name="customerContactInitialPassword" type="String" mode="IN" optional="false"/>
+        <attribute name="result" type="String" mode="OUT"/>
+    </service>
+
+    <service name="sendNewOrgEmployeeEmail" engine="groovy" location="component://admin/script/NewEmployeeAddedEmail.groovy" invoke="">
+        <description>Send email to employee when user is added to an organization</description>
+        <attribute name="tenantId" type="String" mode="IN" optional="false"/>
+        <attribute name="organizationName" type="String" mode="IN" optional="false"/>
+        <attribute name="employeePartyId" type="String" mode="IN" optional="false"/>
+        <attribute name="employeeEmail" type="String" mode="IN" optional="false"/>
+        <attribute name="employeePartyName" type="String" mode="IN" optional="false"/>
+        <attribute name="employeePassword" type="String" mode="IN" optional="false"/>
         <attribute name="result" type="String" mode="OUT"/>
     </service>
 

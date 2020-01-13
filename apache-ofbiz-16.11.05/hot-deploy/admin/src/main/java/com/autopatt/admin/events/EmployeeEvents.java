@@ -1,9 +1,6 @@
 package com.autopatt.admin.events;
 import com.autopatt.common.utils.SecurityGroupUtils;
-import org.apache.ofbiz.base.util.Debug;
-import org.apache.ofbiz.base.util.UtilDateTime;
-import org.apache.ofbiz.base.util.UtilMisc;
-import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +96,8 @@ public class EmployeeEvents {
             }
 
             // 4. Add partyRelationship with ORG Party --- this is little complex, let me know
-            String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", "ORGANIZATION_PARTY", null, tenantDelegator);
+            String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+            String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey, null, tenantDelegator);
             Map<String, Object> partyRelationship = UtilMisc.toMap(
                     "partyIdFrom", tenantOrganizationPartyId,
                     "partyIdTo", partyId,

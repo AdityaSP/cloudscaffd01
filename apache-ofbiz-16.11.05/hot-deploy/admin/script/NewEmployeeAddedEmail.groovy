@@ -10,41 +10,40 @@ String PORTAL_HOST_URL = UtilProperties.getPropertyValue("portal.properties","au
 
 Debug.logInfo("-=-=-=- Sending New Customer Onboarded Email -=-=-=-", "")
 result = ServiceUtil.returnSuccess()
-String module = "NewCustomerOnboardedEmail.groovy"
+String module = "NewEmployeeAddedEmail.groovy"
 
-String customerOrganizationName = context.customerOrganizationName
-String customerContactPartyId = context.customerContactPartyId
-String customerContactPartyName = context.customerContactPartyName
-String customerContactEmail = context.customerContactEmail
-String customerContactInitialPassword = context.customerContactInitialPassword
+String organizationName = context.organizationName
+String employeePartyId = context.employeePartyId
+String employeePartyName = context.employeePartyName
+String employeeEmail = context.employeeEmail
+String employeePassword = context.employeePassword
 
+if (employeeEmail) {
+    Debug.logInfo("----- Sending email to: $employeeEmail -----", module)
 
-if (customerContactEmail) {
-    Debug.logInfo("----- Sending email to: $customerContactEmail -----", module)
-
-    String emailType = "NEW_CUST_ONBOARDED"
+    String emailType = "NEW_EMP_ADDED"
     GenericValue productStoreEmailSetting = delegator.findOne("ProductStoreEmailSetting",
             UtilMisc.toMap("productStoreId",productStoreId, "emailType", emailType), false)
 
     if(UtilValidate.isNotEmpty(productStoreEmailSetting)) {
-        Map bodyParameters = UtilMisc.toMap("customerContactPartyId", customerContactPartyId )
-        bodyParameters.put("customerContactEmail", customerContactEmail)
-        bodyParameters.put("customerContactPartyName", customerContactPartyName)
-        bodyParameters.put("customerContactInitialPassword", customerContactInitialPassword)
-        bodyParameters.put("customerOrganizationName", customerOrganizationName)
+        Map bodyParameters = UtilMisc.toMap("employeePartyId", employeePartyId )
+        bodyParameters.put("employeeEmail", employeeEmail)
+        bodyParameters.put("employeePartyName", employeePartyName)
+        bodyParameters.put("employeePassword", employeePassword)
+        bodyParameters.put("organizationName", organizationName)
         bodyParameters.put("PORTAL_HOST_URL", PORTAL_HOST_URL)
 
         Debug.logInfo("Body Parameters: " + bodyParameters, module);
 
         dispatcher.runSync("sendMailFromScreen",
                 UtilMisc.toMap("userLogin", userLogin,
-                        "sendTo", customerContactEmail,
+                        "sendTo", employeeEmail,
                         "sendFrom", productStoreEmailSetting.getString("fromAddress"),
                         "subject", productStoreEmailSetting.getString("subject"),
                         "bodyScreenUri", productStoreEmailSetting.getString("bodyScreenLocation"),
                         "bodyParameters", bodyParameters));
 
-        result.successMessage = (String) "Email Sent to [$customerContactEmail] "
+        result.successMessage = (String) "Email Sent to [$employeeEmail] "
         result.result = "Email Sent"
     } else  {
         return ServiceUtil.returnFailure("No Product store email setting found")

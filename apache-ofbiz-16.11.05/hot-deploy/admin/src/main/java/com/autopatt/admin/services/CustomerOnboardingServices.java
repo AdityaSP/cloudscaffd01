@@ -331,7 +331,8 @@ public class CustomerOnboardingServices {
         }
 
         // Set in SystemProperty for easy lookup
-        EntityUtilProperties.setPropertyValue(tenantDelegator, "general", "ORGANIZATION_PARTY", tenantOrgPartyId);
+        String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+        EntityUtilProperties.setPropertyValue(tenantDelegator, "general", organizationPartyKey, tenantOrgPartyId);
         return tenantOrgPartyId;
     }
 

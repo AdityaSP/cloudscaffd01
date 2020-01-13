@@ -55,21 +55,25 @@ public class TenantCommonUtils {
     }
 
     public static GenericDelegator getTenantDelegator(String tenantId) {
-        GenericDelegator tenantDelegator = (GenericDelegator) DelegatorFactory.getDelegator("default#" + tenantId);
-        return tenantDelegator;
+        return (GenericDelegator) DelegatorFactory.getDelegator("default#" + tenantId);
     }
 
     public static Delegator getTenantDelegatorByOrgPartyId(String orgPartyId) {
-        GenericDelegator mainDelegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
-        String tenantId = getTenantIdForOrgPartyId(mainDelegator, orgPartyId);
+        String tenantId = getTenantIdForOrgPartyId(getMainDelegator(), orgPartyId);
         return getTenantDelegator(tenantId);
     }
 
     public static LocalDispatcher getTenantDispatcherByOrgPartyId(String orgPartyId) {
-        GenericDelegator mainDelegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
-        String tenantId = getTenantIdForOrgPartyId(mainDelegator, orgPartyId);
+        String tenantId = getTenantIdForOrgPartyId(getMainDelegator(), orgPartyId);
         GenericDelegator tenantDelegator = getTenantDelegator(tenantId);
-        LocalDispatcher tenantDispatcher = new GenericDispatcherFactory().createLocalDispatcher("default#" + tenantId, tenantDelegator);
-        return tenantDispatcher;
+        return new GenericDispatcherFactory().createLocalDispatcher("default#" + tenantId, tenantDelegator);
+    }
+
+    public static GenericDelegator getMainDelegator() {
+        return (GenericDelegator) DelegatorFactory.getDelegator("default");
+    }
+
+    public static LocalDispatcher getMainDispatcher() {
+        return new GenericDispatcherFactory().createLocalDispatcher("default#" , getMainDelegator());
     }
 }

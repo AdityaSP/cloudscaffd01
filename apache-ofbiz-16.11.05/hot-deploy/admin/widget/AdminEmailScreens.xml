@@ -18,6 +18,20 @@
         </section>
     </screen>
 
+    <screen name="NewEmployeeAddedEmail">
+        <section>
+            <actions>
+
+            </actions>
+            <widgets>
+                <section>
+                    <widgets>
+                        <platform-specific><html><html-template location="component://admin/templates/email/NewEmployeeAddedEmail.ftl"/></html></platform-specific>
+                    </widgets>
+                </section>
+            </widgets>
+        </section>
+    </screen>
 
 
     <screen name="TestEmail">

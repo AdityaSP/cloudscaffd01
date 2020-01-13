@@ -8,6 +8,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.*;
 import org.apache.ofbiz.entity.util.EntityUtilProperties;
+import org.apache.ofbiz.party.party.PartyHelper;
 import org.apache.ofbiz.security.Security;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
@@ -117,7 +118,8 @@ public class UserMgmtEvents {
             }
 
             // Add partyRelationship with ORG Party (once Tenant is ready)
-            String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", "ORGANIZATION_PARTY", null, delegator);
+            String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+            String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey, null, delegator);
             Map<String, Object> partyRelationship = UtilMisc.toMap(
                     "partyIdFrom", tenantOrganizationPartyId,
                     "partyIdTo", partyId,
@@ -142,6 +144,24 @@ public class UserMgmtEvents {
             } catch (GenericEntityException e) {
                 request.setAttribute("_ERROR_MESSAGE_", "Unable to assign role to the user. ");
                 return ERROR;
+            }
+
+            // Send Email Notification : sendNewOrgEmployeeEmail
+            GenericDelegator mainDelegator = TenantCommonUtils.getMainDelegator();
+            String orgPartyId = TenantCommonUtils.getOrgPartyId(mainDelegator, delegator.getDelegatorTenantId());
+            Map<String,Object> emailNotificationCtx = UtilMisc.toMap(
+                    "userLogin", UserLoginUtils.getSystemUserLogin(mainDelegator),
+                    "tenantId", delegator.getDelegatorTenantId(),
+                    "employeePartyId", partyId,
+                    "employeeEmail", email,
+                    "organizationName",PartyHelper.getPartyName(mainDelegator, orgPartyId, false),
+                    "employeePartyName", PartyHelper.getPartyName(delegator,partyId, false),
+                    "employeePassword", password
+            );
+            LocalDispatcher mainDispatcher = TenantCommonUtils.getMainDispatcher();
+            Map<String, Object> sendEmailNotificationResp = mainDispatcher.runSync("sendNewOrgEmployeeEmail", emailNotificationCtx);
+            if (!ServiceUtil.isSuccess(sendEmailNotificationResp)) {
+                Debug.logError("Error sending email notification to the user", module);
             }
         } catch (GenericServiceException e) {
             e.printStackTrace();
@@ -205,6 +225,7 @@ public class UserMgmtEvents {
         request.setAttribute("_EVENT_MESSAGE_", "User deleted successfully.");
         return SUCCESS;
     }
+
     public static String updateCompanyDetails(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String orgPartyId = request.getParameter("orgPartyId");
