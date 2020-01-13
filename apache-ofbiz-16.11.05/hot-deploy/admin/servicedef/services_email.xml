@@ -46,6 +46,17 @@ under the License.
         <attribute name="result" type="String" mode="OUT"/>
     </service>
 
+    <service name="sendEmployeePasswordResetEmail" engine="groovy" location="component://admin/script/EmployeePasswordResetEmail.groovy" invoke="">
+        <description>Send password reset email to employee</description>
+        <attribute name="tenantId" type="String" mode="IN" optional="false"/>
+        <attribute name="organizationName" type="String" mode="IN" optional="false"/>
+        <attribute name="employeePartyId" type="String" mode="IN" optional="false"/>
+        <attribute name="employeeEmail" type="String" mode="IN" optional="false"/>
+        <attribute name="employeePartyName" type="String" mode="IN" optional="false"/>
+        <attribute name="passwordResetToken" type="String" mode="IN" optional="false"/>
+        <attribute name="result" type="String" mode="OUT"/>
+    </service>
+
     <service name="sampleEmail" engine="groovy" location="component://admin/script/SampleEmailService.groovy" invoke="">
         <description>Sample Service to send email</description>
         <attribute name="emailTo" type="String" mode="IN" optional="true"/>

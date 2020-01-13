@@ -29,4 +29,11 @@
                               bccAddress=""
                               fromAddress="harishbn@arithaconsulting.com"/>
 
+    <!-- EMP_PWD_RESET - Employee password reset -->
+    <Enumeration description="Org Employee Reset Password Email" enumCode="EMP_PWD_RESET" enumId="EMP_PWD_RESET" enumTypeId="EMAIL_NOTIFICATION" sequenceId="102"/>
+    <ProductStoreEmailSetting productStoreId="AUTOPATT_STORE" emailType="EMP_PWD_RESET"
+                              bodyScreenLocation="component://admin/widget/AdminEmailScreens.xml#EmployeePasswordResetEmail"
+                              subject="Your Password has been reset"
+                              bccAddress=""
+                              fromAddress="harishbn@arithaconsulting.com"/>
 </entity-engine-xml>

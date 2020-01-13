@@ -32,7 +32,20 @@
             </widgets>
         </section>
     </screen>
+    <screen name="EmployeePasswordResetEmail">
+        <section>
+            <actions>
 
+            </actions>
+            <widgets>
+                <section>
+                    <widgets>
+                        <platform-specific><html><html-template location="component://admin/templates/email/EmployeePasswordResetEmail.ftl"/></html></platform-specific>
+                    </widgets>
+                </section>
+            </widgets>
+        </section>
+    </screen>
 
     <screen name="TestEmail">
         <section>

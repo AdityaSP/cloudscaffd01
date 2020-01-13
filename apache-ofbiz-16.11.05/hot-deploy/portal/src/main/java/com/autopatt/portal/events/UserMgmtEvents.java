@@ -312,18 +312,46 @@ public class UserMgmtEvents {
 
     public static String sendUserPasswordResetLink(HttpServletRequest request, HttpServletResponse response) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+
         String userLoginId = request.getParameter("userLoginId");
         String userTenantId = request.getParameter("userTenantId");
 
         Map<String, Object> result = null;
         try {
+            GenericValue employeeUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", userLoginId), false);
+            if(UtilValidate.isEmpty(employeeUserLogin)) {
+                request.setAttribute("_ERROR_MESSAGE_", "Invalid Email Id");
+                return ERROR;
+            }
+
             result = dispatcher.runSync("generatePasswordResetToken",
                     UtilMisc.<String, Object>toMap("userLoginId", userLoginId, "userTenantId", userTenantId));
             if (!ServiceUtil.isSuccess(result)) {
                 request.setAttribute("_ERROR_MESSAGE_", result.get("errorMessage"));
                 return ERROR;
             }
-        } catch (GenericServiceException e) {
+
+            String employeePartyId = employeeUserLogin.getString("partyId");
+            // Send Email Notification (passwordResetToken)
+            GenericDelegator mainDelegator = TenantCommonUtils.getMainDelegator();
+            String orgPartyId = TenantCommonUtils.getOrgPartyId(mainDelegator, delegator.getDelegatorTenantId());
+            Map<String,Object> emailNotificationCtx = UtilMisc.toMap(
+                    "userLogin", UserLoginUtils.getSystemUserLogin(mainDelegator),
+                    "tenantId", delegator.getDelegatorTenantId(),
+                    "employeePartyId", employeePartyId,
+                    "employeeEmail", userLoginId,
+                    "organizationName",PartyHelper.getPartyName(mainDelegator, orgPartyId, false),
+                    "employeePartyName", PartyHelper.getPartyName(delegator,employeePartyId, false),
+                    "passwordResetToken", result.get("token")
+            );
+            LocalDispatcher mainDispatcher = TenantCommonUtils.getMainDispatcher();
+            Map<String, Object> sendEmailNotificationResp = mainDispatcher.runSync("sendEmployeePasswordResetEmail", emailNotificationCtx);
+            if (!ServiceUtil.isSuccess(sendEmailNotificationResp)) {
+                Debug.logError("Error sending password reset email notification to the user", module);
+            }
+
+        } catch (GenericServiceException | GenericEntityException e) {
             Debug.logError(e, module);
             request.setAttribute("_ERROR_MESSAGE_", "Failed to generate reset token by admin");
             return ERROR;
