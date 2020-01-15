@@ -389,7 +389,7 @@ public class CustomerOnboardingServices {
         Debug.logInfo("Cloning Database from template for new tenant: " + tenantId, module);
         Debug.logInfo("Running Script: " + cloneScriptFile, module);
         try {
-            Debug.logInfo(cloneScriptFile + " " + dbHostname + " " + dbHostPort + " " + dbHostname + " "
+            Debug.logInfo(cloneScriptFile + " " + dbHostname + " " + dbHostPort + " "
                     + dbUsername + " *******"
                     + " " + tenantId + " " + tenantDbUsername + " ******" , module);
 
