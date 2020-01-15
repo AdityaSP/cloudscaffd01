@@ -6,7 +6,16 @@
 Refer: https://levelup.gitconnected.com/add-new-users-to-amazon-ec2-ubuntu-instance-da075949ca4b
 
 Create your ssh-key and add your public key to the file /home/ofbiz/.ssh/authorized_keys
-And use the private key to login to server as user "ofbiz"
+
+To do that:
+* login to server as ubuntu
+* switch to ofbiz (sudo su - ofbiz)
+* Open .ssh/authorized_keys file and paste your public key contents.
+
+##### Login to server
+
+Login to server as user ofbiz using putty.
+Ensure you are using your own private key while logging in.
 
 ---
 
