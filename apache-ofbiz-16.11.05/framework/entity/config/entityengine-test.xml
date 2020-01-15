@@ -343,9 +343,9 @@ access. For a detailed description see the core/docs/entityconfig.html file.
         <read-data reader-name="ext-demo"/>
         <inline-jdbc
                 jdbc-driver="com.mysql.jdbc.Driver"
-                jdbc-uri="jdbc:mysql://127.0.0.1/ofbiz?autoReconnect=true"
-                jdbc-username="ofbiz"
-                jdbc-password="ofbiz123"
+                jdbc-uri="jdbc:mysql://3.9.134.27:8681/ofbiz?autoReconnect=true"
+                jdbc-username="ofbizdbuser"
+                jdbc-password="Ofbiz@123"
                 isolation-level="ReadCommitted"
                 pool-minsize="2"
                 pool-maxsize="250"
@@ -376,9 +376,9 @@ access. For a detailed description see the core/docs/entityconfig.html file.
         <read-data reader-name="ext-demo"/>
         <inline-jdbc
                 jdbc-driver="com.mysql.jdbc.Driver"
-                jdbc-uri="jdbc:mysql://127.0.0.1/ofbizolap?autoReconnect=true"
-                jdbc-username="ofbiz"
-                jdbc-password="ofbiz123"
+                jdbc-uri="jdbc:mysql://3.9.134.27:8681/ofbizolap?autoReconnect=true"
+                jdbc-username="ofbizdbuser"
+                jdbc-password="Ofbiz@123"
                 isolation-level="ReadCommitted"
                 pool-minsize="2"
                 pool-maxsize="250"
@@ -409,9 +409,9 @@ access. For a detailed description see the core/docs/entityconfig.html file.
         <read-data reader-name="ext-demo"/>
         <inline-jdbc
                 jdbc-driver="com.mysql.jdbc.Driver"
-                jdbc-uri="jdbc:mysql://127.0.0.1/ofbiztenant?autoReconnect=true"
-                jdbc-username="ofbiz"
-                jdbc-password="ofbiz123"
+                jdbc-uri="jdbc:mysql://3.9.134.27:8681/ofbiztenant?autoReconnect=true"
+                jdbc-username="ofbizdbuser"
+                jdbc-password="Ofbiz@123"
                 isolation-level="ReadCommitted"
                 pool-minsize="2"
                 pool-maxsize="250"

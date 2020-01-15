@@ -63,7 +63,7 @@
                 <span class="status text-warning">&bull;</span> Suspended
             </#if>
             </td>
-            <td width="30%">5 mins ago</td><!-- TODO: to be implemented -->
+            <td width="30%">${user.lastLoggedInPrettyTime!}</td>
         </tr>
         </#list>
         </#if>

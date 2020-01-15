@@ -1,14 +1,16 @@
+import com.autopatt.admin.constants.UserStatusConstants
 import com.autopatt.admin.utils.UserLoginUtils
 import org.apache.ofbiz.base.util.UtilMisc
 import org.apache.ofbiz.base.util.UtilValidate
 import org.apache.ofbiz.entity.GenericValue
 import org.apache.ofbiz.party.party.PartyHelper
-import org.apache.ofbiz.service.ServiceUtil
-import java.sql.Timestamp;
-import com.autopatt.admin.constants.UserStatusConstants;
-import com.autopatt.admin.utils.TenantCommonUtils
+import org.ocpsoft.prettytime.PrettyTime;
 
-adminDetails = delegator.findByAnd("PartyRoleAndPartyDetail", UtilMisc.toMap("roleTypeId", "AUTOPATT_ADMIN"), null, false);
+import java.sql.Timestamp
+
+PrettyTime prettyTime = new PrettyTime();
+
+adminDetails = delegator.findByAnd("PartyRoleAndPartyDetail", UtilMisc.toMap("roleTypeId", "AUTOPATT_ADMIN"), UtilMisc.toList("firstName"), false);
 String productId = parameters.productId
 
 List<Map> adminList = new ArrayList()
@@ -38,6 +40,28 @@ for(GenericValue apAdmin : adminDetails) {
         }
     }
     entry.put("userStatus", userStatus)
+
+    def adminLoggedDetail = delegator.findByAnd("UserLoginHistory",
+            UtilMisc.toMap("userLoginId",adminUserLoginGV.userLoginId, "successfulLogin", "Y"),
+            UtilMisc.toList("fromDate DESC"),false)
+    if(adminLoggedDetail != null && adminLoggedDetail.size() > 0 ){
+        def userDetail = adminLoggedDetail.get(0);
+        Timestamp lastLoggedInTs = userDetail.fromDate
+
+        String lastLoggedInPrettyTime = prettyTime.format(new Date(lastLoggedInTs.getTime()))
+        entry.put("lastLoggedInDate", userDetail.fromDate)
+        entry.put("lastLoggedInPrettyTime", lastLoggedInPrettyTime)
+
+        if(adminUserLoginId == userLogin.userLoginId) {
+            // Current User - prev login info
+            def previousLoginHistory = adminLoggedDetail.get(1);
+
+            if(UtilValidate.isNotEmpty(previousLoginHistory)) {
+                context.loggedInUserLastLoggedIn = previousLoginHistory.fromDate
+            }
+        }
+    }
+
     adminList.add(entry)
 }
 context.adminUsers = adminList;

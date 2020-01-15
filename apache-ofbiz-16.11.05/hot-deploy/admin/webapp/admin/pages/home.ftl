@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <div class="card mb-3" style="height: 19rem;background-color: #fbfbfb;">
+                <div class="card mb-3" style="height: 7rem;background-color: #fbfbfb;">
                     <div class="card-body card-padding">
                         <h6 class="card-title text-center">Customers
                             <img src="../static/images/icon/customers.png" class="float-right customers-icon"
@@ -15,12 +15,14 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="card mb-3" style="height: 19rem;background-color: #fbfbfb;">
+                <div class="card mb-3" style="height: 7rem;background-color: #fbfbfb;">
                     <div class="card-body">
-                        <h6 class="card-title text-center">TBD</h6>
-                        <div class="table-responsive-sm">
-                            to be done...
-                        </div>
+                        <h6 class="card-title text-center">Login History</h6>
+                        <h6 class="text-center">
+                            <#if loggedInUserLastLoggedIn??>
+                                Your previous login was on: <i>${loggedInUserLastLoggedIn?date} ${loggedInUserLastLoggedIn?time}</i>
+                            </#if>
+                        </h6>
                     </div>
                 </div>
             </div>
@@ -80,7 +82,7 @@
                                                 <span class="status text-warning">&bull;</span> Suspended
                                             </#if>
                                         </td>
-                                        <td width="25%">5 mins ago</td>
+                                        <td width="25%">${admin.lastLoggedInPrettyTime!}</td>
                                     </tr>
                                 </#list>
                                 </tbody>

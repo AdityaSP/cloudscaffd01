@@ -1,11 +1,17 @@
 package com.autopatt.admin.events;
 
 import com.autopatt.admin.utils.TenantCommonUtils;
+import com.autopatt.admin.utils.UserLoginUtils;
 import com.autopatt.common.utils.JWTHelper;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
+import org.apache.ofbiz.entity.GenericDelegator;
+import org.apache.ofbiz.entity.GenericEntityException;
+import org.apache.ofbiz.entity.GenericValue;
+import org.apache.ofbiz.party.party.PartyHelper;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
@@ -101,13 +107,35 @@ public class PasswordMgmtEvents {
 
         Map<String, Object> result = null;
         try {
+            Delegator tenantDelegator = TenantCommonUtils.getTenantDelegator(userTenantId);
+            GenericValue employeeUserLogin = tenantDelegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", userLoginId), false);
+            if(UtilValidate.isEmpty(employeeUserLogin)) {
+                request.setAttribute("_ERROR_MESSAGE_", "Invalid Email Id");
+                return ERROR;
+            }
             result = dispatcher.runSync("generatePasswordResetToken",
                     UtilMisc.<String, Object>toMap("userLoginId", userLoginId, "userTenantId", userTenantId));
             if (!ServiceUtil.isSuccess(result)) {
                 request.setAttribute("_ERROR_MESSAGE_", result.get("errorMessage"));
                 return ERROR;
             }
-        } catch (GenericServiceException e) {
+
+            // Send Email notification
+            String employeePartyId = employeeUserLogin.getString("partyId");
+            Map<String,Object> emailNotificationCtx = UtilMisc.toMap(
+                    "userLogin", UserLoginUtils.getSystemUserLogin(delegator),
+                    "tenantId", userTenantId,
+                    "employeePartyId", employeePartyId,
+                    "employeeEmail", userLoginId,
+                    "organizationName", PartyHelper.getPartyName(delegator, orgPartyId, false),
+                    "employeePartyName", PartyHelper.getPartyName(tenantDelegator, employeePartyId, false),
+                    "passwordResetToken", result.get("token")
+            );
+            Map<String, Object> sendEmailNotificationResp = dispatcher.runSync("sendEmployeePasswordResetEmail", emailNotificationCtx);
+            if (!ServiceUtil.isSuccess(sendEmailNotificationResp)) {
+                Debug.logError("Error sending password reset email notification to the user", module);
+            }
+        } catch (GenericServiceException | GenericEntityException e) {
             Debug.logError(e, module);
             request.setAttribute("_ERROR_MESSAGE_", "Failed to generate reset token by admin");
             return ERROR;
@@ -115,6 +143,7 @@ public class PasswordMgmtEvents {
 
         String newPassword = "P@" + RandomStringUtils.random(15, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwyz1234567890@".toCharArray());
         try {
+            Debug.logInfo("Sending Password reset email.", module);
             Map<String, Object> resetPwdresult = dispatcher.runSync("resetPassword",
                     UtilMisc.<String, String>toMap("userLoginId", userLoginId, "userTenantId", userTenantId,
                             "newPassword", newPassword, "newPasswordVerify", newPassword));
@@ -131,7 +160,6 @@ public class PasswordMgmtEvents {
             request.setAttribute("_ERROR_MESSAGE_", "Failed to update the password");
             return ERROR;
         }
-        System.out.println(result.get("token"));
         request.setAttribute("_EVENT_MESSAGE_", result.get("token"));
         request.setAttribute("TOKEN", result.get("token"));
         return SUCCESS;
