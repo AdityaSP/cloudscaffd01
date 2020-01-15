@@ -159,10 +159,10 @@ public class UserMgmtEvents {
                     "employeePassword", password
             );
             LocalDispatcher mainDispatcher = TenantCommonUtils.getMainDispatcher();
-            Map<String, Object> sendEmailNotificationResp = mainDispatcher.runSync("sendNewOrgEmployeeEmail", emailNotificationCtx);
-            if (!ServiceUtil.isSuccess(sendEmailNotificationResp)) {
+            mainDispatcher.runAsync("sendNewOrgEmployeeEmail", emailNotificationCtx);
+            /*if (!ServiceUtil.isSuccess(sendEmailNotificationResp)) {
                 Debug.logError("Error sending email notification to the user", module);
-            }
+            }*/
         } catch (GenericServiceException e) {
             e.printStackTrace();
             return ERROR;

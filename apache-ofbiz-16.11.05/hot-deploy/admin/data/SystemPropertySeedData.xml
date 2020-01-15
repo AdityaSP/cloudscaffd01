@@ -2,7 +2,7 @@
 <entity-engine-xml>
 
     <SystemProperty systemResourceId="general" systemPropertyId="defaultFromEmailAddress" systemPropertyValue="ofbiztest@example.com" description="general default 'fromEmailAddress' can be overridden in: EmailTemplateSetting"/>
-    <SystemProperty systemResourceId="general" systemPropertyId="mail.notifications.enabled" systemPropertyValue="Y" description="mail notifications enabled (Y|N)"/>
+    <SystemProperty systemResourceId="general" systemPropertyId="mail.notifications.enabled" systemPropertyValue="N" description="mail notifications enabled (Y|N)"/>
     <SystemProperty systemResourceId="general" systemPropertyId="mail.smtp.relay.host" systemPropertyValue="" description="the default mail server to use"/>
     <SystemProperty systemResourceId="general" systemPropertyId="mail.smtp.auth.user" systemPropertyValue="" description="SMTP Auth username setting"/>
     <SystemProperty systemResourceId="general" systemPropertyId="mail.smtp.auth.password" systemPropertyValue="" description="SMTP Auth password setting"/>
