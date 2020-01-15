@@ -52,7 +52,7 @@ for(GenericValue apAdmin : adminDetails) {
         entry.put("lastLoggedInDate", userDetail.fromDate)
         entry.put("lastLoggedInPrettyTime", lastLoggedInPrettyTime)
 
-        if(adminUserLoginId == userLogin.userLoginId) {
+        if(adminUserLoginId == userLogin.userLoginId && adminLoggedDetail.size()>1) {
             // Current User - prev login info
             def previousLoginHistory = adminLoggedDetail.get(1);
 
