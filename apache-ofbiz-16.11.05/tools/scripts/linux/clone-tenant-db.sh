@@ -25,7 +25,7 @@ mysql -h$hostname -P$dbport -u$dbusername -p$dbpassword -e "CREATE DATABASE ofbi
 mysql -h$hostname -P$dbport -u$dbusername -p$dbpassword -Dofbizolap_$tenantId -e "GRANT ALL PRIVILEGES ON ofbizolap_$tenantId.* TO '$username'@'%' WITH GRANT OPTION;"
 mysql -h$hostname -P$dbport -u$dbusername -p$dbpassword -Dofbizolap_$tenantId -e "GRANT ALL PRIVILEGES ON ofbizolap_$tenantId.* TO '$username'@'localhost' WITH GRANT OPTION;"
 
-mysqldump -h$hostname -P$dbport -u$dbusername -p$dbpassword --quick ofbizolap_template | mysql -h$hostname -u$dbusername -p$dbpassword ofbizolap_$tenantId
+mysqldump -h$hostname -P$dbport -u$dbusername -p$dbpassword --quick ofbizolap_template | mysql -h$hostname -P$dbport -u$dbusername -p$dbpassword ofbizolap_$tenantId
 
 echo "Done cloning and creating db for tenant"
 
