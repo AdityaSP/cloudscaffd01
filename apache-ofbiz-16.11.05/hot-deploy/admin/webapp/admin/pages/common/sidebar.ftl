@@ -25,8 +25,8 @@
     <a href="<@ofbizUrl>reports</@ofbizUrl>" class="list-group-item list-group-item-action <#if currentViewId == 'REPORTS'>active</#if>">
       <i class="material-icons icon-chocolate <#if currentViewId == 'REPORTS'>icon-color-active</#if>">assessment</i><span class="text"> Reports</span></a>
 
-    <a href="<@ofbizUrl>system_settings</@ofbizUrl>" class="list-group-item list-group-item-action <#if currentViewId == 'SYSTEM_SETTINGS'>active</#if>">
-      <i class="fa fa-cogs sidebar-icons icon-midnightblue <#if currentViewId == 'SYSTEM_SETTINGS'>icon-color-active</#if>" aria-hidden="true"></i><span class="text"> System</span></a>
+    <#--<a href="<@ofbizUrl>system_settings</@ofbizUrl>" class="list-group-item list-group-item-action <#if currentViewId == 'SYSTEM_SETTINGS'>active</#if>">
+      <i class="fa fa-cogs sidebar-icons icon-midnightblue <#if currentViewId == 'SYSTEM_SETTINGS'>icon-color-active</#if>" aria-hidden="true"></i><span class="text"> System</span></a>-->
 
   </div>
 </div>
