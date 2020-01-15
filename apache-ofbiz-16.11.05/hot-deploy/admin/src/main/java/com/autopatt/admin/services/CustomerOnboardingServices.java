@@ -330,9 +330,20 @@ public class CustomerOnboardingServices {
             e.printStackTrace();
         }
 
-        // Set in SystemProperty for easy lookup
+        // Set Tenant Org Party Id in SystemProperty for easy lookup
         String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
-        EntityUtilProperties.setPropertyValue(tenantDelegator, "general", organizationPartyKey, tenantOrgPartyId);
+        GenericValue systemPropertyGv = tenantDelegator.makeValue("SystemProperty",
+                UtilMisc.toMap("systemResourceId", "general",
+                        "systemPropertyId", organizationPartyKey,
+                        "systemPropertyValue", tenantOrgPartyId, "description", null));
+        try {
+            tenantDelegator.createOrStore(systemPropertyGv);
+        } catch (GenericEntityException e) {
+            Debug.logError("Error create a SystemProperty for tenants key: " + organizationPartyKey, module);
+            e.printStackTrace();
+        }
+        //EntityUtilProperties.setPropertyValue(tenantDelegator, "general", organizationPartyKey, tenantOrgPartyId);
+
         return tenantOrgPartyId;
     }
 
