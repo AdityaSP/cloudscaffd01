@@ -4,9 +4,10 @@ import org.apache.ofbiz.base.util.UtilValidate
 import org.apache.ofbiz.entity.GenericValue
 import org.apache.ofbiz.party.party.PartyHelper
 import org.ocpsoft.prettytime.PrettyTime
+import org.apache.ofbiz.service.ServiceUtil
 
 import java.sql.Timestamp;
-
+import com.autopatt.admin.utils.*;
 
 PrettyTime prettyTime = new PrettyTime();
 
@@ -16,9 +17,8 @@ List users = getTenantUsersResp.get("users");
 
 for(Map user: users) {
     String userLoginId = user.get("userLoginId")
-    println ">> " + userLoginId
 
-    def userLoginHistories = delegator.findByAnd("UserLoginHistory",UtilMisc.toMap("userLoginId", userLoginId),"successfulLogin", "Y", UtilMisc.toList("fromDate DESC"),false);
+    def userLoginHistories = delegator.findByAnd("UserLoginHistory",UtilMisc.toMap("userLoginId", userLoginId,"successfulLogin", "Y"), UtilMisc.toList("fromDate DESC"),false);
     if (userLoginHistories != null && userLoginHistories.size() > 0) {
         def userLoginHistory = userLoginHistories.get(0);
         user.put("lastLoggedInDate", userLoginHistory.fromDate);
@@ -31,9 +31,17 @@ for(Map user: users) {
 }
 context.users = users;
 
-println users
+def orgPartyId = TenantCommonUtils.getOrgPartyId(TenantCommonUtils.getMainDelegator(), delegator.getDelegatorTenantId())
+def tenantDispatcher = TenantCommonUtils.getMainDispatcher()
+def subscriptionsResp = tenantDispatcher.runSync("getSubscriptions",
+        UtilMisc.<String, Object> toMap("orgPartyId", orgPartyId,
+                "status", "ACTIVE",
+                "userLogin", UserLoginUtils.getSystemUserLogin(tenantDispatcher.getDelegator())));
 
-
-
-
-
+println subscriptionsResp
+if (ServiceUtil.isSuccess(subscriptionsResp)) {
+    def activeSubscriptions = subscriptionsResp.get("subscriptions")
+    if(activeSubscriptions!=null && activeSubscriptions.size()>0) {
+        context.activeSubscription = activeSubscriptions.get(0);
+    }
+}

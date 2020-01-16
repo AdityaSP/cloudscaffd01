@@ -247,8 +247,7 @@ table.table .avatar {
 padding-top: 10px;
 }
 .widget-body{
-  max-width: 20rem;
-  background-color:#ddfcf7;
+  background-color: #efefef;
 }
 .card-padding{
   padding: 1px;
@@ -272,8 +271,7 @@ padding-top: 10px;
   padding-right: 10px;
 }
 .table-style{
-  width:50%;
-  background-color:#f4fcff;
+  background-color:#efefff;
 }
 .input-container{
   display: flex;
