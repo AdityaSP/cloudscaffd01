@@ -122,7 +122,11 @@ public class SubscriptionServices {
         String productId = null == context.get("productId") ? "ALL" : (String) context.get("productId");
         List<Map> subscriptionsList = new ArrayList<>();
         try {
-            Map<String, String> filterMap = UtilMisc.toMap("partyId", orgPartyId);
+            Map<String, String> filterMap = new HashMap<>();
+
+            if(UtilValidate.isNotEmpty(orgPartyId)) {
+                filterMap.put("partyId", orgPartyId);
+            }
             if (!"ALL".equals(productId)) {
                 filterMap.put("productId", productId);
             }
@@ -146,7 +150,7 @@ public class SubscriptionServices {
                     } else {
                         subscriptionMap.put("status", "ACTIVE");
                     }
-                    subscriptionMap.put("orgPartyId", orgPartyId);
+
                     //filter status
                     if ("ALL".equals(status)) {
                         subscriptionsList.add(subscriptionMap);

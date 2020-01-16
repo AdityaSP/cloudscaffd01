@@ -68,7 +68,7 @@ under the License.
              location="com.autopatt.admin.services.SubscriptionServices" invoke="getSubscriptions"
              auth="true" require-new-transaction="true" transaction-timeout="300">
         <description>returns subscription list of tenant</description>
-        <attribute name="orgPartyId" type="String" mode="IN" optional="false"/>
+        <attribute name="orgPartyId" type="String" mode="IN" optional="true"/>
         <attribute name="status" type="String" mode="IN" optional="true"/>
         <attribute name="productId" type="String" mode="IN" optional="true"/>
         <attribute name="subscriptions" type="List" mode="OUT" optional="false"/>
