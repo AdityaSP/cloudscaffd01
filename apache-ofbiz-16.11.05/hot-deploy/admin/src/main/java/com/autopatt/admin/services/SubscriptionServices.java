@@ -150,6 +150,7 @@ public class SubscriptionServices {
                     } else {
                         subscriptionMap.put("status", "ACTIVE");
                     }
+                    subscriptionMap.put("orgPartyId", orgPartyId);
 
                     //filter status
                     if ("ALL".equals(status)) {
