@@ -41,10 +41,14 @@
                         </h6>
                         <#if plans?? && plans?size &gt; 0>
                             <#list plans as plan>
-                                <h6 style="padding-top: 15px;">${plan.productName} ${plans!?size}</h6>
+                                <h6 style="padding-top: 15px;">${plan.productName}</h6>
                                 <div class="progress">
-                                    <div class="progress-bar bg-secondary progress-bar-style" role="progressbar"
-                                         style="width:${plans!?size*150}px;"></div> <#--// TODO: need to get the accurate number of perticular plans-->
+                                    <div class="progress-bar bg-primary progress-bar-style" role="progressbar"
+                                         aria-valuenow="${(plan.activeSubscriptionsCount / maxSubscriptionCountForPlan) * 100 }"
+                                         aria-valuemin="0"
+                                         aria-valuemax="${maxSubscriptionCountForPlan!}"
+                                         style="width:${(plan.activeSubscriptionsCount / maxSubscriptionCountForPlan) * 100 }%"
+                                         ><b>${plan.activeSubscriptionsCount}</b> </div>
                                 </div>
                             </#list>
                         </#if>

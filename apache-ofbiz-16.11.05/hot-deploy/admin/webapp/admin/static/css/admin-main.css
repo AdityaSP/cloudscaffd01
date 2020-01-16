@@ -317,3 +317,8 @@ table.table .avatar {
 .p_eye {
   cursor: pointer;
 }
+
+.progress-bar-style{
+  aria-valuenow:"25";
+  aria-valuemin:"0"; aria-valuemax:"100";
+}

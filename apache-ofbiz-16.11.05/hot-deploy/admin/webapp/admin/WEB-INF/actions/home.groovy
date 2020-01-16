@@ -5,6 +5,7 @@ import org.apache.ofbiz.base.util.UtilValidate
 import org.apache.ofbiz.entity.GenericValue
 import org.apache.ofbiz.party.party.PartyHelper
 import org.ocpsoft.prettytime.PrettyTime;
+import org.apache.ofbiz.service.ServiceUtil
 
 import java.sql.Timestamp
 
@@ -74,9 +75,20 @@ context.totalCustomerCount = tenantOrgParties.size();
 
 products = delegator.findByAnd("Product", UtilMisc.toMap("productTypeId", "SUBSCRIPTION_PLAN"), null, false);
 List<Map> plansList = new ArrayList();
+def maxSubscriptionCountForPlan = 0
 for(GenericValue product : products) {
     Map entry = UtilMisc.toMap("productId", product.productId);
     entry.put("productName", product.productName);
+
+    def getSubscriptionsResp = dispatcher.runSync("getSubscriptions",
+            UtilMisc.toMap("status", "ACTIVE","productId", product.productId,"userLogin", userLogin))
+    if(ServiceUtil.isSuccess(getSubscriptionsResp)) {
+        def activeSubscriptions = getSubscriptionsResp.get("subscriptions")
+        def planSubscriptionCount = activeSubscriptions.size();
+        if(maxSubscriptionCountForPlan < planSubscriptionCount) maxSubscriptionCountForPlan = planSubscriptionCount
+        entry.put("activeSubscriptionsCount", planSubscriptionCount)
+    }
     plansList.add(entry);
 }
+context.maxSubscriptionCountForPlan = maxSubscriptionCountForPlan;
 context.plans = plansList;

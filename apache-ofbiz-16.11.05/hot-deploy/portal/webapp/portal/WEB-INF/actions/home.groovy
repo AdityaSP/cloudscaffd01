@@ -18,7 +18,7 @@ for(Map user: users) {
     String userLoginId = user.get("userLoginId")
     println ">> " + userLoginId
 
-    def userLoginHistories = delegator.findByAnd("UserLoginHistory",UtilMisc.toMap("userLoginId", userLoginId), UtilMisc.toList("fromDate DESC"),false);
+    def userLoginHistories = delegator.findByAnd("UserLoginHistory",UtilMisc.toMap("userLoginId", userLoginId),"successfulLogin", "Y", UtilMisc.toList("fromDate DESC"),false);
     if (userLoginHistories != null && userLoginHistories.size() > 0) {
         def userLoginHistory = userLoginHistories.get(0);
         user.put("lastLoggedInDate", userLoginHistory.fromDate);
