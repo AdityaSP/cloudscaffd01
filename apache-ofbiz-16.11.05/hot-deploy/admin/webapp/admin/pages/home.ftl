@@ -20,7 +20,7 @@
                         <h6 class="card-title text-center">Login History</h6>
                         <h6 class="text-center">
                             <#if loggedInUserLastLoggedIn??>
-                                Your previous login was on: <i>${loggedInUserLastLoggedIn?date} ${loggedInUserLastLoggedIn?time}</i>
+                                Your previous login was <b>${previousLoginPrettyTime!}</b> <br/> on ${loggedInUserLastLoggedIn?date} ${loggedInUserLastLoggedIn?time}</i>
                             </#if>
                         </h6>
                     </div>
@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <div class="card  mb-3 widget-body " style="height: 20rem; background-color: #fbfbfb;">
+                <div class="card  mb-3 widget-body " style="background-color: #fbfbfb;">
                     <div class="card-body card-padding">
                         <h6 class="card-title text-center">Plans <img src="../static/images/icon/plan.png"
                                                                       class="float-right "
@@ -42,7 +42,7 @@
                         <#if plans?? && plans?size &gt; 0>
                             <#list plans as plan>
                                 <h6 style="padding-top: 15px;">${plan.productName}</h6>
-                                <div class="progress " style="height: 21px;">
+                                <div class="progress " style="height: 23px;">
                                     <div class="progress-bar progress-bar-striped bg-primary progress-bar-style" role="progressbar"
                                          aria-valuenow="${(plan.activeSubscriptionsCount / maxSubscriptionCountForPlan) * 100 }"
                                          aria-valuemin="0"
@@ -56,12 +56,12 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="card  mb-3 widget-body" style="background-color: #fbfbfb;height:20rem;">
+                <div class="card  mb-3 widget-body" style="background-color: #fbfbfb;">
                     <div class="card-body">
                         <div class="table-responsive-sm">
                             <table class="table  table-sm" style="width:100%;">
                                 <thead>
-                                <h6 class="card-title text-center">Admin Users</h6>
+                                <h6 class="card-title text-center">Admin Users  - <span class="text-muted small"><a href="<@ofbizUrl>manage_users</@ofbizUrl>">View All</a></span></h6>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>

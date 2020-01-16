@@ -15,6 +15,7 @@ adminDetails = delegator.findByAnd("PartyRoleAndPartyDetail", UtilMisc.toMap("ro
 String productId = parameters.productId
 
 List<Map> adminList = new ArrayList()
+def maxUsersToShow = 5
 for(GenericValue apAdmin : adminDetails) {
 
     Map entry = UtilMisc.toMap("firstName", apAdmin.firstName)
@@ -59,11 +60,15 @@ for(GenericValue apAdmin : adminDetails) {
 
             if(UtilValidate.isNotEmpty(previousLoginHistory)) {
                 context.loggedInUserLastLoggedIn = previousLoginHistory.fromDate
+                String previousLoginPrettyTime = prettyTime.format(new Date(previousLoginHistory.fromDate.getTime()))
+                context.previousLoginPrettyTime = previousLoginPrettyTime
+
             }
         }
     }
 
     adminList.add(entry)
+    if(adminList.size()>maxUsersToShow) break;
 }
 context.adminUsers = adminList;
 
