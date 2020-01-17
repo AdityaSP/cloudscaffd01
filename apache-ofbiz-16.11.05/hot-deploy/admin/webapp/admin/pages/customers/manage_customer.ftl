@@ -17,15 +17,25 @@
             <#if hasActiveSubscription?? && hasActiveSubscription>
                 <span class="badge badge-success">Subscription Active</span><br/>
                 <#list subscriptions as subscription>
-                    <#assign subscribedProduct= (delegator.findOne("Product", {"productId" : subscription.productId}, false))/>
-                    <#if subscribedProduct??>
-                        <b>${subscribedProduct.productName!} (${subscription.productId!}) </b>
-                        <#if subscription.thruDate??>
-                            - <small class="text-muted">valid till ${subscription.thruDate?date} ${subscription.thruDate?time}</small>
-                        <#else>
-                            - <small class="text-muted">valid forever</small>
+                    <#if subscription.status?? && subscription.status == "ACTIVE">
+                        <#assign subscribedProduct= (delegator.findOne("Product", {"productId" : subscription.productId}, false))/>
+                        <#if subscribedProduct??>
+                            <b>${subscribedProduct.productName!} (${subscription.productId!}) </b>
+                            <br/>
+                            <#if subscription.thruDate??>
+                                <small class="text-muted">
+                                    valid
+                                    from <b>${subscription.fromDate?date} ${subscription.fromDate?time} </b>
+                                    till <b>${subscription.thruDate?date} ${subscription.thruDate?time}</b>
+                                </small>
+                            <#else>
+                                <small class="text-muted">
+                                valid
+                                from <b>${subscription.fromDate?date} ${subscription.fromDate?time}</b>
+                                till <i>forever</i></small>
+                            </#if>
+                            <br/>
                         </#if>
-                        <br/>
                     </#if>
                 </#list>
             <#else>

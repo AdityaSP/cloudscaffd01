@@ -369,7 +369,7 @@
             <actions>
                 <set field="title" value="Settings "/>
                 <set field="currentPage" value="settings"/>
-                <set field="currentViewId" value="SETTINGS"/>
+                <set field="currentViewId" value="MANAGE_SETTINGS"/>
                 <script location="component://portal/webapp/portal/WEB-INF/actions/users/settings.groovy"/>
             </actions>
             <widgets>

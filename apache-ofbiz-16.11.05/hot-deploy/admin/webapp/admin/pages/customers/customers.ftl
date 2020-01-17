@@ -58,7 +58,7 @@
                                         )</span>
                                 </span>
                             <#else>
-                                <span class="status text-danger" >&bull;</span> <span>Not Available</span>
+                                <span class="status text-danger" >&bull;</span> <span>No Active Subscriptions</span>
                             </#if>
                         </td>
                         <td>${org.createdStamp!?date}</td>

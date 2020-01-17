@@ -35,6 +35,16 @@ function initializeOrgSubscriptionModals() {
         modal.find('#orgPartyId').text(orgPartyId);
         modal.find('#renewSubscriptionId').val(renewSubscriptionId);
     });
+    $('#deleteSubscriptionConfirmModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var orgPartyId = button.data('org-party-id');
+        var subscriptionId = button.data('subscription-id');
+        if(subscriptionId == null) subscriptionId = "";
+
+        var modal = $(this)
+        modal.find('#deleteSubscriptionId').text(subscriptionId);
+        $("#deleteSubscription_partyId").val(subscriptionId )
+    });
 }
 
 /** Initialize Modals in Employees tab */

@@ -1,9 +1,9 @@
 package com.autopatt.admin.events;
 
+import com.autopatt.admin.utils.TenantCommonUtils;
+import com.autopatt.admin.utils.UserLoginUtils;
 import org.apache.ofbiz.base.util.*;
-import org.apache.ofbiz.entity.Delegator;
-import org.apache.ofbiz.entity.GenericEntityException;
-import org.apache.ofbiz.entity.GenericValue;
+import org.apache.ofbiz.entity.*;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
@@ -247,5 +247,22 @@ public class SubscriptionEvents {
             return true;
         }
         return false;
+    }
+
+    public static String ajaxDeleteSubscription(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        String subscriptionId = request.getParameter("subscriptionId");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        try {
+            GenericValue subscription = delegator.findOne("Subscription", UtilMisc.toMap("subscriptionId", subscriptionId),false);
+            if (!UtilValidate.isEmpty(subscription)) {
+                subscription.remove();
+            }
+        } catch (GenericEntityException ex) {
+            ex.printStackTrace();
+            request.setAttribute("success", "N");
+        }
+        request.setAttribute("success", "Y");
+        return SUCCESS;
     }
 }

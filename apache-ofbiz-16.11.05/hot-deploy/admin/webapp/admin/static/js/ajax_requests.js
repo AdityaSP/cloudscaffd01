@@ -44,6 +44,32 @@ function listSubscriptions() {
         initializeOrgSubscriptionModals();
     });
 }
+function deleteSubscription() {
+    var subscriptionId = $("#deleteSubscription_partyId").val()
+    var orgPartyId = $('input[name="orgPartyId"]').val();
+    var postData = {orgPartyId: orgPartyId, subscriptionId: subscriptionId};
+    var formURL = $("#delete_subscription_form").attr("action");
+    $.ajax(
+        {
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (resp) {
+                if(resp.success==="Y") {
+                    $('#deleteSubscriptionConfirmModal').modal('hide');
+                    showSuccessToast("Subscription Deleted Successfully");
+                    setTimeout(function () {
+                        listSubscriptions();
+                    }, 500);
+                } else {
+                    showErrorToast("Cannot delete the subscription")
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error: " + errorThrown);
+            }
+        });
+}
 
 
 function loadOrgEmployees() {

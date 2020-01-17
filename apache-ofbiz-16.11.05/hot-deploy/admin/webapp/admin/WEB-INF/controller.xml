@@ -184,6 +184,12 @@
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json"/>
 	</request-map>
+	<request-map uri="ajaxDeleteSubscription">
+		<security https="true" auth="true"/>
+		<event type="java" path="com.autopatt.admin.events.SubscriptionEvents" invoke="ajaxDeleteSubscription" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
 	<request-map uri="edit_plan">
 		<security https="true" auth="true"/>
 		<response name="success" type="view" value="edit_plan"/>

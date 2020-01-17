@@ -80,18 +80,25 @@
                         <#if subscription.status?? && subscription.status == "ACTIVE">
                             <span class="status text-success">&#8226;</span> <span>Active</span>
                         <#elseif subscription.status?? && subscription.status == "FUTURE">
-                            <span class="status text-success">&#8226;</span> <span>Future</span>
+                            <span class="status text-warning">&#8226;</span> <span>Future</span>
                         <#else>
                             <span class="status text-danger">&bull;</span> <span>Expired</span>
                         </#if>
                     </td>
                     <td width="20%">
-                        <#if subscription.status?? && ( subscription.status == "ACTIVE" || subscription.status == "FUTURE")>
+                        <#if subscription.status?? && subscription.status == "ACTIVE" >
                             <a href="#"
                                data-target="#revokeSubscriptionModal"
                                class="btn btn-outline-danger" title="Revoke" data-toggle="modal"
                                data-org-party-id="${orgPartyId!}" data-subscription-id="${subscription.id!}">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
+                            </a>
+                        <#elseif subscription.status?? && subscription.status == "FUTURE">
+                            <a href="#"
+                               class="btn btn-outline-danger" title="Remove" data-toggle="modal"
+                               data-target="#deleteSubscriptionConfirmModal"
+                               data-org-party-id="${orgPartyId!}" data-subscription-id="${subscription.id!}">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </a>
                         <#else>
                             <a href="#"
@@ -236,6 +243,30 @@
                         data-dismiss="modal">Cancel
                 </button>
                 <button class="btn btn-warning" onclick="renewSubscription()">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="delete_subscription_form" action="<@ofbizUrl>ajaxDeleteSubscription</@ofbizUrl>">
+    <input type="hidden" id="deleteSubscription_partyId">
+</form>
+<div class="modal fade" id="deleteSubscriptionConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteSubscriptionConfirmModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Remove Subscription</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove for this subscription</b>?
+                <br/> <br/>
+                <div class="alert alert-danger"><i>Note: This action is not reversible.</i></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteSubscription();">Remove</button>
             </div>
         </div>
     </div>

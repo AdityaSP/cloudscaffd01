@@ -31,7 +31,7 @@ if(UtilValidate.isNotEmpty(tenantOrgParties)) {
         if(ServiceUtil.isSuccess(getSubscriptionsResp)) {
             def activeSubscriptions = getSubscriptionsResp.get("subscriptions")
             for(def sub: activeSubscriptions) {
-                subscribedProductIds.add(sub.productId)
+                if(sub.status == "ACTIVE")  subscribedProductIds.add(sub.productId)
             }
         }
         customer.put("subscribedProductIds", subscribedProductIds)
