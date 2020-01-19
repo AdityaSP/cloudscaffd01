@@ -47,3 +47,24 @@ function checkIfAdminEmailExists() {
             }
         });
 }
+function checkIfOrgIdExists() {
+    var tenantId = $("#organizationId").val()
+    var postData = {tenantId: tenantId};
+    var formURL = getUrl("checkIfOrgIdAlreadyExists");
+    $("#orgId_notAvailable").addClass("d-none");
+    $.ajax(
+        {
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function(resp) {
+                console.log("id")
+                if(resp.ORGID_EXISTS === "YES") {
+                    $("#orgId_notAvailable").removeClass("d-none");
+                } else {
+                }
+            },
+            error: function (EMAIL_EXISTS) {
+            }
+        });
+}

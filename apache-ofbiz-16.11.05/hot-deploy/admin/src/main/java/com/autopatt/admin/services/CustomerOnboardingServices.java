@@ -20,6 +20,7 @@
 package com.autopatt.admin.services;
 
 import com.autopatt.admin.constants.SecurityGroupConstants;
+import com.autopatt.admin.utils.TenantCommonUtils;
 import com.autopatt.admin.utils.UserLoginUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.SystemUtils;
@@ -28,6 +29,7 @@ import org.apache.ofbiz.entity.*;
 import org.apache.ofbiz.entity.transaction.TransactionUtil;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtilProperties;
+import org.apache.ofbiz.party.party.PartyHelper;
 import org.apache.ofbiz.service.*;
 import org.codehaus.plexus.util.FastMap;
 
@@ -131,10 +133,27 @@ public class CustomerOnboardingServices {
         String tenantDbOrgPartyId = createOrgPartyInTenantDB(tenantId, organizationName);
         Debug.logInfo("Organization Party Id in Tenant DB is: " + tenantDbOrgPartyId, module);
 
-        // 4. create user login for given contact in TennatDB, and build relationship
+        // 4. create user login for given contact in Tenant DB, and build relationship
         String adminUserLoginPartyId = createAdminUserLoginInTenantDb(tenantId, tenantDbOrgPartyId, contactFirstName, contactLastName, contactEmail, contactPassword );
 
-        // TODO: 5. Send EMail notification if marked YES
+        // 5. Send EMail notification
+        if(UtilValidate.isNotEmpty(sendNotificationToContact) && "Y".equalsIgnoreCase(sendNotificationToContact)) {
+            Delegator tenantDelegator = DelegatorFactory.getDelegator("default#" + tenantId);
+            Map<String,Object> emailNotificationCtx = UtilMisc.toMap(
+                    "userLogin", UserLoginUtils.getSystemUserLogin(delegator),
+                    "tenantId", tenantId,
+                    "customerContactPartyId", adminUserLoginPartyId,
+                    "customerContactEmail", contactEmail,
+                    "customerOrganizationName", PartyHelper.getPartyName(delegator, mainDbOrgPartyId, false),
+                    "customerContactPartyName", PartyHelper.getPartyName(tenantDelegator, adminUserLoginPartyId, false),
+                    "customerContactInitialPassword", contactPassword
+            );
+            try {
+                dispatcher.runAsync("sendNewCustomerOnboardedEmail", emailNotificationCtx);
+            } catch (GenericServiceException e) {
+                e.printStackTrace();
+            }
+        }
 
         result.put(ModelService.RESPONSE_MESSAGE, ModelService.RESPOND_SUCCESS);
         result.put("tenantId", tenantId);

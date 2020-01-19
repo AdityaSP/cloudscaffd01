@@ -242,6 +242,12 @@
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json" />
 	</request-map>
+	<request-map uri="checkIfOrgIdAlreadyExists">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.admin.events.CustomerEvents" invoke="checkIfOrgIdAlreadyExists" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
 	<request-map uri="checkEmailForEmp">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.admin.events.EmployeeEvents" invoke="checkEmailForEmp" />

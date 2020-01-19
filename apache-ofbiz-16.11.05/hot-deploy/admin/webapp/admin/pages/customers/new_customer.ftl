@@ -28,13 +28,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">https://</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="xyz-org" name="tenantId" aria-label="" aria-describedby="basic-addon2" required="true">
+                            <input type="text" class="form-control" id="organizationId" placeholder="xyz-org" name="tenantId" aria-label=""
+                                   aria-describedby="basic-addon2" <#--onkeypress="specialcharecter()" --> onblur="checkIfOrgIdExists()" required="true">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">.autopatt.com</span>
                             </div>
                         </div>
-                    </div>
+                        <div id="orgId_notAvailable" class="text-danger d-none">&nbsp This organization id has already been taken</div>
 
+                    </div>
                     <div class="card form-group">
                         <div class="card-header">
                             Contact Details
