@@ -35,6 +35,13 @@ public class CustomerEvents {
         String sendNotificationToContact = request.getParameter("sendNotificationToContact");
         if (UtilValidate.isEmpty(sendNotificationToContact)) sendNotificationToContact = "N";
 
+        if(UtilValidate.isEmpty(tenantId)) {
+            Debug.logError("Organization Id is empty, and is required. ", module);
+            request.setAttribute("_ERROR_MESSAGE_", "Organization id is required");
+            return ERROR;
+        }
+        tenantId = tenantId.trim();
+        tenantId = tenantId.replaceAll("[^\\w]",""); // remove special chars
         try {
             GenericValue tenant = delegator.findOne("Tenant", UtilMisc.toMap("tenantId", tenantId), false);
             if (tenant != null) {
