@@ -9,10 +9,7 @@ $("#new_customer_form").submit(function (event) {
     var postData = $(this).serializeArray();
     var formURL = $(this).attr("action");
     console.log(postData);
-
-    $("#newCustomerFormSubmitButton").attr("disabled", true);
-    $('#newCustomerFormCancelButton').addClass('disabled');
-    $('#newCustomerForm_Processing').removeClass("d-none");
+    $('#newCustomerForm_Processing').addClass("d-none");
 
     $.ajax(
         {
@@ -24,16 +21,18 @@ $("#new_customer_form").submit(function (event) {
                 if(resp.success === "Y") {
                     console.log("request completed... redirecting to.. " + getUrl("customers"))
                     window.location.replace(getUrl("customers") + "?createInitiated=Y");
+                    $("#newCustomerFormSubmitButton").attr("disabled", true);
+                    $('#newCustomerFormCancelButton').removeClass('disabled',true);
+                    $('#newCustomerForm_Processing').removeClass("d-none");
+
                 } else {
                     showErrorToast("Unable to create new customer, Organization Id already exists")
+                    $("#newCustomerFormSubmitButton").attr("disabled", false);
+                    $('#newCustomerFormCancelButton').removeClass('disabled',false);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error: " + errorThrown);
-                $("#newCustomerFormSubmitButton").attr("disabled", false);
-                $('#newCustomerFormCancelButton').removeClass('disabled');
-                $('#newCustomerForm_Processing').addClass("d-none");
-                $('#newCustomerForm_Error').removeClass("d-none");
             }
         });
     //e.unbind(); //unbind. to stop multiple form submit.
