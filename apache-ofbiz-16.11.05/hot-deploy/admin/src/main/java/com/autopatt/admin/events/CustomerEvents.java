@@ -73,7 +73,9 @@ public class CustomerEvents {
 
         } catch (GenericServiceException e) {
             e.printStackTrace();
+            request.setAttribute("success", "N");
         }
+        request.setAttribute("success", "Y");
         return SUCCESS;
     }
 

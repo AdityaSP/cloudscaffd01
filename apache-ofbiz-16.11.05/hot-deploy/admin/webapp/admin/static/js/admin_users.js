@@ -68,3 +68,12 @@ function checkIfOrgIdExists() {
             }
         });
 }
+function specialcharecter() {
+    var regex = /^[A-Za-z0-9 ]+$/
+    var isValid = regex.test(document.getElementById("organizationId").value);
+    if (!isValid) {
+        showErrorToast("Organization Id cannot contain special characters.");
+    } else {
+    }
+    return isValid;
+}

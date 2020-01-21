@@ -19,10 +19,14 @@ $("#new_customer_form").submit(function (event) {
             url: formURL,
             type: "POST",
             data: postData,
-            success: function (data, textStatus, jqXHR) {
+            success: function (resp) {
                 //data: return data from server
-                console.log("request completed... redirecting to.. " + getUrl("customers"))
-                window.location.replace(getUrl("customers") + "?createInitiated=Y");
+                if(resp.success === "Y") {
+                    console.log("request completed... redirecting to.. " + getUrl("customers"))
+                    window.location.replace(getUrl("customers") + "?createInitiated=Y");
+                } else {
+                    showErrorToast("Unable to create new customer, Organization Id already exists")
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error: " + errorThrown);
