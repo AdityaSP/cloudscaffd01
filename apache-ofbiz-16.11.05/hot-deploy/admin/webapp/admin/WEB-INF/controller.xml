@@ -85,8 +85,8 @@
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.admin.events.CustomerEvents"
 			   invoke="createCustomer" />
-		<response name="success" type="view" value="customers" />
-		<response name="error" type="view" value="new_customer" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 	<request-map uri="CreateAdmin">
 		<security https="true" auth="true" />

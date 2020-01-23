@@ -8,7 +8,6 @@ $("#new_customer_form").submit(function (event) {
 
     var postData = $(this).serializeArray();
     var formURL = $(this).attr("action");
-    console.log(postData);
     $('#newCustomerForm_Processing').addClass("d-none");
 
     $.ajax(
@@ -19,12 +18,7 @@ $("#new_customer_form").submit(function (event) {
             success: function (resp) {
                 //data: return data from server
                 if(resp.success === "Y") {
-                    console.log("request completed... redirecting to.. " + getUrl("customers"))
                     window.location.replace(getUrl("customers") + "?createInitiated=Y");
-                    $("#newCustomerFormSubmitButton").attr("disabled", true);
-                    $('#newCustomerFormCancelButton').removeClass('disabled',true);
-                    $('#newCustomerForm_Processing').removeClass("d-none");
-
                 } else {
                     showErrorToast("Unable to create new customer, Organization Id already exists")
                     $("#newCustomerFormSubmitButton").attr("disabled", false);
