@@ -32,7 +32,7 @@
                 <set field="title" value="Customers"/>
                 <set field="currentPage" value="CUSTOMERS"/>
                 <set field="currentViewId" value="CUSTOMERS"/>
-                <!--<script location="component://admin/webapp/admin/WEB-INF/actions/customers.groovy"/>-->
+                <script location="component://admin/webapp/admin/WEB-INF/actions/customers/NewCustomer.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">

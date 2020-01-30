@@ -23,13 +23,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="organizationName">Organization Id</label>
+                        <label for="organizationName">Organization Id <span class="small">(auto-generated)</span></label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">https://</span>
                             </div>
                             <input type="text" class="form-control" id="organizationId" placeholder="xyz-org" name="tenantId" aria-label=""
-                                   aria-describedby="basic-addon2" onkeypress="return restrictSpecialCharacters(event)" onblur="checkIfOrgIdExists()" required="true">
+                                   value="${newOrgId!}" readonly aria-describedby="basic-addon2"
+                                   onkeypress="return restrictSpecialCharacters(event)" onblur="checkIfOrgIdExists()" required="true">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">.autopatt.com</span>
                             </div>
