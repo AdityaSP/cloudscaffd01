@@ -19,6 +19,7 @@
 <div class="container-fluid">
 
   <div class="login-sidenav">
+      <#include "./common/preauth_logo.ftl"/>
          <div class="login-main-text">
             <h2>AutoPatt Console<br> Login </h2>
             <p>Login here to access the AutoPatt Console.</p>
