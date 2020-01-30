@@ -3,6 +3,7 @@ package com.autopatt.admin.events;
 import com.autopatt.admin.utils.TenantCommonUtils;
 import com.autopatt.admin.utils.UserLoginUtils;
 import com.autopatt.common.utils.JWTHelper;
+import com.autopatt.common.utils.PasswordPolicyHelper;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
@@ -19,6 +20,7 @@ import org.apache.ofbiz.service.ServiceUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 public class PasswordMgmtEvents {
@@ -69,6 +71,11 @@ public class PasswordMgmtEvents {
         String newPassword = request.getParameter("newPassword");
         request.setAttribute("token", token);
 
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(newPassword);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
         Map<String, Object> result = null;
         try {
             result = JWTHelper.parseJWTToken(token);

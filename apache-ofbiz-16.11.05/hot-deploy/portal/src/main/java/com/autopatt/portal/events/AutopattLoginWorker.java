@@ -1,5 +1,6 @@
 package com.autopatt.portal.events;
 
+import com.autopatt.common.utils.PasswordPolicyHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.Delegator;
@@ -13,6 +14,7 @@ import org.apache.ofbiz.webapp.control.LoginWorker;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 public class AutopattLoginWorker extends LoginWorker{
@@ -56,7 +58,6 @@ public class AutopattLoginWorker extends LoginWorker{
     }
 
     public static String login(HttpServletRequest request, HttpServletResponse response) {
-
         String userTenantId = request.getParameter("userTenantId");
         if(UtilValidate.isNotEmpty(userTenantId)) {
             userTenantId = userTenantId.trim();
@@ -116,6 +117,11 @@ public class AutopattLoginWorker extends LoginWorker{
     }
 
     public static String changePassword(HttpServletRequest request, HttpServletResponse response) {
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
         String res = LoginWorker.login(request, response);
         if (!SUCCESS.equals(res)) {
             boolean requirePasswordChange = "Y".equals(request.getParameter("requirePasswordChange"));
