@@ -357,7 +357,7 @@ function checkEmailEmp() {
 }
 
 function checkPasswordPolicy() {
-    var password = $('input[id="password"]').val();
+    var password = $('input[id="newPassword"]').val();
     var postData = {password: password};
     var formURL = getUrl("validatePasswordPolicy");
     $.ajax(
@@ -366,7 +366,10 @@ function checkPasswordPolicy() {
             type: "POST",
             data: postData,
             success: function (resp) {
-                console.log(resp);
+                if(resp._ERROR_MESSAGE_LIST_){
+                    showErrorToast(resp._ERROR_MESSAGE_LIST_);
+                    $('#errorMessage').val(resp._ERROR_MESSAGE_LIST_);
+                }
             },
             error: function () {
                 //TODO: handle error
