@@ -16,9 +16,9 @@ public class PasswordBlackList {
     public final static String module = JWTHelper.class.getName();
     public final static List<String> passwordList = new ArrayList<>();
 
-    public static boolean checkBackListHasPassword(String password) {
+    public static boolean checkBlackListHasPassword(String password) {
         if (passwordList.isEmpty()) {
-            loadPasswordBackListToFile();
+            loadPasswordBlacklistFromFile();
         }
         if (null == password) {
             return false;
@@ -32,7 +32,7 @@ public class PasswordBlackList {
         return false;
     }
 
-    private static void loadPasswordBackListToFile() {
+    private static void loadPasswordBlacklistFromFile() {
         LineIterator it = null;
         try {
             URL url = FlexibleLocation.resolveLocation("password_blacklist.txt", null);

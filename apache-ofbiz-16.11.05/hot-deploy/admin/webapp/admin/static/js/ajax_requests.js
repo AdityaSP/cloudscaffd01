@@ -355,3 +355,21 @@ function checkEmailEmp() {
             }
         });
 }
+
+function checkPasswordPolicy() {
+    var password = $('input[id="password"]').val();
+    var postData = {password: password};
+    var formURL = getUrl("validatePasswordPolicy");
+    $.ajax(
+        {
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (resp) {
+                console.log(resp);
+            },
+            error: function () {
+                //TODO: handle error
+            }
+        });
+}

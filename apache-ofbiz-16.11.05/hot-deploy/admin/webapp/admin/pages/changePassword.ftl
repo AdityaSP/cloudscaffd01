@@ -33,6 +33,8 @@
                         <input type="password" class="form-control" id="password" name="PASSWORD" required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                     </div>
+                    <a href="javascript:void(0);" class="btn btn-outline-primary btn-sm mb-2"
+                       onclick="checkPasswordPolicy()">Check</a>
                 </div>
             </div>
             <div class="form-group row">

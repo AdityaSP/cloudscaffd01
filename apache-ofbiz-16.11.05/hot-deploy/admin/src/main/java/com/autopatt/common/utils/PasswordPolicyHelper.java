@@ -1,17 +1,23 @@
 package com.autopatt.common.utils;
 
+import org.apache.ofbiz.base.util.UtilProperties;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PasswordPolicyHelper {
 
+    private static Properties PORTAL_PROPERTIES = UtilProperties.getProperties("admin.properties");
+    private static String PWD_MIN_LENGTH = PORTAL_PROPERTIES.getProperty("password.min.length", "8");
+
     public static List<String> validatePasswordPolicy(String password){
         List<String> errorList = validatePasswordPattern(password);
-        boolean result = PasswordBlackList.checkBackListHasPassword(password);
+        boolean result = PasswordBlackList.checkBlackListHasPassword(password);
         if(result){
-            errorList.add("Password is present in blacklist");
+            errorList.add("Commonly used password is not allowed");
         }
         return errorList;
     }
@@ -22,8 +28,8 @@ public class PasswordPolicyHelper {
             errorList.add("Password is empty");
             return errorList;
         }
-        if (password.length() < 8) {
-            errorList.add("Password length is less than 8");
+        if (password.length() < Integer.parseInt(PWD_MIN_LENGTH)) {
+            errorList.add("Password should have atleast 8 characters");
         }
         if (!matchPattern("^(?=.*[!@#\\$%\\^&\\*]).{1,}", password)) {
             errorList.add("Special character is mandatory");

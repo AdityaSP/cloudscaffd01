@@ -9,7 +9,6 @@ import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
-import org.apache.ofbiz.entity.GenericDelegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.party.party.PartyHelper;
@@ -169,6 +168,16 @@ public class PasswordMgmtEvents {
         }
         request.setAttribute("_EVENT_MESSAGE_", result.get("token"));
         request.setAttribute("TOKEN", result.get("token"));
+        return SUCCESS;
+    }
+
+    public static String validatePasswordPolicy(HttpServletRequest request, HttpServletResponse response) {
+        String password = request.getParameter("password");
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(password);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
         return SUCCESS;
     }
 
