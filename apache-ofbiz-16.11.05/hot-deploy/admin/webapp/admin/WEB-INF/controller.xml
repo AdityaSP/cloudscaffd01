@@ -291,6 +291,12 @@
 		<response name="success" type="view" value="resetPasswordResponse"/>
 		<response name="error" type="view" value="initResetPassword" />
 	</request-map>
+	<request-map uri="validatePasswordPolicy">
+		<security https="true" auth="false" />
+		<event type="java" path="com.autopatt.admin.events.PasswordMgmtEvents" invoke="validatePasswordPolicy" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
 	<request-map uri="initResetEmployeePwd">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.admin.events.PasswordMgmtEvents" invoke="sendEmployeePasswordResetLink" />

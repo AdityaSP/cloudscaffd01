@@ -1,4 +1,5 @@
 package com.autopatt.admin.events;
+import com.autopatt.common.utils.PasswordPolicyHelper;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilHttp;
 import org.apache.ofbiz.base.util.UtilMisc;
@@ -14,6 +15,7 @@ import org.apache.ofbiz.service.ServiceUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 public class MyProfileEvents {
@@ -44,6 +46,11 @@ public class MyProfileEvents {
     }
 
     public static String updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
