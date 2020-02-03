@@ -195,6 +195,13 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
+	<request-map uri="validatePasswordPolicy">
+		<security https="true" auth="false" />
+		<event type="java" path="com.autopatt.admin.events.PasswordMgmtEvents" invoke="validatePasswordPolicy" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen"
 		page="component://portal/widget/PortalScreens.xml#home" />

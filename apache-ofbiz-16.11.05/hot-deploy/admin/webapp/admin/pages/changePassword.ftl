@@ -39,19 +39,21 @@
                 <label for="nwpswd" class="col-sm-3 col-form-label">New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-5">
                     <div class="input-container">
-                            <input type="password" class="form-control" id="newPassword" name="PASSWORD" onblur="checkPasswordPolicy()" required>
+                            <input type="password" class="form-control" id="newPassword" name="PASSWORD" onblur="checkPasswordPolicy('newPassword','password_policy_error')" required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPassword_eye"></i>
                     </div>
-                    <input type="text" id="errorMessage"/>
+                    <div id="password_policy_error"></div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="cnfnewswd" class="col-sm-3 col-form-label">Confirm New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-5">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="newPasswordVerify" name="newPasswordVerify" required>
+                        <input type="password" class="form-control" id="newPasswordVerify" name="newPasswordVerify"  onblur="checkPasswordPolicy('newPasswordVerify','confirm_password_policy_error')"  required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPasswordVerify_eye"></i>
                     </div>
+                    <div id="confirm_password_policy_error"></div>
+
                 </div>
             </div>
             <div class="form-group row">

@@ -49,3 +49,32 @@ function initiateUsersMgmtModals() {
         modal.find('#resetPasswordUserLoginId').val(resetPasswordUserLoginId);
     });
 }
+
+
+
+function checkPasswordPolicy(textFieldId, errorDivId) {
+    var password = $('input[id="'+textFieldId+'"]').val();
+    var postData = {password: password};
+    var formURL = getAppUrl("validatePasswordPolicy");
+    $('#'+errorDivId).html("");
+    $.ajax(
+        {
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (resp) {
+                if(resp._ERROR_MESSAGE_LIST_){
+                    //showErrorToast(resp._ERROR_MESSAGE_LIST_);
+                    var errorMsgs = resp._ERROR_MESSAGE_LIST_;
+                    var errorHtml = "";
+                    for(var i=0;i <errorMsgs.length; i++) {
+                        errorHtml += "<div class=\"small text-danger p-1\"><i class=\"material-icons danger\">error</i> "+ errorMsgs[i]+"</div>";
+                    }
+                    $('#'+errorDivId).html(errorHtml);
+                }
+            },
+            error: function () {
+                //TODO: handle error
+            }
+        });
+}

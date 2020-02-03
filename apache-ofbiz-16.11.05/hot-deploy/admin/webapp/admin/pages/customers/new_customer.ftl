@@ -69,10 +69,12 @@
                                     <div class="form-group">
                                         <label for="contactPassword">Password</label>
                                         <div class="input-container">
-                                            <input type="password" class="form-control" id="password" name="contactPassword" placeholder="" required="true">
+                                            <input type="password" class="form-control" id="password" name="contactPassword"
+                                                   onblur="checkPasswordPolicy('password','password_policy_error')"
+                                                   placeholder="" required="true">
                                             <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                                         </div>
-
+                                        <div id="password_policy_error"></div>
                                         <small id="emailHelp" class="form-text text-muted">User will be forced to change password on first login</small>
                                     </div>
                                 </div>

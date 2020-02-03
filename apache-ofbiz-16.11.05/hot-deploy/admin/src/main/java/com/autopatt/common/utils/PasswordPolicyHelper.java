@@ -25,17 +25,17 @@ public class PasswordPolicyHelper {
     public static List<String> validatePasswordPattern(String password) {
         List<String> errorList = new ArrayList<>();
         if(null == password){
-            errorList.add("Password is empty");
+            errorList.add("Password cannot be empty");
             return errorList;
         }
         if (password.length() < Integer.parseInt(PWD_MIN_LENGTH)) {
-            errorList.add("Password should have atleast 8 characters");
+            errorList.add("Password should contain at-least 8 characters");
         }
         if (!matchPattern("^(?=.*[!@#\\$%\\^&\\*]).{1,}", password)) {
-            errorList.add("Special character is mandatory");
+            errorList.add("At-least One Special character is required");
         }
         if (!matchPattern("^(?=.*[A-Z]).{1,}", password)) {
-            errorList.add("At-least one capital letter is mandatory");
+            errorList.add("Password should contain at-least one Upper Case character");
         }
         return errorList;
     }

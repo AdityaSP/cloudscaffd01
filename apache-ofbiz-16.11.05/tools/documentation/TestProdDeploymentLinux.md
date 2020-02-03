@@ -76,6 +76,13 @@ Start server (as background process):
 ~~~
 
 Stop server:
+
+Try:
+~~~
+./gradlew "ofbiz --shutdown"
+~~~
+
+if it fails, terminate forcefully using:
 ~~~
 ./gradlew terminateOfbiz
 ~~~

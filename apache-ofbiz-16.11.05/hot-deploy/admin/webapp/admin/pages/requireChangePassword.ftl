@@ -54,16 +54,21 @@
                     <div class="form-group">
                         <label>New Password</label>
                         <div class="input-container">
-                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                   onblur="checkPasswordPolicy('newPassword','password_policy_error')" required>
                             <i class="fa fa-eye p_eye" aria-hidden="true" id="newPassword_eye"></i>
                         </div>
+                        <div id="password_policy_error"></div>
                     </div>
                     <div class="form-group">
                         <label>Confirm Password</label>
                         <div class="input-container">
-                            <input type="password" class="form-control" id="newPasswordVerify" name="newPasswordVerify" required>
+                            <input type="password" class="form-control" id="newPasswordVerify" name="newPasswordVerify"
+                                   onblur="checkPasswordPolicy('newPasswordVerify','confirm_password_policy_error')"
+                                   required>
                             <i class="fa fa-eye p_eye" aria-hidden="true" id="newPasswordVerify_eye"></i>
                         </div>
+                        <div id="confirm_password_policy_error"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Change</button>
                 </form>
