@@ -15,9 +15,9 @@
 
     <div class="table-content">
         <ul class="nav nav-tabs" id="reportsTab" role="tablist">
-            <li class="nav-item">
+            <#--<li class="nav-item">
                 <a class="nav-link active" id="users-report-tab" data-toggle="tab" href="#users_report" role="tab" aria-controls="users_report" aria-selected="true">Users Report</a>
-            </li>
+            </li>-->
             <li class="nav-item">
                 <a class="nav-link" id="subscriptions-report-tab" data-toggle="tab"
                    href="#subscriptions_report" role="tab" aria-controls="subscriptions_report" aria-selected="false">Subscriptions Report</a>
@@ -25,9 +25,9 @@
         </ul>
 
         <div class="tab-content p-4" id="reportsContents">
-            <div class="tab-pane fade show active" id="users_report" role="tabpanel" aria-labelledby="users_report-tab">
+            <#--<div class="tab-pane fade show active" id="users_report" role="tabpanel" aria-labelledby="users_report-tab">
                 ${screens.render("component://admin/widget/AdminReportsScreens.xml#users_report")}
-            </div>
+            </div>-->
             <div class="tab-pane fade" id="subscriptions_report" role="tabpanel" aria-labelledby="subscriptions_report-tab">
                 ${screens.render("component://admin/widget/AdminReportsScreens.xml#subscriptions_report")}
             </div>

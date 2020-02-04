@@ -49,10 +49,10 @@
             <li class="nav-item">
                 <a class="nav-link active" id="details-tab" data-toggle="tab" href="#customer_details" role="tab" aria-controls="customer_details" aria-selected="true">Details</a>
             </li>
-            <li class="nav-item">
+            <#--<li class="nav-item">
                 <a class="nav-link" id="employees-tab" data-toggle="tab"
-                   href="#customer_employees" role="tab" aria-controls="customer_employees" aria-selected="false">Employees <#--<span class="badge badge-pill badge-info">3</span>--></a>
-            </li>
+                   href="#customer_employees" role="tab" aria-controls="customer_employees" aria-selected="false">Employees &lt;#&ndash;<span class="badge badge-pill badge-info">3</span>&ndash;&gt;</a>
+            </li>-->
             <li class="nav-item">
                 <a class="nav-link" id="subscriptions-tab" data-toggle="tab" href="#customer_subscriptions" role="tab" aria-controls="customer_subscriptions" aria-selected="false">Subscriptions</a>
             </li>
@@ -61,9 +61,9 @@
             <div class="tab-pane fade show active" id="customer_details" role="tabpanel" aria-labelledby="details-tab">
                 ${screens.render("component://admin/widget/AdminCustomerScreens.xml#customer_details_tab")}
             </div>
-            <div class="tab-pane fade" id="customer_employees" role="tabpanel" aria-labelledby="employees-tab">
+            <#--<div class="tab-pane fade" id="customer_employees" role="tabpanel" aria-labelledby="employees-tab">
                 ${screens.render("component://admin/widget/AdminCustomerScreens.xml#customer_employees_tab")}
-            </div>
+            </div>-->
             <div class="tab-pane fade" id="customer_subscriptions" role="tabpanel" aria-labelledby="subscriptions-tab">
                 ${screens.render("component://admin/widget/AdminCustomerScreens.xml#customer_subscriptions_tab")}
             </div>
