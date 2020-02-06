@@ -202,6 +202,123 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<!-- New Graph File added -->
+	<request-map uri="basePattern">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="basePattern" />
+	</request-map>
+	<request-map uri="problemPatternSearch">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="problemPatternSearch" />
+	</request-map>
+	<request-map uri="graphEditor">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="GraphEditor" />
+	</request-map>
+	<request-map uri="solutionPattern">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="solutionPattern" />
+	</request-map>
+
+	<request-map uri="AddProblemStatement">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="addProblemStatement" />
+		<response name="success" type="request-redirect" value="productAPC">
+		</response>
+		<response name="error" type="request-redirect" value="productAPC"/>
+	</request-map>
+
+	<request-map uri="AddBasePattern">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="addBasePattern" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+			<redirect-parameter name="psid"/>
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
+
+	<request-map uri="AddSolutionDesign">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="addSolutionDesign" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+			<redirect-parameter name="psid"/>
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
+
+	<request-map uri="UpdateBasePattern">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="updateBasePattern" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
+
+	<request-map uri="UpdateSolutionDesign">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="updateSolutionDesign" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
+
+	<request-map uri="searchProblemStatements">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="searchProblemStatements" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getTags">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getTags" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getProblemStatements">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getProblemStatements" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getBasePattern">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="getBasePattern" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getSolutionDesign">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="getSolutionDesign" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getProblemStatementsByTagId">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getProblemStatementsByTagId" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getPatternByPsId">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getPatternByPsId" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getBasePatternByBpid">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="getBasePatternByBpid" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen"
 		page="component://portal/widget/PortalScreens.xml#home" />
@@ -240,4 +357,10 @@
 			  page="component://portal/widget/PortalScreens.xml#initResetPassword" />
 	<view-map name="resetPasswordResponse" type="screen"
 			  page="component://portal/widget/PortalScreens.xml#resetPasswordResponse" />
+
+	<!-- APC Screen -->
+	<view-map name="basePattern" type="screen" page="component://portal/widget/PortalScreens.xml#basePattern" />
+	<view-map name="problemPatternSearch" type="screen" page="component://portal/widget/PortalScreens.xml#problemPatternSearch" />
+	<view-map name="GraphEditor" type="screen" page="component://portal/widget/PortalScreens.xml#GraphEditor" />
+	<view-map name="solutionPattern" type="screen" page="component://portal/widget/PortalScreens.xml#solutionPattern" />
 </site-conf>

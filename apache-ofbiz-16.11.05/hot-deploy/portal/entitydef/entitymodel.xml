@@ -40,4 +40,90 @@
         <alias entity-alias="PR" name="thruDate" />
     </view-entity>
 
+
+
+    <entity entity-name="problemStatementApc" package-name="org.apache.problemStatementApc" title="problemStatementApc Entity">
+        <field name="id" type="id"></field>
+        <field name="problemStatement" type="very-long"></field>
+        <field name="problemDescription" type="very-long"></field>
+        <field name="createdBy" type="name"></field>
+        <field name="updatedBy" type="name"></field>
+        <field name="updatedDate" type="date-time"></field>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="problemStatementTags" package-name="org.apache.problemStatementTags" title="problemStatementTags Entity">
+        <field name="id" type="id"></field>
+        <field name="tagName" type="name"></field>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="problemStatementTagProblem" package-name="org.apache.problemStatementTagProblem" title="problemStatementTagProblem Entity">
+        <field name="id" type="id"></field>
+        <field name="tagid" type="name"></field>
+        <field name="problemId" type="name"></field>
+        <prim-key field="id"/>
+        <relation type="one" title="tagid" rel-entity-name="problemStatementTags">
+            <key-map field-name="tagid" />
+        </relation>
+        <relation type="one" title="problemId" rel-entity-name="problemStatementApc">
+            <key-map field-name="problemId" />
+        </relation>
+    </entity>
+
+
+    <entity entity-name="basePatternApc" package-name="org.apache.basePatternApc" title="basePatternApc Entity">
+        <field name="id" type="name"></field>
+        <field name="psid" type="name"></field>
+        <field name="baseName" type="very-long"></field>
+        <field name="baseDescription" type="very-long"></field>
+        <field name="png" type="object"></field>
+        <field name="svg" type="object"></field>
+        <field name="xml" type="object"></field>
+        <field name="json" type="object"></field>
+        <field name="createdBy" type="name"></field>
+        <field name="updatedBy" type="name"></field>
+        <field name="updatedDate" type="date-time"></field>
+        <field name="status" type="name"></field>
+        <prim-key field="id"/>
+    </entity>
+
+    <view-entity entity-name="problemStatementTag" package-name="org.apache.problemStatementTag">
+        <member-entity entity-alias="PRB" entity-name="problemStatementApc"/>
+        <member-entity entity-alias="TAG" entity-name="problemStatementTagProblem"/>
+        <alias entity-alias="PRB" name="id"/>
+        <alias entity-alias="PRB" name="problemStatement"/>
+        <alias entity-alias="TAG" name="tagid"/>
+        <view-link entity-alias="PRB" rel-entity-alias="TAG">
+            <key-map field-name="id" rel-field-name="problemId"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="problemStatementTagView" package-name="org.apache.problemStatementTagView">
+        <member-entity entity-alias="pstp" entity-name="problemStatementTagProblem"/>
+        <member-entity entity-alias="pst" entity-name="problemStatementTags"/>
+        <alias entity-alias="pstp" name="tagid"/>
+        <alias entity-alias="pstp" name="problemId"/>
+        <alias entity-alias="pst" name="tagName"/>
+        <view-link entity-alias="pstp" rel-entity-alias="pst">
+            <key-map field-name="tagid" rel-field-name="id"/>
+        </view-link>
+    </view-entity>
+
+    <entity entity-name="solutionDesignApc" package-name="org.apache.solutionDesignApc" title="solutionDesignApc Entity">
+        <field name="id" type="name"></field>
+        <field name="psid" type="name"></field>
+        <field name="bpid" type="name"></field>
+        <field name="solutionDesignName" type="very-long"></field>
+        <field name="solutionDesignDesc" type="very-long"></field>
+        <field name="png" type="object"></field>
+        <field name="svg" type="object"></field>
+        <field name="xml" type="object"></field>
+        <field name="json" type="object"></field>
+        <field name="createdBy" type="name"></field>
+        <field name="updatedBy" type="name"></field>
+        <field name="updatedDate" type="date-time"></field>
+        <field name="status" type="name"></field>
+        <prim-key field="id"/>
+    </entity>
 </entitymodel>

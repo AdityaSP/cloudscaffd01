@@ -38,4 +38,37 @@ under the License.
         <implements service="permissionInterface"/>
     </service>
 
+
+    <service name="createProblemStatement" engine="java"
+             location="com.autopatt.portal.services.ProblemStatementServices" invoke="createProblemStatement"
+             auth="false" require-new-transaction="true" transaction-timeout="1000">
+        <description>MyServices For createProblemStatement</description>
+        <attribute name="problemStatement" type="String" mode="IN" optional="false"/>
+        <attribute name="problemDescription" type="String" mode="IN" optional="false"/>
+        <attribute name="tag" type="String" mode="IN" optional="false"/>
+
+    </service>
+
+    <service name="createBasePattern" engine="java"
+             location="com.autopatt.portal.services.BasePatternServices" invoke="createBasePattern"
+             auth="false" require-new-transaction="true" transaction-timeout="1000">
+        <description>MyServices for createBasePattern</description>
+        <attribute name="psid" type="String" mode="IN" optional="false"/>
+        <attribute name="baseName" type="String" mode="IN" optional="false"/>
+        <attribute name="baseDescription" type="String" mode="IN" optional="false"/>
+    </service>
+
+
+    <service name="createSolutionDesign" engine="java"
+             location="com.autopatt.portal.services.SolutionDesignServices" invoke="createSolutionDesign"
+             auth="false" require-new-transaction="true" transaction-timeout="1000">
+        <description>MyServices fro createBasePattern</description>
+        <attribute name="psid" type="String" mode="IN" optional="false"/>
+        <attribute name="bpid" type="String" mode="IN" optional="false"/>
+        <attribute name="solutionDesignName" type="String" mode="IN" optional="false"/>
+        <attribute name="solutionDesignDesc" type="String" mode="IN" optional="false"/>
+    </service>
+
+
+
 </services>

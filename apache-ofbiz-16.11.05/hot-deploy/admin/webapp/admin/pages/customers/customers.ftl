@@ -5,10 +5,10 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">
-                <h4>Customers</h4>
+                <h4>Clients</h4>
             </div>
             <div class="col-sm-7">
-                <a href="<@ofbizUrl>new_customer</@ofbizUrl>" class="btn btn-primary" title="Onboard New Customer"><i class="material-icons">&#xE147;</i> <span>New Customer</span></a>
+                <a href="<@ofbizUrl>new_customer</@ofbizUrl>" class="btn btn-primary" title="Onboard New Customer"><i class="material-icons">&#xE147;</i> <span>New Client</span></a>
                 <a href="<@ofbizUrl>customers</@ofbizUrl>" class="btn btn-primary" title="Refresh"><i class="material-icons">refresh</i> <span>Refresh</span></a>
             </div>
         </div>

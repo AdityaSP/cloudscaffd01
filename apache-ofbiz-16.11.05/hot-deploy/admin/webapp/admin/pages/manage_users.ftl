@@ -2,10 +2,10 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">
-                <h4>Admin Users</h4>
+                <h4>Support Users</h4>
             </div>
             <div class="col-sm-7">
-                <a href="<@ofbizUrl>new_admin_user</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>New Admin</span></a>
+                <a href="<@ofbizUrl>new_admin_user</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>New User</span></a>
                 <#--<a href="#" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>-->
             </div>
         </div>

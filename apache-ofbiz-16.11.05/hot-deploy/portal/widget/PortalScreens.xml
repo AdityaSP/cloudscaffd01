@@ -386,5 +386,114 @@
             </widgets>
         </section>
     </screen>
+
+    <screen name="product_list_section">
+        <section>
+            <actions>
+                <script location="component://portal/webapp/portal/WEB-INF/actions/users/GetProducts.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="EmptyDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://portal/webapp/portal/pages/users/product_list_section.ftl" />
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="basePattern">
+        <section>
+            <actions>
+                <set field="title" value=""/>
+                <set field="currentPage" value="basePattern"/>
+                <set field="currentViewId" value="PRODUCT_APC"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://portal/webapp/portal/pages/graph/BasePattern.ftl"/>
+
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <!--changes  -->
+    <screen name="problemPatternSearch">
+        <section>
+            <actions>
+                <set field="title" value=""/>
+                <set field="currentPage" value="problemPatternSearch"/>
+                <set field="currentViewId" value="PRODUCT_APC"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://portal/webapp/portal/pages/graph/ProblemPatternSearch.ftl" />
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="solutionPattern">
+        <section>
+            <actions>
+                <set field="title" value=""/>
+                <set field="currentPage" value="solutionPattern"/>
+                <set field="currentViewId" value="solutionPattern"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://portal/webapp/portal/pages/graph/SolutionPattern.ftl"/>
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="GraphEditor">
+        <section>
+            <actions>
+                <set field="title" value=""/>
+                <set field="currentPage" value="GraphEditor"/>
+                <set field="currentViewId" value="GraphEditor"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GraphDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
 </screens>
 

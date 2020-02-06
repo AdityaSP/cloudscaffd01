@@ -21,8 +21,8 @@
     <div class="login-sidenav">
         <#include "./common/preauth_logo.ftl"/>
         <div class="login-main-text">
-            <h2>AutoPatt Admin <br> Login </h2>
-            <p>AutoPatt Admin interface for Administrators only!</p>
+            <h2>AutoPatt Support<br> Login </h2>
+            <p>Interface for Support Team only</p>
         </div>
     </div>
     <div class="login-main">
@@ -38,7 +38,7 @@
             </div>
             <form id="login" action="<@ofbizUrl>login</@ofbizUrl>" method="post">
               <div class="form-group">
-                 <label>Admin Email Address</label>
+                 <label>Support Email Address</label>
                   <div class="input-container">
                       <input type="text" class="form-control" placeholder="Email" name="USERNAME">
                       <i class="fa fa-envelope envelop" aria-hidden="true"></i>

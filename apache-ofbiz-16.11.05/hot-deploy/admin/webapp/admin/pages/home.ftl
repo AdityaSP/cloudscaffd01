@@ -4,7 +4,7 @@
             <div class="col-sm-6">
                 <div class="card mb-3" style="height: 7rem;background-color: #fbfbfb;">
                     <div class="card-body card-padding">
-                        <h6 class="card-title text-center">Customers
+                        <h6 class="card-title text-center">Client
                             <img src="../static/images/icon/customers.png" class="float-right customers-icon"
                                  style="width: 45px; margin-left: 20px;"></h6>
                         <h4 class="text-center">
@@ -61,7 +61,7 @@
                         <div class="table-responsive-sm">
                             <table class="table  table-sm" style="width:100%;">
                                 <thead>
-                                <h6 class="card-title text-center">Admin Users  - <span class="text-muted small"><a href="<@ofbizUrl>manage_users</@ofbizUrl>">View All</a></span></h6>
+                                <h6 class="card-title text-center">User Management  - <span class="text-muted small"><a href="<@ofbizUrl>manage_users</@ofbizUrl>">View All</a></span></h6>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
