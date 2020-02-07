@@ -21,16 +21,16 @@
                 <a class="nav-link" href="#">Contact</a>
             </li>  -->
 
-                <#if userLogin??>
-            <li class="nav-item dropdown">
+            <#if userLogin??>
+                <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons icon-midnightblue">account_circle</i>
-                    ${Static["org.apache.ofbiz.party.party.PartyHelper"].getPartyName(loggedInParty)}
+                    <span class="userName">${Static["org.apache.ofbiz.party.party.PartyHelper"].getPartyName(loggedInParty)}</span>
                     <#--  <span class="sr-only">(current)</span>  -->
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item disabled">
-                        <i class="material-icons icon-darkred">beenhere</i> <i>${userRoleName!}</i>
+                        <i class="material-icons icon-darkred">beenhere</i> <i class="userRoleName">${userRoleName!}</i>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<@ofbizUrl>myaccount</@ofbizUrl>"><i class="material-icons">perm_identity</i> My Account</a>

@@ -93,7 +93,6 @@ public class SolutionDesignEvents{
         return SUCCESS;
     }
 
-
     public static String getSolutionDesign(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
@@ -116,6 +115,5 @@ public class SolutionDesignEvents{
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
-
 
 }

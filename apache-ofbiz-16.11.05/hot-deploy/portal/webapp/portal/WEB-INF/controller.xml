@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		   xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
+<site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
 
 	<include location="component://common/webcommon/WEB-INF/common-controller.xml" />
 	<include location="component://commonext/webapp/WEB-INF/controller.xml" />
 	<include location="component://content/webapp/content/WEB-INF/controller.xml" />
 
-	<handler name="java" type="request"
-		class="org.apache.ofbiz.webapp.event.JavaEventHandler" />
-	<handler name="service" type="request"
-		class="org.apache.ofbiz.webapp.event.ServiceEventHandler" />
-	<handler name="service-multi" type="request"
-		class="org.apache.ofbiz.webapp.event.ServiceMultiEventHandler" />
-	<handler name="simple" type="request"
-		class="org.apache.ofbiz.webapp.event.SimpleEventHandler" />
+	<handler name="java" type="request" class="org.apache.ofbiz.webapp.event.JavaEventHandler" />
+	<handler name="service" type="request" class="org.apache.ofbiz.webapp.event.ServiceEventHandler" />
+	<handler name="service-multi" type="request" class="org.apache.ofbiz.webapp.event.ServiceMultiEventHandler" />
+	<handler name="simple" type="request" class="org.apache.ofbiz.webapp.event.SimpleEventHandler" />
 
 	<handler name="jsp" type="view" class="org.apache.ofbiz.webapp.view.JspViewHandler" />
-	<handler name="http" type="view"
-		class="org.apache.ofbiz.webapp.view.HttpViewHandler" />
-	<handler name="screen" type="view"
-	    class="org.apache.ofbiz.widget.renderer.macro.MacroScreenViewHandler"/>
-	<handler name="simplecontent" type="view"
-		class="org.apache.ofbiz.content.view.SimpleContentViewHandler" />
-	<handler name="screenfop" type="view"
-		class="org.apache.ofbiz.widget.renderer.fo.ScreenFopViewHandler" />
+	<handler name="http" type="view" class="org.apache.ofbiz.webapp.view.HttpViewHandler" />
+	<handler name="screen" type="view" class="org.apache.ofbiz.widget.renderer.macro.MacroScreenViewHandler"/>
+	<handler name="simplecontent" type="view" class="org.apache.ofbiz.content.view.SimpleContentViewHandler" />
+	<handler name="screenfop" type="view" class="org.apache.ofbiz.widget.renderer.fo.ScreenFopViewHandler" />
 
 	<!-- Request Mappings -->
 	<!-- default request; call into CMS -->
@@ -46,15 +38,13 @@
 	</request-map>
 	<request-map uri="logout">
 		<security https="true" auth="true" />
-		<event type="java" path="org.apache.ofbiz.webapp.control.LoginWorker"
-			invoke="logout" />
+		<event type="java" path="org.apache.ofbiz.webapp.control.LoginWorker" invoke="logout" />
 		<response name="success" type="request-redirect" value="home" />
 		<response name="error" type="view" value="home" />
 	</request-map>
 	<request-map uri="autoLogout">
 		<security https="true" auth="false" />
-		<event type="java" path="org.apache.ofbiz.webapp.control.LoginWorker"
-			invoke="autoLoginRemove" />
+		<event type="java" path="org.apache.ofbiz.webapp.control.LoginWorker" invoke="autoLoginRemove" />
 		<response name="success" type="request-redirect" value="home" />
 		<response name="error" type="view" value="home" />
 	</request-map>
@@ -126,7 +116,7 @@
 	<request-map uri="CreateUser">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="createUser" />
-		<response name="success" type="request-redirect" value="manage_users" >
+		<response name="success" type="request-redirect" value="manage_users">
 			<redirect-parameter name="createSuccess"/>
 		</response>
 		<response name="error" type="view" value="new_user" />
@@ -159,14 +149,14 @@
 	</request-map>
 	<request-map uri="UpdateUser">
 		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="updateUser" />
-		<response name="success" type="request-redirect" value="manage_users" >
+		<response name="success" type="request-redirect" value="manage_users">
 			<redirect-parameter name="updateSuccess"/>
 		</response>
 		<response name="error" type="request-redirect" value="manage_users" />
 	</request-map>
 	<request-map uri="UpdateCompanyDetails">
 		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="updateCompanyDetails" />
-		<response name="success" type="request-redirect" value="settings" >
+		<response name="success" type="request-redirect" value="settings">
 			<redirect-parameter name="updateSuccess"/>
 		</response>
 		<response name="error" type="request-redirect" value="settings" />
@@ -318,45 +308,29 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-
 	<!-- View Mappings - START -->
-	<view-map name="home" type="screen"
-		page="component://portal/widget/PortalScreens.xml#home" />
+	<view-map name="home" type="screen" page="component://portal/widget/PortalScreens.xml#home" />
 
-	<view-map name="login" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#login" />
+	<view-map name="login" type="screen" page="component://portal/widget/PortalScreens.xml#login" />
 
-	<view-map name="myaccount" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#myaccount" />
+	<view-map name="myaccount" type="screen" page="component://portal/widget/PortalScreens.xml#myaccount" />
 
-	<view-map name="changePassword" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#changePassword" />
+	<view-map name="changePassword" type="screen" page="component://portal/widget/PortalScreens.xml#changePassword" />
 
-			  
-	<view-map name="productAPC" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#productAPC" />
 
-	<view-map name="manage_users" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#manage_users" />
-	<view-map name="settings" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#settings" />
-	<view-map name="users_list_section" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#users_list_section" />
+	<view-map name="productAPC" type="screen" page="component://portal/widget/PortalScreens.xml#productAPC" />
 
-	<view-map name="requirePasswordChange" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#requirePasswordChange"/>
-	<view-map name="new_user" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#new_user" />
-	<view-map name="edit_user" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#edit_user" />
-	<view-map name="initForgotPwd" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#initForgotPwd" />
-	<view-map name="forgotPwdInitiated" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#forgotPwdInitiated" />
-	<view-map name="initResetPassword" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#initResetPassword" />
-	<view-map name="resetPasswordResponse" type="screen"
-			  page="component://portal/widget/PortalScreens.xml#resetPasswordResponse" />
+	<view-map name="manage_users" type="screen" page="component://portal/widget/PortalScreens.xml#manage_users" />
+	<view-map name="settings" type="screen" page="component://portal/widget/PortalScreens.xml#settings" />
+	<view-map name="users_list_section" type="screen" page="component://portal/widget/PortalScreens.xml#users_list_section" />
+
+	<view-map name="requirePasswordChange" type="screen" page="component://portal/widget/PortalScreens.xml#requirePasswordChange"/>
+	<view-map name="new_user" type="screen" page="component://portal/widget/PortalScreens.xml#new_user" />
+	<view-map name="edit_user" type="screen" page="component://portal/widget/PortalScreens.xml#edit_user" />
+	<view-map name="initForgotPwd" type="screen" page="component://portal/widget/PortalScreens.xml#initForgotPwd" />
+	<view-map name="forgotPwdInitiated" type="screen" page="component://portal/widget/PortalScreens.xml#forgotPwdInitiated" />
+	<view-map name="initResetPassword" type="screen" page="component://portal/widget/PortalScreens.xml#initResetPassword" />
+	<view-map name="resetPasswordResponse" type="screen" page="component://portal/widget/PortalScreens.xml#resetPasswordResponse" />
 
 	<!-- APC Screen -->
 	<view-map name="basePattern" type="screen" page="component://portal/widget/PortalScreens.xml#basePattern" />

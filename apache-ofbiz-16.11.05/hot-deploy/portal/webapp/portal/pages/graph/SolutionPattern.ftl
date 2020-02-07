@@ -20,13 +20,13 @@
         </div>
         <div class="col-12 px-3 pull-right">
         <div class="toastMsg"></div>
-            <#--  <img src="" srcset="" class="img-fluid img-thumbnail w-100 h-100" alt="..." id="solutionDesignImg">  -->
-            <div class='svgDiv img-fluid img-thumbnail w-100 h-100 p-2'></div>
             <div class="text-center p-4">
                 <button class="btn btn-primary m-1 p-1 deploy" style="width: 150px;">Deploy</button>
                 <button class="btn btn-primary m-1 p-1 edit" style="width: 150px;">Edit</button>
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 150px;">Approve</button>
             </div>
+            <#--  <img src="" srcset="" class="img-fluid img-thumbnail w-100 h-100" alt="..." id="solutionDesignImg">  -->
+            <div class='svgDiv img-fluid img-thumbnail w-100 h-100 p-2'></div>
         </div>
     </div>
 </div>

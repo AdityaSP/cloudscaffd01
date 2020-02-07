@@ -59,7 +59,7 @@ function renderTags(tags) {
     if (!App.isEmpty(tags)) {
         $('#tags').show();
         for (var i = 0; i < tags.length; i++) {
-            let htmlTags = `<span class="badge badge-light mr-2 p-2 tag" id="${tags[i].id}">${tags[i].tagName}</span>`;
+            let htmlTags = `<a href="javascript:void(0)" class="badge badge-light mr-2 p-2 tag" id="${tags[i].id}">${tags[i].tagName}</a>`;
             document.querySelector("#tags").insertAdjacentHTML("beforeend", htmlTags);
         }
     } else {

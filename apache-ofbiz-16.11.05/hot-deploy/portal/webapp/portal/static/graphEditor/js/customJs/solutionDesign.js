@@ -1,7 +1,7 @@
 import { App } from './app.js';
 
 var urldata = App.urlParams(true);
-console.log(urldata, urldata);
+console.log(urldata);
 var psid = urldata['psid'];
 var sdid = urldata['sdid'];
 var bpid, isSolutionDesignApproved, isDeployer = false, isApprover = false, idToBeApproved;
@@ -45,11 +45,11 @@ $(function () {
         console.log("deploy")
     });
 
+    // IF approved display only  deploy and edit
     $('.approve').on('click', function (evt) {
-        console.log("approve");
-        // let data = App.getTypeOfPattern(urldata);
-        console.log(urldata);
-        // App.genericFetch('approvePattern', "POST", { "sdid": idToBeApproved, }, reloadPage, "", "", "");
+        
+        App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
+        // reloadPage(urldata, sdid)
     });
 
     $('.edit').on('click', function (evt) {
@@ -67,9 +67,10 @@ $(function () {
     });
 });
 
-function reloadPage(id) {
-    App.toastMsg(`${id} : Design Approved`);
-    window.location.reload();
+function reloadPage(data, id) {
+    App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
+    $('.approve').hide();
+    // window.location.reload();
 }
 
 function renderProblemStmt(problemList, psid) {
@@ -140,15 +141,8 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
         if (isApprover) {
             $('.approve').show();
-
             idToBeApproved = id;
-            // IF approved display only  deploy and edit
-            $('.approve').on('click', function () {
-                App.toastMsg("approved");
 
-                $('.toastMsg').hide();
-                $('.approve').hide();
-            });
         } else {
             App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
         }

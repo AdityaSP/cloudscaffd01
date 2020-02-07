@@ -4,6 +4,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="../static/vendor/jquery/jquery.min.js"></script>
 <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 <script src="../static/js/portal_modals.js"></script>
 <script src="../static/js/portal_users.js"></script>
