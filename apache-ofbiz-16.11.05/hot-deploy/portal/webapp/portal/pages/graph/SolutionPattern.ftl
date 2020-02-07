@@ -6,12 +6,14 @@
             <div class="form-group">
                 <label class="probStatement h5"></label>
                 <p class="probStatementDescription"></p>
+                <hr class="my-4">
             </div>
-            <div class="form-group">
+            <div class="form-group basePatternForm">
                 <label class="basePattern h5"></label>
                 <a class="badge badge-light p-2 mr-2 pull-right viewBpImage" 
                         data-target="#modalIMG" data-toggle="modal" href="#">View BP Image</a>
                 <p class="basePatternDescription"></p>
+                <hr class="my-4">
             </div>
             <div class="form-group">
                 <label class="solutionDesign h5"></label>

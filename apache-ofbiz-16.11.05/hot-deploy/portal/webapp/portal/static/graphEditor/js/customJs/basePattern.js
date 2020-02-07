@@ -81,7 +81,7 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
-            $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
+            $('.probStatement').text(`PS ${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
     }
@@ -90,7 +90,7 @@ function renderProblemStmt(problemList, psid) {
 function renderBasePattern(basePattern, bpid) {
     for (let i = 0; i < basePattern.length; i++) {
         psid = basePattern[i].psid;
-        $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
+        $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
         $('.basePatternDescription').text(basePattern[i].baseDescription);
 
         if (basePattern[i].svg) {

@@ -1,13 +1,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="container my-2 py-2">
-            <#--  <div class="">  -->
-                <div class="form-group">
+            <div class="form-group">
                     <p class="h4" id="probStatement"></p>
                     <p id="probStatementDescription"></p>
-                </div>
-                <div class="form-group problemTags" id='Ptags'></div>
-            <#--  </div>  -->
+            </div>
+            <div class="form-group problemTags" id='Ptags'></div>
+            <hr class="my-4">
             <br>
             <div class="row allSolutions">
                 <div class="col-6">
@@ -19,10 +18,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="createBasePattern" href="#tab2"
                                    data-toggle="tab">Create Base Pattern</a>
-                               <!-- <a class="nav-link" id="UpdateBasePattern" href="#tab2"
-                                   data-toggle="tab">Update Base Pattern</a>-->
                             </li>
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
@@ -33,30 +29,7 @@
                             </div>
                             <div class="tab-pane" id="tab2">
                                 <div class="container my-2 py-2">
-                                   <!--
-                                    <form method="POST"  action="<@ofbizUrl>UpdateBasePatterny</@ofbizUrl>">
-                                        <div class="form-group">
-                                            <label for="id">id</label>
-                                            <input type="text" name="id" class="form-control" required id="id">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="xml">Xml</label>
-                                            <input type="text" name="xml" class="form-control" required id="xml">
-                                        </div>
-                                      <input type="hidden" class="psid" name="psid" value="">
-                                    <div class="form-group">
-                                        <label for="svg">Svg</label>
-                                        <input class="form-control" name="svg" required id="svg"
-                                               rows="3"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="json">Json</label>
-                                        <input type="text" name="json" class="form-control" required id="json">
-                                    </div>
-                                    <button class="btn btn-primary pull-right">Update</button>
-                                    </form>-->
                                     <form method="POST"  action="<@ofbizUrl>AddBasePattern</@ofbizUrl>">
-
                                         <div class="form-group">
                                             <label for="baseProblem">Base Pattern Name</label>
                                             <input type="text" name="baseName" class="form-control" required id="baseProblem">
@@ -67,7 +40,6 @@
                                             <input class="form-control" name="baseDescription" required id="baseProblemDescription"
                                                    rows="3"/>
                                         </div>
-
                                         <button class="btn btn-primary pull-right">Create</button>
                                     </form>
                                 </div>
@@ -81,12 +53,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active show" href="#solutionTab1" data-toggle="tab">Solution Patterns</a>
                             </li>
-
                             <li class="nav-item">
                                 <a class="nav-link" id="createBasicPattern" href="#solutionTab2"
                                    data-toggle="tab">Create Solution Pattern</a>
-                               <!-- <a class="nav-link" id="UpdateSolutionDesign" href="#solutionTab2"
-                                   data-toggle="tab">Update Solution Design</a>-->
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -114,23 +83,8 @@
                                         </div>
                                         <button class="btn btn-primary pull-right">Create</button>
                                     </form>
-
-                                   <!-- <form method="POST" action="<@ofbizUrl>UpdateSolutionDesign</@ofbizUrl>">
-                                        <div class="form-group">
-                                            <label>id</label>
-                                            <input type="text" class="form-control"
-                                                   id="id" name="id">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>xml</label>
-                                            <input type="text" class="form-control"
-                                                   id="xml" name="xml">
-                                        </div>
-                                        <button class="btn btn-primary pull-right">Create</button>
-                                    </form>-->
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

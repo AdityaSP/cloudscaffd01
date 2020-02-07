@@ -28,7 +28,7 @@ $(function () {
     if (bpid) {
         App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
     } else {
-        $('.viewBpImage').hide();
+        $('.basePatternForm').hide();
     }
 
     if (userRole == 'Administrator' || userRole == 'Deployer') {
@@ -90,7 +90,7 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
-            $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
+            $('.probStatement').text(`PS ${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
     }
@@ -99,7 +99,7 @@ function renderProblemStmt(problemList, psid) {
 function renderBasePattern(basePattern, bpid) {
     for (let i = 0; i < basePattern.length; i++) {
         if (bpid == basePattern[i].id) {
-            $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
+            $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
             $('.basePatternDescription').text(basePattern[i].baseDescription);
             if (basePattern[i].svg) {
                 $('.BPsvgDiv').append(basePattern[i].svg);
@@ -117,7 +117,7 @@ function renderBasePattern(basePattern, bpid) {
 function renderSolutionDesign(solutionDesign, sdid) {
     for (let i = 0; i < solutionDesign.length; i++) {
         if (sdid == solutionDesign[i].id) {
-            $('.solutionDesign').text(`${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
+            $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
             $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
 
             if (solutionDesign[i].svg) {

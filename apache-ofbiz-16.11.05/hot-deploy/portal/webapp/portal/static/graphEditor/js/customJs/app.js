@@ -122,7 +122,7 @@ export const App = {
                 toast = `<div class="alert alert-info" role="alert">
                             <div class="row vertical-align">
                                 <div class="col-1 text-center">
-                                    <i class="fa fa-info fa-2x"></i> 
+                                    <i class="fa fa-info fa-2x" style="width:25px;height:25px;"></i> 
                                 </div>
                             <div class="col-11">
                                 ${msg}

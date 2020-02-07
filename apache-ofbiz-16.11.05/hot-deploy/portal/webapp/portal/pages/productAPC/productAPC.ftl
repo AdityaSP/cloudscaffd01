@@ -34,13 +34,23 @@
 
                                 </div>
                                 <br>
-                                <#--  <form id="inputSearchForm" action="<@ofbizUrl>AddProblemStatement</@ofbizUrl>" method="POST">  -->
                                     <div class="form-group has-search">
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="inputSearch" class="form-control inputSearch" required placeholder="Search">
-                                        <#--  <input type="submit" class="form-control submit" >  -->
                                     </div>
-                                <#--  </form>  -->
+                                    <#--  <button class="btn btn-link pull-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                            Filter
+                                    </button>  -->
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            <div class="row"> 
+                                                <div class="col-12">
+                                                    All filter goes here.
+                                                </div>
+                                                <#--  <button class="btn btn-primary pull-right" type="button">Search</button>  -->
+                                            </div>
+                                        </div>
+                                    </div>
                                 <br>
                                 <div class="form-group" id="searchResults">
                                     <label>Search Result...</label>
@@ -71,18 +81,16 @@
                                             <input type="text" class="form-control" id="tag" name="tag" required>
                                         </div>
                                     </div>
-
                                     <div>
                                         <input type="submit" value="Create" class="btn btn-primary pull-right">
                                     </div>
                                 </form>
                             </div>
-                        </div></div>
-
-                </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script type="module" src="../static/graphEditor/js/customJs/problemStatements.js"></script>
+</div>
+<script type="module" src="../static/graphEditor/js/customJs/problemStatements.js"></script>

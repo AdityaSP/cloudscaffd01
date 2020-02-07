@@ -7,6 +7,7 @@
                 <label class="probStatement h5"></label>
                 <p class="probStatementDescription"></p>
             </div>
+            <hr class="my-4">
             <div class="form-group">
                 <label class="basePattern h5"></label>
                 <p class="basePatternDescription"></p>

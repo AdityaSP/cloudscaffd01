@@ -92,7 +92,6 @@ function renderProblemStmt(problemStmt, psid) {
                 bpid = evt.target.parentNode.dataset["bpid"];
             }
             $('.bpid').val(bpid);
-            console.log(bpid,psid)
             // Fetch solution designs and render
             // App.loader('');
             $(".basePattern").removeClass("active");
