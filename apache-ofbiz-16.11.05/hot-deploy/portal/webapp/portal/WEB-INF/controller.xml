@@ -301,9 +301,16 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-	<request-map uri="getBasePatternByBpid">
+	<request-map uri="getAPCDetailsInCount">
 		<security https="true" auth="true" />
-		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="getBasePatternByBpid" />
+		<event type="java" path="com.autopatt.portal.events.DashboardEvents" invoke="getAPCDetailsInCount" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="getSolutionDesignByBpid">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="getSolutionDesignByBpid" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json" />
 	</request-map>

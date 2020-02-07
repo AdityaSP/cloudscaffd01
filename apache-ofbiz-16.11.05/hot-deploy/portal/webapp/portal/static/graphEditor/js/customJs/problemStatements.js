@@ -24,6 +24,9 @@ $(function () {
             searchStr = event.target.value;
             if (searchStr != '') {
                 console.log(searchStr);
+
+                getDataForSearchResults(searchStr);
+
                 App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
             } else {
@@ -70,11 +73,10 @@ function renderTags(tags) {
 function getDataForSearchResults(searchStr) { // Remove this method
     $.ajax({
         method: "POST",
-        url: "searchProblemStatements",
+        url: "getAPCDetailsInCount",
         data: { "inputSearch": searchStr },
         success: function (res) {
             console.log(res);
-            renderSearchResultData(res.data);
         },
         error: function (err) {
             console.log(err);

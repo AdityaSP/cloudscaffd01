@@ -83,11 +83,14 @@ public class ProblemStatementEvents{
             } else {
                 data.put("basePatternList",null);
             }
+            List<EntityCondition> ConditionList = new LinkedList<EntityCondition>();
+            ConditionList.add(  EntityCondition.makeCondition( EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("psid"), EntityOperator.EQUALS,psId),EntityOperator.AND,
+                            EntityCondition.makeCondition( EntityFunction.UPPER_FIELD("bpid"), EntityOperator.EQUALS,"" )));
 
             List<GenericValue> solutionDesignList = EntityQuery.use(delegator)
                     .select("id","bpid","psid","solutionDesignName","solutionDesignDesc")
                     .from("solutionDesignApc")
-                    .where("psid", psId)
+                    .where(ConditionList)
                     .queryList();
             if (solutionDesignList != null) {
                 data.put("solutionDesignList",solutionDesignList);

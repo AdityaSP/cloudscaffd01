@@ -97,7 +97,7 @@ function renderProblemStmt(problemStmt, psid) {
             // App.loader('');
             $(".basePattern").removeClass("active");
             $(this).addClass("active");
-            App.genericFetch("getBasePatternByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");
+            App.genericFetch("getSolutionDesignByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");
 
         });
     }

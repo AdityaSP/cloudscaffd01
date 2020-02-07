@@ -7,6 +7,9 @@ import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.*;
+import org.apache.ofbiz.entity.condition.EntityCondition;
+import org.apache.ofbiz.entity.condition.EntityFunction;
+import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
@@ -14,6 +17,7 @@ import org.apache.ofbiz.service.ServiceUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -117,10 +121,18 @@ public class BasePatternEvents{
     }
 
 
-    public static String getBasePatternByBpid(HttpServletRequest request, HttpServletResponse response) {
+    public static String getSolutionDesignByBpid(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String bpid = request.getParameter("bpid");
+        String psId = request.getParameter("psid");
+
         try {
+
+            List<EntityCondition> ConditionList = new LinkedList<EntityCondition>();
+            ConditionList.add(  EntityCondition.makeCondition( EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("psid"), EntityOperator.EQUALS,psId),EntityOperator.AND,
+                    EntityCondition.makeCondition( EntityFunction.UPPER_FIELD("bpid"), EntityOperator.EQUALS,bpid )));
+
+
             List<GenericValue> BasePatternList = EntityQuery.use(delegator)
                     .select("id","psid","bpid","solutionDesignName","solutionDesignDesc")
                     .from("solutionDesignApc")
