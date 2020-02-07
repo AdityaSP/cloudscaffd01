@@ -139,4 +139,32 @@ public class BasePatternEvents{
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
+
+    public static String approveBasePattern(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+
+        String psid = request.getParameter("psid");
+        String bpid = request.getParameter("bpid");
+
+        request.setAttribute("psid", psid);
+        request.setAttribute("bpid", bpid);
+        String status = "approved";
+
+        Map<String, Object> inputs = UtilMisc.toMap("id", bpid);
+        try {
+            GenericValue solutionDesign = delegator.findOne("basePatternApc", inputs, false);
+            solutionDesign.setString("status", status);
+            delegator.store(solutionDesign);
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+            request.setAttribute("message", ERROR);
+            return ERROR;
+        }
+        request.setAttribute("message", SUCCESS);
+        return SUCCESS;
+    }
+
 }
