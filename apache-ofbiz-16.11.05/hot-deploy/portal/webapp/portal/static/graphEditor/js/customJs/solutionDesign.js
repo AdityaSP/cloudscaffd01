@@ -83,11 +83,8 @@ $(function () {
 });
 
 function reloadPage(data, id) {
-    // console.log(data)
-    // if (data.message == 'success') {
-        App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
-        $('.approve').hide();
-    // }
+    App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
+    $('.approve').hide();
 }
 
 function renderProblemStmt(problemList, psid) {

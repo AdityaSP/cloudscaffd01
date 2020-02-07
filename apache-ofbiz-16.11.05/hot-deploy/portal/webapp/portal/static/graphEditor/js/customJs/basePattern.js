@@ -52,9 +52,7 @@ $(function () {
                 }
             },
             callback: function (result) {
-                console.log(result)
                 if (result) {
-                    console.log('Fetch');
                     App.genericFetch('approveBasePattern', "POST", urldata, reloadPage, bpid, "", "");
                 }
             }
@@ -78,7 +76,6 @@ $(function () {
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
     $('.approve').hide();
-    // window.location.reload();
 }
 
 function renderProblemStmt(problemList, psid) {
