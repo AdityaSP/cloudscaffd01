@@ -38,6 +38,29 @@ $(function () {
         console.log("deploy")
     });
 
+    // IF approved display only  deploy and edit
+    $('.approve').on('click', function () {
+        bootbox.confirm({
+            title: "Base Pattern Design Approval",
+            message: "Please confirm to approve design",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                console.log(result)
+                if (result) {
+                    console.log('Fetch');
+                    App.genericFetch('approveBasePattern', "POST", urldata, reloadPage, bpid, "", "");
+                }
+            }
+        });
+    });
+
     $('.edit').on('click', function (evt) {
         let urlParam;
         if (psid != null && bpid != null && sdid != null) {
@@ -52,6 +75,12 @@ $(function () {
         window.location.href = `graphEditor?${App.encrypt(urlParam)}`;
     });
 });
+function reloadPage(data, id) {
+    App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
+    $('.approve').hide();
+    // window.location.reload();
+}
+
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
@@ -82,7 +111,7 @@ function renderBasePattern(basePattern, bpid) {
             isBasePatternApproved = basePattern[i].status;
             checkImageAproval(isBasePatternApproved);
         } else {
-//            $('.edit').attr("disabled", true);
+            //            $('.edit').attr("disabled", true);
             App.toastMsg('No Design Created', 'failed', '.toastMsg');
         }
     }
@@ -96,14 +125,6 @@ function checkImageAproval(isBasePatternApproved) {
         App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
         if (isApprover) {
             $('.approve').show();
-
-            // IF approved display only  deploy and edit
-            $('.approve').on('click', function () {
-                App.toastMsg("approved");
-
-                $('.toastMsg').hide();
-                $('.approve').hide();
-            });
         } else {
             App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
         }
@@ -111,7 +132,7 @@ function checkImageAproval(isBasePatternApproved) {
     if (isDeployer) {
         if (isBasePatternApproved == "approved") {
             $('.deploy').attr("disabled", false);
-//            $('.edit').attr("disabled", false);
+            //$('.edit').attr("disabled", false);
         }
     }
 }

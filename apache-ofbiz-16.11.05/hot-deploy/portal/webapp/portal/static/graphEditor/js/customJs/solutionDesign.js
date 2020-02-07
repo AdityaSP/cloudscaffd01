@@ -13,6 +13,7 @@ $(function () {
 
     if (urldata['bpid']) { bpid = urldata['bpid'] };
     let userRole = $('.userRoleName').text();
+    let userName = $('.userName').text();
 
     // Fetch and Rendering Problem Statement
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
@@ -41,15 +42,29 @@ $(function () {
 
     console.log(userRole, `isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
-    $('.deploy').on('click', function (evt) {
+    $('.deploy').on('click', function (e) {
         console.log("deploy")
     });
 
     // IF approved display only  deploy and edit
-    $('.approve').on('click', function (evt) {
-        
-        App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
-        // reloadPage(urldata, sdid)
+    $('.approve').on('click', function (e) {
+        bootbox.confirm({
+            title: "Solution Design Approval",
+            message: "Please confirm to approve design",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
+                }
+            }
+        });
     });
 
     $('.edit').on('click', function (evt) {
@@ -68,9 +83,11 @@ $(function () {
 });
 
 function reloadPage(data, id) {
-    App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
-    $('.approve').hide();
-    // window.location.reload();
+    // console.log(data)
+    // if (data.message == 'success') {
+        App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
+        $('.approve').hide();
+    // }
 }
 
 function renderProblemStmt(problemList, psid) {

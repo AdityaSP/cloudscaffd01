@@ -45,6 +45,7 @@ export const App = {
             url: url,
             data: data,
             // async: false,
+            cache: false,
             success: function (res) {
                 console.log(res);
                 if (renderFunction) {
