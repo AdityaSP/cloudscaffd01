@@ -318,6 +318,26 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<request-map uri="approveSolutionDesign">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="approveSolutionDesign" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+			<redirect-parameter name="sdid"/>
+			<redirect-parameter name="psid"/>
+			<redirect-parameter name="bpid"/>
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
+
+	<request-map uri="approveBasePattern">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="approveBasePattern" />
+		<response name="success" type="request-redirect" value="problemPatternSearch">
+			<redirect-parameter name="psid"/>
+			<redirect-parameter name="bpid"/>
+		</response>
+		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+	</request-map>
 
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen"

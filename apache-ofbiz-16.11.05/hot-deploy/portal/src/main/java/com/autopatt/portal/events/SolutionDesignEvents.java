@@ -117,5 +117,36 @@ public class SolutionDesignEvents{
         return SUCCESS;
     }
 
+    public static String approveSolutionDesign(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+
+        String sdid = request.getParameter("sdid");
+        String psid = request.getParameter("psid");
+        String bpid = null;
+        if (UtilValidate.isNotEmpty(request.getParameter("bpid"))){
+            bpid = request.getParameter("bpid");
+        }
+
+        request.setAttribute("sdid", sdid);
+        request.setAttribute("psid", psid);
+        request.setAttribute("bpid", bpid);
+        String status = "approved";
+        Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
+
+        try {
+            GenericValue solutionDesign = delegator.findOne("solutionDesignApc", inputs, false);
+            solutionDesign.setString("status", status);
+            delegator.store(solutionDesign);
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+            request.setAttribute("message", ERROR);
+            return ERROR;
+        }
+        request.setAttribute("message", SUCCESS);
+        return SUCCESS;
+    }
 
 }
