@@ -20,6 +20,8 @@ $(function () {
         if (e.key === 'Enter') {
             searchStr = event.target.value;
             if (searchStr != '') {
+                console.log(searchStr);
+//                 getDataForSearchResults(searchStr);
                 App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
             } else {
