@@ -93,36 +93,39 @@ export const App = {
         }
         return count == 0;
     },
+    infoIconSvg: `<svg aria-hidden="true" class="svg-icon iconLightbulb" width="18" height="18" viewBox="0 0 18 18"><path d="M9.5.5a.5.5 0 0 0-1 0v.25a.5.5 0 0 0 1 0V.5zm5.6 2.1a.5.5 0 0 0-.7-.7l-.25.25a.5.5 0 0 0 .7.7l.25-.25zM1 7.5c0-.28.22-.5.5-.5H2a.5.5 0 0 1 0 1h-.5a.5.5 0 0 1-.5-.5zm14.5 0c0-.28.22-.5.5-.5h.5a.5.5 0 0 1 0 1H16a.5.5 0 0 1-.5-.5zM2.9 1.9c.2-.2.5-.2.7 0l.25.25a.5.5 0 1 1-.7.7L2.9 2.6a.5.5 0 0 1 0-.7z" fill-opacity=".4"></path><path opacity=".4" d="M7 16h4v1a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-1z" fill="#3F3F3F"></path><path d="M15 8a6 6 0 0 1-3.5 5.46V14a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-.54A6 6 0 1 1 15 8zm-4.15-3.85a.5.5 0 0 0-.7.7l2 2a.5.5 0 0 0 .7-.7l-2-2z" fill="#FFC166"></path></svg>`,
+    successIconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367.8 367.8"><path d="M183.9 0c101.6 0 183.9 82.3 183.9 183.9s-82.3 183.9-183.9 183.9S0 285.5 0 183.9l0 0C-0.3 82.6 81.6 0.3 182.9 0 183.2 0 183.6 0 183.9 0z" fill="#3BB54A"/><polygon points="285.8 133.2 155.2 263.8 82 191.2 111.8 162 155.2 204.8 256 104 " fill="#D4E1F4"/></svg>`,
+    failedIconSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 368 368"><path d="M314.1 54.1c71.8 71.8 71.7 188.3-0.1 260.1s-188.3 71.7-260.1-0.1c-71.7-71.8-71.7-188.2 0-260 71.4-71.8 187.5-72.2 259.3-0.8C313.5 53.6 313.8 53.9 314.1 54.1z" fill="#D7443E"/><polygon points="275.4 124.7 215.9 184.2 275.4 243.8 243.6 275.7 184 216.1 124.5 275.7 92.6 243.8 152.1 184.2 92.6 124.7 124.5 92.8 184 152.4 243.6 92.8 " fill="#D4E1F4"/></svg>`,
     toastMsg: function (msg, type, place, time) {
         let toast;
         switch (type) {
-            case 'success': {
+            case 'success': { // <i class="fa fa-check fa-2x"></i>
                 toast = `<div class="alert alert-success" role="alert">
                             <div class="row vertical-align">
                                 <div class="col-1 text-center">
-                                    <i class="fa fa-check fa-2x"></i> 
+                                    ${this.successIconSvg}
                                 </div>
                             <div class="col-11">
                                 ${msg}
                             </div>
                         </div>`;
             }; break;
-            case 'failed': {
+            case 'failed': { //<i class="fa fa-exclamation-triangle fa-2x"></i>
                 toast = `<div class="alert alert-danger" role="alert">
                             <div class="row vertical-align">
                                 <div class="col-1 text-center">
-                                    <i class="fa fa-exclamation-triangle fa-2x"></i> 
+                                     ${this.failedIconSvg}
                                 </div>
                             <div class="col-11">
                                 ${msg}
                             </div>
                         </div>`;
             }; break;
-            case 'info': {
+            case 'info': { //<i class="fa fa-info fa-2x" style="width:25px;height:25px;"></i>
                 toast = `<div class="alert alert-info" role="alert">
                             <div class="row vertical-align">
                                 <div class="col-1 text-center">
-                                    <i class="fa fa-info fa-2x" style="width:25px;height:25px;"></i> 
+                                     ${this.infoIconSvg}
                                 </div>
                             <div class="col-11">
                                 ${msg}
@@ -192,6 +195,53 @@ export const App = {
             document.body.appendChild(a);
             a.click();
         }
+    },
+    xmlToJson(xml) { // Need to pass Dom parsed xml string i.e new DOMParser().parseFromString(xml, 'text/xml') 
+        // Create the return object
+        var obj = {};
+        if (xml.nodeType == 1) { // element
+            // do attributes
+            if (xml.attributes.length > 0) {
+                obj["attributes"] = {};
+                for (var j = 0; j < xml.attributes.length; j++) {
+                    var attribute = xml.attributes.item(j);
+                    obj["attributes"][attribute.nodeName] = attribute.nodeValue;
+                }
+            }
+        } else if (xml.nodeType == 3) { // text
+            obj = xml.nodeValue;
+        }
+        // do children
+        if (xml.hasChildNodes()) {
+            for (var i = 0; i < xml.childNodes.length; i++) {
+                var item = xml.childNodes.item(i);
+                var nodeName = item.nodeName;
+                if (typeof (obj[nodeName]) == "undefined") {
+                    obj[nodeName] = this.xmlToJson(item);
+                } else {
+                    if (typeof (obj[nodeName].push) == "undefined") {
+                        var old = obj[nodeName];
+                        obj[nodeName] = [];
+                        obj[nodeName].push(old);
+                    }
+                    obj[nodeName].push(this.xmlToJson(item));
+                }
+            }
+        }
+        return obj;
+    },
+    getUniqueArray(array) {
+        let uniqueArray = [], removedSpace = [], arrWithoutEmptyData = [];
+        for (let i = 0; i < array.length; i++) {
+            if (uniqueArray.indexOf(array[i]) === -1) {
+                uniqueArray.push(array[i]);
+            }
+        }
+        for (let i = 0; i < uniqueArray.length; i++) { removedSpace.push(uniqueArray[i].trim(' ')); }
+        for (let i = 0; i < removedSpace.length; i++) {
+            if (removedSpace[i] != "") { arrWithoutEmptyData.push(removedSpace[i]); }
+        }
+        return arrWithoutEmptyData;
     },
 };
 window.App = App;

@@ -62,7 +62,8 @@
                         </div>
                         <div class="tab-pane" id="tab2">
                             <div class="container my-2 py-2">
-                                <form id="problemStmt2Form" action="<@ofbizUrl>AddProblemStatement</@ofbizUrl>" method="POST">
+                                <form id="problemStmtForm">
+                                 <#--  action="<@ofbizUrl>AddProblemStatement</@ofbizUrl>" method="POST"  -->
                                     <div class="form-group">
                                         <label>Problem Statement</label>
                                         <div class="input-container">
@@ -78,11 +79,12 @@
                                     <div class="form-group">
                                         <label>Tag</label>
                                         <div class="input-container">
-                                            <input type="text" class="form-control" id="tag" name="tag" required>
+                                            <input type="text" class="form-control" id="tagInput" name="tag" required> 
                                         </div>
+                                        <label for="tag">Note : Please use comma for entering multiple tags. </label>
                                     </div>
                                     <div>
-                                        <input type="submit" value="Create" class="btn btn-primary pull-right">
+                                        <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 125px;">
                                     </div>
                                 </form>
                             </div>

@@ -10,10 +10,7 @@ $(function () {
     $("#tags").on('click', '.tag', function (evt) {
         let tag = evt.target.textContent;
         let tagId = evt.target.id;
-        console.log(tagId);console.log(tag);
-
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderSearchResultData, "", notFound, "");
-
     });
 
     var PS_input = document.querySelector(".inputSearch");
@@ -23,10 +20,6 @@ $(function () {
         if (e.key === 'Enter') {
             searchStr = event.target.value;
             if (searchStr != '') {
-                console.log(searchStr);
-
-                getDataForSearchResults(searchStr);
-
                 App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
             } else {
@@ -35,10 +28,28 @@ $(function () {
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);
+                // $('.searchResultsList').children().remove();
+                // App.toastMsg('Sorry, no results found', '', '.searchResultsList');
             }
         }
     });
+
+    $("form").on('submit', function (e) {
+        e.preventDefault();
+        let formData = {
+            "problemStatement": $('#problemStatement').val(),
+            "problemDescription": $('#problemDescription').val(),
+            "tag": App.getUniqueArray($('#tagInput').val().split(','))
+        }
+        console.log(formData)
+        App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
+    });
 });
+
+function submitForm(data) {
+    console.log(data)
+    console.log("form submitted");
+}
 
 function renderSearchResultData(problems) {
     // Remove Existing Data in search result

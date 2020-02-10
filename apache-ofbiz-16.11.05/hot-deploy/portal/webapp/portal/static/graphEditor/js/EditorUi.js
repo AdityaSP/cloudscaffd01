@@ -1040,9 +1040,7 @@ xmlToJson = function (xml) {
 		}
 	}
 	return obj;
-
 }
-
 
 displayFetchedDataInEditor = function (docXml) {
 	var that = this;
@@ -3371,33 +3369,35 @@ EditorUi.prototype.save = function (name) {
 			"png": pngData
 		};
 
-		// $(".toastMsg").show();
-		// $(".toastMsg").text("Data Saved in DB");
-		// App.genericFetch(url, "POST", graphData, "", "", "", "");
-
 		console.log(graphData);
 
 		$.ajax({
 			method: "POST",
 			url: url,
+			cache: true,
 			data: graphData,
 			beforeSend: function () {
-				$(".toastMsg").text("Data Saving in DB");
+				$(".toastMsg").show();
+				$(".toastMsg").text("Data Saving...");
 			},
 			success: function (res) {
 				// console.log(res);
 				if (res) {
-					$(".toastMsg").show();
 					$(".toastMsg").text("Data Saved in DB");
 					setTimeout(function () {
 						$(".toastMsg").hide();
 					}, 3000);
 				}
 			},
-			statusCode: {
-				400: function (err) {
-					console.log("Data saved");
-				}
+			error: function (err) {
+				$(".toastMsg").show();
+				$(".toastMsg").css({
+					"backgroundColor": "#F94343"
+				});
+				$(".toastMsg").text("Failed to save data");
+				setTimeout(function () {
+					$(".toastMsg").hide();
+				}, 3000);
 			}
 		});
 

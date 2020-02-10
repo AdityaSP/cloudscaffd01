@@ -4,7 +4,7 @@ var urldata = App.urlParams(true);
 console.log(urldata);
 var psid = urldata['psid'];
 var sdid = urldata['sdid'];
-var bpid, isSolutionDesignApproved, isDeployer = false, isApprover = false, idToBeApproved;
+var bpid, isSolutionDesignApproved, isDeployer = false, isApprover = false, idToBeApproved, xml;
 
 $(function () {
     $('.py-3').contents().filter(function () {
@@ -40,10 +40,12 @@ $(function () {
         isDeployer = false;
     }
 
-    console.log(userRole, `isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
+    console.log(`${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
     $('.deploy').on('click', function (e) {
-        console.log("deploy")
+        let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
+        console.log(data);// console.log(xml);
+        // App.genericFetch("deploySolutionDesign", "POST", data, "", "", "", "");
     });
 
     // IF approved display only  deploy and edit
@@ -119,6 +121,8 @@ function renderSolutionDesign(solutionDesign, sdid) {
         if (sdid == solutionDesign[i].id) {
             $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
             $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
+
+            if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
 
             if (solutionDesign[i].svg) {
                 psid = solutionDesign[i].psid;
