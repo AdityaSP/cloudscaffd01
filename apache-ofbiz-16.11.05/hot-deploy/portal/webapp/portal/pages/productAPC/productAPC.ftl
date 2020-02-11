@@ -81,7 +81,7 @@
                                         <div class="input-container">
                                             <input type="text" class="form-control" id="tagInput" name="tag" required> 
                                         </div>
-                                        <label for="tag">Note : Please use comma for entering multiple tags. </label>
+                                        <label for="tag">Note : Please use space for entering multiple tags. </label>
                                     </div>
                                     <div>
                                         <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 125px;">

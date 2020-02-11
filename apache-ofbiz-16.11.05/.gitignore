@@ -27,6 +27,7 @@ changelog
 .gradle/
 .groovy
 .pc
+.vscode
 .DS_Store
 desktop.ini
 .idea

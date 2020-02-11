@@ -18,7 +18,6 @@ $(function () {
     // Fetch and Rendering Problem Statement
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    $('.deploy').attr("disabled", true);
     $('.approve').hide();
 
     let userRole = $('.userRoleName').text();
@@ -33,10 +32,6 @@ $(function () {
     }
 
     console.log(userRole, `isBasePatternApproved: ${isBasePatternApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
-
-    $('.deploy').on('click', function (evt) {
-        console.log("deploy")
-    });
 
     // IF approved display only  deploy and edit
     $('.approve').on('click', function () {
@@ -124,12 +119,6 @@ function checkImageAproval(isBasePatternApproved) {
             $('.approve').show();
         } else {
             App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
-        }
-    }
-    if (isDeployer) {
-        if (isBasePatternApproved == "approved") {
-            $('.deploy').attr("disabled", false);
-            //$('.edit').attr("disabled", false);
         }
     }
 }

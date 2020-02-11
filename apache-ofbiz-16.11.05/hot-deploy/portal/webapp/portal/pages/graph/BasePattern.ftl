@@ -16,7 +16,6 @@
         <div class="col-12 px-3">
             <div class="toastMsg m-0"></div>
             <div class="text-center pt-0 pb-2">
-                <button class="btn btn-primary m-1 p-1 deploy" style="width: 150px;">Deploy</button>
                 <button class="btn btn-primary m-1 p-1 edit" style="width: 150px;">Edit</button>
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 150px;">Approve</button>
             </div>

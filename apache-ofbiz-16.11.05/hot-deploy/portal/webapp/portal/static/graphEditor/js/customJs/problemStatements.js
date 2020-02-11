@@ -21,7 +21,7 @@ $(function () {
             searchStr = event.target.value;
             if (searchStr != '') {
                 console.log(searchStr);
-//                 getDataForSearchResults(searchStr);
+                //                 getDataForSearchResults(searchStr);
                 App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
             } else {
@@ -37,11 +37,11 @@ $(function () {
     });
 
     $("form").on('submit', function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         let formData = {
             "problemStatement": $('#problemStatement').val(),
             "problemDescription": $('#problemDescription').val(),
-            "tag": App.getUniqueArray($('#tagInput').val().split(','))
+            "tag": App.getUniqueArray($('#tagInput').val().split(' '))
         }
         console.log(formData)
         App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");

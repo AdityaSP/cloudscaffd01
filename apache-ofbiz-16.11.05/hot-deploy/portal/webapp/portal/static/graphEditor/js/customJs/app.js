@@ -156,6 +156,22 @@ export const App = {
         $(place).after(div);
         return "toastMsg";
     },
+    toastAlert: function () {
+        let toast = `<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+            <div class="toast" style="position: absolute; top: 0; right: 0;">
+              <div class="toast-header">
+                <img src="..." class="rounded mr-2" alt="...">
+                <strong class="mr-auto">Bootstrap</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body">
+                Hello, world! This is a toast message.
+              </div>
+            </div>
+          </div>`;
+    },
     clearInput(place) {
         $(place).val('');
     },
@@ -234,22 +250,14 @@ export const App = {
         let uniqueArray = [], removedSpace = [], arrWithoutEmptyData = [];
         for (let i = 0; i < array.length; i++) {
             if (uniqueArray.indexOf(array[i]) === -1) {
-                uniqueArray.push(array[i]);
+                uniqueArray.push(array[i].replace(/[^\w\s]/gi, ''));
             }
         }
         for (let i = 0; i < uniqueArray.length; i++) { removedSpace.push(uniqueArray[i].trim(' ')); }
         for (let i = 0; i < removedSpace.length; i++) {
-            if (removedSpace[i] != "") { arrWithoutEmptyData.push(removedSpace[i]); }
+            if (removedSpace[i] != "") { arrWithoutEmptyData.push(removedSpace[i].toLowerCase()); }
         }
         return arrWithoutEmptyData;
     },
 };
 window.App = App;
-
-// $(document).ready(function () {
-// let userRole = $('.userRoleName').text();
-// console.log(userRole)
-// if (userRole != 'Administrator' || userRole != 'Deployer') {
-//     document.querySelector('.geMenubar').removeChild(document.querySelector('.geMenubar').children[6]);
-// }
-// });

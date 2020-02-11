@@ -132,8 +132,8 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 //$("#solutionDesignImg")[0].srcset = solutionDesign[i].svg;
                 $('.svgDiv').append(solutionDesign[i].svg);
                 $('svg').attr({
-                    "width": "100%",
-                    "height": "100%"
+                    "min-width": "100px",
+                    "min-height": "100px"
                 });
 
                 //Check If Solution Design is apporoved or not
@@ -162,7 +162,8 @@ function checkImageAproval(isSolutionDesignApproved, id) {
             idToBeApproved = id;
 
         } else {
-            App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
+            App.toastMsg("Solution Design is not Approved", 'toast', '.toastMsg');
+
         }
     }
     if (isDeployer) {
