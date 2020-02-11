@@ -162,7 +162,7 @@ function checkImageAproval(isSolutionDesignApproved, id) {
             idToBeApproved = id;
 
         } else {
-            App.toastMsg("Solution Design is not Approved", 'toast', '.toastMsg');
+            App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
 
         }
     }
