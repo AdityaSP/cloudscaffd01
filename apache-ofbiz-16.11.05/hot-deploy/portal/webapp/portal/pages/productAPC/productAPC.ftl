@@ -67,19 +67,19 @@
                                     <div class="form-group">
                                         <label>Problem Statement</label>
                                         <div class="input-container">
-                                            <input type="text" class="form-control" id="problemStatement" name="problemStatement" required>
+                                            <input type="text" class="form-control" id="problemStatement" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Problem Description</label>
                                         <div class="input-container">
-                                            <input type="text" class="form-control" id="problemDescription" name="problemDescription" required>
+                                            <input type="text" class="form-control" id="problemDescription" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Tag</label>
                                         <div class="input-container">
-                                            <input type="text" class="form-control" id="tagInput" name="tag" required> 
+                                            <input type="text" class="form-control" id="tagInput" required>
                                         </div>
                                         <label for="tag">Note : Please use comma for entering multiple tags. </label>
                                     </div>
