@@ -35,22 +35,63 @@ public class ProblemStatementEvents{
 
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
-        String tag = request.getParameter("tag");
-
+        String [] tag = request.getParameter("tag").split(",");
+        String problemStatementId = null;
+        String createdBy = userLogin.getString("userLoginId");
         try {
-            Map<String, Object> addproductAPCResp = dispatcher.runSync("createProblemStatement",
-                    UtilMisc.<String, Object>toMap("problemStatement", problemStatement, "problemDescription", problemDescription,
-                            "tag",tag,"userLogin",userLogin));
-            if (!ServiceUtil.isSuccess(addproductAPCResp)) {
-                Debug.logError("Error creating addproductAPC for " + addproductAPCResp, module);
+            GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
+            problemStatementId = delegator.getNextSeqId("Quote");
+            newProblemStatement.setString("id", problemStatementId);
+            newProblemStatement.setString("problemStatement", problemStatement);
+            newProblemStatement.setString("problemDescription", problemDescription);
+            newProblemStatement.setString("createdBy", createdBy);
+            delegator.create(newProblemStatement);
+            } catch (GenericEntityException ex) {
+                Debug.logError(ex, module);
                 request.setAttribute("message", ERROR);
                 return ERROR;
+        }
+
+        String tagsId = null;
+        try{
+            for (int TagNameCount=0; TagNameCount < tag.length; TagNameCount++) {
+            List<GenericValue> TagList = EntityQuery.use(delegator)
+                    .select("id","tagName")
+                    .from("problemStatementTags").where("tagName",tag[TagNameCount])
+                    .queryList();
+                if (TagList.isEmpty()) {
+                    GenericValue newproblemStatementTags = delegator.makeValue("problemStatementTags");
+                    tagsId = delegator.getNextSeqId("Quote");
+                    newproblemStatementTags.setString("id", tagsId);
+                    newproblemStatementTags.setString("tagName", (String) tag[TagNameCount]);
+                    delegator.create(newproblemStatementTags);
+
+                    GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
+                    String tagProblemId = delegator.getNextSeqId("Quote");
+                    newproblemStatementTagProblem.setString("id", tagProblemId);
+                    newproblemStatementTagProblem.setString("tagid", tagsId);
+                    newproblemStatementTagProblem.setString("problemId", problemStatementId);
+                    delegator.create(newproblemStatementTagProblem);
+
+                } else {
+                    for (int TagIdCount=0; TagIdCount < TagList.size(); TagIdCount++) {
+                        tagsId = TagList.get(TagIdCount).getString("id");
+                        GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
+                        String tagProblemId = delegator.getNextSeqId("Quote");
+                        newproblemStatementTagProblem.setString("id", tagProblemId);
+                        newproblemStatementTagProblem.setString("tagid", tagsId);
+                        newproblemStatementTagProblem.setString("problemId", problemStatementId);
+                        delegator.create(newproblemStatementTagProblem);
+                    }
+                }
             }
-        } catch (GenericServiceException e) {
+        } catch (GenericEntityException e) {
             Debug.logError(e, module);
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+
+
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }

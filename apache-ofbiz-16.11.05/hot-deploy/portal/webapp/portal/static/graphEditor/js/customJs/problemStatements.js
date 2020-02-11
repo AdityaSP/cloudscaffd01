@@ -37,12 +37,13 @@ $(function () {
     });
 
     $("form").on('submit', function (e) {
-        // e.preventDefault();
-        let formData = {
-            "problemStatement": $('#problemStatement').val(),
-            "problemDescription": $('#problemDescription').val(),
-            "tag": App.getUniqueArray($('#tagInput').val().split(' '))
-        }
+        //e.preventDefault();
+        let tag = App.getUniqueArray($('#tagInput').val().split(',')),
+            formData = {
+                "problemStatement": $('#problemStatement').val(),
+                "problemDescription": $('#problemDescription').val(),
+                "tag": tag.toString()
+            }
         console.log(formData)
         App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
     });
