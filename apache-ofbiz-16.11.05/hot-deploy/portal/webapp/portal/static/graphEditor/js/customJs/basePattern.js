@@ -18,7 +18,7 @@ $(function () {
     // Fetch and Rendering Problem Statement
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    $('.approve').hide();
+    $('.approve').attr("disabled", true);
 
     let userRole = $('.userRoleName').text();
 
@@ -31,7 +31,7 @@ $(function () {
         isDeployer = false;
     }
 
-    console.log(userRole, `isBasePatternApproved: ${isBasePatternApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
+    console.log(`Role: ${userRole}, isBasePatternApproved: ${isBasePatternApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
     // IF approved display only  deploy and edit
     $('.approve').on('click', function () {
@@ -96,14 +96,14 @@ function renderBasePattern(basePattern, bpid) {
 
             $('.svgDiv').append(basePattern[i].svg);
             $('svg').attr({
-                "width": "100%",
-                "height": "100%"
+                "min-width": "100px",
+                "min-height": "100px"
             });
             //Check If Solution Design is apporoved or not
             isBasePatternApproved = basePattern[i].status;
             checkImageAproval(isBasePatternApproved);
         } else {
-            //            $('.edit').attr("disabled", true);
+            // $('.edit').attr("disabled", true);
             App.toastMsg('No Design Created', 'failed', '.toastMsg');
         }
     }
@@ -116,7 +116,7 @@ function checkImageAproval(isBasePatternApproved) {
     } else {
         App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
         if (isApprover) {
-            $('.approve').show();
+            $('.approve').attr("disabled", false);
         } else {
             App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
         }

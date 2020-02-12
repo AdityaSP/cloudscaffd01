@@ -40,7 +40,7 @@ $(function () {
         isDeployer = false;
     }
 
-    console.log(`${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
+    console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
     $('.deploy').on('click', function (e) {
         let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
@@ -169,7 +169,6 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
-            // $('.edit').attr("disabled", false);
         }
     }
 }
