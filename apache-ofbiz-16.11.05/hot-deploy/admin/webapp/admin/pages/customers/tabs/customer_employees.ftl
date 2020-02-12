@@ -36,7 +36,7 @@
         <th>Date Created</th>
         <th>Role</th>
         <th>Status</th>
-        <th>Action</th>
+        <#--<th>Action</th>-->
     </tr>
     </thead>
     <tbody>
@@ -45,7 +45,6 @@
             <tr>
                 <td>${emp_index + 1}</td>
                 <td class="user-name">
-                    <!-- TODO: clicking on this - show a popup modal with user details (email, phone etc) -->
                     <i class="material-icons" style="font-size:1.6em;">account_circle</i>
                     <a href="#" data-toggle="modal" data-target="#editEmployeeModal"
                        data-party-id="${emp.partyId}" data-party-name="${emp.partyName!}"
@@ -54,7 +53,7 @@
                 </td>
                 <td><#if emp.userLogin.createdStamp??>${emp.userLogin.createdStamp!?date}</#if></td>
                 <td>${emp.roleName!}</td>
-                <td>
+                <td width="20%">
                     <#if emp.userStatus?? && emp.userStatus == "ACTIVE">
                         <span class="status text-success" >&#8226;</span> <span>Active</span>
                     <#elseif emp.userStatus?? && emp.userStatus == "INACTIVE">
@@ -66,7 +65,7 @@
                     </#if>
                 </td>
 
-                <td width="20%">
+                <#--<td width="20%">
                     <#if emp.userStatus?? && emp.userStatus == "ACTIVE">
                         <a href="#"
                            data-target="#suspendEmployeeConfirmModal"
@@ -98,7 +97,7 @@
                        data-org-party-id="${orgPartyId!}">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a>
-                </td>
+                </td>-->
             </tr>
         </#list>
     </#if>
