@@ -77,7 +77,7 @@
                                         <input type="hidden" class="psid" name="psid" value="">
                                         <input type="hidden" class="bpid" name="bpid" value="">
                                         <div class="form-group">
-                                            <label>Discription</label>
+                                            <label>Description</label>
                                             <input type="text" class="form-control" name="solutionDesignDesc" required
                                                    id="solutionDesignDescription" rows="3">
                                         </div>

@@ -259,5 +259,14 @@ export const App = {
         }
         return arrWithoutEmptyData;
     },
+    checkForSpecialChar: function (str) {
+        let specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
+        console.log(str)
+        for (let j = 0; j < specialChars.length; j++) {
+            if (str.indexOf(specialChars[j]) > -1) {
+                return true
+            }
+        }
+    },
 };
 window.App = App;

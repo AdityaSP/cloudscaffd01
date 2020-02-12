@@ -44,8 +44,10 @@ $(function () {
                 "problemDescription": $('#problemDescription').val(),
                 "tag": tag.toString()
             }
-        // console.log(formData)
+        console.log(formData);
+        $('.submitBtn').val('Creating...');
         App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
+        $('.submitBtn').attr("disabled", true);
     });
 });
 

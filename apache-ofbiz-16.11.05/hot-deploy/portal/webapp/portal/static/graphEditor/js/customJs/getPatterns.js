@@ -43,8 +43,23 @@ function renderProblemStmt(problemStmt, psid) {
         }
 
         // Tags Adding
+        const element = [{
+            ids: [],
+            names: []
+        }];
+        console.log(tagsList)
+        for (let i = 0; i < tagsList.length; i++) {
+            // element[0].ids.push(tagsList[i].tagid);
+            element[0].names.push(tagsList[i].tagName);
+            // element[0].ids[tagsList[i].tagName].push(tagsList[i].tagId);
+        }
+        let tagsListTagName = App.getUniqueArray(element[0].names);
+        // tagsListTagId = element[0].ids;
+
+        console.log(tagsListTagName); // s = JSON.stringify(j[0])
+
         for (var k = 0; k < tagsList.length; k++) {
-            let htmlTags = `<a href="#" id="${tagsList[k].id}"
+            let htmlTags = `<a href="#" id="${tagsList[k].tagid}"
                  class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`; // Redirect to productApc page to show problem statements
             document.querySelector(".problemTags").insertAdjacentHTML("beforeend", htmlTags);
         }
