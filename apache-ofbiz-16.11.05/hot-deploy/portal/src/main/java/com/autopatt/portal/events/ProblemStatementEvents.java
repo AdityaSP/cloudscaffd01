@@ -6,16 +6,17 @@ import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.condition.EntityCondition;
-import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.condition.EntityFunction;
+import org.apache.ofbiz.entity.condition.EntityOperator;
+import org.apache.ofbiz.entity.datasource.GenericHelperInfo;
+import org.apache.ofbiz.entity.jdbc.SQLProcessor;
 import org.apache.ofbiz.entity.util.EntityQuery;
-import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
-import org.apache.ofbiz.service.ServiceUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -65,16 +66,9 @@ public class ProblemStatementEvents{
                     newproblemStatementTags.setString("id", tagsId);
                     newproblemStatementTags.setString("tagName", (String) tag[TagNameCount]);
                     delegator.create(newproblemStatementTags);
-
-                    GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
-                    String tagProblemId = delegator.getNextSeqId("Quote");
-                    newproblemStatementTagProblem.setString("id", tagProblemId);
-                    newproblemStatementTagProblem.setString("tagid", tagsId);
-                    newproblemStatementTagProblem.setString("problemId", problemStatementId);
-                    delegator.create(newproblemStatementTagProblem);
-
                 } else {
                     for (int TagIdCount=0; TagIdCount < TagList.size(); TagIdCount++) {
+                        
                         tagsId = TagList.get(TagIdCount).getString("id");
                         GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
                         String tagProblemId = delegator.getNextSeqId("Quote");
@@ -100,6 +94,7 @@ public class ProblemStatementEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Object> data = UtilMisc.toMap();
         String psId = request.getParameter("psid");
+        GenericHelperInfo helperInfo = new GenericHelperInfo("org.ofbiz","");
         System.out.println(psId);
         try {
             List<GenericValue> ProblemStatementList = EntityQuery.use(delegator)
@@ -144,6 +139,10 @@ public class ProblemStatementEvents{
                     .from("problemStatementTagView")
                     .where("problemId", psId)
                     .queryList();
+            SQLProcessor sqlproc = new SQLProcessor(delegator,helperInfo);
+            sqlproc.prepareStatement("SELECT * FROM PARTY LMIT 0, 5");
+            ResultSet rs1 = sqlproc.executeQuery();
+
             if (tagsList != null) {
                 data.put("tagsList",tagsList);
             } else {

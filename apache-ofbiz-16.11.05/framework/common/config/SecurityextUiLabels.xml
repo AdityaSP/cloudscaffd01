@@ -693,7 +693,7 @@
     </property>
     <property key="loginservices.password_incorrect">
         <value xml:lang="de">Das Passwort ist falsch</value>
-        <value xml:lang="en">Password incorrect.</value>
+        <value xml:lang="en">Username or Password was incorrect. Try again!</value>
         <value xml:lang="es">Clave incorrecta.</value>
         <value xml:lang="fr">Mot de passe incorrect.</value>
         <value xml:lang="it">Password non corretta.</value>
@@ -822,7 +822,7 @@
     </property>
     <property key="loginservices.user_not_found">
         <value xml:lang="de">Benutzer konnte nicht gefunden werden</value>
-        <value xml:lang="en">User not found.</value>
+        <value xml:lang="en">Username or Password was incorrect. Try again!</value>
         <value xml:lang="es">Usuario no encontrado.</value>
         <value xml:lang="fr">Utilisateur non trouvé.</value>
         <value xml:lang="it">Utente non trovato.</value>
