@@ -29,7 +29,7 @@ Menus.prototype.defaultFontSize = '12';
  * Sets the default font size.
  */
 
-Menus.prototype.defaultMenuItems = ['file', 'edit', 'view', 'arrange', 'extras', 'deploy'];
+Menus.prototype.defaultMenuItems = ['file', 'edit', 'view', 'arrange', 'extras', 'deploy','help'];
 
 /**
  * Adds the label menu items to the given menu and parent.
@@ -353,7 +353,7 @@ Menus.prototype.init = function () {
 	this.put('navigation', new Menu(mxUtils.bind(this, function (menu, parent) {
 		this.addMenuItems(menu, ['home', '-', 'exitGroup', 'enterGroup', '-', 'expand', 'collapse', '-', 'collapsible'], parent);
 	})));
-	
+
 	this.put('arrange', new Menu(mxUtils.bind(this, function (menu, parent) {
 		this.addMenuItems(menu, ['toFront', 'toBack', '-'], parent);
 		this.addSubmenu('direction', menu, parent);
@@ -407,11 +407,11 @@ Menus.prototype.init = function () {
 			'selectVertices', 'selectEdges', 'selectAll', 'selectNone', '-', 'lockUnlock']);
 	})));
 	this.put('extras', new Menu(mxUtils.bind(this, function (menu, parent) {
-		this.addMenuItems(menu, ['copyConnect', 'collapseExpand', '-', 'editDiagram']);
+	this.addMenuItems(menu, ['copyConnect', 'collapseExpand'/*, '-', 'editDiagram'*/]);
 	})));
-	// this.put('help', new Menu(mxUtils.bind(this, function (menu, parent) {
-	// 	this.addMenuItems(menu, ['help'/*, '-', 'about'*/]);
-	// })));
+	this.put('help', new Menu(mxUtils.bind(this, function (menu, parent) {
+		this.addMenuItems(menu, ['help'/*, '-', 'about'*/]);
+	})));
 	this.put('deploy', new Menu(mxUtils.bind(this, function (menu, parent) {
 		this.addMenuItems(menu, ['deploy']);
 	})));

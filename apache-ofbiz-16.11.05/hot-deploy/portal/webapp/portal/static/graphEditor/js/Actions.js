@@ -4,6 +4,8 @@
 /**
  * Constructs the actions object for the given UI.
  */
+
+var App = window.App;
 function Actions(editorUi) {
 	this.editorUi = editorUi;
 	this.actions = new Object();
@@ -691,13 +693,13 @@ Actions.prototype.init = function () {
 	action.visible = false;
 
 	// Help actions
-	// this.addAction('help', function () {
-	// 	var ext = '';
-	// 	if (mxResources.isLanguageSupported(mxClient.language)) {
-	// 		ext = '_' + mxClient.language;
-	// 	}
-	// 	graph.openLink(RESOURCES_PATH + '/help' + ext + '.html');
-	// });
+	this.addAction('help', function () {
+		var ext = '';
+		if (mxResources.isLanguageSupported(mxClient.language)) {
+			ext = '_' + mxClient.language;
+		}
+		graph.openLink(RESOURCES_PATH + '/help' + ext + '.html');
+	});
 
 	// Custom
 	let userRole = $('.userRoleName').text();
@@ -709,7 +711,12 @@ Actions.prototype.init = function () {
 			data = new DOMParser().parseFromString(data, 'text/xml');
 			var json = xmlToJson(data);
 			console.log(json);
-			//	new mxXmlRequest("https://postb.in/1576473466569-2553026624955", 'xml=' + JSON.stringify(json), "POST", false).send();
+			let proxy;
+			// proxy = `https://cors-anywhere.herokuapp.com/`;
+			new mxXmlRequest(`${proxy}https://postb.in/b/1581500868589-4068642766214`, 'xml=' + JSON.stringify(json), "POST", false).send();
+
+
+			// App.genericFetch(`${proxy}https://postb.in/b/1581500868589-4068642766214`, 'POST', 'xml=' + JSON.stringify(json), "", "", "", "")
 
 		});
 	} else {

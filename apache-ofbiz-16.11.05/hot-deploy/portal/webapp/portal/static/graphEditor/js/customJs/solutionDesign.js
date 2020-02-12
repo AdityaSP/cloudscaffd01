@@ -19,7 +19,7 @@ $(function () {
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
     $('.deploy').attr("disabled", true);
-    $('.approve').hide();
+    $('.approve').attr("disabled", true);
 
     // Fetch and Rendering Solution Design
     App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
@@ -153,22 +153,32 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     console.log(isSolutionDesignApproved);
 
     if (isSolutionDesignApproved == "approved") {
-        $('.approve').hide();
+        $('.approve').attr("disabled", false);
         // $('.edit').attr("disabled", false);
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
-        if (isApprover) {
-            $('.approve').show();
-            idToBeApproved = id;
 
+        // $('.deploy').attr("disabled", true);
+        if (isApprover) {
+            $('.approve').attr("disabled", false);
+            idToBeApproved = id;
         } else {
             App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
-
         }
     }
+
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
         }
+        else {
+            // if ($('.deploy').is(":disabled")) {
+            console.log("index")
+            let tooltip = `<span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">
+                                <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" >Deploy</button>
+                            </span>`;
+            $('.deployCheck').replaceWith(tooltip);
+        }
+
     }
 }

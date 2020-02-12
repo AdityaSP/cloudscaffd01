@@ -26,7 +26,7 @@ $(function () {
                 App.clearInput(".inputSearch");
             } else {
                 App.addToastMsgDiv(".inputSearch");
-                App.toastMsg('Please input data', 'info', '.toastMsg');
+                App.toastMsg('Please input data', 'success', '.toastMsg');
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);

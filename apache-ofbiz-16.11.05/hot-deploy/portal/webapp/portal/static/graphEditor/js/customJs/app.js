@@ -100,34 +100,34 @@ export const App = {
         let toast;
         switch (type) {
             case 'success': { // <i class="fa fa-check fa-2x"></i>
-                toast = `<div class="alert alert-success" role="alert">
+                toast = `<div class="alert alert-success text-center my-0 mx-auto" role="alert" style="max-width: 400px;">
                             <div class="row vertical-align">
-                                <div class="col-1 text-center">
+                                <div class="col-2 text-center">
                                     ${this.successIconSvg}
                                 </div>
-                            <div class="col-11">
+                            <div class="col-10 p-1">
                                 ${msg}
                             </div>
                         </div>`;
             }; break;
             case 'failed': { //<i class="fa fa-exclamation-triangle fa-2x"></i>
-                toast = `<div class="alert alert-danger" role="alert">
+                toast = `<div class="alert alert-danger text-center my-0 mx-auto" role="alert" style="max-width: 400px;">
                             <div class="row vertical-align">
-                                <div class="col-1 text-center">
+                                <div class="col-2 text-center">
                                      ${this.failedIconSvg}
                                 </div>
-                            <div class="col-11">
+                            <div class="col-10 p-1">
                                 ${msg}
                             </div>
                         </div>`;
             }; break;
             case 'info': { //<i class="fa fa-info fa-2x" style="width:25px;height:25px;"></i>
-                toast = `<div class="alert alert-info" role="alert">
+                toast = `<div class="alert alert-info text-center my-0 mx-auto" role="alert" style="max-width: 400px;">
                             <div class="row vertical-align">
-                                <div class="col-1 text-center">
+                                <div class="col-2 text-center">
                                      ${this.infoIconSvg}
                                 </div>
-                            <div class="col-11">
+                            <div class="col-10 p-1">
                                 ${msg}
                             </div>
                         </div>`;
@@ -147,7 +147,8 @@ export const App = {
                 }, 3000);
             }
         } else {
-            alert(msg);
+            this.toastAlert(msg);
+            // alert(msg);
         }
     },
     addToastMsgDiv: function (place) {
@@ -156,21 +157,21 @@ export const App = {
         $(place).after(div);
         return "toastMsg";
     },
-    toastAlert: function () {
+    toastAlert: function (msg) {
         let toast = `<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
             <div class="toast" style="position: absolute; top: 0; right: 0;">
               <div class="toast-header">
-                <img src="..." class="rounded mr-2" alt="...">
-                <strong class="mr-auto">Bootstrap</strong>
+                <strong class="mr-auto">Notification</strong>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="toast-body">
-                Hello, world! This is a toast message.
+                ${msg}
               </div>
             </div>
           </div>`;
+        $('.container-fluid').append(toast);
     },
     clearInput(place) {
         $(place).val('');

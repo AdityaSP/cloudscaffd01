@@ -23,10 +23,11 @@
                 <div class="toastMsg m-0"></div>
                 <div class="text-center p-4">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
-                  <button class="btn btn-primary m-1 p-1 deploy" style="width: 150px;" type="button" >Deploy</button>
-                <#--  </span>  -->
-                <button class="btn btn-primary m-1 p-1 edit" style="width: 150px;">Edit</button>
-                <button class="btn btn-primary m-1 p-1 approve" style="width: 150px;">Approve</button>
+                <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;">Approve</button>
+                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;">Edit</button>
+                <span class="deployCheck">
+                    <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" >Deploy</button>
+                </span>
                 </div>
                 <#--<img src="" srcset="" class="img-fluid img-thumbnail w-100 h-100" alt="..." id="solutionDesignImg">-->
                 <div class='svgDiv img-fluid img-thumbnail w-100 p-2' style="height:auto;"></div>
@@ -46,4 +47,5 @@
 		</div>
 	</div>
 </div>
+<#--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"></script>  -->
 <script type="module" src="../static/graphEditor/js/customJs/solutionDesign.js"></script>
