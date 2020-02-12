@@ -153,7 +153,7 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     console.log(isSolutionDesignApproved);
 
     if (isSolutionDesignApproved == "approved") {
-        $('.approve').attr("disabled", false);
+        $('.approve').hide();
         // $('.edit').attr("disabled", false);
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
@@ -170,6 +170,7 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
+
         }
         else {
             // if ($('.deploy').is(":disabled")) {

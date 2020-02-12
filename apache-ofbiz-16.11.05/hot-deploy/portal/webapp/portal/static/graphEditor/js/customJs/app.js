@@ -100,7 +100,7 @@ export const App = {
         let toast;
         switch (type) {
             case 'success': { // <i class="fa fa-check fa-2x"></i>
-                toast = `<div class="alert alert-success text-center my-0 mx-auto" role="alert" style="max-width: 400px;">
+                toast = `<div class="alert alert-success text-center m-0 mx-auto" role="alert" style="max-width: 400px;">
                             <div class="row vertical-align">
                                 <div class="col-2 text-center">
                                     ${this.successIconSvg}

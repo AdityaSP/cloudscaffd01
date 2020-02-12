@@ -139,10 +139,6 @@ public class ProblemStatementEvents{
                     .from("problemStatementTagView")
                     .where("problemId", psId)
                     .queryList();
-            SQLProcessor sqlproc = new SQLProcessor(delegator,helperInfo);
-            sqlproc.prepareStatement("SELECT * FROM PARTY LMIT 0, 5");
-            ResultSet rs1 = sqlproc.executeQuery();
-
             if (tagsList != null) {
                 data.put("tagsList",tagsList);
             } else {
