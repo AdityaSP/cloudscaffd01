@@ -13,9 +13,10 @@ $(function () {
     $(".psid").val(psid);
 
     // Fetch and render Problem Statement
+    App.loader(".problemStatementDiv"); App.loader(".basePatternResults"); App.loader(".solutionPatternResults");
     App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    if (userRole == "Planner" || userRole == "Administrator") {
+    if (userRole == "Planner" || userRole == "Administrator" || userRole == "Deployer") {
 
         $("#basePatternForm").on('submit', function (e) {
             // e.preventDefault();
@@ -64,9 +65,10 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-function submitForm(data) {
+function submitForm(data, path) {
     console.log(data)
     console.log("form submitted");
+    // $(`[href="#${path}"]`).tab('show');
 }
 
 function renderProblemStmt(problemStmt, psid) {
@@ -151,7 +153,6 @@ function renderProblemStmt(problemStmt, psid) {
             $(".basePattern").removeClass("active");
             $(this).addClass("active");
             App.genericFetch("getSolutionDesignByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");
-
         });
     }
     else {
@@ -161,8 +162,6 @@ function renderProblemStmt(problemStmt, psid) {
 }
 
 function renderSolutionDesignsForBasePattern(solutionPatterns) {
-
-
     if (solutionPatterns.length > 0) {
         for (let l = 0; l < solutionPatterns.length; l++) {
             let solutionPattern = `<li class="list-group-item solutionDesigns"

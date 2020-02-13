@@ -38,9 +38,9 @@ $(function () {
         }
     });
 
-    if (userRole == "Planner" || userRole == "Administrator") {
+    if (userRole == "Deployer" || userRole == "Administrator") {//TODO
         $("form").on('submit', function (e) {
-            // e.preventDefault();
+            e.preventDefault();
             let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
                 formData = {
                     "problemStatement": $('#problemStatement').val(),

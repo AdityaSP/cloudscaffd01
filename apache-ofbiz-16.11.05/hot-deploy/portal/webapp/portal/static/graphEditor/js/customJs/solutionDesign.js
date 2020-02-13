@@ -16,16 +16,25 @@ $(function () {
     let userName = $('.userName').text();
 
     // Fetch and Rendering Problem Statement
+    App.loader(".probStatementForm");
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
     $('.deploy').attr("disabled", true);
     $('.approve').attr("disabled", true);
 
     // Fetch and Rendering Solution Design
-    App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
+    if (sdid) {
+        App.loader(".solutionDesignForm");
+        App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
+    } else {
+        $('.solutionDesignForm').hide(); $('.svgDiv').hide();
+        $('.edit').attr("disabled", true);
+        $('.title').text("Problem Statement");
+    }
 
     // Fetch and Rendering Base Pattern if bpid exits
     if (bpid) {
+        App.loader(".basePatternForm");
         App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
     } else {
         $('.basePatternForm').hide();
@@ -77,6 +86,27 @@ $(function () {
             callback: function (result) {
                 if (result) {
                     App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
+                }
+            }
+        });
+    });
+
+    $('.deleteSD').on('click', function (e) {
+        bootbox.confirm({
+            title: "Delete Solution Design",
+            message: "Are sure you want to delete?",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    console.log(result);
+                    // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
                 }
             }
         });
@@ -156,6 +186,7 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 // $('.edit').attr("disabled", true);
                 // $("#solutionDesignImg")[0].alt = "Image Not Found";
                 App.toastMsg('No Design Created', 'failed', '.toastMsg');
+                $('.svgDiv').hide();
                 // $('.svg').attr('src', '../static/graphEditor/images/No_image_available.svg.svg');
             }
         }

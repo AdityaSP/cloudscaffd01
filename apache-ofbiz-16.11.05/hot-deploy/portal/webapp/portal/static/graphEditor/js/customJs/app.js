@@ -51,6 +51,7 @@ export const App = {
                 console.log(res);
                 if (renderFunction) {
                     renderFunction(res.data, rparams);
+                    App.clearLoader();
                 }
             },
             error: function (err) {

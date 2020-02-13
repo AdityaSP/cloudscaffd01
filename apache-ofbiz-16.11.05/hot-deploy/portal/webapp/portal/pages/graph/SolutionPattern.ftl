@@ -1,9 +1,9 @@
 
 <div class="container-fluid">
     <div class="row py-3">
-    <div class="col-12 pb-2 h3 text-center">Solution Design</div>
+    <div class="col-12 pb-2 h3 text-center title">Solution Design</div>
         ​<div class="col-12 p-3">
-            <div class="form-group">
+            <div class="form-group probStatementForm">
                 <label class="probStatement h5"></label>
                 <p class="probStatementDescription"></p>
                 <hr class="my-4">
@@ -15,8 +15,9 @@
                 <p class="basePatternDescription"></p>
                 <hr class="my-4">
             </div>
-            <div class="form-group">
+            <div class="form-group solutionDesignForm">
                 <label class="solutionDesign h5"></label>
+                <a class="badge badge-light p-2 mr-2 pull-right deleteSD" href="#">Delete SD</a>
                 <p class="solutionDesignDescription"></p>
             </div>
         <div class="col-12 px-3">
@@ -35,17 +36,19 @@
         </div>
     </div>
     <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMG" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-body mb-0 p-1">
-				<#--  <img src="" alt="" style="width:100%">  -->
-        <div class='BPsvgDiv img-fluid img-thumbnail p-2'></div>
-			</div>
+	    <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+			    <div class="modal-body mb-0 p-3">
+				    <#--  <img src="" alt="" style="width:100%">  -->
+                    <div class='BPsvgDiv img-fluid img-thumbnail p-1' style="overflow:auto;"></div>
+			    </div>
 			<div class="modal-footer">
 				<button class="btn btn-outline-danger btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Close</button>
 			</div>
 		</div>
 	</div>
+
 </div>
+
 <#--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"></script>  -->
 <script type="module" src="../static/graphEditor/js/customJs/solutionDesign.js"></script>

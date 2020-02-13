@@ -3,12 +3,12 @@
     <div class="row py-3">
     <div class="col-12 pb-2 h3 text-center">Base Pattern</div>
         ​<div class="col-12 p-3">
-            <div class="form-group">
+            <div class="form-group probStatementForm">
                 <label class="probStatement h5"></label>
                 <p class="probStatementDescription"></p>
             </div>
             <hr class="my-4">
-            <div class="form-group">
+            <div class="form-group basePatternForm">
                 <label class="basePattern h5"></label>
                 <p class="basePatternDescription"></p>
             </div>

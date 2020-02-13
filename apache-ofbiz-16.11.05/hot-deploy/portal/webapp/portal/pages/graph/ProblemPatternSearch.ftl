@@ -1,11 +1,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="container my-2 py-2">
-            <div class="form-group">
+            <div class="problemStatementDiv">
+                <div class="form-group">
                     <p class="h4" id="probStatement"></p>
                     <p id="probStatementDescription"></p>
+                </div>
+                <div class="form-group problemTags" id='Ptags'></div>
             </div>
-            <div class="form-group problemTags" id='Ptags'></div>
             <hr class="my-4">
             <br>
             <div class="row allSolutions">
@@ -83,6 +85,7 @@
                                                    id="solutionDesignDescription" rows="3">
                                         </div>
                                         <div>
+                                            <div class="toastMsg"></div>
                                             <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 100px;">
                                         </div>
                                     </form>

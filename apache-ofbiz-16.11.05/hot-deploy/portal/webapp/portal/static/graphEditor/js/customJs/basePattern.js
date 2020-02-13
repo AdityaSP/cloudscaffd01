@@ -13,9 +13,11 @@ $(function () {
     if (urldata['bpid']) { bpid = urldata['bpid'] };
 
     // Fetch and Rendering Base Pattern
+    App.loader(".basePatternForm");
     App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
 
     // Fetch and Rendering Problem Statement
+    App.loader(".probStatementForm");
     App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
     $('.approve').attr("disabled", true);
@@ -113,8 +115,8 @@ function renderBasePattern(basePattern, bpid) {
             isBasePatternApproved = basePattern[i].status;
             checkImageAproval(isBasePatternApproved);
         } else {
-            // $('.edit').attr("disabled", true);
             App.toastMsg('No Design Created', 'failed', '.toastMsg');
+            $('.svgDiv').hide();
         }
     }
 }
