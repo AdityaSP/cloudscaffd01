@@ -25,9 +25,9 @@
         </ul>
 
         <div class="tab-content p-4" id="reportsContents">
-            <#--<div class="tab-pane fade show active" id="users_report" role="tabpanel" aria-labelledby="users_report-tab">
+            <div class="tab-pane fade show active" id="users_report" role="tabpanel" aria-labelledby="users_report-tab">
                 ${screens.render("component://admin/widget/AdminReportsScreens.xml#users_report")}
-            </div>-->
+            </div>
             <div class="tab-pane fade" id="subscriptions_report" role="tabpanel" aria-labelledby="subscriptions_report-tab">
                 ${screens.render("component://admin/widget/AdminReportsScreens.xml#subscriptions_report")}
             </div>

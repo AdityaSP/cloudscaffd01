@@ -336,6 +336,24 @@
 		<response name="error" type="request-redirect" value="problemPatternSearch"/>
 	</request-map>
 
+
+	<!--<request-map uri="deleteProblemStatement">
+            <event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="deleteProblemStatement" />
+            <response name="success" type="request" value="json"/>
+            <response name="error" type="request" value="json"/>
+        </request-map>
+
+        <request-map uri="deleteBasePattern">
+            <event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="deleteBasePattern" />
+            <response name="success" type="request" value="json"/>
+            <response name="error" type="request" value="json"/>
+        </request-map>-->
+	<request-map uri="deleteSolutionDesign">
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="deleteSolutionDesign" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen" page="component://portal/widget/PortalScreens.xml#home" />
 

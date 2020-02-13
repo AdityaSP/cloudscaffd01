@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.base.util.UtilValidate;
 
 public class SolutionDesignEvents{
 
@@ -143,6 +144,23 @@ public class SolutionDesignEvents{
             e.printStackTrace();
             request.setAttribute("message", ERROR);
             return ERROR;
+        }
+        request.setAttribute("message", SUCCESS);
+        return SUCCESS;
+    }
+
+    public static String deleteSolutionDesign(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        String sdid = request.getParameter("sdid");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        try {
+            GenericValue deleteSolutionDesign = delegator.findOne("solutionDesignApc", UtilMisc.toMap("id", sdid),false);
+            if (!UtilValidate.isEmpty(deleteSolutionDesign)) {
+                deleteSolutionDesign.remove();
+            }
+        } catch (GenericEntityException ex) {
+            ex.printStackTrace();
+            request.setAttribute("message", ERROR);
         }
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
