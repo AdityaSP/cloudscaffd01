@@ -29,18 +29,20 @@
                             </div>
                             <div class="tab-pane" id="tab2">
                                 <div class="container my-2 py-2">
-                                    <form method="POST"  action="<@ofbizUrl>AddBasePattern</@ofbizUrl>">
+                                    <form id="basePatternForm">
                                         <div class="form-group">
                                             <label for="baseProblem">Base Pattern Name</label>
                                             <input type="text" name="baseName" class="form-control" required id="baseProblem">
                                         </div>
-                                        <input type="hidden" class="psid" name="psid" value="">
+                                        <input type="hidden" class="psid" name="psid" id="psid" value="">
                                         <div class="form-group">
                                             <label for="baseProblemDescription">Base Pattern Description</label>
                                             <input class="form-control" name="baseDescription" required id="baseProblemDescription"
                                                    rows="3"/>
                                         </div>
-                                        <button class="btn btn-primary pull-right">Create</button>
+                                        <div>
+                                            <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 100px;">
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -67,8 +69,7 @@
                             </div>
                             <div class="tab-pane" id="solutionTab2">
                                 <div class="container my-2 py-2">
-                                    <form method="POST"action="<@ofbizUrl>AddSolutionDesign</@ofbizUrl>">
-
+                                    <form id="solutionDesignForm">
                                         <div class="form-group">
                                             <label>Solution Design Name</label>
                                             <input type="text" class="form-control" name="solutionDesignName" required
@@ -81,7 +82,9 @@
                                             <input type="text" class="form-control" name="solutionDesignDesc" required
                                                    id="solutionDesignDescription" rows="3">
                                         </div>
-                                        <button class="btn btn-primary pull-right">Create</button>
+                                        <div>
+                                            <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 100px;">
+                                        </div>
                                     </form>
                                 </div>
                             </div>

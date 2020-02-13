@@ -22,13 +22,23 @@ $(function () {
 
     let userRole = $('.userRoleName').text();
 
-    if (userRole == 'Administrator' || userRole == 'Deployer') {
-        isDeployer = true;
-    } else if (userRole == 'Administrator' || userRole == 'Approver') {
-        isApprover = true;
-    } else {
-        isApprover = false;
-        isDeployer = false;
+    switch (userRole) {
+        case "Administrator": {
+            isAdmin = true;
+            $('.approve').attr("disabled", true);
+        }; break;
+        case "Deployer": {
+            isDeployer = true;
+            $('.approve').attr("disabled", true);
+        }; break;
+        case "Approver": {
+            isApprover = true;
+        }; break;
+        case "Planner": {
+            isPlanner = true;
+            $('.approve').attr("disabled", true);
+        }; break;
+        default: break;
     }
 
     console.log(`Role: ${userRole}, isBasePatternApproved: ${isBasePatternApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);

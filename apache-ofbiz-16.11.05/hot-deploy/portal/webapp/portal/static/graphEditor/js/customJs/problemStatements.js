@@ -3,6 +3,8 @@ import { ProblemStatement } from './Elements.js';
 
 $(function () {
 
+    var userRole = App.userRole; console.log(userRole);
+
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
 
     App.genericFetch('getTags', "POST", "", renderTags, "", notFound, "");
@@ -36,19 +38,23 @@ $(function () {
         }
     });
 
-    $("form").on('submit', function (e) {
-        // e.preventDefault();
-        let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
-            formData = {
-                "problemStatement": $('#problemStatement').val(),
-                "problemDescription": $('#problemDescription').val(),
-                "tag": tag.toString()
-            }
-        console.log(formData);
-        $('.submitBtn').val('Creating...');
-        App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
+    if (userRole == "Planner" || userRole == "Administrator") {
+        $("form").on('submit', function (e) {
+            // e.preventDefault();
+            let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
+                formData = {
+                    "problemStatement": $('#problemStatement').val(),
+                    "problemDescription": $('#problemDescription').val(),
+                    "tag": tag.toString()
+                };
+            console.log(formData);
+            $('.submitBtn').val('Creating...');
+            App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
+            $('.submitBtn').attr("disabled", true);
+        });
+    } else {
         $('.submitBtn').attr("disabled", true);
-    });
+    }
 });
 
 function submitForm(data) {

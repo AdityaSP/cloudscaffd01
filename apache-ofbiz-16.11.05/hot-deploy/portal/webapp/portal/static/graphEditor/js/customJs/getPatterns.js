@@ -4,14 +4,48 @@ var problemStatementList, basePatternList, solutionDesignList, tagsList;
 
 $(function () {
 
-    var urlParams = App.urlParams();
-    console.log(urlParams);
+    var urlParams = App.urlParams(),
+        userRole = App.userRole,
+        psid = urlParams['psid'];
 
-    var psid = urlParams['psid'];
+    console.log(urlParams, userRole);
+
     $(".psid").val(psid);
 
     // Fetch and render Problem Statement
     App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
+
+    if (userRole == "Planner" || userRole == "Administrator") {
+
+        $("#basePatternForm").on('submit', function (e) {
+            // e.preventDefault();
+            let formData = {
+                "baseName": $('#baseProblem').val(),
+                "baseDescription": $('#baseProblemDescription').val(),
+                "psid": $('.psid').val(),
+            };
+            $('.submitBtn').val('Creating...');
+            App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
+            $('.submitBtn').attr("disabled", true);
+        });
+
+        $("#solutionDesignForm").on('submit', function (e) {
+            // e.preventDefault();
+            let formData = {
+                "solutionDesignName": $('#solutionDesignName').val(),
+                "solutionDesignDesc": $('#solutionDesignDescription').val(),
+                "psid": $('.psid').val(),
+                "bpid": $('.bpid').val(),
+            };
+            console.log(formData, psid)
+            $('.submitBtn').val('Creating...');
+            App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
+            $('.submitBtn').attr("disabled", true);
+        });
+
+    } else {
+        $('.submitBtn').attr("disabled", true);
+    }
 
     $('.solutionPatternResults').on('click', '.solutionDesigns', function (evt) {
         let sdid = evt.target.dataset["sdid"];
@@ -30,6 +64,11 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+function submitForm(data) {
+    console.log(data)
+    console.log("form submitted");
+}
+
 function renderProblemStmt(problemStmt, psid) {
     if (!App.isEmpty(problemStmt)) {
         problemStatementList = problemStmt.problemStatementList[0];
@@ -47,7 +86,7 @@ function renderProblemStmt(problemStmt, psid) {
             ids: [],
             names: []
         }];
-        console.log(tagsList)
+        // console.log(tagsList)
         for (let i = 0; i < tagsList.length; i++) {
             // element[0].ids.push(tagsList[i].tagid);
             element[0].names.push(tagsList[i].tagName);
@@ -56,7 +95,7 @@ function renderProblemStmt(problemStmt, psid) {
         let tagsListTagName = App.getUniqueArray(element[0].names);
         // tagsListTagId = element[0].ids;
 
-        console.log(tagsListTagName); // s = JSON.stringify(j[0])
+        // console.log(tagsListTagName); // s = JSON.stringify(j[0])
 
         for (var k = 0; k < tagsList.length; k++) {
             let htmlTags = `<a href="#" id="${tagsList[k].tagid}"

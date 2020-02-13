@@ -1,6 +1,7 @@
 
 export const App = {
-
+    userRole: $('.userRoleName').text(),
+    userName: $('.userName').text(),
     urlParams: function () {
         let search = location.search.substring(1), urlParams;
 

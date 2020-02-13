@@ -4,7 +4,7 @@ var urldata = App.urlParams(true);
 console.log(urldata);
 var psid = urldata['psid'];
 var sdid = urldata['sdid'];
-var bpid, isSolutionDesignApproved, isDeployer = false, isApprover = false, idToBeApproved, xml;
+var bpid, isSolutionDesignApproved, isAdmin = false, isDeployer = false, isApprover = false, isPlanner = false, idToBeApproved, xml;
 
 $(function () {
     $('.py-3').contents().filter(function () {
@@ -31,13 +31,26 @@ $(function () {
         $('.basePatternForm').hide();
     }
 
-    if (userRole == 'Administrator' || userRole == 'Deployer') {
-        isDeployer = true;
-    } else if (userRole == 'Administrator' || userRole == 'Approver') {
-        isApprover = true;
-    } else {
-        isApprover = false;
-        isDeployer = false;
+    switch (userRole) {
+        case "Administrator": {
+            isAdmin = true;
+            $('.approve').attr("disabled", true);
+            $('.deploy').attr("disabled", true);
+        }; break;
+        case "Deployer": {
+            isDeployer = true;
+            $('.approve').attr("disabled", true);
+        }; break;
+        case "Approver": {
+            isApprover = true;
+            $('.deploy').attr("disabled", true);
+        }; break;
+        case "Planner": {
+            isPlanner = true;
+            $('.approve').attr("disabled", true);
+            $('.deploy').attr("disabled", true);
+        }; break;
+        default: break;
     }
 
     console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
@@ -158,7 +171,6 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
 
-        // $('.deploy').attr("disabled", true);
         if (isApprover) {
             $('.approve').attr("disabled", false);
             idToBeApproved = id;
@@ -167,18 +179,12 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         }
     }
 
-    if (isDeployer) {
+    if (isDeployer || isAdmin) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
-
         }
         else {
-            // if ($('.deploy').is(":disabled")) {
-            console.log("index")
-            let tooltip = `<span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">
-                                <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" >Deploy</button>
-                            </span>`;
-            $('.deployCheck').replaceWith(tooltip);
+            console.log("cannot deploy");
         }
 
     }
