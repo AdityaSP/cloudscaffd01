@@ -73,7 +73,7 @@ Sidebar.prototype.init = function () {
 	var dir = STENCIL_PATH;
 
 	this.addSearchPalette(true);
-	// this.addGeneralPalette(true);
+	this.addGeneralPalette(false);
 	// this.addBasicPalette(dir); // added custom attr along with xml 
 	// this.addStencilPalette('arrows', mxResources.get('arrows'), dir + '/arrows.xml',
 	// ';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
@@ -92,7 +92,6 @@ Sidebar.prototype.init = function () {
 
 	this.addStencilPalette('Azure', 'Azure', dir + '/azure.xml',
 		';whiteSpace=wrap;html=1;fillColor=#00BEF2;strokeColor=#00BEF2;strokeWidth=1');
-
 
 	// this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
 	// 	['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
@@ -920,7 +919,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
 		this.createEdgeTemplateEntry('endArrow=classic;html=1;', 50, 50, '', 'Directional Connector', null, lineTags + 'directional directed')
 	];
 
-	this.addPaletteFunctions('general', mxResources.get('general'), (expand != null) ? expand : true, fns);
+	this.addPaletteFunctions('general', 'Generic', (expand != null) ? expand : true, fns);
 };
 
 /**
@@ -1876,7 +1875,7 @@ Sidebar.prototype.addAWSPalette = function (expand) {
 			*/
 	];
 
-	this.addPaletteFunctions('aws', mxResources.get('aws')+" General", expand || false, fns);
+	this.addPaletteFunctions('aws', mxResources.get('aws') + " General", expand || false, fns);
 };
 
 /**

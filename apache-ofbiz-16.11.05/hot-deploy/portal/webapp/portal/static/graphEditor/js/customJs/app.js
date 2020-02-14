@@ -57,14 +57,14 @@ export const App = {
             success: function (res) {
                 console.log(res);
                 if (renderFunction) {
-                    renderFunction(res.data, rparams);
+                    renderFunction(res.data, rparams, res);
                     App.clearLoader();
                 }
             },
             error: function (err) {
                 console.log(err);
                 if (errFunction) {
-                    errFunction(eparams);
+                    errFunction(eparams, err);
                 }
             }
         });
@@ -151,6 +151,7 @@ export const App = {
             $(place).html(toast);
             $(place).show();
             if (time) {
+                if (time > 0) { time = time } else { time = true; }
                 setTimeout(function () {
                     $(place).fadeOut(800);
                 }, 3000);

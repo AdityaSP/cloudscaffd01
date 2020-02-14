@@ -42,6 +42,14 @@
                                             <input class="form-control" name="baseDescription" required id="baseProblemDescription"
                                                    rows="3"/>
                                         </div>
+                                        <#--  <div class="form-group">
+                                            <label>Forces</label>
+                                            <input class="form-control" name="baseForces" required id="baseForces"
+                                                   rows="3"/>
+                                            <label>Beneficiary</label>
+                                            <input class="form-control" name="baseBeneficiary" required id="baseBeneficiary"
+                                                   rows="3"/>
+                                        </div>  -->
                                         <div>
                                             <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="basePatternFormSubmitBtn" style="width: 100px;">
                                         </div>
@@ -83,6 +91,14 @@
                                             <label>Description</label>
                                             <input type="text" class="form-control" name="solutionDesignDesc" required
                                                    id="solutionDesignDescription" rows="3">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Forces</label>
+                                            <input class="form-control" name="solutionForces" required id="solutionForces"
+                                                   rows="3"/>
+                                            <label>Beneficiary</label>
+                                            <input class="form-control" name="solutionBeneficiary" required id="solutionBeneficiary"
+                                                   rows="3"/>
                                         </div>
                                         <div>
                                             <div class="toastMsg"></div>

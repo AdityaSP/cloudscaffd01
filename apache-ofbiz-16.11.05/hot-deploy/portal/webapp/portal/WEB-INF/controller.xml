@@ -213,43 +213,43 @@
 	<request-map uri="AddProblemStatement">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="addProblemStatement" />
-		<response name="success" type="request-redirect" value="productAPC">
+		<response name="success" type="request" value="json">
 		</response>
-		<response name="error" type="request-redirect" value="productAPC"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="AddBasePattern">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="addBasePattern" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 			<redirect-parameter name="psid"/>
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="AddSolutionDesign">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="addSolutionDesign" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 			<redirect-parameter name="psid"/>
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="UpdateBasePattern">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="updateBasePattern" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="UpdateSolutionDesign">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="updateSolutionDesign" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="searchProblemStatements">
@@ -318,22 +318,22 @@
 	<request-map uri="approveSolutionDesign">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="approveSolutionDesign" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 			<redirect-parameter name="sdid"/>
 			<redirect-parameter name="psid"/>
 			<redirect-parameter name="bpid"/>
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="approveBasePattern">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="approveBasePattern" />
-		<response name="success" type="request-redirect" value="problemPatternSearch">
+		<response name="success" type="request" value="json">
 			<redirect-parameter name="psid"/>
 			<redirect-parameter name="bpid"/>
 		</response>
-		<response name="error" type="request-redirect" value="problemPatternSearch"/>
+		<response name="error" type="request" value="json"/>
 	</request-map>
 
 

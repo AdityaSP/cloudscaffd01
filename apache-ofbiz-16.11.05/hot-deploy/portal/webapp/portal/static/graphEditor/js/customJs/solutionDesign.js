@@ -30,7 +30,7 @@ $(function () {
 
     // Fetch and Rendering Base Pattern if bpid exits
     if (bpid) {
-        App.loader(".basePatternForm");
+        // App.loader(".basePatternForm");
         App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
     } else {
         $('.basePatternForm').hide();
@@ -65,6 +65,10 @@ $(function () {
         let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
         console.log(data);// console.log(xml);
         // App.genericFetch("deploySolutionDesign", "POST", data, "", "", "", "");
+
+        // After successfull Deployment Change status to 'Deployed-Successful'
+        // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", ""); // urlData includes status
+
     });
 
     // IF approved display only  deploy and edit
@@ -152,11 +156,15 @@ function renderBasePattern(basePattern, bpid) {
             $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
             $('.basePatternDescription').text(basePattern[i].baseDescription);
             if (basePattern[i].svg) {
+                // if (basePattern[i].status == 'approved') {
                 $('.BPsvgDiv').append(basePattern[i].svg);
                 $('.BPsvgDiv > svg').attr({
                     "width": "800px",
                     "height": "550px"
                 });
+                // } else {
+                //     $('.viewBpImage').hide();
+                // }
             } else {
                 $('.viewBpImage').hide();
             }
