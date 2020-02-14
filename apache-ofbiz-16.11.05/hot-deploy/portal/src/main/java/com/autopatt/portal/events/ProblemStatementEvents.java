@@ -34,6 +34,8 @@ public class ProblemStatementEvents{
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
+        Map<String,Object> data = UtilMisc.toMap();
+
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
         String [] tag = request.getParameter("tag").split(",");
@@ -49,8 +51,10 @@ public class ProblemStatementEvents{
             delegator.create(newProblemStatement);
             } catch (GenericEntityException ex) {
                 Debug.logError(ex, module);
-                request.setAttribute("message", ERROR);
-                return ERROR;
+            data.put("info", "Problem Statement creation failed!");
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
         }
 
         String tagsId = null;
@@ -81,12 +85,14 @@ public class ProblemStatementEvents{
             }
         } catch (GenericEntityException e) {
             Debug.logError(e, module);
-            request.setAttribute("message", ERROR);
+            data.put("info", "Problem Statement creation failed!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-
-
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "Problem Statement creation successfull");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 

@@ -35,6 +35,8 @@ public class SolutionDesignServices{
         String bpid = (String) context.get("bpid");
         String solutionDesignName = (String) context.get("solutionDesignName");
         String solutionDesignDesc = (String) context.get("solutionDesignDesc");
+        String solutionForces = (String) context.get("solutionForces");
+        String solutionBeneficiary = (String) context.get("solutionBeneficiary");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
 
@@ -46,6 +48,8 @@ public class SolutionDesignServices{
             newSolutionDesign.setString("bpid", bpid);
             newSolutionDesign.setString("solutionDesignName", solutionDesignName);
             newSolutionDesign.setString("solutionDesignDesc", solutionDesignDesc);
+            newSolutionDesign.setString("solutionForces", solutionForces);
+            newSolutionDesign.setString("solutionBeneficiary", solutionBeneficiary);
             newSolutionDesign.setString("createdBy", createdBy);
             newSolutionDesign.setString("status", status);
             delegator.create(newSolutionDesign);

@@ -39,23 +39,28 @@ public class SolutionDesignEvents{
 
         String solutionDesignName = request.getParameter("solutionDesignName");
         String solutionDesignDesc = request.getParameter("solutionDesignDesc");
+        String solutionForces = request.getParameter("solutionForces");
+        String solutionBeneficiary = request.getParameter("solutionBeneficiary");
 
         request.setAttribute("psid", psid);
 
         try {
             Map<String, Object> addSolutionDesignResp = dispatcher.runSync("createSolutionDesign",
                     UtilMisc.<String, Object>toMap("psid", psid,"bpid", bpid, "solutionDesignName", solutionDesignName,
-                            "solutionDesignDesc",solutionDesignDesc, "userLogin",userLogin));
+                            "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBeneficiary",
+                            solutionBeneficiary,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addSolutionDesignResp)) {
-                Debug.logError("Error creating addBasePatternResp for " + addSolutionDesignResp, module);
+                request.setAttribute("info", "SolutionDesign creation failed!");
                 request.setAttribute("message", ERROR);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
+            request.setAttribute("info", "SolutionDesign creation failed!");
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+        request.setAttribute("info", "SolutionDesign creation Successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
 
@@ -87,9 +92,11 @@ public class SolutionDesignEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
+            request.setAttribute("info", "SolutionDesign update failed!");
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+        request.setAttribute("info", "SolutionDesign update successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
@@ -142,9 +149,11 @@ public class SolutionDesignEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
+            request.setAttribute("info", "SolutionDesign approval failed!");
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+        request.setAttribute("info", "SolutionDesign approval successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
@@ -160,8 +169,10 @@ public class SolutionDesignEvents{
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
+            request.setAttribute("info", "SolutionDesign deletion failed!");
             request.setAttribute("message", ERROR);
         }
+        request.setAttribute("info", "SolutionDesign deletion ");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }

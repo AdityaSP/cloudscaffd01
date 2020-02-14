@@ -49,6 +49,7 @@
         <field name="createdBy" type="name"></field>
         <field name="updatedBy" type="name"></field>
         <field name="updatedDate" type="date-time"></field>
+        <field name="type" type="name"></field>
         <prim-key field="id"/>
     </entity>
 
@@ -85,6 +86,7 @@
         <field name="updatedBy" type="name"></field>
         <field name="updatedDate" type="date-time"></field>
         <field name="status" type="name"></field>
+        <field name="type" type="name"></field>
         <prim-key field="id"/>
     </entity>
 
@@ -124,6 +126,9 @@
         <field name="updatedBy" type="name"></field>
         <field name="updatedDate" type="date-time"></field>
         <field name="status" type="name"></field>
+        <field name="type" type="name"></field>
+        <field name="solutionForces" type="name"></field>
+        <field name="solutionBeneficiary" type="name"></field>
         <prim-key field="id"/>
     </entity>
 </entitymodel>

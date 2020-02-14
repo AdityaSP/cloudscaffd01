@@ -49,15 +49,18 @@ public class BasePatternEvents{
                             "baseDescription",baseDescription, "baseDescription",baseDescription,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
                 Debug.logError("Error creating addBasePatternResp for " + addBasePatternResp, module);
+                request.setAttribute("info", "BasePattern creation failed!");
                 request.setAttribute("message", ERROR);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
+            request.setAttribute("info", "BasePattern creation failed!");
             request.setAttribute("message", ERROR);
             return ERROR;
 
         }
+        request.setAttribute("info", "BasePattern creation Successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
 
@@ -89,9 +92,11 @@ public class BasePatternEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
+            request.setAttribute("info", "BasePattern update failed!");
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+        request.setAttribute("info", "BasePattern update Successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
@@ -172,9 +177,11 @@ public class BasePatternEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
+            request.setAttribute("info", "BasePattern approval failed");
             request.setAttribute("message", ERROR);
             return ERROR;
         }
+        request.setAttribute("info", "BasePattern approval Successfull");
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
