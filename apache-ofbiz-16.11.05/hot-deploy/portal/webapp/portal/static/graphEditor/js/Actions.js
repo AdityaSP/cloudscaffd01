@@ -1020,9 +1020,9 @@ Actions.prototype.init = function () {
 		// let xml = window.currentGraphData;
 		// console.log(xml)
 		// mxUtils.popuphtml(basicPattern, true);
-		let xml = window.currentGraphData.svg;
+		let svg = window.currentGraphData.svg;
 		// console.log(xml);
-		mxUtils.popuphtml(xml, true);
+		mxUtils.popuphtml(svg, true);
 
 	});
 

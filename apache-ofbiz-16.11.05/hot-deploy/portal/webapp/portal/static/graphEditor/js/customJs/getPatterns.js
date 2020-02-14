@@ -18,8 +18,7 @@ $(function () {
 
     if (userRole == "Planner" || userRole == "Administrator" || userRole == "Deployer") {
 
-        $("#basePatternForm").on('submit', function (e) {
-            // e.preventDefault();
+        $("#basePatternFormSubmitBtn").on('click', function (e) {
             let formData = {
                 "baseName": $('#baseProblem').val(),
                 "baseDescription": $('#baseProblemDescription').val(),
@@ -30,8 +29,7 @@ $(function () {
             $('.submitBtn').attr("disabled", true);
         });
 
-        $("#solutionDesignForm").on('submit', function (e) {
-            // e.preventDefault();
+        $("#solutionDesignFormSubmitBtn").on('click', function (e) {
             let formData = {
                 "solutionDesignName": $('#solutionDesignName').val(),
                 "solutionDesignDesc": $('#solutionDesignDescription').val(),
@@ -66,9 +64,7 @@ $(function () {
 });
 
 function submitForm(data, path) {
-    console.log(data)
-    console.log("form submitted");
-    // $(`[href="#${path}"]`).tab('show');
+    window.location.reload();
 }
 
 function renderProblemStmt(problemStmt, psid) {

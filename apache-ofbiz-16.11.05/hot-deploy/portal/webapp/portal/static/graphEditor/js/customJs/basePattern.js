@@ -35,6 +35,7 @@ $(function () {
         }; break;
         case "Approver": {
             isApprover = true;
+            $('.edit').attr("disabled", true);
         }; break;
         case "Planner": {
             isPlanner = true;

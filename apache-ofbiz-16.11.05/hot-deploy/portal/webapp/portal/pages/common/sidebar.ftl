@@ -22,6 +22,13 @@
         <i class="fa fa-cog sidebar-icons icon-midnightblue <#if currentViewId == 'MANAGE_SETTINGS'>icon-color-active</#if>"></i> <span class="text">Settings</span>
       </a>
     </#if>
+
+    <a href="<@ofbizUrl></@ofbizUrl>" title="Billing" class="list-group-item list-group-item-action <#if currentViewId == 'Billing'>active</#if> disabled" >
+      <i class="fa fa-id-card-o sidebar-icons <#if currentViewId == 'Billing'>icon-color-active</#if>"></i> <span class="text">Billing</span></a>
+
+    <a href="<@ofbizUrl></@ofbizUrl>" title="License" class="list-group-item list-group-item-action <#if currentViewId == 'License'>active</#if> disabled" >
+      <i class="fa fa-file-text-o sidebar-icons <#if currentViewId == 'License'>icon-color-active</#if>"></i> <span class="text">License</span></a>
+  
   </div>
 </div>
 <!-- /#sidebar-wrapper -->

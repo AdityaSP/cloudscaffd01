@@ -931,7 +931,7 @@ EditorUi.prototype.init = function () {
 	window.editorUi = this;
 
 	var ids = App.urlParams(), type = App.getTypeOfPattern(ids)['typeOfPattern'],
-		id = App.getTypeOfPattern(ids)['id'], url, data, result, doc;
+		id = App.getTypeOfPattern(ids)['id'], url, data, xml = null, svg = null, png = null;
 
 	if (type == 'solution_design') {
 		url = "getSolutionDesign";
@@ -949,7 +949,6 @@ EditorUi.prototype.init = function () {
 		success: function (res) {
 			console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
-			window.currentGraphData = { xml, svg, png, id };
 			displayFetchedDataInEditor(xml);
 		},
 		statusCode: {
@@ -958,15 +957,34 @@ EditorUi.prototype.init = function () {
 			}
 		}
 	});
+
+	let bpid = ids['bpid'];
+
+	console.log(bpid)
+	if (bpid) {
+		$.ajax({
+			method: "POST",
+			url: 'getBasePattern',
+			data: data = { "bpid": bpid },
+			cache: true,
+			success: function (res) {
+				console.log(res.data[0]);
+				let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
+				window.currentGraphData = { xml, svg, png, id };
+				// displayFetchedDataInEditor(xml);
+			},
+			statusCode: {
+				404: function (err) {
+					console.log(err);
+				}
+			}
+		});
+	}
+	
 };
-
-fetchDataFromDB = function () {
-
-}
 
 //??? 
 svgToPng = function (data) {
-
 	var svgString = data;
 	var dataURI = "data:image/svg+xml;base64," + window.btoa(svgString);
 	var ctx = canvas.getContext("2d");

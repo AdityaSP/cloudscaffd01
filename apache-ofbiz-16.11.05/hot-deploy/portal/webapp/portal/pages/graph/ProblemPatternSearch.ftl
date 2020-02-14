@@ -43,7 +43,7 @@
                                                    rows="3"/>
                                         </div>
                                         <div>
-                                            <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 100px;">
+                                            <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="basePatternFormSubmitBtn" style="width: 100px;">
                                         </div>
                                     </form>
                                 </div>
@@ -86,7 +86,7 @@
                                         </div>
                                         <div>
                                             <div class="toastMsg"></div>
-                                            <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 100px;">
+                                            <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="solutionDesignFormSubmitBtn" style="width: 100px;">
                                         </div>
                                     </form>
                                 </div>

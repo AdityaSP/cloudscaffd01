@@ -26,10 +26,6 @@ $(function () {
     if (sdid) {
         App.loader(".solutionDesignForm");
         App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
-    } else {
-        $('.solutionDesignForm').hide(); $('.svgDiv').hide();
-        $('.edit').attr("disabled", true);
-        $('.title').text("Problem Statement");
     }
 
     // Fetch and Rendering Base Pattern if bpid exits
@@ -53,6 +49,7 @@ $(function () {
         case "Approver": {
             isApprover = true;
             $('.deploy').attr("disabled", true);
+            $('.edit').attr("disabled", true);
         }; break;
         case "Planner": {
             isPlanner = true;
@@ -105,8 +102,16 @@ $(function () {
             },
             callback: function (result) {
                 if (result) {
+                    let queryStr = `psid=${psid}`;
+                    App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
+                    $('.solutionDesignForm').hide(); $('.svgDiv').hide();
+                    App.toastMsg('Go back to create a new solution design', 'info', '.toastMsg')
+                    $('.edit').attr("disabled", true);
+                    $('.deploy').attr("disabled", true);
+                    $('.title').text("Problem Statement");
+                    urldata["sdid"] = null
+                } else {
                     console.log(result);
-                    // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
                 }
             }
         });

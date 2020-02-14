@@ -20,18 +20,25 @@ export const App = {
         if (sdid != null && bpid != null) {
             typeOfPattern = "solution_design";
             id = sdid;
+            return { typeOfPattern, id };
         }
         else {
             if (ids['bpid']) {
                 typeOfPattern = "base_pattern";
                 id = bpid;
+                return { typeOfPattern, id };
             }
             if (ids['sdid']) {
                 typeOfPattern = "solution_design";
                 id = sdid;
+                if (bpid) {
+                    return { typeOfPattern, id, bpid };
+                } else {
+                    return { typeOfPattern, id };
+                }
+
             }
         }
-        return { typeOfPattern, id };
     },
     encrypt: function (enc) {
         return window.btoa(enc);
