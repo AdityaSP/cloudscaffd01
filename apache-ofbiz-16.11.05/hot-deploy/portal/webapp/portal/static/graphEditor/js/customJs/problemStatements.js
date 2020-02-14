@@ -1,7 +1,7 @@
 import { App } from './app.js';
-import { ProblemStatement } from './Elements.js';
 
 $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
 
     var userRole = App.userRole; console.log(userRole);
 
@@ -23,7 +23,7 @@ $(function () {
             searchStr = event.target.value;
             if (searchStr != '') {
                 console.log(searchStr);
-                //                 getDataForSearchResults(searchStr);
+                //getDataForSearchResults(searchStr);
                 App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
             } else {
@@ -38,9 +38,8 @@ $(function () {
         }
     });
 
-    if (userRole == "Deployer" || userRole == "Administrator") {//TODO
-        $("form").on('submit', function (e) {
-            e.preventDefault();
+    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
+        $("#problemStmtFormSubmitBtn").on('click', function (e) {
             let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
                 formData = {
                     "problemStatement": $('#problemStatement').val(),
@@ -59,7 +58,7 @@ $(function () {
 
 function submitForm(data) {
     console.log(data)
-    console.log("form submitted");
+    window.location.reload();
 }
 
 function renderSearchResultData(problems) {

@@ -4,8 +4,7 @@
         <div class="col-sm-3">
             <div class="card  mb-3 widget-body">
                 <div class="card-body card-padding">
-                    <h6 class="card-title text-center">Users</h6>
-
+                    <h6 class="card-title text-center">Users</h6
                     <img src="../static/images/icon/1626113.png" class="float-right card-user-icon">
                     <h5 class="card-text" align="center">Total: ${users!?size}</h5>
                     <div class="progress">

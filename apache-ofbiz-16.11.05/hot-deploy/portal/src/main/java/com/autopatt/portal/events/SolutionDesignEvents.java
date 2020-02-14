@@ -176,5 +176,4 @@ public class SolutionDesignEvents{
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
-
 }

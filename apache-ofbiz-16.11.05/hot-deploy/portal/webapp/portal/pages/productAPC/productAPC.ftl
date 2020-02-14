@@ -30,7 +30,7 @@
                         <div class="tab-pane active" id="tab1">
                             <div class="container my-2 py-2 searchProblems">
                                 <div class="form-group" id='tags' class="tags" style="display:none">
-                                    <p><label>Tags-Cloud</label></p>
+                                    <p><label>Tags</label></p>
 
                                 </div>
                                 <br>
@@ -38,14 +38,36 @@
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="inputSearch" class="form-control inputSearch" required placeholder="Search">
                                     </div>
-                                    <#--  <button class="btn btn-link pull-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                            Filter
-                                    </button>  -->
+                                    <#--  <span class="btn btn-link pull-right"  data-toggle="tooltip" data-placement="right" title="Filter">
+                                        <i class="fa fa-filter" aria-hidden="true" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></i>
+                                    </span>  -->
                                     <div class="collapse" id="collapseExample">
                                         <div class="card card-body">
                                             <div class="row"> 
                                                 <div class="col-12">
-                                                    All filter goes here.
+                                                    <article class="card-group-item">
+		                                                <header class="card-header">
+			                                                <h5 class="title">Select Pattern Type</h5>
+		                                                </header>
+		                                                <div class="filter-content">
+			                                                <div class="card-body">
+				                                            <div class="custom-control custom-checkbox">
+					                                        <#--  <span class="float-right badge badge-light round">52</span>  -->
+				  	                                        <input type="checkbox" class="custom-control-input" id="checkProblemStatement">
+				  	                                            <label class="custom-control-label" for="Check1">Problem Statements</label>
+
+                                                            <input type="checkbox" class="custom-control-input" id="checkBasePattern">
+				 	                                        <label class="custom-control-label" for="Check2">Base Patterns</label>
+
+                                                            <input type="checkbox" class="custom-control-input" id="checkSolutionDesign">
+				  	                                        <label class="custom-control-label" for="Check3">Solution Designs</label>
+				                                        </div> 
+				                                        <#--  <div class="custom-control custom-checkbox">
+				                                        	<span class="float-right badge badge-light round">132</span>
+				                                          	<input type="checkbox" class="custom-control-input" id="checkBasePattern">
+				                                         	<label class="custom-control-label" for="Check2">Base Patterns</label>
+				                                        </div> -->
+	                                                </article> 
                                                 </div>
                                                 <#--  <button class="btn btn-primary pull-right" type="button">Search</button>  -->
                                             </div>
@@ -84,7 +106,8 @@
                                         <label for="tag">Note : Please use space for entering multiple tags. </label>
                                     </div>
                                     <div>
-                                        <input type="submit" value="Create" class="btn btn-primary pull-right submitBtn" style="width: 125px;">
+                                        <div class="toastMsg"></div>
+                                        <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="problemStmtFormSubmitBtn" style="width: 125px;">
                                     </div>
                                 </form>
                             </div>

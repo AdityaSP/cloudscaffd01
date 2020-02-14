@@ -960,7 +960,7 @@ EditorUi.prototype.init = function () {
 
 	let bpid = ids['bpid'];
 
-	console.log(bpid)
+	console.log("BPID: " + bpid)
 	if (bpid) {
 		$.ajax({
 			method: "POST",
@@ -980,7 +980,7 @@ EditorUi.prototype.init = function () {
 			}
 		});
 	}
-	
+
 };
 
 //??? 

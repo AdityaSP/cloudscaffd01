@@ -23,12 +23,11 @@
       </a>
     </#if>
 
-    <a href="<@ofbizUrl></@ofbizUrl>" title="Billing" class="list-group-item list-group-item-action <#if currentViewId == 'Billing'>active</#if> disabled" >
-      <i class="fa fa-id-card-o sidebar-icons <#if currentViewId == 'Billing'>icon-color-active</#if>"></i> <span class="text">Billing</span></a>
+    <a href="<@ofbizUrl></@ofbizUrl>" title="Licence_Billing" class="list-group-item list-group-item-action <#if currentViewId == 'Licence_Billing'>active</#if> disabled" >
+      <i class="fa fa-id-card-o sidebar-icons <#if currentViewId == 'Licence_Billing'>icon-color-active</#if>"></i> <span class="text">License & Billing</span></a>
 
-    <a href="<@ofbizUrl></@ofbizUrl>" title="License" class="list-group-item list-group-item-action <#if currentViewId == 'License'>active</#if> disabled" >
-      <i class="fa fa-file-text-o sidebar-icons <#if currentViewId == 'License'>icon-color-active</#if>"></i> <span class="text">License</span></a>
-  
+    <a href="<@ofbizUrl></@ofbizUrl>" title="Help" class="list-group-item list-group-item-action <#if currentViewId == 'Help'>active</#if> disabled" >
+      <i class="fa fa-question-circle sidebar-icons <#if currentViewId == 'Help'>icon-color-active</#if>"></i> <span class="text">Help & Support</span></a>  
   </div>
 </div>
 <!-- /#sidebar-wrapper -->
