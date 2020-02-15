@@ -17,28 +17,27 @@
   </#if>
 
 <div class="container-fluid">
-
-  <div class="login-sidenav">
-      <#include "./common/preauth_logo.ftl"/>
-         <div class="login-main-text">
-            <h2>AutoPatt Console<br> Login </h2>
-            <p>Login here to access the AutoPatt Console.</p>
-         </div>
-      </div>
-      <div class="login-main">
-         <div class="col-md-6 col-sm-12">
-         <div>
-
-            <div class="login-form">
-                <div>
+    <div class="login-sidenav">
+        <#include "./common/preauth_logo.ftl"/>
+        <div class="login-main-text">
+            <h2>AutoPatt Portal<br> Sign in</h2>
+            <br/>
+            <p>Sign in here to access the AutoPatt Portal</p>
+        </div>
+    </div>
+    <div class="login-main">
+        <div class="col-md-6 col-sm-12">
+            <div>
+                <div class="login-form">
+                    <div>
                     <#list errorMessageList as error>
                         <div class="alert alert-danger" role="alert">
                             ${error}
                         </div>
                     </#list>
                 </div>
-                <h4>Enter Login Details</h4>
-                <div><hr/></div>
+                    <h4>Sign in</h4>
+                    <div><br/></div>
 
                 <form id="login" action="<@ofbizUrl>login</@ofbizUrl>" method="post">
 
@@ -64,14 +63,12 @@
                             <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                         </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Login</button>
-                  <hr/>
-                  <a href="<@ofbizUrl>initForgotPwd</@ofbizUrl>" class="text-decoration-underline tz-text">I forgot my password!</a>
-
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                  <a href="<@ofbizUrl>initForgotPwd</@ofbizUrl>" class="text-decoration-underline tz-text ml-2">I forgot my password!</a>
                </form>
             </div>
-         </div>
-      </div>
-</div>
+            </div>
+        </div>
+    </div>
 
 

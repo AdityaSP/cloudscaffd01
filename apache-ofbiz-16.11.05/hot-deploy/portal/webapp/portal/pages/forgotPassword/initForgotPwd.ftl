@@ -21,7 +21,7 @@
     <div class="login-sidenav">
         <#include "../common/preauth_logo.ftl"/>
         <div class="login-main-text">
-            <h2>AutoPatt Console</h2>
+            <h2>AutoPatt Portal</h2>
             <p>In order to <b>Reset your account password</b>, Please enter your organization and email, you will receive reset password link</p>
         </div>
     </div>

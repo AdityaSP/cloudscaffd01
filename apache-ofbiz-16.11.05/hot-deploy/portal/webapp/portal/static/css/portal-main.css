@@ -163,7 +163,7 @@ table.table .avatar {
 
 .login-sidenav {
   height: 100%;
-  background-color: #763965    ;
+  background-color: #3E83ED;
   overflow-x: hidden;
   padding-top: 20px;
   padding-left: 50px;
@@ -182,14 +182,17 @@ table.table .avatar {
     margin-left: 40%;
   }
   .login-sidenav{
-    width: 40%;
+    width: 30%;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
   }
   .login-form{
-    margin-top: 40%;
+    margin-top: 30%;
+    border:1px solid #ccc;
+    border-radius: 5px;
+    padding: 30px;
   }
 }
 .login-logo{
