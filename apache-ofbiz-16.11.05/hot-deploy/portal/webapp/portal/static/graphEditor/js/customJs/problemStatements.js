@@ -43,7 +43,7 @@ $(function () {
                 data = { "inputSearch": searchStr, "type": type };
                 console.log(data);
                 //getDataForSearchResults(searchStr);
-                App.genericFetch('searchProblemStatements', "POST", data, renderSearchResultData, "", "", "")
+                App.genericFetch('search', "POST", data, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
 
             } else {

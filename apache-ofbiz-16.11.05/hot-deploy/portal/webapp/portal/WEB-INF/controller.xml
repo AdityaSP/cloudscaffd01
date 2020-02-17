@@ -266,9 +266,9 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-	<request-map uri="getProblemStatements">
+	<request-map uri="search">
 		<security https="true" auth="true" />
-		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getProblemStatements" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="search" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json" />
 	</request-map>
