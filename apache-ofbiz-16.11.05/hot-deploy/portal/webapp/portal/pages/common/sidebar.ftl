@@ -13,7 +13,9 @@
     </a>
 
     <a href="<@ofbizUrl>productAPC</@ofbizUrl>" title="APC" class="list-group-item list-group-item-action <#if currentViewId == 'PRODUCT_APC'>active</#if>" >
-      <i class="fa fa-cloud sidebar-icons icon-green <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>"></i> <span class="text">APC</span></a>
+      <#--  <i class="fa fa-cloud sidebar-icons icon-green <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>"></i>   -->
+      <img src="../static/images/icon/apc.png" style="width:32px;height:25px;" class="img-icon sidebar-icons <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>">
+      <span class="text">APC</span></a>
 
     <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>
       <a href="<@ofbizUrl>manage_users</@ofbizUrl>" title="Users" class="list-group-item list-group-item-action <#if currentViewId == 'MANAGE_USERS'>active</#if>" >
@@ -28,10 +30,14 @@
     </#if>-->
 
     <a href="<@ofbizUrl></@ofbizUrl>" title="Licence_Billing" class="list-group-item list-group-item-action <#if currentViewId == 'Licence_Billing'>active</#if> disabled" >
-      <i class="fa fa-id-card-o sidebar-icons <#if currentViewId == 'Licence_Billing'>icon-color-active</#if>"></i> <span class="text">License & Billing</span></a>
+      <#--  <i class="fa fa-id-card-o sidebar-icons <#if currentViewId == 'Licence_Billing'>icon-color-active</#if>"></i>   -->
+      <img src="../static/images/icon/license1.png" style="width:35px;height:35px;" class="img-icon sidebar-icons <#if currentViewId == 'Licence_Billing'>icon-color-active</#if>">
+      <span class="text">License & Billing</span></a>
 
     <a href="<@ofbizUrl></@ofbizUrl>" title="Help" class="list-group-item list-group-item-action <#if currentViewId == 'Help'>active</#if> disabled" >
-      <i class="fa fa-question-circle sidebar-icons <#if currentViewId == 'Help'>icon-color-active</#if>"></i> <span class="text">Help & Support</span></a>  
+      <#--  <i class="fa fa-question-circle sidebar-icons <#if currentViewId == 'Help'>icon-color-active</#if>"></i>  -->
+      <img src="../static/images/icon/help.png" style="width:35px;height:35px;" class="img-icon sidebar-icons <#if currentViewId == 'Help'>icon-color-active</#if>">
+      <span class="text">Help & Support</span></a>  
   </div>
 </div>
 <!-- /#sidebar-wrapper -->

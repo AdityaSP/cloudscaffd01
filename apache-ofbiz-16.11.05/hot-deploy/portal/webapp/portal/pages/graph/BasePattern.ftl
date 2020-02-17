@@ -9,7 +9,7 @@
             </div>
             <hr class="my-4">
             <div class="form-group basePatternForm">
-                <label class="basePattern h5"></label>
+                <label class="basePattern h5"></label><span class="typeDataBP"></span>
                 <p class="basePatternDescription"></p>
             </div>
         </div>

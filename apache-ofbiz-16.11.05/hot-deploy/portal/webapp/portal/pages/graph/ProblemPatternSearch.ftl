@@ -19,7 +19,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="createBasePattern" href="#tab2"
-                                   data-toggle="tab">Create Base Pattern</a>
+                                   data-toggle="tab">Create Custom Base Pattern</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -42,14 +42,14 @@
                                             <input class="form-control" name="baseDescription" required id="baseProblemDescription"
                                                    rows="3"/>
                                         </div>
-                                        <#--  <div class="form-group">
+                                        <div class="form-group">
                                             <label>Forces</label>
                                             <input class="form-control" name="baseForces" required id="baseForces"
                                                    rows="3"/>
-                                            <label>Beneficiary</label>
-                                            <input class="form-control" name="baseBeneficiary" required id="baseBeneficiary"
+                                            <label>Benefits</label>
+                                            <input class="form-control" name="baseBenefits" required id="baseBenefits"
                                                    rows="3"/>
-                                        </div>  -->
+                                        </div>
                                         <div>
                                             <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="basePatternFormSubmitBtn" style="width: 100px;">
                                         </div>
@@ -96,8 +96,8 @@
                                             <label>Forces</label>
                                             <input class="form-control" name="solutionForces" required id="solutionForces"
                                                    rows="3"/>
-                                            <label>Beneficiary</label>
-                                            <input class="form-control" name="solutionBeneficiary" required id="solutionBeneficiary"
+                                            <label>Benefits</label>
+                                            <input class="form-control" name="solutionBenefits" required id="solutionBenefits"
                                                    rows="3"/>
                                         </div>
                                         <div>

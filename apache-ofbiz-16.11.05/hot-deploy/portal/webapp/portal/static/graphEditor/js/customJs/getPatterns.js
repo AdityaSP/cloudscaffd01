@@ -16,7 +16,7 @@ $(function () {
     App.loader(".problemStatementDiv"); App.loader(".basePatternResults"); App.loader(".solutionPatternResults");
     App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
+    if (userRole == "Planner" || userRole == "Administrator" || userRole == "Deployer") { // || userRole == "Deployer"
 
         $("#basePatternFormSubmitBtn").on('click', function (e) {
             let formData = {
@@ -34,7 +34,7 @@ $(function () {
                 "solutionDesignName": $('#solutionDesignName').val(),
                 "solutionDesignDesc": $('#solutionDesignDescription').val(),
                 "solutionForces": $('#solutionForces').val(),
-                "solutionBeneficiary": $('#solutionBeneficiary').val(),
+                "solutionBenefits": $('#solutionBenefits').val(),
                 "psid": $('.psid').val(),
                 "bpid": $('.bpid').val(),
             };

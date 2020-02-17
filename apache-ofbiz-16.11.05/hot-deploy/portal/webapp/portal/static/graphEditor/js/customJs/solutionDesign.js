@@ -11,6 +11,8 @@ $(function () {
         return this.nodeType === 3;
     }).remove();
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     if (urldata['bpid']) { bpid = urldata['bpid'] };
     let userRole = $('.userRoleName').text();
     let userName = $('.userName').text();
@@ -106,7 +108,6 @@ $(function () {
             },
             callback: function (result) {
                 if (result) {
-                    let queryStr = `psid=${psid}`;
                     App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
                     $('.solutionDesignForm').hide(); $('.svgDiv').hide();
                     App.toastMsg('Go back to create a new solution design', 'info', '.toastMsg')
@@ -152,8 +153,10 @@ function renderProblemStmt(problemList, psid) {
 
 function renderBasePattern(basePattern, bpid) {
     for (let i = 0; i < basePattern.length; i++) {
+        let patternType = basePattern[i].type;
         if (bpid == basePattern[i].id) {
             $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
+            $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
             $('.basePatternDescription').text(basePattern[i].baseDescription);
             if (basePattern[i].svg) {
                 // if (basePattern[i].status == 'approved') {
@@ -174,11 +177,18 @@ function renderBasePattern(basePattern, bpid) {
 
 function renderSolutionDesign(solutionDesign, sdid) {
     for (let i = 0; i < solutionDesign.length; i++) {
+        let patternType = solutionDesign[i].type;
         if (sdid == solutionDesign[i].id) {
             $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
+            $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
             $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
 
             if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
+            
+            if (patternType == 'pre-defined') {
+                $('.deleteSD').hide();
+                $('.edit').hide();
+            }
 
             if (solutionDesign[i].svg) {
                 psid = solutionDesign[i].psid;

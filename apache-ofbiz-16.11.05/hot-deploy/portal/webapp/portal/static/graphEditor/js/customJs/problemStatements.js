@@ -17,18 +17,37 @@ $(function () {
 
     var PS_input = document.querySelector(".inputSearch");
 
-    let searchStr;
+    let searchStr, searchType = 'typeProblemStatement';
+
+    $('.applyBtn').on('click', function (event) {
+        event.preventDefault();
+        let selected = [];
+        $('.custom-checkbox input:checked').each(function () {
+            selected.push($(this).attr('name'));
+        });
+
+        console.log(selected.toString())
+    });
+
     PS_input.addEventListener('keypress', e => {
+        let selected = [], type, data;
+        $('.custom-checkbox input:checked').each(function () {
+            selected.push($(this).attr('name'));
+        });
+        type = selected.toString();
+        console.log(type)
+
         if (e.key === 'Enter') {
             searchStr = event.target.value;
             if (searchStr != '') {
-                console.log(searchStr);
+                data = { "inputSearch": searchStr, "type": type };
+                console.log(data);
                 //getDataForSearchResults(searchStr);
-                App.genericFetch('searchProblemStatements', "POST", { "inputSearch": searchStr }, renderSearchResultData, "", "", "")
+                App.genericFetch('searchProblemStatements', "POST", data, renderSearchResultData, "", "", "")
                 App.clearInput(".inputSearch");
+
             } else {
-                App.addToastMsgDiv(".inputSearch");
-                App.toastMsg('Please input data', 'success', '.toastMsg');
+                App.toastMsg('Please input data', 'info', '.toastMsg');
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);
@@ -36,6 +55,12 @@ $(function () {
                 // App.toastMsg('Sorry, no results found', '', '.searchResultsList');
             }
         }
+    });
+
+    $('.unCheckAll').on('click', function (e) {
+        $('.custom-checkbox input:checked').each(function () {
+            this.checked = false;
+        });
     });
 
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
@@ -54,6 +79,7 @@ $(function () {
     } else {
         $('.submitBtn').attr("disabled", true);
     }
+
 });
 
 function submitForm(data) {
@@ -70,7 +96,7 @@ function renderSearchResultData(problems) {
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
             var row = `<li class="list-group-item"><a href="problemPatternSearch?${App.encrypt(queryStr)}"
-            rel="noopener noreferrer">${problems[i].problemStatement}</a></li>`;
+            rel="noopener noreferrer">PS ${problems[i].id} - ${problems[i].problemStatement}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row)
         }
     } else {

@@ -9,15 +9,16 @@
                 <hr class="my-4">
             </div>
             <div class="form-group basePatternForm">
-                <label class="basePattern h5"></label>
-                <a class="badge badge-light p-2 mr-2 pull-right viewBpImage" 
-                        data-target="#modalIMG" data-toggle="modal" href="#">View BP Image</a>
+                <label class="basePattern h5"></label><span class="typeDataBP"></span>
+                <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Base Pattern" href="javascript:void(0);">
+                    <i class="fa fa-picture-o fa-2x" data-target="#modalIMG" data-toggle="modal" aria-hidden="true"></i></a>
                 <p class="basePatternDescription"></p>
                 <hr class="my-4">
             </div>
             <div class="form-group solutionDesignForm">
-                <label class="solutionDesign h5"></label>
-                <a class="badge badge-light p-2 mr-2 pull-right deleteSD" href="#">Delete SD</a>
+                <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
+                <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="left" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
+                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <p class="solutionDesignDescription"></p>
             </div>
         <div class="col-12 px-3">
@@ -25,7 +26,9 @@
                 <div class="text-center p-4">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;">Approve</button>
-                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;">Edit</button>
+                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
                 <span class="deployCheck">
                     <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" >Deploy</button>
                 </span>

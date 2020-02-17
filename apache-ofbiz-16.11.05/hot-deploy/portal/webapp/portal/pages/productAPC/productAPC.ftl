@@ -31,48 +31,48 @@
                             <div class="container my-2 py-2 searchProblems">
                                 <div class="form-group" id='tags' class="tags" style="display:none">
                                     <p><label>Tags</label></p>
-
                                 </div>
                                 <br>
                                     <div class="form-group has-search">
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="inputSearch" class="form-control inputSearch" required placeholder="Search">
                                     </div>
-                                    <#--  <span class="btn btn-link pull-right"  data-toggle="tooltip" data-placement="right" title="Filter">
-                                        <i class="fa fa-filter" aria-hidden="true" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></i>
-                                    </span>  -->
-                                    <div class="collapse" id="collapseExample">
-                                        <div class="card card-body">
+                                    <span class="btn btn-link pull-right border"  data-toggle="tooltip" data-placement="right" title="Filter">
+                                        <i class="fa fa-filter filterToggler" aria-hidden="true" type="button" data-toggle="collapse" data-target="#collapsePatternType" aria-expanded="false" aria-controls="collapseExample"></i>
+                                    </span>
+                                    <div class="collapse" id="collapsePatternType">
+                                        <div class="card card-body p-0 mb-3">
                                             <div class="row"> 
                                                 <div class="col-12">
-                                                    <article class="card-group-item">
-		                                                <header class="card-header">
-			                                                <h5 class="title">Select Pattern Type</h5>
-		                                                </header>
-		                                                <div class="filter-content">
-			                                                <div class="card-body">
-				                                            <div class="custom-control custom-checkbox">
-					                                        <#--  <span class="float-right badge badge-light round">52</span>  -->
-				  	                                        <input type="checkbox" class="custom-control-input" id="checkProblemStatement">
-				  	                                            <label class="custom-control-label" for="Check1">Problem Statements</label>
-
-                                                            <input type="checkbox" class="custom-control-input" id="checkBasePattern">
-				 	                                        <label class="custom-control-label" for="Check2">Base Patterns</label>
-
-                                                            <input type="checkbox" class="custom-control-input" id="checkSolutionDesign">
-				  	                                        <label class="custom-control-label" for="Check3">Solution Designs</label>
-				                                        </div> 
-				                                        <#--  <div class="custom-control custom-checkbox">
-				                                        	<span class="float-right badge badge-light round">132</span>
-				                                          	<input type="checkbox" class="custom-control-input" id="checkBasePattern">
-				                                         	<label class="custom-control-label" for="Check2">Base Patterns</label>
-				                                        </div> -->
-	                                                </article> 
+                                                    <div class="container my-4">
+                                                    <span class="title font-weight-bold">Select Pattern Type</span><a href="javascript:void(0);" class="unCheckAll pull-right text-decoration-underline">DeSelect</a>
+                                                    
+                                                    <hr class="">
+                                                    <div class="row text-center" id="checkboxes">
+                                                        <div class="custom-control custom-checkbox col-3">
+                                                            <input type="checkbox" class="custom-control-input" name="typeProblemStatement" id="checkPS">
+                                                            <label class="custom-control-label" for="checkPS">Problem Statement</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox col-3">
+                                                            <input type="checkbox" class="custom-control-input" name="typeBasePattern" id="checkBP">
+                                                            <label class="custom-control-label" for="checkBP">Base Pattern</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox col-3">
+                                                            <input type="checkbox" class="custom-control-input" name="typeSolutionDesign" id="checkSD">
+                                                            <label class="custom-control-label" for="checkSD">Solution Design</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox col-3">
+                                                            <input type="checkbox" class="custom-control-input" name="typeSearchAll" id="checkSearchAll" checked>
+                                                            <label class="custom-control-label" for="checkSearchAll">Search All</label>
+                                                        </div>
+                                                    </div>
+                                                    </div>
                                                 </div>
-                                                <#--  <button class="btn btn-primary pull-right" type="button">Search</button>  -->
                                             </div>
+                                            <#--  <button class="btn btn-primary pull-right applyBtn" type="button">Apply</button>  -->
                                         </div>
                                     </div>
+                                    <div class="toastMsg"></div>
                                 <br>
                                 <div class="form-group" id="searchResults">
                                     <label>Search Result...</label>

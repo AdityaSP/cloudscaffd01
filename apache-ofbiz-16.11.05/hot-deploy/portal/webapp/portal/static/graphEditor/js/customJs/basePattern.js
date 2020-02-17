@@ -98,7 +98,9 @@ function renderProblemStmt(problemList, psid) {
 function renderBasePattern(basePattern, bpid) {
     for (let i = 0; i < basePattern.length; i++) {
         psid = basePattern[i].psid;
+        let patternType = basePattern[i].type;
         $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
+        $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
         $('.basePatternDescription').text(basePattern[i].baseDescription);
 
         if (basePattern[i].svg) {
@@ -118,6 +120,10 @@ function renderBasePattern(basePattern, bpid) {
         } else {
             App.toastMsg('No Design Created', 'failed', '.toastMsg');
             $('.svgDiv').hide();
+        }
+        if (patternType == 'pre-defined') {
+            // $('.deleteSD').hide();
+            $('.edit').hide();
         }
     }
 }
