@@ -186,4 +186,38 @@ public class BasePatternEvents{
         return SUCCESS;
     }
 
+    public static String deleteBasePattern(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        String bpid = request.getParameter("bpid");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        try {
+            String type = "pre-defined";
+            GenericValue basePatternType = EntityQuery.use(delegator)
+                    .select("type").from("basePatternApc")
+                    .where("id", bpid)
+                    .queryOne();
+
+            String patternType = basePatternType.getString("type");
+            if(!patternType.equals(type)) {
+
+                GenericValue deleteBasePattern = delegator.findOne("basePatternApc", UtilMisc.toMap("id", bpid), false);
+                if (!UtilValidate.isEmpty(deleteBasePattern)) {
+                    deleteBasePattern.remove();
+                }
+            }else{
+                request.setAttribute("info", "BasePattern delete failed - user defined!");
+                request.setAttribute("message", ERROR);
+                return ERROR;
+            }
+        } catch (GenericEntityException ex) {
+            ex.printStackTrace();
+            request.setAttribute("info", "BasePattern delete failed!");
+            request.setAttribute("message", ERROR);
+            return ERROR;
+        }
+        request.setAttribute("info", "BasePattern deleted successfully ");
+        request.setAttribute("message", SUCCESS);
+        return SUCCESS;
+    }
+
 }

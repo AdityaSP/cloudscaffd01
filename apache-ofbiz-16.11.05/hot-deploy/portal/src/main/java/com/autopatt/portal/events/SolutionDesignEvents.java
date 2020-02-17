@@ -160,7 +160,7 @@ public class SolutionDesignEvents{
 
     public static String deleteSolutionDesign(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
-        String sdid = request.getParameter("inputSearch");
+        String sdid = request.getParameter("sdid");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
             String type = "pre-defined";
