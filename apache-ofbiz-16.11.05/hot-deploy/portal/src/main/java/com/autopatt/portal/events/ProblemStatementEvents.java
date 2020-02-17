@@ -41,6 +41,7 @@ public class ProblemStatementEvents{
         String [] tag = request.getParameter("tag").split(",");
         String problemStatementId = null;
         String createdBy = userLogin.getString("userLoginId");
+        String type = "custom_managed_pattern";
         try {
             GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
             problemStatementId = delegator.getNextSeqId("Quote");
@@ -48,6 +49,7 @@ public class ProblemStatementEvents{
             newProblemStatement.setString("problemStatement", problemStatement);
             newProblemStatement.setString("problemDescription", problemDescription);
             newProblemStatement.setString("createdBy", createdBy);
+            newProblemStatement.setString("type", type);
             delegator.create(newProblemStatement);
             } catch (GenericEntityException ex) {
                 Debug.logError(ex, module);

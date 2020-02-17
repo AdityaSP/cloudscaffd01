@@ -37,6 +37,7 @@ public class BasePatternServices{
 
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
+        String type = "custom_managed_pattern";
 
         try{
             GenericValue newBasePattern = delegator.makeValue("basePatternApc");
@@ -47,6 +48,7 @@ public class BasePatternServices{
             newBasePattern.setString("baseDescription", baseDescription);
             newBasePattern.setString("createdBy", createdBy);
             newBasePattern.setString("status", status);
+            newBasePattern.setString("type", type);
             delegator.create(newBasePattern);
 
         } catch (GenericEntityException e) {

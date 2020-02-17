@@ -39,6 +39,7 @@ public class SolutionDesignServices{
         String solutionBeneficiary = (String) context.get("solutionBeneficiary");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
+        String type = "custom_managed_pattern";
 
         try{
             GenericValue newSolutionDesign = delegator.makeValue("solutionDesignApc");
@@ -52,6 +53,7 @@ public class SolutionDesignServices{
             newSolutionDesign.setString("solutionBeneficiary", solutionBeneficiary);
             newSolutionDesign.setString("createdBy", createdBy);
             newSolutionDesign.setString("status", status);
+            newSolutionDesign.setString("type", type);
             delegator.create(newSolutionDesign);
 
         } catch (GenericEntityException e) {
