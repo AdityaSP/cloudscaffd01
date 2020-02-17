@@ -113,7 +113,7 @@ public class ProblemStatementEvents{
         System.out.println(psId);
         try {
             List<GenericValue> ProblemStatementList = EntityQuery.use(delegator)
-                    .select("id","problemStatement","problemDescription")
+                    .select("id","problemStatement","problemDescription","type")
                     .from("problemStatementApc")
                     .where("id",psId)
                     .queryList();
@@ -230,7 +230,7 @@ public class ProblemStatementEvents{
 
         try {
             List<GenericValue> ProblemStatementsList = EntityQuery.use(delegator)
-                    .select("id","problemStatement","problemDescription")
+                    .select("id","problemStatement","problemDescription","type")
                     .from("problemStatementApc")
                     .where("id",psid)
                     .queryList();

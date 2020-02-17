@@ -109,7 +109,7 @@ public class BasePatternEvents{
         String bpid = request.getParameter("bpid");
         try {
             List<GenericValue> BasePatternList = EntityQuery.use(delegator)
-                    .select("id","psid","baseName","baseDescription","png","svg","xml","status").from("basePatternApc")
+                    .select("id","psid","baseName","baseDescription","png","svg","xml","status","baseForces","baseBenefits","type").from("basePatternApc")
                     .where("id", bpid)
                     .queryList();
 
@@ -134,14 +134,12 @@ public class BasePatternEvents{
         String psId = request.getParameter("psid");
 
         try {
-
             List<EntityCondition> ConditionList = new LinkedList<EntityCondition>();
             ConditionList.add(  EntityCondition.makeCondition( EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("psid"), EntityOperator.EQUALS,psId),EntityOperator.AND,
                     EntityCondition.makeCondition( EntityFunction.UPPER_FIELD("bpid"), EntityOperator.EQUALS,bpid )));
 
-
             List<GenericValue> BasePatternList = EntityQuery.use(delegator)
-                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc")
+                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","solutionForces","solutionBenefits","type")
                     .from("solutionDesignApc")
                     .where("bpid", bpid)
                     .queryList();

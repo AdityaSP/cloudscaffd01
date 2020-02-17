@@ -35,10 +35,8 @@ public class SolutionDesignServices{
         String bpid = (String) context.get("bpid");
         String solutionDesignName = (String) context.get("solutionDesignName");
         String solutionDesignDesc = (String) context.get("solutionDesignDesc");
-        String solutionForces =null;
-        solutionForces =(String) context.get("solutionForces");
-        String solutionBenefits = null;
-        solutionBenefits = (String) context.get("solutionBenefits");
+        String solutionForces = (String) context.get("solutionForces");
+        String solutionBenefits =  (String) context.get("solutionBenefits");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
         String type = "custom_managed_pattern";

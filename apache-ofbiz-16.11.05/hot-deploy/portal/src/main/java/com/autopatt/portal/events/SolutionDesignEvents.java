@@ -106,7 +106,7 @@ public class SolutionDesignEvents{
         String sdid = request.getParameter("sdid");
         try {
             List<GenericValue> SolutionDesignList = EntityQuery.use(delegator)
-                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","png","svg","xml","status").from("solutionDesignApc")
+                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","png","svg","xml","status","solutionForces","solutionBenefits","type").from("solutionDesignApc")
                     .where("id", sdid)
                     .queryList();
 
