@@ -9,14 +9,12 @@ import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.condition.EntityFunction;
 import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.datasource.GenericHelperInfo;
-import org.apache.ofbiz.entity.jdbc.SQLProcessor;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.LocalDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +58,9 @@ public class ProblemStatementEvents{
         }
 
         String tagsId = null;
+        int tagSize = tag.length;
         try{
-            for (int TagNameCount=0; TagNameCount < tag.length; TagNameCount++) {
+            for (int TagNameCount=0; TagNameCount < tagSize; TagNameCount++) {
             List<GenericValue> TagList = EntityQuery.use(delegator)
                     .select("id","tagName")
                     .from("problemStatementTags").where("tagName",tag[TagNameCount])
@@ -72,6 +71,14 @@ public class ProblemStatementEvents{
                     newproblemStatementTags.setString("id", tagsId);
                     newproblemStatementTags.setString("tagName", (String) tag[TagNameCount]);
                     delegator.create(newproblemStatementTags);
+
+                    GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
+                    String tagProblemId = delegator.getNextSeqId("Quote");
+                    newproblemStatementTagProblem.setString("id", tagProblemId);
+                    newproblemStatementTagProblem.setString("tagid", tagsId);
+                    newproblemStatementTagProblem.setString("problemId", problemStatementId);
+                    delegator.create(newproblemStatementTagProblem);
+
                 } else {
                     for (int TagIdCount=0; TagIdCount < TagList.size(); TagIdCount++) {
                         
