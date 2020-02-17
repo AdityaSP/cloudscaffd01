@@ -40,15 +40,15 @@ public class SolutionDesignEvents{
         String solutionDesignName = request.getParameter("solutionDesignName");
         String solutionDesignDesc = request.getParameter("solutionDesignDesc");
         String solutionForces = request.getParameter("solutionForces");
-        String solutionBeneficiary = request.getParameter("solutionBeneficiary");
+        String solutionBenefits = request.getParameter("solutionBenefits");
 
         request.setAttribute("psid", psid);
 
         try {
             Map<String, Object> addSolutionDesignResp = dispatcher.runSync("createSolutionDesign",
                     UtilMisc.<String, Object>toMap("psid", psid,"bpid", bpid, "solutionDesignName", solutionDesignName,
-                            "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBeneficiary",
-                            solutionBeneficiary,"userLogin",userLogin));
+                            "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBenefits",
+                            solutionBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addSolutionDesignResp)) {
                 request.setAttribute("info", "SolutionDesign creation failed!");
                 request.setAttribute("message", ERROR);

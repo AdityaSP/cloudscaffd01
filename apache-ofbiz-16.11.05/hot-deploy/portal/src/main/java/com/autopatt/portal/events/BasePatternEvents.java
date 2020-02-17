@@ -40,13 +40,15 @@ public class BasePatternEvents{
         String psid = request.getParameter("psid");
         String baseName = request.getParameter("baseName");
         String baseDescription = request.getParameter("baseDescription");
+        String baseForces = request.getParameter("baseForces");
+        String baseBenefits = request.getParameter("baseBenefits");
 
         request.setAttribute("psid", psid);
 
         try {
             Map<String, Object> addBasePatternResp = dispatcher.runSync("createBasePattern",
-                    UtilMisc.<String, Object>toMap("psid", psid, "baseName", baseName,
-                            "baseDescription",baseDescription, "baseDescription",baseDescription,"userLogin",userLogin));
+                    UtilMisc.<String, Object>toMap("psid", psid, "baseName", baseName,"baseDescription",baseDescription,
+                            "baseDescription",baseDescription, "baseForces",baseForces,"baseBenefits",baseBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
                 Debug.logError("Error creating addBasePatternResp for " + addBasePatternResp, module);
                 request.setAttribute("info", "BasePattern creation failed!");

@@ -56,6 +56,8 @@ under the License.
         <attribute name="psid" type="String" mode="IN" optional="false"/>
         <attribute name="baseName" type="String" mode="IN" optional="false"/>
         <attribute name="baseDescription" type="String" mode="IN" optional="false"/>
+        <attribute name="baseForces" type="String" mode="IN" optional="true"/>
+        <attribute name="baseBenefits" type="String" mode="IN" optional="true"/>
     </service>
 
 
@@ -67,10 +69,8 @@ under the License.
         <attribute name="bpid" type="String" mode="IN" optional="false"/>
         <attribute name="solutionDesignName" type="String" mode="IN" optional="false"/>
         <attribute name="solutionDesignDesc" type="String" mode="IN" optional="false"/>
-        <attribute name="solutionForces" type="String" mode="IN" optional="false"/>
-        <attribute name="solutionBeneficiary" type="String" mode="IN" optional="false"/>
+        <attribute name="solutionForces" type="String" mode="IN" optional="true"/>
+        <attribute name="solutionBenefits" type="String" mode="IN" optional="true"/>
     </service>
-
-
 
 </services>

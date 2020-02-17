@@ -13,10 +13,10 @@ import org.apache.ofbiz.entity.util.EntityUtilProperties;
 import org.apache.ofbiz.party.party.PartyHelper;
 import org.apache.ofbiz.service.*;
 import org.codehaus.plexus.util.FastMap;
+import org.apache.ofbiz.base.util.UtilValidate;
 
 import java.sql.Timestamp;
 import java.util.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +35,10 @@ public class SolutionDesignServices{
         String bpid = (String) context.get("bpid");
         String solutionDesignName = (String) context.get("solutionDesignName");
         String solutionDesignDesc = (String) context.get("solutionDesignDesc");
-        String solutionForces = (String) context.get("solutionForces");
-        String solutionBeneficiary = (String) context.get("solutionBeneficiary");
+        String solutionForces =null;
+        solutionForces =(String) context.get("solutionForces");
+        String solutionBenefits = null;
+        solutionBenefits = (String) context.get("solutionBenefits");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
         String type = "custom_managed_pattern";
@@ -50,7 +52,7 @@ public class SolutionDesignServices{
             newSolutionDesign.setString("solutionDesignName", solutionDesignName);
             newSolutionDesign.setString("solutionDesignDesc", solutionDesignDesc);
             newSolutionDesign.setString("solutionForces", solutionForces);
-            newSolutionDesign.setString("solutionBeneficiary", solutionBeneficiary);
+            newSolutionDesign.setString("solutionBenefits", solutionBenefits);
             newSolutionDesign.setString("createdBy", createdBy);
             newSolutionDesign.setString("status", status);
             newSolutionDesign.setString("type", type);
