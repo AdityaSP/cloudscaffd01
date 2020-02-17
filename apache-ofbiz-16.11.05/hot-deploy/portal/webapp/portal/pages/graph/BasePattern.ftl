@@ -1,7 +1,7 @@
 
 <div class="container-fluid h-100">
     <div class="row py-3">
-    <div class="col-12 pb-2 h3 text-center">Base Pattern</div>
+    <div class="col-12 pb-2 h3 text-center title">Base Pattern</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
                 <label class="probStatement h5"></label>
@@ -10,7 +10,19 @@
             <hr class="my-4">
             <div class="form-group basePatternForm">
                 <label class="basePattern h5"></label><span class="typeDataBP"></span>
+                <a class="btn btn-danger pull-right deleteBP" data-toggle="tooltip" data-placement="left" title="Delete Base Pattern" href="javascript:void(0);" aria-label="Delete">
+                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <p class="basePatternDescription"></p>
+                <div class="basePatternConsequences row">
+                    <div class="col-6">
+                        <label for="basePatternForces h5">Forces</label>
+                        <p class="basePatternForces"></p>
+                    </div>
+                    <div class="col-6">
+                        <label for="basePatternBenefits">Benefits</label>
+                        <p class="basePatternBenefits"></p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-12 px-3">

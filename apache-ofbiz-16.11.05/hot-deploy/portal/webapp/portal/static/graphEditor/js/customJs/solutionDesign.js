@@ -158,6 +158,8 @@ function renderBasePattern(basePattern, bpid) {
             $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
             $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
             $('.basePatternDescription').text(basePattern[i].baseDescription);
+            $('.basePatternForces').text(basePattern[i].baseForces);
+            $('.basePatternBenefits').text(basePattern[i].baseBenefits);
             if (basePattern[i].svg) {
                 // if (basePattern[i].status == 'approved') {
                 $('.BPsvgDiv').append(basePattern[i].svg);
@@ -176,43 +178,49 @@ function renderBasePattern(basePattern, bpid) {
 }
 
 function renderSolutionDesign(solutionDesign, sdid) {
-    for (let i = 0; i < solutionDesign.length; i++) {
-        let patternType = solutionDesign[i].type;
-        if (sdid == solutionDesign[i].id) {
-            $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
-            $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
-            $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
+    if (solutionDesign.length > 0) {
+        for (let i = 0; i < solutionDesign.length; i++) {
+            let patternType = solutionDesign[i].type;
+            if (sdid == solutionDesign[i].id) {
+                $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
+                $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
+                $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
 
-            if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
-            
-            if (patternType == 'pre-defined') {
-                $('.deleteSD').hide();
-                $('.edit').hide();
-            }
+                if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
 
-            if (solutionDesign[i].svg) {
-                psid = solutionDesign[i].psid;
-                if (solutionDesign[i].bpid) { bpid = solutionDesign[i].bpid }
+                if (patternType == 'pre-defined') {
+                    $('.deleteSD').hide();
+                    $('.edit').hide();
+                }
 
-                // $("#solutionDesignImg")[0].src = solutionDesign[i].png;
-                //$("#solutionDesignImg")[0].srcset = solutionDesign[i].svg;
-                $('.svgDiv').append(solutionDesign[i].svg);
-                $('svg').attr({
-                    "min-width": "100px",
-                    "min-height": "100px"
-                });
+                if (solutionDesign[i].svg) {
+                    psid = solutionDesign[i].psid;
+                    if (solutionDesign[i].bpid) { bpid = solutionDesign[i].bpid }
 
-                //Check If Solution Design is apporoved or not
-                isSolutionDesignApproved = solutionDesign[i].status;
-                checkImageAproval(isSolutionDesignApproved, solutionDesign[i].id);
-            } else {
-                // $('.edit').attr("disabled", true);
-                // $("#solutionDesignImg")[0].alt = "Image Not Found";
-                App.toastMsg('No Design Created', 'failed', '.toastMsg');
-                $('.svgDiv').hide();
-                // $('.svg').attr('src', '../static/graphEditor/images/No_image_available.svg.svg');
+                    // $("#solutionDesignImg")[0].src = solutionDesign[i].png;
+                    //$("#solutionDesignImg")[0].srcset = solutionDesign[i].svg;
+                    $('.svgDiv').append(solutionDesign[i].svg);
+                    $('svg').attr({
+                        "min-width": "100px",
+                        "min-height": "100px"
+                    });
+
+                    //Check If Solution Design is apporoved or not
+                    isSolutionDesignApproved = solutionDesign[i].status;
+                    checkImageAproval(isSolutionDesignApproved, solutionDesign[i].id);
+                } else {
+                    // $('.edit').attr("disabled", true);
+                    // $("#solutionDesignImg")[0].alt = "Image Not Found";
+                    App.toastMsg('No Design Created', 'failed', '.toastMsg');
+                    $('.svgDiv').hide();
+                    // $('.svg').attr('src', '../static/graphEditor/images/No_image_available.svg.svg');
+                }
             }
         }
+    } else {
+        $('.deleteSD').hide();
+        $('.edit').hide();
+        $('.svgDiv').hide();
     }
 }
 

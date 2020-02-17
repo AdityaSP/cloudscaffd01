@@ -20,6 +20,16 @@
                 <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="left" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <p class="solutionDesignDescription"></p>
+                <div class="solutionDesignConsequences row">
+                    <div class="col-6">
+                        <label for="solutionDesignForces h5">Forces</label>
+                        <p class="solutionDesignForces"></p>
+                    </div>
+                    <div class="col-6">
+                        <label for="solutionDesignBenefits">Benefits</label>
+                        <p class="solutionDesignBenefits"></p>
+                    </div>
+                </div>
             </div>
         <div class="col-12 px-3">
                 <div class="toastMsg m-0"></div>

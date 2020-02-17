@@ -17,7 +17,7 @@ $(function () {
 
     var PS_input = document.querySelector(".inputSearch");
 
-    let searchStr, searchType = 'typeProblemStatement';
+    let searchStr;
 
     $('.applyBtn').on('click', function (event) {
         event.preventDefault();
@@ -29,25 +29,46 @@ $(function () {
         console.log(selected.toString())
     });
 
+    $('.checkAll').on('click', function (e) {
+        $('.custom-checkbox input').each(function () {
+            this.checked = true;
+        });
+    });
+    $('.unCheckAll').on('click', function (e) {
+        $('.custom-checkbox input:checked').each(function () {
+            this.checked = false;
+        });
+    });
     PS_input.addEventListener('keypress', e => {
         let selected = [], type, data;
-        $('.custom-checkbox input:checked').each(function () {
-            selected.push($(this).attr('name'));
-        });
-        type = selected.toString();
-        console.log(type)
-
         if (e.key === 'Enter') {
+            $('.custom-checkbox input:checked').each(function () {
+                selected.push($(this).attr('name'));
+            });
+            if (selected.length == 3) {
+                type = 'typeSearchAll';
+            } else {
+                type = selected.toString();
+            }
+
+            console.log(type)
+
             searchStr = event.target.value;
             if (searchStr != '') {
-                data = { "inputSearch": searchStr, "type": type };
-                console.log(data);
-                //getDataForSearchResults(searchStr);
-                App.genericFetch('searchProblemStatements', "POST", data, renderSearchResultData, "", "", "")
-                App.clearInput(".inputSearch");
-
+                if (type != '') {
+                    data = { "inputSearch": searchStr, "type": type };
+                    console.log(data);
+                    //getDataForSearchResults(searchStr);
+                    App.genericFetch('searchProblemStatements', "POST", data, checkBeforeRender, "", "", "")
+                    App.clearInput(".inputSearch");
+                } else {
+                    App.toastMsg('Please select the type', 'info', '.toastMsg');
+                    setTimeout(function () {
+                        $(".toastMsg").fadeOut(800);
+                    }, 1500);
+                }
             } else {
-                App.toastMsg('Please input data', 'info', '.toastMsg');
+                App.toastMsg('Enter the search string', 'info', '.toastMsg');
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);
@@ -55,12 +76,6 @@ $(function () {
                 // App.toastMsg('Sorry, no results found', '', '.searchResultsList');
             }
         }
-    });
-
-    $('.unCheckAll').on('click', function (e) {
-        $('.custom-checkbox input:checked').each(function () {
-            this.checked = false;
-        });
     });
 
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
@@ -85,6 +100,18 @@ $(function () {
 function submitForm(data) {
     console.log(data)
     window.location.reload();
+}
+
+function checkBeforeRender(data) {
+    console.log(data);
+
+    if (data.basePatterns.length > 0) {
+
+    } else if (data.solutionDesigns.length > 0) {
+
+    } else if (data.ProblemStatements.length > 0) {
+
+    }
 }
 
 function renderSearchResultData(problems) {

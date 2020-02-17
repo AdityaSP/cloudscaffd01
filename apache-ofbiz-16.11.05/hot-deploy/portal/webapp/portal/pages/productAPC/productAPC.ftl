@@ -45,26 +45,29 @@
                                             <div class="row"> 
                                                 <div class="col-12">
                                                     <div class="container my-4">
-                                                    <span class="title font-weight-bold">Select Pattern Type</span><a href="javascript:void(0);" class="unCheckAll pull-right text-decoration-underline">DeSelect</a>
-                                                    
+                                                    <span class="title font-weight-bold">Select Type</span>
+                                                    <span class="pull-right">
+                                                        <a href="javascript:void(0);" class="checkAll text-decoration-underline">Select All</a> /
+                                                        <a href="javascript:void(0);" class="unCheckAll text-decoration-underline">Clear All</a>
+                                                    </span>
                                                     <hr class="">
                                                     <div class="row text-center" id="checkboxes">
-                                                        <div class="custom-control custom-checkbox col-3">
-                                                            <input type="checkbox" class="custom-control-input" name="typeProblemStatement" id="checkPS">
+                                                        <div class="custom-control custom-checkbox col-4">
+                                                            <input type="checkbox" class="custom-control-input" name="typeProblemStatement" id="checkPS" checked>
                                                             <label class="custom-control-label" for="checkPS">Problem Statement</label>
                                                         </div>
-                                                        <div class="custom-control custom-checkbox col-3">
+                                                        <div class="custom-control custom-checkbox col-4">
                                                             <input type="checkbox" class="custom-control-input" name="typeBasePattern" id="checkBP">
                                                             <label class="custom-control-label" for="checkBP">Base Pattern</label>
                                                         </div>
-                                                        <div class="custom-control custom-checkbox col-3">
+                                                        <div class="custom-control custom-checkbox col-4">
                                                             <input type="checkbox" class="custom-control-input" name="typeSolutionDesign" id="checkSD">
                                                             <label class="custom-control-label" for="checkSD">Solution Design</label>
                                                         </div>
-                                                        <div class="custom-control custom-checkbox col-3">
+                                                        <#--  <div class="custom-control custom-checkbox col-3">
                                                             <input type="checkbox" class="custom-control-input" name="typeSearchAll" id="checkSearchAll" checked>
                                                             <label class="custom-control-label" for="checkSearchAll">Search All</label>
-                                                        </div>
+                                                        </div>  -->
                                                     </div>
                                                     </div>
                                                 </div>
@@ -75,7 +78,7 @@
                                     <div class="toastMsg"></div>
                                 <br>
                                 <div class="form-group" id="searchResults">
-                                    <label>Search Result...</label>
+                                    <label>Search Result</label>
                                     <ul class="list-group searchResultsList">
                                         
                                     </ul>

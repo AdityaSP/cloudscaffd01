@@ -10,6 +10,8 @@ $(function () {
         return this.nodeType === 3;
     }).remove();
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     if (urldata['bpid']) { bpid = urldata['bpid'] };
 
     // Fetch and Rendering Base Pattern
@@ -80,7 +82,36 @@ $(function () {
         }
         window.location.href = `graphEditor?${App.encrypt(urlParam)}`;
     });
+
+    $('.deleteBP').on('click', function (e) {
+        bootbox.confirm({
+            title: "Delete Base Pattern",
+            message: "Are sure you want to delete?",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    App.genericFetch('deleteBasePattern', "POST", { "bpid": bpid }, "", "", "", "");
+                    $('.basePatternForm').hide(); $('.svgDiv').hide();
+                    App.toastMsg('Go back to create a new Base Pattern', 'info', '.toastMsg')
+                    $('.edit').attr("disabled", true);
+                    $('.deploy').attr("disabled", true);
+                    $('.title').text("Problem Statement");
+                    urldata["bpid"] = null;
+                } else {
+                    console.log(result);
+                }
+            }
+        });
+    });
 });
+
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
     $('.approve').hide();
@@ -96,35 +127,47 @@ function renderProblemStmt(problemList, psid) {
 }
 
 function renderBasePattern(basePattern, bpid) {
-    for (let i = 0; i < basePattern.length; i++) {
-        psid = basePattern[i].psid;
-        let patternType = basePattern[i].type;
-        $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
-        $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
-        $('.basePatternDescription').text(basePattern[i].baseDescription);
+    if (basePattern.length > 0) {
+        for (let i = 0; i < basePattern.length; i++) {
+            psid = basePattern[i].psid;
+            let patternType = basePattern[i].type;
+            $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
+            $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
+            $('.basePatternDescription').text(basePattern[i].baseDescription);
+            $('.basePatternForces').text(basePattern[i].baseForces);
+            $('.basePatternBenefits').text(basePattern[i].baseBenefits);
 
-        if (basePattern[i].svg) {
-            // let imgURL = basePattern[i].png;
-            // console.log(imgURL);
-            // $("#basePatternImg")[0].src = imgURL;
-            // console.log(basePattern[i].svg);
+            if (patternType == 'pre-defined') {
+                $('.deleteBP').hide();
+                $('.edit').hide();
+            }
 
-            $('.svgDiv').append(basePattern[i].svg);
-            $('svg').attr({
-                "min-width": "100px",
-                "min-height": "100px"
-            });
-            //Check If Solution Design is apporoved or not
-            isBasePatternApproved = basePattern[i].status;
-            checkImageAproval(isBasePatternApproved);
-        } else {
-            App.toastMsg('No Design Created', 'failed', '.toastMsg');
-            $('.svgDiv').hide();
+            if (basePattern[i].svg) {
+                // let imgURL = basePattern[i].png;
+                // console.log(imgURL);
+                // $("#basePatternImg")[0].src = imgURL;
+                // console.log(basePattern[i].svg);
+
+                $('.svgDiv').append(basePattern[i].svg);
+                $('svg').attr({
+                    "min-width": "100px",
+                    "min-height": "100px"
+                });
+                //Check If Solution Design is apporoved or not
+                isBasePatternApproved = basePattern[i].status;
+                checkImageAproval(isBasePatternApproved);
+            } else {
+                App.toastMsg('No Design Created', 'failed', '.toastMsg');
+                $('.svgDiv').hide();
+            }
+            if (patternType == 'pre-defined') {
+                // $('.deleteSD').hide();
+                $('.edit').hide();
+            }
         }
-        if (patternType == 'pre-defined') {
-            // $('.deleteSD').hide();
-            $('.edit').hide();
-        }
+    } else {
+        $('.title').text('Problem Statement');
+        $('.deleteBP').hide(); $('.edit').hide(); $('.svgDiv').hide();
     }
 }
 

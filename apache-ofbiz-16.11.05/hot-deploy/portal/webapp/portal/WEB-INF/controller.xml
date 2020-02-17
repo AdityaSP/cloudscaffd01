@@ -343,11 +343,11 @@
             <response name="error" type="request" value="json"/>
         </request-map>-->
 
-        <request-map uri="deleteBasePattern">
-            <event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="deleteBasePattern" />
-            <response name="success" type="request" value="json"/>
-            <response name="error" type="request" value="json"/>
-        </request-map>
+	<request-map uri="deleteBasePattern">
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="deleteBasePattern" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
 
 	<request-map uri="deleteSolutionDesign">
 		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="deleteSolutionDesign" />

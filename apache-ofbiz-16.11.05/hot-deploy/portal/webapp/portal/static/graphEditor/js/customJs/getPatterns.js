@@ -72,7 +72,7 @@ function submitForm(data, path, res) {
         App.toastMsg('Creation Successful', 'success', '.toastMsg', true);
         setTimeout(function () {
             window.location.reload();
-        }, 1500);
+        }, 1000);
     } else {
         App.toastMsg('Failed to create', 'failed', '.toastMsg', 1500);
         App.clearInput('input:not(:button)');
@@ -113,7 +113,7 @@ function renderProblemStmt(problemStmt, psid) {
         // console.log(tagsListTagName); // s = JSON.stringify(j[0])
 
         for (var k = 0; k < tagsList.length; k++) {
-            let htmlTags = `<a href="#" id="${tagsList[k].tagid}"
+            let htmlTags = `<a href="javascript:void(0);" id="${tagsList[k].tagid}"
                  class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`; // Redirect to productApc page to show problem statements
             document.querySelector(".problemTags").insertAdjacentHTML("beforeend", htmlTags);
         }
