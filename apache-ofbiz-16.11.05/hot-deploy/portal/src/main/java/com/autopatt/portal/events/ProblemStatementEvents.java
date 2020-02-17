@@ -43,7 +43,8 @@ public class ProblemStatementEvents{
         try {
             GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
             problemStatementId = delegator.getNextSeqId("Quote");
-            newProblemStatement.setString("id", problemStatementId);
+            String psid = "PS-"+problemStatementId;
+            newProblemStatement.setString("id", psid);
             newProblemStatement.setString("problemStatement", problemStatement);
             newProblemStatement.setString("problemDescription", problemDescription);
             newProblemStatement.setString("createdBy", createdBy);

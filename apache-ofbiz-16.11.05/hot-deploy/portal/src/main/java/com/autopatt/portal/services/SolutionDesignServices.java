@@ -43,7 +43,8 @@ public class SolutionDesignServices{
 
         try{
             GenericValue newSolutionDesign = delegator.makeValue("solutionDesignApc");
-            String sdid = delegator.getNextSeqId("Quote");
+            String solutionDesignId = delegator.getNextSeqId("Quote");
+            String sdid = "SD-"+solutionDesignId;
             newSolutionDesign.setString("id", sdid);
             newSolutionDesign.setString("psid", psid);
             newSolutionDesign.setString("bpid", bpid);

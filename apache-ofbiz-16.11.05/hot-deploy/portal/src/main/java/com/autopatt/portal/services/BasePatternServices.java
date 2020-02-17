@@ -43,7 +43,8 @@ public class BasePatternServices{
 
         try{
             GenericValue newBasePattern = delegator.makeValue("basePatternApc");
-            String bpid = delegator.getNextSeqId("Quote");
+            String basePatternId = delegator.getNextSeqId("Quote");
+            String bpid = "BP-"+basePatternId;
             newBasePattern.setString("id", bpid);
             newBasePattern.setString("psid", psid);
             newBasePattern.setString("baseName", baseName);
