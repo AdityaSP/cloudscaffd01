@@ -110,7 +110,7 @@ function checkBeforeRender(data) {
     } else if (data.solutionDesigns.length > 0) {
 
     } else if (data.ProblemStatements.length > 0) {
-        
+
     }
 }
 

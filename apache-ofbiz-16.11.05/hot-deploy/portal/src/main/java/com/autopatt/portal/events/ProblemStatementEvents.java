@@ -172,34 +172,98 @@ public class ProblemStatementEvents{
         return SUCCESS;
     }
 
-    public static String searchProblemStatements(HttpServletRequest request, HttpServletResponse response) {
+    public static String search(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String inputSearch = request.getParameter("inputSearch");
-        List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();
-        try {
-            entityConditionList.add(
-                    EntityCondition.makeCondition( EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("problemStatement"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() +'%'),EntityOperator.OR,
-                            EntityCondition.makeCondition( EntityFunction.UPPER_FIELD("problemDescription"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() +'%') )
-            );
-            List<GenericValue> SearchProblemStatementList = EntityQuery.use(delegator)
-                    .select("problemStatement","id")
-                    .from("problemStatementApc")
-                    .where(entityConditionList)
-                    .queryList();
-            if (SearchProblemStatementList != null) {
-                request.setAttribute("data", SearchProblemStatementList);
-            } else {
-                request.setAttribute("data", null);
+        String [] type= request.getParameter("type").split(",");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        for (int typeCount = 0; typeCount < type.length; typeCount++) {
+            if (type[typeCount].equals("typeProblemStatement") ) {
+                data.put("ProblemStatements", getProblemStatement(inputSearch, delegator));
+            } else if (type[typeCount].equals("typeBasePattern") ) {
+                //request.setAttribute("data", getBasePattern(inputSearch, delegator));
+                data.put("basePatterns", getBasePattern(inputSearch, delegator));
+            } else if (type[typeCount].equals("typeSolutionDesign") ) {
+               // request.setAttribute("data", getSolutionDesign(inputSearch, delegator));
+                data.put("solutionDesigns", getSolutionDesign(inputSearch, delegator));
+            }else if(type[typeCount].equals("typeSearchAll")){
+                data.put("ProblemStatements", getProblemStatement(inputSearch, delegator));
+                data.put("basePatterns", getBasePattern(inputSearch, delegator));
+                data.put("solutionDesigns", getSolutionDesign(inputSearch, delegator));
             }
-        } catch (GenericEntityException e) {
-            e.printStackTrace();
-            request.setAttribute("message", ERROR);
-            return ERROR;
         }
+        request.setAttribute("data", data);
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
 
+//    private static List<Object> getAll(String inputSearch, Delegator delegator) {
+//        List<Object> allSearchList = new LinkedList<Object>();
+//        allSearchList.add( getProblemStatement(inputSearch, delegator));
+//        allSearchList.add( getBasePattern(inputSearch, delegator));
+//        allSearchList.add( getSolutionDesign(inputSearch, delegator));
+//        return allSearchList;
+//    }
+
+    private static List<GenericValue> getSolutionDesign(String inputSearch, Delegator delegator) {
+        List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();
+        entityConditionList.add(
+                EntityCondition.makeCondition(EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("solutionDesignName"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%'), EntityOperator.OR,
+                        EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("solutionDesignDesc"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%')));
+        List<GenericValue> solutionDesignList =null;
+        try {
+            
+            solutionDesignList = EntityQuery.use(delegator)
+                    .select("solutionDesignName", "id")
+                    .from("solutionDesignApc")
+                    .where(entityConditionList)
+                    .queryList();
+            return solutionDesignList;
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+        }
+        return solutionDesignList;
+    }
+
+    private static List<GenericValue> getProblemStatement(String inputSearch, Delegator delegator) {
+        List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();
+        entityConditionList.add(
+                EntityCondition.makeCondition(EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("problemStatement"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%'), EntityOperator.OR,
+                        EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("problemDescription"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%')));
+        List<GenericValue> SearchProblemStatementList = null;
+        try {
+
+            SearchProblemStatementList = EntityQuery.use(delegator)
+                    .select("problemStatement", "id")
+                    .from("problemStatementApc")
+                    .where(entityConditionList)
+                    .queryList();
+            return SearchProblemStatementList;
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+        }
+        return SearchProblemStatementList;
+    }
+
+    private static List<GenericValue> getBasePattern(String inputSearch, Delegator delegator)  {
+        List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();
+        entityConditionList.add(
+                EntityCondition.makeCondition(EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("baseName"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%'), EntityOperator.OR,
+                        EntityCondition.makeCondition(EntityFunction.UPPER_FIELD("baseDescription"), EntityOperator.LIKE, '%' + inputSearch.toUpperCase() + '%')));
+
+        List<GenericValue> basePatterList = null;
+        try {
+            basePatterList = EntityQuery.use(delegator)
+                    .select("baseName", "id")
+                    .from("basePatternApc")
+                    .where(entityConditionList)
+                    .queryList();
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+        }
+        return basePatterList;
+    }
 
     public static String getTags(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
