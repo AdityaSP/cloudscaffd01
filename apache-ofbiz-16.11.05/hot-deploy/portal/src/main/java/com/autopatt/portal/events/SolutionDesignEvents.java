@@ -160,17 +160,32 @@ public class SolutionDesignEvents{
 
     public static String deleteSolutionDesign(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
-        String sdid = request.getParameter("sdid");
+        String sdid = request.getParameter("inputSearch");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
-            GenericValue deleteSolutionDesign = delegator.findOne("solutionDesignApc", UtilMisc.toMap("id", sdid),false);
-            if (!UtilValidate.isEmpty(deleteSolutionDesign)) {
-                deleteSolutionDesign.remove();
+            String type = "pre-defined";
+            GenericValue solutionDesignType = EntityQuery.use(delegator)
+                    .select("type").from("solutionDesignApc")
+                    .where("id", sdid)
+                    .queryOne();
+
+            String solDesignType = solutionDesignType.getString("type");
+            if(!solDesignType.equals(type)) {
+
+                GenericValue deleteSolutionDesign = delegator.findOne("solutionDesignApc", UtilMisc.toMap("id", sdid), false);
+                if (!UtilValidate.isEmpty(deleteSolutionDesign)) {
+                    deleteSolutionDesign.remove();
+                }
+            }else{
+                request.setAttribute("info", "SolutionDesign deletion failed - user defined!");
+                request.setAttribute("message", ERROR);
+                return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
             request.setAttribute("info", "SolutionDesign deletion failed!");
             request.setAttribute("message", ERROR);
+            return ERROR;
         }
         request.setAttribute("info", "SolutionDesign deletion ");
         request.setAttribute("message", SUCCESS);

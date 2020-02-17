@@ -39,7 +39,7 @@ public class SolutionDesignServices{
         String solutionBenefits =  (String) context.get("solutionBenefits");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
-        String type = "custom_managed_pattern";
+        String type = "user defined";
 
         try{
             GenericValue newSolutionDesign = delegator.makeValue("solutionDesignApc");

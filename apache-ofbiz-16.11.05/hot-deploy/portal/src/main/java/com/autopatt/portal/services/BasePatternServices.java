@@ -39,7 +39,7 @@ public class BasePatternServices{
 
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
-        String type = "custom_managed_pattern";
+        String type = "user defined";
 
         try{
             GenericValue newBasePattern = delegator.makeValue("basePatternApc");

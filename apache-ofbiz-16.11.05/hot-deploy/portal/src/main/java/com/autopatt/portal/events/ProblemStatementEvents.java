@@ -39,7 +39,7 @@ public class ProblemStatementEvents{
         String [] tag = request.getParameter("tag").split(",");
         String problemStatementId = null;
         String createdBy = userLogin.getString("userLoginId");
-        String type = "custom_managed_pattern";
+        String type = "user defined";
         try {
             GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
             problemStatementId = delegator.getNextSeqId("Quote");
