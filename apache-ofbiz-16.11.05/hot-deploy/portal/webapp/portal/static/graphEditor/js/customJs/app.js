@@ -142,7 +142,7 @@ export const App = {
                         </div>`;
             }; break;
             default: {
-                toast = `<div class="text-center alert alert-secondary" role="alert">
+                toast = `<div class="text-center alert bg-light" role="alert">
                             ${msg}
                         </div>`;
             }

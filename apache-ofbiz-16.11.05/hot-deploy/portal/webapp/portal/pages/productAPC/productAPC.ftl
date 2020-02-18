@@ -33,14 +33,15 @@
                                     <p><label>Tags</label></p>
                                 </div>
                                 <br>
-                                    <div class="form-group has-search">
+                                    <div class="btn-group has-search  w-100">
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="inputSearch" class="form-control inputSearch" required placeholder="Search">
-                                    </div>
-                                    <span class="btn btn-link pull-right border"  data-toggle="tooltip" data-placement="right" title="Filter">
+                                        <span class="btn btn-link pull-right border rounded ml-1"  data-toggle="tooltip" data-placement="right" title="Filter">
                                         <i class="fa fa-filter filterToggler" aria-hidden="true" type="button" data-toggle="collapse" data-target="#collapsePatternType" aria-expanded="false" aria-controls="collapseExample"></i>
                                     </span>
-                                    <div class="collapse" id="collapsePatternType">
+                                    </div>
+                                    
+                                    <div class="collapse mt-1" id="collapsePatternType">
                                         <div class="card card-body p-0 mb-3">
                                             <div class="row"> 
                                                 <div class="col-12">
