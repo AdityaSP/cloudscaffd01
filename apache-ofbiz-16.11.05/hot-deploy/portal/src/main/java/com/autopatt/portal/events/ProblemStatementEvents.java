@@ -9,12 +9,14 @@ import org.apache.ofbiz.entity.condition.EntityCondition;
 import org.apache.ofbiz.entity.condition.EntityFunction;
 import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.datasource.GenericHelperInfo;
+import org.apache.ofbiz.entity.jdbc.SQLProcessor;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.LocalDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,11 @@ public class ProblemStatementEvents{
     public final static String module = ProblemStatementEvents.class.getName();
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
+    public static GenericHelperInfo helperInfo ;
+
+    public ProblemStatementEvents(GenericHelperInfo helperInfo) {
+        this.helperInfo = helperInfo;
+    }
 
     public static String addProblemStatement(HttpServletRequest request, HttpServletResponse response) {
 
@@ -199,13 +206,28 @@ public class ProblemStatementEvents{
         return SUCCESS;
     }
 
-//    private static List<Object> getAll(String inputSearch, Delegator delegator) {
-//        List<Object> allSearchList = new LinkedList<Object>();
-//        allSearchList.add( getProblemStatement(inputSearch, delegator));
-//        allSearchList.add( getBasePattern(inputSearch, delegator));
-//        allSearchList.add( getSolutionDesign(inputSearch, delegator));
-//        return allSearchList;
-//    }
+    private static String getAll(HttpServletRequest request, HttpServletResponse response)  {
+//
+//        SQLProcessor sqlproc = new SQLProcessor(delegator.getGroupHelperInfo("org.ofbiz"));
+//        String qStr = "sql query";
+//        sqlproc.prepareStatement(qStr);
+//        ResultSet result = sqlproc.executeQuery();
+
+
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String baseName = helperInfo.getHelperBaseName();
+        String groupName = helperInfo.getEntityGroupName();
+        GenericHelperInfo genericHelper = new GenericHelperInfo(groupName, baseName); ;
+        SQLProcessor sqlProcessor = new SQLProcessor(delegator,genericHelper);
+        try {
+            sqlProcessor.prepareStatement("SELECT * FROM PARTY LMIT 0, 5");
+            ResultSet rs1 = sqlProcessor.executeQuery();
+            request.setAttribute("data", rs1);
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+        }
+        return SUCCESS;
+    }
 
     private static List<GenericValue> getSolutionDesign(String inputSearch, Delegator delegator) {
         List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();
@@ -216,7 +238,7 @@ public class ProblemStatementEvents{
         try {
             
             solutionDesignList = EntityQuery.use(delegator)
-                    .select("solutionDesignName", "id")
+                    .select("solutionDesignName", "id","psid","bpid")
                     .from("solutionDesignApc")
                     .where(entityConditionList)
                     .queryList();

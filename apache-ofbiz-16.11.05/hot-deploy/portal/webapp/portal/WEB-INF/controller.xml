@@ -252,9 +252,17 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
-	<request-map uri="searchProblemStatements">
+	<request-map uri="search">
 		<security https="true" auth="true" />
-		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="searchProblemStatements" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="search" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<!-- test mapping -->
+	<request-map uri="getAll">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getAll" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json" />
 	</request-map>
@@ -266,9 +274,9 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-	<request-map uri="search">
+	<request-map uri="getProblemStatements">
 		<security https="true" auth="true" />
-		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="search" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getProblemStatements" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json" />
 	</request-map>
