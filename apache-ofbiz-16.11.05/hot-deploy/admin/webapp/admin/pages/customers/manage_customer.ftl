@@ -49,10 +49,10 @@
             <li class="nav-item">
                 <a class="nav-link active" id="details-tab" data-toggle="tab" href="#customer_details" role="tab" aria-controls="customer_details" aria-selected="true">Details</a>
             </li>
-            <li class="nav-item">
+            <#--  <li class="nav-item">
                 <a class="nav-link" id="employees-tab" data-toggle="tab"
                    href="#customer_employees" role="tab" aria-controls="customer_employees" aria-selected="false">Employees</a>
-            </li>
+            </li>  -->
             <li class="nav-item">
                 <a class="nav-link" id="subscriptions-tab" data-toggle="tab" href="#customer_subscriptions" role="tab" aria-controls="customer_subscriptions" aria-selected="false">Subscriptions</a>
             </li>

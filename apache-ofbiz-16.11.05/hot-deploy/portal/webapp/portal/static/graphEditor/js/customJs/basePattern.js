@@ -112,6 +112,11 @@ $(function () {
             }
         });
     });
+
+    $('.editBP').on('click', function (e) {
+        console.log("edit");
+    });
+
 });
 
 function reloadPage(data, id) {

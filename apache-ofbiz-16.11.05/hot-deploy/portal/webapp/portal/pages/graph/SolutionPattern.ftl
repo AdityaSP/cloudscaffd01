@@ -17,8 +17,10 @@
             </div>
             <div class="form-group solutionDesignForm">
                 <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
-                <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="left" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
+                <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                <#--  <a class="btn btn-info pull-right mr-2 editSD" data-toggle="tooltip" data-placement="left" title="Edit Solution Pattern" href="javascript:void(0);" aria-label="Edit">
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  -->
                 <p class="solutionDesignDescription"></p>
                 <div class="solutionDesignConsequences p-4 row">
                     <div class="col-6 border rounded">

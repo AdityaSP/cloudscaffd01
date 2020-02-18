@@ -149,7 +149,6 @@ function renderBasePatterns(basePattern) {
         for (let i = 0; i < basePattern.length; i++) {
             let queryStr, bpid = `bpid=${basePattern[i].id}`, psid = basePattern[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
-            console.log(queryStr);
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${basePattern[i].id} : ${basePattern[i].baseName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
@@ -169,9 +168,6 @@ function renderSolutionDesigns(solutionDesign) {
                 bpid = solutionDesign[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
-
-            console.log(queryStr);
-
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
         rel="noopener noreferrer">${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);

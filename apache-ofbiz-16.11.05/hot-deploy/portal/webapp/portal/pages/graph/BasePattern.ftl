@@ -10,8 +10,11 @@
             <hr class="my-4">
             <div class="form-group basePatternForm">
                 <label class="basePattern h5"></label><span class="typeDataBP"></span>
-                <a class="btn btn-danger pull-right deleteBP" data-toggle="tooltip" data-placement="left" title="Delete Base Pattern" href="javascript:void(0);" aria-label="Delete">
+                
+                <a class="btn btn-danger pull-right deleteBP" data-toggle="tooltip" data-placement="top" title="Delete Base Pattern" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                <#--  <a class="btn btn-info pull-right mr-2 editBP" data-toggle="tooltip" data-placement="left" title="Edit Base Pattern" href="javascript:void(0);" aria-label="Edit">
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  -->
                 <p class="basePatternDescription"></p>
                 <div class="basePatternConsequences p-4 row">
                     <div class="col-6 border rounded">
