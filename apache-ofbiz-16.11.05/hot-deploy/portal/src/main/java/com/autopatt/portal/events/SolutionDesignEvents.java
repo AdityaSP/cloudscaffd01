@@ -79,6 +79,7 @@ public class SolutionDesignEvents{
         Object svg = request.getParameter("svg");
         Object json = request.getParameter("json");
         String updatedBy = userLoginData.getString("userLoginId");
+        String status = "Under-Development";
 
         Map<String, Object> inputs = UtilMisc.toMap("id", id);
         try {
@@ -88,6 +89,7 @@ public class SolutionDesignEvents{
             myBasePattern.set("svg", svg);
             myBasePattern.set("xml", xml);
             myBasePattern.set("json", json);
+            myBasePattern.set("status", status);
             delegator.store(myBasePattern);
 
         } catch (GenericEntityException e) {
