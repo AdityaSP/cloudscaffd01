@@ -3,7 +3,9 @@ import { App } from './app.js';
 var urldata = App.urlParams();
 var psid = urldata['psid'];
 var sdid = urldata['sdid'];
-var bpid, isBasePatternApproved, isDeployer = false, isApprover = false;
+var bpid, isBasePatternApproved, isDeployer = false, isApprover = false, isAdmin = false, isPlanner = false;
+
+console.log(urldata);
 
 $(function () {
     $('.py-3').contents().filter(function () {
@@ -99,7 +101,7 @@ $(function () {
                 if (result) {
                     App.genericFetch('deleteBasePattern', "POST", { "bpid": bpid }, "", "", "", "");
                     $('.basePatternForm').hide(); $('.svgDiv').hide();
-                    App.toastMsg('Go back to create a new Base Pattern', 'info', '.toastMsg')
+                    App.toastMsg(`<u><a href="${document.referrer}">Go back</a></u> to create a new Base Pattern`, 'info', '.toastMsg')
                     $('.edit').attr("disabled", true);
                     $('.deploy').attr("disabled", true);
                     $('.title').text("Problem Statement");
@@ -120,7 +122,7 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
-            $('.probStatement').text(`PS ${problemList[i].id} : ${problemList[i].problemStatement}`);
+            $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
     }
@@ -131,7 +133,7 @@ function renderBasePattern(basePattern, bpid) {
         for (let i = 0; i < basePattern.length; i++) {
             psid = basePattern[i].psid;
             let patternType = basePattern[i].type;
-            $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
+            $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
             $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
             $('.basePatternDescription').text(basePattern[i].baseDescription);
             $('.basePatternForces').text(basePattern[i].baseForces);
@@ -167,7 +169,8 @@ function renderBasePattern(basePattern, bpid) {
         }
     } else {
         $('.title').text('Problem Statement');
-        $('.deleteBP').hide(); $('.edit').hide(); $('.svgDiv').hide();
+        $('.basePatternForm').hide();
+        $('.edit').hide(); $('.svgDiv').hide();
     }
 }
 

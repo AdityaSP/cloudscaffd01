@@ -16,7 +16,7 @@ $(function () {
     App.loader(".problemStatementDiv"); App.loader(".basePatternResults"); App.loader(".solutionPatternResults");
     App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    if (userRole == "Planner" || userRole == "Administrator" || userRole == "Deployer") { // || userRole == "Deployer"
+    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
 
         $("#basePatternFormSubmitBtn").on('click', function (e) {
             let formData = {

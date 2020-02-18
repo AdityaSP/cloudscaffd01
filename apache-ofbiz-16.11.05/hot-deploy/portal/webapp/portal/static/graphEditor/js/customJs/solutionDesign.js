@@ -110,7 +110,7 @@ $(function () {
                 if (result) {
                     App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
                     $('.solutionDesignForm').hide(); $('.svgDiv').hide();
-                    App.toastMsg('Go back to create a new solution design', 'info', '.toastMsg')
+                    App.toastMsg(`<u><a href="${document.referrer}">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
                     $('.edit').attr("disabled", true);
                     $('.deploy').attr("disabled", true);
                     $('.title').text("Problem Statement");
@@ -145,35 +145,41 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
-            $('.probStatement').text(`PS ${problemList[i].id} : ${problemList[i].problemStatement}`);
+            $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
     }
 }
 
 function renderBasePattern(basePattern, bpid) {
-    for (let i = 0; i < basePattern.length; i++) {
-        let patternType = basePattern[i].type;
-        if (bpid == basePattern[i].id) {
-            $('.basePattern').text(`BP ${basePattern[i].id} : ${basePattern[i].baseName}`);
-            $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
-            $('.basePatternDescription').text(basePattern[i].baseDescription);
-            $('.basePatternForces').text(basePattern[i].baseForces);
-            $('.basePatternBenefits').text(basePattern[i].baseBenefits);
-            if (basePattern[i].svg) {
-                // if (basePattern[i].status == 'approved') {
-                $('.BPsvgDiv').append(basePattern[i].svg);
-                $('.BPsvgDiv > svg').attr({
-                    "width": "800px",
-                    "height": "550px"
-                });
-                // } else {
-                //     $('.viewBpImage').hide();
-                // }
-            } else {
-                $('.viewBpImage').hide();
+    if (basePattern.length > 0) {
+        for (let i = 0; i < basePattern.length; i++) {
+            let patternType = basePattern[i].type;
+            if (bpid == basePattern[i].id) {
+                $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
+                $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
+                $('.basePatternDescription').text(basePattern[i].baseDescription);
+                $('.basePatternForces').text(basePattern[i].baseForces);
+                $('.basePatternBenefits').text(basePattern[i].baseBenefits);
+                if (basePattern[i].svg) {
+                    // if (basePattern[i].status == 'approved') {
+                    $('.BPsvgDiv').append(basePattern[i].svg);
+                    $('.BPsvgDiv > svg').attr({
+                        "width": "800px",
+                        "height": "550px"
+                    });
+                    // } else {
+                    //     $('.viewBpImage').hide();
+                    // }
+                } else {
+                    $('.viewBpImage').hide();
+                }
             }
         }
+    } else {
+        $('.title').text('Problem Statement');
+        $('.basePatternForm').hide();
+        $('.edit').hide(); $('.svgDiv').hide();
     }
 }
 
@@ -182,7 +188,7 @@ function renderSolutionDesign(solutionDesign, sdid) {
         for (let i = 0; i < solutionDesign.length; i++) {
             let patternType = solutionDesign[i].type;
             if (sdid == solutionDesign[i].id) {
-                $('.solutionDesign').text(`SD ${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
+                $('.solutionDesign').text(`${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
                 $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
                 $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
 
@@ -218,9 +224,8 @@ function renderSolutionDesign(solutionDesign, sdid) {
             }
         }
     } else {
-        $('.deleteSD').hide();
-        $('.edit').hide();
-        $('.svgDiv').hide();
+        $('.solutionDesignForm').hide();
+        $('.edit').hide(); $('.svgDiv').hide();
     }
 }
 
