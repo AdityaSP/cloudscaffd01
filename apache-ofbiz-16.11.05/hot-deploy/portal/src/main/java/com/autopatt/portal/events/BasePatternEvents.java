@@ -43,6 +43,7 @@ public class BasePatternEvents{
         String baseForces = request.getParameter("baseForces");
         String baseBenefits = request.getParameter("baseBenefits");
 
+        Map<String,Object> data = UtilMisc.toMap();
         request.setAttribute("psid", psid);
 
         try {
@@ -51,19 +52,21 @@ public class BasePatternEvents{
                             "baseDescription",baseDescription, "baseForces",baseForces,"baseBenefits",baseBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
                 Debug.logError("Error creating addBasePatternResp for " + addBasePatternResp, module);
-                request.setAttribute("info", "BasePattern creation failed!");
-                request.setAttribute("message", ERROR);
+                data.put("info", "BasePattern creation failed!");
+                data.put("message",ERROR);
+                request.setAttribute("data", data);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            request.setAttribute("info", "BasePattern creation failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "BasePattern creation failed!");
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
             return ERROR;
-
         }
-        request.setAttribute("info", "BasePattern creation Successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "BasePattern creation Successfull");
+        data.put("message",SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
 
     }
@@ -74,6 +77,7 @@ public class BasePatternEvents{
         HttpSession session = request.getSession();
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
 
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
@@ -81,6 +85,7 @@ public class BasePatternEvents{
         Object svg = request.getParameter("svg");
         Object json = request.getParameter("json");
         String updatedBy = userLoginData.getString("userLoginId");
+        String status = "Under-Development";
 
         Map<String, Object> inputs = UtilMisc.toMap("id", id);
         try {
@@ -90,16 +95,19 @@ public class BasePatternEvents{
             myBasePattern.set("svg", svg);
             myBasePattern.set("xml", xml);
             myBasePattern.set("json", json);
+            myBasePattern.set("status", status);
             delegator.store(myBasePattern);
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("info", "BasePattern update failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "BasePattern update failed!");
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "BasePattern update Successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "BasePattern update Successfull");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
@@ -162,6 +170,7 @@ public class BasePatternEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
 
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
@@ -177,18 +186,22 @@ public class BasePatternEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("info", "BasePattern approval failed");
-            request.setAttribute("message", ERROR);
+            data.put("info", "BasePattern approval failed");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "BasePattern approval Successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "BasePattern approval Successfull");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
     public static String deleteBasePattern(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         String bpid = request.getParameter("bpid");
+        Map<String,Object> data = UtilMisc.toMap();
+
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
             String type = "pre-defined";
@@ -205,18 +218,21 @@ public class BasePatternEvents{
                     deleteBasePattern.remove();
                 }
             }else{
-                request.setAttribute("info", "BasePattern delete failed - user defined!");
-                request.setAttribute("message", ERROR);
+                data.put("info", "BasePattern delete failed - user defined!");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
                 return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            request.setAttribute("info", "BasePattern delete failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "BasePattern delete failed!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "BasePattern deleted successfully ");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "BasePattern deleted successfully ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 

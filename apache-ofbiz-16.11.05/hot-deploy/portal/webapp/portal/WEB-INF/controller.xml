@@ -259,6 +259,14 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<!-- test mapping -->
+	<request-map uri="getAll">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getAll" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
 	<request-map uri="getTags">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="getTags" />

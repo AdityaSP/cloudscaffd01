@@ -42,6 +42,7 @@ public class SolutionDesignEvents{
         String solutionForces = request.getParameter("solutionForces");
         String solutionBenefits = request.getParameter("solutionBenefits");
 
+        Map<String,Object> data = UtilMisc.toMap();
         request.setAttribute("psid", psid);
 
         try {
@@ -50,18 +51,21 @@ public class SolutionDesignEvents{
                             "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBenefits",
                             solutionBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addSolutionDesignResp)) {
-                request.setAttribute("info", "SolutionDesign creation failed!");
-                request.setAttribute("message", ERROR);
+                data.put("info", "SolutionDesign creation failed!");
+                data.put("message",ERROR);
+                request.setAttribute("data", data);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            request.setAttribute("info", "SolutionDesign creation failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "SolutionDesign creation failed!");
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "SolutionDesign creation Successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "SolutionDesign creation Successfull");
+        data.put("message",SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
 
     }
@@ -79,7 +83,9 @@ public class SolutionDesignEvents{
         Object svg = request.getParameter("svg");
         Object json = request.getParameter("json");
         String updatedBy = userLoginData.getString("userLoginId");
+        String status = "Under-Development";
 
+        Map<String,Object> data = UtilMisc.toMap();
         Map<String, Object> inputs = UtilMisc.toMap("id", id);
         try {
             GenericValue myBasePattern = delegator.findOne("solutionDesignApc", inputs, false);
@@ -88,16 +94,19 @@ public class SolutionDesignEvents{
             myBasePattern.set("svg", svg);
             myBasePattern.set("xml", xml);
             myBasePattern.set("json", json);
+            myBasePattern.set("status", status);
             delegator.store(myBasePattern);
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("info", "SolutionDesign update failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "SolutionDesign update failed!");
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "SolutionDesign update successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "SolutionDesign update successfull");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
@@ -130,6 +139,7 @@ public class SolutionDesignEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
 
+        Map<String,Object> data = UtilMisc.toMap();
         String sdid = request.getParameter("sdid");
         String psid = request.getParameter("psid");
         String bpid = null;
@@ -149,12 +159,14 @@ public class SolutionDesignEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("info", "SolutionDesign approval failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "SolutionDesign approval failed!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "SolutionDesign approval successfull");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "SolutionDesign approval successfull");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
@@ -162,6 +174,8 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         String sdid = request.getParameter("sdid");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
+
         try {
             String type = "pre-defined";
             GenericValue solutionDesignType = EntityQuery.use(delegator)
@@ -177,18 +191,21 @@ public class SolutionDesignEvents{
                     deleteSolutionDesign.remove();
                 }
             }else{
-                request.setAttribute("info", "SolutionDesign deletion failed - user defined!");
-                request.setAttribute("message", ERROR);
+                data.put("info", "SolutionDesign deletion failed - user defined!");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
                 return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            request.setAttribute("info", "SolutionDesign deletion failed!");
-            request.setAttribute("message", ERROR);
+            data.put("info", "SolutionDesign deletion failed!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        request.setAttribute("info", "SolutionDesign deletion ");
-        request.setAttribute("message", SUCCESS);
+        data.put("info", "SolutionDesign deletion ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 }
