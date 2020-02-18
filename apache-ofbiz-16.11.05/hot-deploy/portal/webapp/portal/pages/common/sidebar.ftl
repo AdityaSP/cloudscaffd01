@@ -17,9 +17,8 @@
       <img src="../static/images/icon/apc.png" style="width:33px;height:25px;" class="img-icon sidebar-icons <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>">
       <span class="text">APC</span></a>
 
-    <a href="<@ofbizUrl>productAPC</@ofbizUrl>" title="APC" class="list-group-item list-group-item-action <#if currentViewId == 'PRODUCT_APC'></#if>" >
-      <#--  <i class="fa fa-cloud sidebar-icons <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>"></i>   -->
-      <img src="../static/images/icon/ega.png" style="width:32px;height:25px;" class="img-icon sidebar-icons <#if currentViewId == 'PRODUCT_APC'>icon-color-active</#if>">
+    <a href="<@ofbizUrl>productAPC</@ofbizUrl>" title="EGA" class="list-group-item list-group-item-action <#if currentViewId == 'EGA'></#if> disabled" >
+      <img src="../static/images/icon/ega.png" style="width:32px;height:25px;" class="img-icon sidebar-icons <#if currentViewId == 'EGA'>icon-color-active</#if>">
       <span class="text">EGA</span></a>
 
     <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>

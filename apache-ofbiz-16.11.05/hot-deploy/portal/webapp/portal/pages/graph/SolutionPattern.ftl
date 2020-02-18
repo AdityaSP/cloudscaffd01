@@ -20,20 +20,20 @@
                 <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="left" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <p class="solutionDesignDescription"></p>
-                <div class="solutionDesignConsequences row">
-                    <div class="col-6">
-                        <label for="solutionDesignForces h5">Forces</label>
+                <div class="solutionDesignConsequences p-4 row">
+                    <div class="col-6 border rounded">
+                        <label for="solutionDesignForces h5">Forces</label><hr class="m-0">
                         <p class="solutionDesignForces"></p>
                     </div>
-                    <div class="col-6">
-                        <label for="solutionDesignBenefits">Benefits</label>
+                    <div class="col-6 border rounded">
+                        <label for="solutionDesignBenefits">Benefits</label><hr class="m-0">
                         <p class="solutionDesignBenefits"></p>
                     </div>
                 </div>
             </div>
         <div class="col-12 px-3">
                 <div class="toastMsg m-0"></div>
-                <div class="text-center p-4">
+                <div class="text-center p-2">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;">Approve</button>
                 <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;">

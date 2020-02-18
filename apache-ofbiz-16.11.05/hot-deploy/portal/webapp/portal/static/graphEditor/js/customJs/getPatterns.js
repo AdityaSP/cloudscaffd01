@@ -68,7 +68,7 @@ $(function () {
 function submitForm(data, path, res) {
     console.log("Data message" + data);
     $('.submitBtn').hide();
-    if (res.message == 'success') { // TODO: check
+    if (data.message == 'success') {
         App.toastMsg('Creation Successful', 'success', '.toastMsg', true);
         setTimeout(function () {
             window.location.reload();
@@ -80,7 +80,7 @@ function submitForm(data, path, res) {
             $('.submitBtn').val('Create');
             $('.submitBtn').attr("disabled", false);
             $('.submitBtn').show();
-        }, 3500);
+        }, 1500);
     }
 }
 

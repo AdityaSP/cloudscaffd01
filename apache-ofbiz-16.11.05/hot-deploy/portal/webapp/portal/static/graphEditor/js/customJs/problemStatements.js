@@ -131,57 +131,12 @@ function clearSearchResults() {
     App.loader('.searchResultsList');
 }
 
-// function renderSearchResultData(problems, name) {
-//     let url, queryStr, psid, bpid, sdid;
-//     if (App.isEmpty(name) || name == "problemStatement") {
-//         name = "problemStatement";
-//         url = "problemPatternSearch?";
-//     } else if (name == "baseName") {
-//         url = "basePattern?";
-//     } else if (name == "solutionDesignName") {
-//         url = "solutionPattern?";
-//     }
-
-//     if (problems.length > 0) {
-//         for (let i = 0; i < problems.length; i++) {
-//             psid = `psid=${problems[i].id}`;
-
-//             if (bpid in problems[i]) {
-//                 bpid = problems[i].bpid;
-//                 queryStr = `${psid}&bpid=${bpid}`;
-//             }
-//             if (sdid in problems[i]) {
-//                 sdid = problems[i].sdid;
-//                 queryStr = `${psid}&sdid=${sdid}`;
-//             }
-//             if ((bpid in problems[i]) && (sdid in problems[i])) {
-//                 bpid = problems[i].bpid;
-//                 sdid = problems[i].sdid;
-//                 queryStr = `${psid}&bpid=${bpid}&sdid=${sdid}`;
-//             }
-
-//             console.log(queryStr);
-
-//             var row = `<li class="list-group-item"><a href="${url}${App.encrypt(queryStr)}"
-//             rel="noopener noreferrer">${problems[i].id} : ${problems[i][name]}</a></li>`;
-//             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row)
-//         }
-//     } else {
-//         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-//     }
-//     App.clearLoader();
-
-//     if ($('.searchResultsList')[0].firstChild == "") {
-//         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-//     }
-// }
-
 function renderProblemStatements(problems) {
     if (problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
             var row = `<li class="list-group-item"><a href="problemPatternSearch?${App.encrypt(queryStr)}"
-        rel="noopener noreferrer">${problems[i].id} - ${problems[i].problemStatement}</a></li>`;
+        rel="noopener noreferrer">${problems[i].id} : ${problems[i].problemStatement}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
@@ -192,15 +147,11 @@ function renderProblemStatements(problems) {
 function renderBasePatterns(basePattern) {
     if (basePattern.length > 0) {
         for (let i = 0; i < basePattern.length; i++) {
-            let queryStr, bpid = `bpid=${basePattern[i].id}`, psid;
-
-            psid = basePattern[i].psid;
+            let queryStr, bpid = `bpid=${basePattern[i].id}`, psid = basePattern[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
-
             console.log(queryStr);
-
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
-        rel="noopener noreferrer">${basePattern[i].id} - ${basePattern[i].baseName}</a></li>`;
+                        rel="noopener noreferrer">${basePattern[i].id} : ${basePattern[i].baseName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
@@ -210,10 +161,11 @@ function renderBasePatterns(basePattern) {
 function renderSolutionDesigns(solutionDesign) {
     if (solutionDesign.length > 0) {
         for (let i = 0; i < solutionDesign.length; i++) {
-            let queryStr, sdid = `sdid=${solutionDesign[i].id}`, psid, bpid;
-            queryStr = `${sdid}&psid=${solutionDesign[i].psid}`;
+            let queryStr, sdid = solutionDesign[i].id,
+                psid = solutionDesign[i].psid, bpid;
+            queryStr = `sdid=${sdid}&psid=${psid}`;
 
-            if (bpid in solutionDesign[i]) {
+            if (solutionDesign[i].bpid != null) {
                 bpid = solutionDesign[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
@@ -221,7 +173,7 @@ function renderSolutionDesigns(solutionDesign) {
             console.log(queryStr);
 
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
-        rel="noopener noreferrer">${solutionDesign[i].id} - ${solutionDesign[i].solutionDesignName}</a></li>`;
+        rel="noopener noreferrer">${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {

@@ -13,13 +13,13 @@
                 <a class="btn btn-danger pull-right deleteBP" data-toggle="tooltip" data-placement="left" title="Delete Base Pattern" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <p class="basePatternDescription"></p>
-                <div class="basePatternConsequences row">
-                    <div class="col-6">
-                        <label for="basePatternForces h5">Forces</label>
+                <div class="basePatternConsequences p-4 row">
+                    <div class="col-6 border rounded">
+                        <label for="basePatternForces h5">Forces</label><hr class="m-0">
                         <p class="basePatternForces"></p>
                     </div>
-                    <div class="col-6">
-                        <label for="basePatternBenefits">Benefits</label>
+                    <div class="col-6 border rounded">
+                        <label for="basePatternBenefits">Benefits</label><hr class="m-0">
                         <p class="basePatternBenefits"></p>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="col-12 px-3">
             <div class="toastMsg m-0"></div>
-            <div class="text-center pt-0 pb-2">
+            <div class="text-center p-2">
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 150px;height:auto;">Approve</button>
                 <button class="btn btn-primary m-1 p-1 edit" style="width: 150px;">Edit</button>
             </div>

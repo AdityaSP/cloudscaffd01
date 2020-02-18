@@ -161,6 +161,7 @@ function renderBasePattern(basePattern, bpid) {
             } else {
                 App.toastMsg('No Design Created', 'failed', '.toastMsg');
                 $('.svgDiv').hide();
+                $('.edit').attr("disabled", false);
             }
             if (patternType == 'pre-defined') {
                 // $('.deleteSD').hide();
