@@ -206,21 +206,12 @@ public class ProblemStatementEvents{
         return SUCCESS;
     }
 
-    private static String getAll(HttpServletRequest request, HttpServletResponse response)  {
-//
-//        SQLProcessor sqlproc = new SQLProcessor(delegator.getGroupHelperInfo("org.ofbiz"));
-//        String qStr = "sql query";
-//        sqlproc.prepareStatement(qStr);
-//        ResultSet result = sqlproc.executeQuery();
-
-
+    public static String getAll(HttpServletRequest request, HttpServletResponse response)  {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        String baseName = helperInfo.getHelperBaseName();
-        String groupName = helperInfo.getEntityGroupName();
-        GenericHelperInfo genericHelper = new GenericHelperInfo(groupName, baseName); ;
+        GenericHelperInfo genericHelper = new GenericHelperInfo("main", "localmysql"); ;
         SQLProcessor sqlProcessor = new SQLProcessor(delegator,genericHelper);
         try {
-            sqlProcessor.prepareStatement("SELECT * FROM PARTY LMIT 0, 5");
+            sqlProcessor.prepareStatement("SELECT * FROM BASE_PATTERN_APC ;");
             ResultSet rs1 = sqlProcessor.executeQuery();
             request.setAttribute("data", rs1);
         } catch (GenericEntityException e) {
