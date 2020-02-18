@@ -40,10 +40,11 @@ public class ProblemStatementEvents{
         String problemStatementId = null;
         String createdBy = userLogin.getString("userLoginId");
         String type = "user defined";
+        String psid = null;
         try {
             GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
             problemStatementId = delegator.getNextSeqId("Quote");
-            String psid = "PS-"+problemStatementId;
+            psid = "PS-"+problemStatementId;
             newProblemStatement.setString("id", psid);
             newProblemStatement.setString("problemStatement", problemStatement);
             newProblemStatement.setString("problemDescription", problemDescription);
@@ -77,7 +78,7 @@ public class ProblemStatementEvents{
                     String tagProblemId = delegator.getNextSeqId("Quote");
                     newproblemStatementTagProblem.setString("id", tagProblemId);
                     newproblemStatementTagProblem.setString("tagid", tagsId);
-                    newproblemStatementTagProblem.setString("problemId", problemStatementId);
+                    newproblemStatementTagProblem.setString("problemId", psid);
                     delegator.create(newproblemStatementTagProblem);
 
                 } else {
@@ -88,7 +89,7 @@ public class ProblemStatementEvents{
                         String tagProblemId = delegator.getNextSeqId("Quote");
                         newproblemStatementTagProblem.setString("id", tagProblemId);
                         newproblemStatementTagProblem.setString("tagid", tagsId);
-                        newproblemStatementTagProblem.setString("problemId", problemStatementId);
+                        newproblemStatementTagProblem.setString("problemId", psid);
                         delegator.create(newproblemStatementTagProblem);
                     }
                 }
