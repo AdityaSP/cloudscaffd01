@@ -211,7 +211,7 @@ function renderSolutionDesigns(solutionDesign) {
     if (solutionDesign.length > 0) {
         for (let i = 0; i < solutionDesign.length; i++) {
             let queryStr, sdid = `sdid=${solutionDesign[i].id}`, psid, bpid;
-            queryStr = `${sdid}&psid=${psid}`;
+            queryStr = `${sdid}&psid=${solutionDesign[i].psid}`;
 
             if (bpid in solutionDesign[i]) {
                 bpid = solutionDesign[i].bpid;
