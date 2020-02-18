@@ -278,7 +278,7 @@ public class ProblemStatementEvents{
         List<GenericValue> basePatterList = null;
         try {
             basePatterList = EntityQuery.use(delegator)
-                    .select("baseName", "id")
+                    .select("baseName", "id","psid")
                     .from("basePatternApc")
                     .where(entityConditionList)
                     .queryList();
