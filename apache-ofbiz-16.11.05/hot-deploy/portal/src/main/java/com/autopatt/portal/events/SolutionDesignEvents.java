@@ -35,6 +35,16 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
 

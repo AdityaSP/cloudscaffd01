@@ -364,13 +364,13 @@
 	</request-map>
 
 	<request-map uri="editProblemStatement">
-		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="editProblemStatement" />
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="editProblemStatement" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
 	<request-map uri="editBasePattern">
-		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="editBasePattern" />
+		<event type="java" path="com.autopatt.portal.events.BasePatternEvents" invoke="editBasePattern" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json"/>
 	</request-map>
