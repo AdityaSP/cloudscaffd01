@@ -36,22 +36,19 @@ public class ProblemStatementEvents{
     public static String addProblemStatement(HttpServletRequest request, HttpServletResponse response) {
 
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             data.put("info", "You do not have permission to create.");
             System.out.println("You do not have permission to create."  );
             data.put("message",ERROR);
             request.setAttribute("data", data);
             return ERROR;
         }
-
 
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
@@ -376,14 +373,12 @@ public class ProblemStatementEvents{
         HttpSession session = request.getSession();
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
-            data.put("info", "You do not have permission to edit problem statement.");
-            System.out.println("You do not have permission to edit problem statement."  );
+        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            data.put("info", "You do not have permission to edit.");
+            System.out.println("You do not have permission to edit."  );
             data.put("message",ERROR);
             request.setAttribute("data", data);
             return ERROR;
@@ -446,5 +441,17 @@ public class ProblemStatementEvents{
         }
         return problemStatementType;
     }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                         String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 }

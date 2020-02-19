@@ -39,8 +39,7 @@ public class BasePatternEvents{
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         Map<String,Object> data = UtilMisc.toMap();
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             data.put("info", "You do not have permission to create.");
             System.out.println("You do not have permission to create."  );
             data.put("message",ERROR);
@@ -89,6 +88,14 @@ public class BasePatternEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Object> data = UtilMisc.toMap();
 
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
         Object xml = request.getParameter("xml");
@@ -184,15 +191,13 @@ public class BasePatternEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_APPROVE_APC", userLoginData)) {
-            data.put("info", "You do not have permission to approve base pattern.");
-            System.out.println("You do not have permission to approve base pattern."  );
+        if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
+            data.put("info", "You do not have permission to approve.");
+            System.out.println("You do not have permission to approve."  );
             data.put("message",ERROR);
             request.setAttribute("data", data);
             return ERROR;
         }
-
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
 
@@ -259,10 +264,9 @@ public class BasePatternEvents{
         Map<String,Object> data = UtilMisc.toMap();
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
-            data.put("info", "You do not have permission to edit base pattern.");
-            System.out.println("You do not have permission to edit base pattern."  );
+        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            data.put("info", "You do not have permission to edit.");
+            System.out.println("You do not have permission to edit."  );
             data.put("message",ERROR);
             request.setAttribute("data", data);
             return ERROR;
@@ -327,6 +331,16 @@ public class BasePatternEvents{
             return ERROR;
         }
         return basePatternTypeData;
+    }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                                 String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
     }
 
 }

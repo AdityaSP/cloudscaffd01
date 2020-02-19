@@ -37,8 +37,7 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             data.put("info", "You do not have permission to create.");
             System.out.println("You do not have permission to create."  );
             data.put("message",ERROR);
@@ -85,6 +84,15 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+        // Check Permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
 
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
@@ -93,8 +101,6 @@ public class SolutionDesignEvents{
         Object json = request.getParameter("json");
         String updatedBy = userLoginData.getString("userLoginId");
         String status = "Under-Development";
-
-        Map<String,Object> data = UtilMisc.toMap();
         Map<String, Object> inputs = UtilMisc.toMap("id", id);
         try {
             GenericValue myBasePattern = delegator.findOne("solutionDesignApc", inputs, false);
@@ -147,18 +153,17 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
-        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_APPROVE_APC", userLoginData)) {
-            data.put("info", "You do not have permission to approve solution design.");
-            System.out.println("You do not have permission to approve solution design."  );
+        if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
+            data.put("info", "You do not have permission to approve.");
+            System.out.println("You do not have permission to approve."  );
             data.put("message",ERROR);
             request.setAttribute("data", data);
             return ERROR;
         }
+
         String sdid = request.getParameter("sdid");
         String psid = request.getParameter("psid");
         String bpid = null;
@@ -299,5 +304,15 @@ public class SolutionDesignEvents{
             return ERROR;
         }
         return solutionDesignApcType;
+    }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                                 String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
     }
 }
