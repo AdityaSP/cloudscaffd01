@@ -43,10 +43,7 @@ public class ProblemStatementEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            data.put("info", "You do not have permission to create.");
-            System.out.println("You do not have permission to create."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
 
@@ -69,9 +66,7 @@ public class ProblemStatementEvents{
             delegator.create(newProblemStatement);
             } catch (GenericEntityException ex) {
                 Debug.logError(ex, module);
-            data.put("info", "Problem Statement creation failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
 
@@ -112,14 +107,10 @@ public class ProblemStatementEvents{
             }
         } catch (GenericEntityException e) {
             Debug.logError(e, module);
-            data.put("info", "Problem Statement creation failed!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "Problem Statement creation successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "Problem Statement creation successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -377,10 +368,7 @@ public class ProblemStatementEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
-            data.put("info", "You do not have permission to edit.");
-            System.out.println("You do not have permission to edit."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to edit.", ERROR);
             return ERROR;
         }
 
@@ -403,20 +391,14 @@ public class ProblemStatementEvents{
                 delegator.store(myProblemStatement);
             } catch (GenericEntityException ex) {
                 ex.printStackTrace();
-                data.put("info", "SolutionDesign edit failed - !");
-                data.put("message", ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "SolutionDesign edit failed - !", ERROR);
                 return ERROR;
             }
         }else{
-            data.put("info", "problem statement edit failed - pre-defined!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "problem statement edit failed - pre-defined!", ERROR);
             return ERROR;
         }
-        data.put("info", "problem statement edited successfully ");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "problem statement edited successfully ", SUCCESS);
         return SUCCESS;
     }
 
@@ -453,5 +435,14 @@ public class ProblemStatementEvents{
     }
 
 
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
+    }
 
 }
