@@ -37,7 +37,7 @@ public class BasePatternEvents{
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-
+        Map<String,Object> data = UtilMisc.toMap();
         // Check permission
         Security security = dispatcher.getSecurity();
         if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
@@ -47,14 +47,13 @@ public class BasePatternEvents{
             request.setAttribute("data", data);
             return ERROR;
         }
-        
+
         String psid = request.getParameter("psid");
         String baseName = request.getParameter("baseName");
         String baseDescription = request.getParameter("baseDescription");
         String baseForces = request.getParameter("baseForces");
         String baseBenefits = request.getParameter("baseBenefits");
 
-        Map<String,Object> data = UtilMisc.toMap();
         request.setAttribute("psid", psid);
 
         try {
@@ -181,7 +180,18 @@ public class BasePatternEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_APPROVE_APC", userLoginData)) {
+            data.put("info", "You do not have permission to approve base pattern.");
+            System.out.println("You do not have permission to approve base pattern."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
 
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");

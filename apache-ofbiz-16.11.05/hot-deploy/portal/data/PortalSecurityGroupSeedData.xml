@@ -35,6 +35,7 @@ under the License.
     <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_REMOVE_USER"/>
     <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_VIEW_USERS"/>
 
+    <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_CREATE_APC"/>
     <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_EDIT_APC"/>
 
 
@@ -44,6 +45,7 @@ under the License.
 
 
     <!-- Security Group Permissions for AP_APPROVER -->
+    <SecurityGroupPermission groupId="AP_APPROVER" permissionId="PORTAL_APPROVE_APC"/>
 
 
     <!-- Security Group Permissions for AP_DEPLOYER -->
