@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.security.Security;
 
 public class BasePatternEvents{
 
@@ -205,14 +206,8 @@ public class BasePatternEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
             String type = "pre-defined";
-            GenericValue basePatternType = EntityQuery.use(delegator)
-                    .select("type").from("basePatternApc")
-                    .where("id", bpid)
-                    .queryOne();
-
-            String patternType = basePatternType.getString("type");
-            if(!patternType.equals(type)) {
-
+            String basePatternType = getBasePatternType(request,response,bpid);
+            if(!basePatternType.equals(type)) {
                 GenericValue deleteBasePattern = delegator.findOne("basePatternApc", UtilMisc.toMap("id", bpid), false);
                 if (!UtilValidate.isEmpty(deleteBasePattern)) {
                     deleteBasePattern.remove();
@@ -234,6 +229,85 @@ public class BasePatternEvents{
         data.put("message", SUCCESS);
         request.setAttribute("data", data);
         return SUCCESS;
+    }
+
+
+    public static String editBasePattern(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLogin)) {
+            data.put("info", "You do not have permission to edit base pattern.");
+            System.out.println("You do not have permission to edit base pattern."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
+        String bpid = request.getParameter("bpid");
+        String baseName = request.getParameter("baseName");
+        String baseDescription = request.getParameter("baseDescription");
+        String baseForces = request.getParameter("baseForces");
+        String baseBenefits = request.getParameter("baseBenefits");
+        String updatedBy = userLoginData.getString("userLoginId");
+        Map<String, Object> inputs = UtilMisc.toMap("id", bpid);
+
+        String type = "pre-defined";
+        String basePatternType = getBasePatternType(request,response,bpid);
+
+        if(!basePatternType.equals(type)) {
+            try {
+                GenericValue myBasePattern = delegator.findOne("basePatternApc", inputs, false);
+                myBasePattern.setString("updatedBy", updatedBy);
+                myBasePattern.set("baseName", baseName);
+                myBasePattern.set("baseDescription", baseDescription);
+                myBasePattern.set("baseForces", baseForces);
+                myBasePattern.set("baseBenefits", baseBenefits);
+                myBasePattern.set("status", status);
+                delegator.store(myBasePattern);
+                } catch (GenericEntityException ex) {
+                ex.printStackTrace();
+                data.put("info", "BasePattern edit failed - !");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
+                return ERROR;
+            }
+        }else{
+            data.put("info", "BasePattern edit failed - pre-defined!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+            }
+        data.put("info", "BasePattern edited successfully ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
+        return SUCCESS;
+    }
+
+
+    private static String getBasePatternType(HttpServletRequest request, HttpServletResponse response,String id){
+        HttpSession session = request.getSession();
+        Map<String,Object> data = UtilMisc.toMap();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String basePatternTypeData = null;
+        try {
+            GenericValue basePattern = EntityQuery.use(delegator)
+                    .select("type").from("basePatternApc")
+                    .where("id", id)
+                    .queryOne();
+            basePatternTypeData = basePattern.getString("type");
+        }catch (GenericEntityException e) {
+            e.printStackTrace();
+            data.put("info", "Cannot retrieve type from base pattern");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        return basePatternTypeData;
     }
 
 }

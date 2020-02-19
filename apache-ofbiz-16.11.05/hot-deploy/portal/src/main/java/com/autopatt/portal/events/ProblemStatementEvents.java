@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.security.Security;
 
 public class ProblemStatementEvents{
 
@@ -40,6 +41,17 @@ public class ProblemStatementEvents{
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_CREATE_APC", userLogin)) {
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
 
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
@@ -358,6 +370,80 @@ public class ProblemStatementEvents{
         }
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
+    }
+
+    public static String editProblemStatement(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLogin)) {
+            data.put("info", "You do not have permission to edit problem statement.");
+            System.out.println("You do not have permission to edit problem statement."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
+        String psid = request.getParameter("psid");
+        String problemStatement = request.getParameter("problemStatement");
+        String problemDescription = request.getParameter("problemDescription");
+        String tagName = request.getParameter("tagName");
+        String updatedBy = userLoginData.getString("userLoginId");
+        Map<String, Object> inputs = UtilMisc.toMap("id", psid);
+
+        String type = "pre-defined";
+        String basePatternType = getProblemStatementType(request,response,psid);
+
+        if(!basePatternType.equals(type)) {
+            try {
+                GenericValue myProblemStatement = delegator.findOne("problemStatementApc", inputs, false);
+                myProblemStatement.setString("updatedBy", updatedBy);
+                myProblemStatement.set("problemStatement", problemStatement);
+                myProblemStatement.set("problemDescription", problemDescription);
+                delegator.store(myProblemStatement);
+            } catch (GenericEntityException ex) {
+                ex.printStackTrace();
+                data.put("info", "SolutionDesign edit failed - !");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
+                return ERROR;
+            }
+        }else{
+            data.put("info", "problem statement edit failed - pre-defined!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        data.put("info", "problem statement edited successfully ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
+        return SUCCESS;
+    }
+
+
+    private static String getProblemStatementType(HttpServletRequest request, HttpServletResponse response,String id){
+        HttpSession session = request.getSession();
+        Map<String,Object> data = UtilMisc.toMap();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String problemStatementType = null;
+        try {
+            GenericValue problemStatementApc = EntityQuery.use(delegator)
+                    .select("type").from("problemStatementApc")
+                    .where("id", id)
+                    .queryOne();
+            problemStatementType = problemStatementApc.getString("type");
+        }catch (GenericEntityException e) {
+            e.printStackTrace();
+            data.put("info", "Cannot retrieve type from problem statement");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        return problemStatementType;
     }
 
 }
