@@ -55,7 +55,9 @@
                     <select name="securityGroupId" class="form-control" required
                         <#if isOnboardedAdmin?? && isOnboardedAdmin == true>
                             disabled
-                        </#if>>
+                        </#if>
+                            <#if partyId == userLogin.partyId>disabled</#if>
+                    >
                         <#list availableSecurityGroups as secGroup>
                             <option value="${secGroup.groupId!}"
                                 <#if userSecurityGroup?? && secGroup.groupId == userSecurityGroup.groupId>selected</#if>
