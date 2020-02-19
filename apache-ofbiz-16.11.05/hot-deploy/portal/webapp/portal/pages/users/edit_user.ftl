@@ -52,7 +52,10 @@
             <div class="form-group row">
                 <label for="roleacc" class="col-sm-2 col-form-label">Role</label>
                 <div class="col-sm-10">
-                    <select name="securityGroupId" class="form-control" required>
+                    <select name="securityGroupId" class="form-control" required
+                        <#if isOnboardedAdmin?? && isOnboardedAdmin == true>
+                            disabled
+                        </#if>>
                         <#list availableSecurityGroups as secGroup>
                             <option value="${secGroup.groupId!}"
                                 <#if userSecurityGroup?? && secGroup.groupId == userSecurityGroup.groupId>selected</#if>
@@ -60,7 +63,11 @@
                             </option>
                         </#list>
                     </select>
-
+                    <#if isOnboardedAdmin?? && isOnboardedAdmin == true>
+                        <small class="form-text text-muted">
+                            <i class="material-icons">info</i>Role cannot be changed for an administrator created during organization onboarding.
+                        </small>
+                    </#if>
                 </div>
             </div>
             <div class="form-group row">
