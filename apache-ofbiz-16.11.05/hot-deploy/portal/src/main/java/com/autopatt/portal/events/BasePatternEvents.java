@@ -237,10 +237,10 @@ public class BasePatternEvents{
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Object> data = UtilMisc.toMap();
-
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         // Check permission
         Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLogin)) {
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
             data.put("info", "You do not have permission to edit base pattern.");
             System.out.println("You do not have permission to edit base pattern."  );
             data.put("message",ERROR);
@@ -267,7 +267,6 @@ public class BasePatternEvents{
                 myBasePattern.set("baseDescription", baseDescription);
                 myBasePattern.set("baseForces", baseForces);
                 myBasePattern.set("baseBenefits", baseBenefits);
-                myBasePattern.set("status", status);
                 delegator.store(myBasePattern);
                 } catch (GenericEntityException ex) {
                 ex.printStackTrace();

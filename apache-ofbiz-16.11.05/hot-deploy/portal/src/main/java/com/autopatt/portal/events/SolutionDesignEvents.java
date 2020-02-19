@@ -179,7 +179,7 @@ public class SolutionDesignEvents{
 
         try {
             String type = "pre-defined";
-            String solDesignType = getBasePatternType(request,response,bpid);
+            String solDesignType = getSolutionDesignType(request,response,sdid);
 
             if(!solDesignType.equals(type)) {
                 GenericValue deleteSolutionDesign = delegator.findOne("solutionDesignApc", UtilMisc.toMap("id", sdid), false);
@@ -209,11 +209,12 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
         Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLogin)) {
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
             data.put("info", "You do not have permission to edit SolutionDesign.");
             System.out.println("You do not have permission to edit SolutionDesign."  );
             data.put("message",ERROR);
@@ -230,18 +231,17 @@ public class SolutionDesignEvents{
         Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
 
         String type = "pre-defined";
-        String basePatternType = getBasePatternType(request,response,sdid);
+        String solutionDesignType = getSolutionDesignType(request,response,sdid);
 
-        if(!basePatternType.equals(type)) {
+        if(!solutionDesignType.equals(type)) {
             try {
-                GenericValue myBasePattern = delegator.findOne("basePatternApc", inputs, false);
-                myBasePattern.setString("updatedBy", updatedBy);
-                myBasePattern.set("solutionDesignName", solutionDesignName);
-                myBasePattern.set("solutionDesignDesc", solutionDesignDesc);
-                myBasePattern.set("solutionForces", solutionForces);
-                myBasePattern.set("solutionBenefits", solutionBenefits);
-                myBasePattern.set("status", status);
-                delegator.store(myBasePattern);
+                GenericValue mySolutionDesign= delegator.findOne("basePatternApc", inputs, false);
+                mySolutionDesign.setString("updatedBy", updatedBy);
+                mySolutionDesign.set("solutionDesignName", solutionDesignName);
+                mySolutionDesign.set("solutionDesignDesc", solutionDesignDesc);
+                mySolutionDesign.set("solutionForces", solutionForces);
+                mySolutionDesign.set("solutionBenefits", solutionBenefits);
+                delegator.store(mySolutionDesign);
             } catch (GenericEntityException ex) {
                 ex.printStackTrace();
                 data.put("info", "SolutionDesign edit failed - !");

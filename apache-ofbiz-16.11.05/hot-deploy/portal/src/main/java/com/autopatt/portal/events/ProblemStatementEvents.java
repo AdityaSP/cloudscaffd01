@@ -376,11 +376,12 @@ public class ProblemStatementEvents{
         HttpSession session = request.getSession();
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
         Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLogin)) {
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
             data.put("info", "You do not have permission to edit problem statement.");
             System.out.println("You do not have permission to edit problem statement."  );
             data.put("message",ERROR);
