@@ -122,6 +122,28 @@ $(function () {
         });
     });
 
+    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
+        $('#saveChangesBtn').on('click', function (e) {
+            let solutionDesignName = $('#solutionDesignProblem').val(),
+                solutionDesignDesc = $('#solutionDesignDescription').val(),
+                solutionForces = $('#solutionDesignForces').val(),
+                solutionBenefits = $('#solutionDesignBenefits').val(),
+                formData = {
+                    "solutionDesignName": solutionDesignName,
+                    "solutionDesignDesc": solutionDesignDesc,
+                    "solutionForces": solutionForces,
+                    "solutionBenefits": solutionBenefits,
+                    "sdid": sdid,
+                };
+            console.log(formData);
+            if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionBenefits)) {
+                App.genericFetch('editSolutionDesign', 'POST', formData, solutionDesignModificationSuccess, "", "", "");
+            } else {
+                App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
+            }
+        });
+    }
+
     $('.edit').on('click', function (evt) {
         let urlParam;
         if (psid != null && bpid != null && sdid != null) {
@@ -136,6 +158,27 @@ $(function () {
         window.location.href = `graphEditor?${window.btoa(urlParam)}`
     });
 });
+
+function solutionDesignModificationSuccess(data) {
+    // console.log(data);
+    if (data.message == "success") {
+        $('.modalBody').addClass('alert alert-success m-2');
+        $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
+        $('#closeBtn').hide();
+        $('#saveChangesBtn').hide();
+        setTimeout(function () {
+            window.location.reload();
+        }, 1500);
+    } else {
+        $('.modalBody').addClass('alert alert-danger m-2');
+        $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
+        $('#closeBtn').hide();
+        $('#saveChangesBtn').hide();
+        setTimeout(function () {
+            window.location.reload();
+        }, 3000);
+    }
+}
 
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
@@ -188,14 +231,28 @@ function renderSolutionDesign(solutionDesign, sdid) {
         for (let i = 0; i < solutionDesign.length; i++) {
             let patternType = solutionDesign[i].type;
             if (sdid == solutionDesign[i].id) {
-                $('.solutionDesign').text(`${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}`);
+                let solutionDesignName = solutionDesign[i].solutionDesignName,
+                    solutionDesignDescription = solutionDesign[i].solutionDesignDesc,
+                    solutionDesignForces = solutionDesign[i].solutionForces,
+                    solutionDesignBenefits = solutionDesign[i].solutionBenefits;
+
+                $('.solutionDesign').text(`${solutionDesign[i].id} : ${solutionDesignName}`);
                 $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
-                $('.solutionDesignDescription').text(solutionDesign[i].solutionDesignDesc);
+                $('.solutionDesignDescription').text(solutionDesignDescription);
+                $('.solutionDesignForces').text(solutionDesignForces);
+                $('.solutionDesignBenefits').text(solutionDesignBenefits);
+
+                // Setting data to form for modifying.
+                $('#solutionDesignProblem').val(solutionDesignName);
+                $('#solutionDesignDescription').val(solutionDesignDescription);
+                $('#solutionDesignForces').val(solutionDesignForces);
+                $('#solutionDesignBenefits').val(solutionDesignBenefits);
 
                 if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
 
                 if (patternType == 'pre-defined') {
                     $('.deleteSD').hide();
+                    $('.editSD').hide();
                     $('.edit').hide();
                 }
 

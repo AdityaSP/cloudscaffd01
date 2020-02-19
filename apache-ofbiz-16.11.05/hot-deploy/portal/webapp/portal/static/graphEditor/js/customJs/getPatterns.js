@@ -4,11 +4,11 @@ var problemStatementList, basePatternList, solutionDesignList, tagsList;
 
 $(function () {
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     var urlParams = App.urlParams(),
         userRole = App.userRole,
-        psid = urlParams['psid'];
-
-    console.log(urlParams, userRole);
+        psid = urlParams['psid']; console.log(urlParams, userRole);
 
     $(".psid").val(psid);
 
@@ -18,32 +18,70 @@ $(function () {
 
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
 
+        $(".saveChangesBtn").on('click', function (e) {
+            let problemStatement = $('#problemStatement').val(),
+                problemDescription = $('#problemDescription').val(),
+                formData = {
+                    "problemStatement": problemStatement,
+                    "problemDescription": problemDescription,
+                    "psid": psid,
+                };
+            console.log(formData);
+            if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription)) {
+                // App.genericFetch('editProblemStatement', 'POST', formData, "", "", "", "");
+                // response is not rendered
+            } else {
+                App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
+            }
+        });
+
         $("#basePatternFormSubmitBtn").on('click', function (e) {
-            let formData = {
-                "baseName": $('#baseProblem').val(),
-                "baseDescription": $('#baseProblemDescription').val(),
-                "psid": $('.psid').val(),
-            };
-            $('.submitBtn').val('Creating...');
-            App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
-            $('.submitBtn').attr("disabled", true);
+            let baseName = $('#baseProblem').val(),
+                baseDescription = $('#baseProblemDescription').val(),
+                baseForces = $('#baseForces').val(),
+                baseBenefits = $('#baseBenefits').val(),
+                psid = $('.psid').val(),
+                formData = {
+                    "baseName": baseName,
+                    "baseDescription": baseDescription,
+                    "baseForces": baseForces,
+                    "baseBenefits": baseBenefits,
+                    "psid": psid,
+                };
+            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
+                $('.submitBtn').val('Creating...');
+                App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
+                $('.submitBtn').attr("disabled", true);
+            } else {
+                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+            }
         });
 
         $("#solutionDesignFormSubmitBtn").on('click', function (e) {
-            let formData = {
-                "solutionDesignName": $('#solutionDesignName').val(),
-                "solutionDesignDesc": $('#solutionDesignDescription').val(),
-                "solutionForces": $('#solutionForces').val(),
-                "solutionBenefits": $('#solutionBenefits').val(),
-                "psid": $('.psid').val(),
-                "bpid": $('.bpid').val(),
-            };
-            console.log(formData, psid)
-            $('.submitBtn').val('Creating...');
-            App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
-            $('.submitBtn').attr("disabled", true);
+            let solutionDesignName = $('#solutionDesignName').val(),
+                solutionDesignDesc = $('#solutionDesignDescription').val(),
+                solutionForces = $('#solutionForces').val(),
+                solutionBenefits = $('#solutionBenefits').val(),
+                psid = $('.psid').val(),
+                bpid = $('.bpid').val(),
+                formData = {
+                    "solutionDesignName": solutionDesignName,
+                    "solutionDesignDesc": solutionDesignDesc,
+                    "solutionForces": solutionForces,
+                    "solutionBenefits": solutionBenefits,
+                    "psid": psid,
+                    "bpid": bpid,
+                };
+            console.log(formData);
+            if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) &&
+                !App.isEmpty(solutionBenefits) && !App.isEmpty(psid)) {
+                $('.submitBtn').val('Creating...');
+                App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
+                $('.submitBtn').attr("disabled", true);
+            } else {
+                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+            }
         });
-
     } else {
         $('.submitBtn').attr("disabled", true);
     }
@@ -66,7 +104,6 @@ $(function () {
 });
 
 function submitForm(data, path, res) {
-    console.log("Data message" + data);
     $('.submitBtn').hide();
     if (data.message == 'success') {
         App.toastMsg('Creation Successful', 'success', '.toastMsg', true);
@@ -94,24 +131,11 @@ function renderProblemStmt(problemStmt, psid) {
         if (problemStmt.problemStatementList.length > 0) {
             $('#probStatement').text(problemStatementList.problemStatement);
             $('#probStatementDescription').text(problemStatementList.problemDescription);
+            $('#problemStatement').val(problemStatementList.problemStatement);
+            $('#problemDescription').val(problemStatementList.problemDescription);
         }
 
         // Tags Adding
-        const element = [{
-            ids: [],
-            names: []
-        }];
-        // console.log(tagsList)
-        for (let i = 0; i < tagsList.length; i++) {
-            // element[0].ids.push(tagsList[i].tagid);
-            element[0].names.push(tagsList[i].tagName);
-            // element[0].ids[tagsList[i].tagName].push(tagsList[i].tagId);
-        }
-        let tagsListTagName = App.getUniqueArray(element[0].names);
-        // tagsListTagId = element[0].ids;
-
-        // console.log(tagsListTagName); // s = JSON.stringify(j[0])
-
         for (var k = 0; k < tagsList.length; k++) {
             let htmlTags = `<a href="javascript:void(0);" id="${tagsList[k].tagid}"
                  class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`; // Redirect to productApc page to show problem statements

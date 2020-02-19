@@ -17,18 +17,21 @@
             </div>
             <div class="form-group solutionDesignForm">
                 <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
+                
                 <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
-                <#--  <a class="btn btn-info pull-right mr-2 editSD" data-toggle="tooltip" data-placement="left" title="Edit Solution Pattern" href="javascript:void(0);" aria-label="Edit">
-                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>  -->
+                <a class="btn btn-info pull-right mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
+                    data-toggle="modal" data-target="#editFormModal">
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit data"></i></a>
+                
                 <p class="solutionDesignDescription"></p>
                 <div class="solutionDesignConsequences p-4 row">
                     <div class="col-6 border rounded">
-                        <label for="solutionDesignForces h5">Forces</label><hr class="m-0">
+                        <label for="solutionDesignForces h5"><b>Forces</b></label><hr class="m-0">
                         <p class="solutionDesignForces"></p>
                     </div>
                     <div class="col-6 border rounded">
-                        <label for="solutionDesignBenefits">Benefits</label><hr class="m-0">
+                        <label for="solutionDesignBenefits"><b>Benefits</b></label><hr class="m-0">
                         <p class="solutionDesignBenefits"></p>
                     </div>
                 </div>
@@ -62,8 +65,43 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 
-<#--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"></script>  -->
+<!-- Modal -->
+<div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFormModalTitle">Edit User Defined Design</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modalBody">
+            <form id="solutionDesignPatternForm">
+                <div class="form-group">
+                    <label for="solutionDesignProblem">Solution Design Name</label>
+                    <input type="text" name="solutionDesignName" class="form-control" required id="solutionDesignProblem">
+                </div>
+                <input type="hidden" class="psid" name="psid" id="psid" value="">
+                <div class="form-group">
+                    <label for="solutionDesignDescription">Description</label>
+                    <input class="form-control" name="solutionDesignDescription" required id="solutionDesignDescription" rows="3"/>
+                </div>
+                <div class="form-group m-0">
+                    <label>Forces</label>
+                    <input class="form-control" name="solutionDesignForces" required id="solutionDesignForces" rows="3"/>
+                    <label>Benefits</label>
+                    <input class="form-control" name="solutionDesignBenefits" required id="solutionDesignBenefits" rows="3"/>
+                    <div class="formToastMsg my-1"></div>
+                </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
+        <button type="button" class="btn btn-primary saveChangesBtn" id="saveChangesBtn">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="module" src="../static/graphEditor/js/customJs/solutionDesign.js"></script>

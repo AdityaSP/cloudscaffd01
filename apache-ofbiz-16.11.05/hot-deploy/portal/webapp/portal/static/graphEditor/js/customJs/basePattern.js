@@ -113,11 +113,47 @@ $(function () {
         });
     });
 
-    $('.editBP').on('click', function (e) {
-        console.log("edit");
+    $('#saveChangesBtn').on('click', function (e) {
+        let baseName = $('#baseProblem').val(),
+            baseDescription = $('#baseProblemDescription').val(),
+            baseForces = $('#baseForces').val(),
+            baseBenefits = $('#baseBenefits').val(),
+            formData = {
+                "baseName": baseName,
+                "baseDescription": baseDescription,
+                "baseForces": baseForces,
+                "baseBenefits": baseBenefits,
+                "bpid": bpid,
+            };
+        console.log(formData);
+        if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
+            App.genericFetch('editBasePattern', 'POST', formData, BasePatternModificationSuccess, "", "", "");
+        } else {
+            App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
+        }
     });
-
 });
+
+function BasePatternModificationSuccess(data) {
+    // console.log(data);
+    if (data.message == "success") {
+        $('.modalBody').addClass('alert alert-success m-2');
+        $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
+        $('#closeBtn').hide();
+        $('#saveChangesBtn').hide();
+        setTimeout(function () {
+            window.location.reload();
+        }, 1500);
+    } else {
+        $('.modalBody').addClass('alert alert-danger m-2');
+        $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
+        $('#closeBtn').hide();
+        $('#saveChangesBtn').hide();
+        setTimeout(function () {
+            window.location.reload();
+        }, 3000);
+    }
+}
 
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
@@ -138,14 +174,27 @@ function renderBasePattern(basePattern, bpid) {
         for (let i = 0; i < basePattern.length; i++) {
             psid = basePattern[i].psid;
             let patternType = basePattern[i].type;
-            $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
+
+            let baseName = basePattern[i].baseName,
+                baseDescription = basePattern[i].baseDescription,
+                baseForces = basePattern[i].baseForces,
+                baseBenefits = basePattern[i].baseBenefits;
+
+            $('.basePattern').text(`${basePattern[i].id} : ${baseName}`);
             $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
-            $('.basePatternDescription').text(basePattern[i].baseDescription);
-            $('.basePatternForces').text(basePattern[i].baseForces);
-            $('.basePatternBenefits').text(basePattern[i].baseBenefits);
+            $('.basePatternDescription').text(baseDescription);
+            $('.basePatternForces').text(baseForces);
+            $('.basePatternBenefits').text(baseBenefits);
+
+            // Setting data to form for modifying.
+            $('#baseProblem').val(baseName);
+            $('#baseProblemDescription').val(baseDescription);
+            $('#baseForces').val(baseForces);
+            $('#baseBenefits').val(baseBenefits);
 
             if (patternType == 'pre-defined') {
                 $('.deleteBP').hide();
+                $('.editBP').hide();
                 $('.edit').hide();
             }
 
@@ -169,8 +218,9 @@ function renderBasePattern(basePattern, bpid) {
                 $('.edit').attr("disabled", false);
             }
             if (patternType == 'pre-defined') {
-                // $('.deleteSD').hide();
-                $('.edit').hide();
+                $('.approve').hide();
+                $('.title').text('Pre-Defined Pattern');
+                $('.edit').hide(); $('.editBP').hide();
             }
         }
     } else {
