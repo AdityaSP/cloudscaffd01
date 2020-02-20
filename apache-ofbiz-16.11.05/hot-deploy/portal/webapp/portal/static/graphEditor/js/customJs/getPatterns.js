@@ -158,7 +158,7 @@ function renderProblemStmt(problemStmt, psid) {
                 document.querySelector(".basePatternResults").insertAdjacentHTML("afterbegin", basePatternsHtml);
             }
         } else {
-            let basePatternsHtml = `<span class="text-center pt-3">No Base Patterns Found</span>`;
+            let basePatternsHtml = `<span class="text-center pt-3">No Patterns Found</span>`;
             document.querySelector(".basePatternResults").insertAdjacentHTML("afterbegin", basePatternsHtml);
         }
 

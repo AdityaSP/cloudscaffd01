@@ -113,28 +113,28 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Icon</td>
-                    <td>approved Patterns</td>
+                    <td>1</td>
+                    <td>Approved Patterns</td>
                     <td class="approvedBasePattern"></td>
                 </tr>
                  <tr>
-                    <td>Icon</td>
-                    <td>created solution designs</td>
+                    <td>2</td>
+                    <td>Created Solution Designs</td>
                     <td class="createdSolutionDesigns"></td>
                  </tr>
                  <tr>
-                    <td><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
-                    <td>problem statement</td>
+                    <td>3</td>
+                    <td>Problem Statement</td>
                     <td class="ProblemStatement"></td>
                  </tr>
                  <tr>
-                     <td>Icon</td>
-                     <td>custom patterns</td>
+                     <td>4</td>
+                     <td>Custom Patterns</td>
                      <td class="createdBasePattern"></td>
                  </tr>
                  <tr>
-                     <td>Icon</td>
-                     <td>approved solution designs</td>
+                     <td>5</td>
+                     <td>Approved Solution Designs</td>
                      <td class="approvedSolutionDesign"></td>
                  </tr>
               </tbody>
@@ -142,8 +142,6 @@
             </div>
         </div>
 </div>
-
-
 
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -157,17 +155,14 @@
   url:"getAPCDetailsInCount",
   type:"POST",
   success : function(res){
-  console.log(res);
-
-  $(".createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
-  $(".approvedBasePattern").append(res.data.approvedBasePatternCount);
-  $(".ProblemStatement").append(res.data.ProblemStatementCount);
-  $(".createdBasePattern").append(res.data.createdBasePatternCount);
-  $(".approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
+    $(".createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
+    $(".approvedBasePattern").append(res.data.approvedBasePatternCount);
+    $(".ProblemStatement").append(res.data.ProblemStatementCount);
+    $(".createdBasePattern").append(res.data.createdBasePatternCount);
+    $(".approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
   },
   error:function(res){
     console.log(res);
- }
- });
+  }});
  })();
 </script>
