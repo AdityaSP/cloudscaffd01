@@ -206,7 +206,7 @@ public class BasePatternEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to approve.", ERROR);
+            getResponse(request, response, "You do not have permission to delete.", ERROR);
             return ERROR;
         }
 

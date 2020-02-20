@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.security.Security;
 
 public class ProblemStatementEvents{
@@ -399,6 +400,41 @@ public class ProblemStatementEvents{
             return ERROR;
         }
         getResponse(request, response, "problem statement edited successfully ", SUCCESS);
+        return SUCCESS;
+    }
+
+    public static String deleteProblemStatement(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        String psid = request.getParameter("psid");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission to delete.", ERROR);
+            return ERROR;
+        }
+
+        try {
+            String type = "pre-defined";
+            String problemStatementType = getProblemStatementType(request,response,psid);
+
+            if(!problemStatementType.equals(type)) {
+                GenericValue deleteProblemStatement = delegator.findOne("problemStatementApc", UtilMisc.toMap("id", psid), false);
+                if (!UtilValidate.isEmpty(deleteProblemStatement)) {
+                    deleteProblemStatement.remove();
+                }
+            }else{
+                getResponse(request, response, "ProblemStatement deletion failed - user defined!", ERROR);
+                return ERROR;
+            }
+        } catch (GenericEntityException ex) {
+            ex.printStackTrace();
+            getResponse(request, response, "ProblemStatement deletion failed!", ERROR);
+            return ERROR;
+        }
+        getResponse(request, response, "ProblemStatement deletion successfull", SUCCESS);
         return SUCCESS;
     }
 

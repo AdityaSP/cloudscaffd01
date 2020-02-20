@@ -180,7 +180,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to approve.", ERROR);
+            getResponse(request, response, "You do not have permission to delete.", ERROR);
             return ERROR;
         }
 
@@ -202,7 +202,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "SolutionDesign deletion failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign deletion", SUCCESS);
+        getResponse(request, response, "SolutionDesign deletion successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -226,13 +226,13 @@ public class SolutionDesignEvents{
         String solutionBenefits = request.getParameter("solutionBenefits");
         String updatedBy = userLoginData.getString("userLoginId");
         Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
-
+System.out.println("updatedBy ="+updatedBy);
         String type = "pre-defined";
         String solutionDesignType = getSolutionDesignType(request,response,sdid);
 
         if(!solutionDesignType.equals(type)) {
             try {
-                GenericValue mySolutionDesign= delegator.findOne("basePatternApc", inputs, false);
+                GenericValue mySolutionDesign= delegator.findOne("solutionDesignApc", inputs, false);
                 mySolutionDesign.setString("updatedBy", updatedBy);
                 mySolutionDesign.set("solutionDesignName", solutionDesignName);
                 mySolutionDesign.set("solutionDesignDesc", solutionDesignDesc);
@@ -248,7 +248,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "SolutionDesign edit failed - pre-defined!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign edited successfully ", ERROR);
+        getResponse(request, response, "SolutionDesign edited successfully ", SUCCESS);
         return SUCCESS;
     }
 
