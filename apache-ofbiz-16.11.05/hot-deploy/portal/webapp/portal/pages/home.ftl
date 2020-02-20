@@ -19,14 +19,13 @@
         <div class="col-sm-3">
             <div class="card  mb-3 widget-body">
                 <div class="card-body card-padding" >
-                    <h6 class="card-title text-center">Count</h6
-                    <img src="../static/images/icon/1626113.png" class="float-right card-user-icon">
-                    <h5 class="card-text" align="center">created solution designs:<span id="createdSolutionDesigns"></span></br>
-                    <span id="approvedBasePattern">approved patterns : </span></br>
-                    <span id="createdBasePattern">created base patterns : </span></br>
-                    <span id="approvedSolutionDesign">approved solution design : </span></br>
-                    <span id="ProblemStatement">problem statement : </span></br>
-                    </h5>
+                    <h6 class="card-text" align="center">
+                    <span class="createdSolutionDesigns">available designs:</span></br>
+                    <span class="approvedBasePattern">approved patterns : </span></br>
+                    <span class="createdBasePattern">created patterns : </span></br>
+                    <span class="approvedSolutionDesign">approved solution design : </span></br>
+                    <span class="ProblemStatement">problem statement : </span></br>
+                    </h6>
                 </div>
             </div>
         </div>
@@ -66,8 +65,8 @@
         </div>
     </div>
 
-    <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>
         <div class="row">
+            <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>
             <div class="col-sm-6 ">
             <table class="table  table-sm table-style">
                 <thead>
@@ -101,10 +100,47 @@
                 </#if>
                 </tbody>
             </table>
+            </div></#if>
+
+            <div class="col-sm-6 " >
+            <table class="table table-sm table-style">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Icon</td>
+                    <td>approved Patterns</td>
+                    <td class="approvedBasePattern"></td>
+                </tr>
+                 <tr>
+                    <td>Icon</td>
+                    <td>created solution designs</td>
+                    <td class="createdSolutionDesigns"></td>
+                 </tr>
+                 <tr>
+                    <td><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+                    <td>problem statement</td>
+                    <td class="ProblemStatement"></td>
+                 </tr>
+                 <tr>
+                     <td>Icon</td>
+                     <td>custom patterns</td>
+                     <td class="createdBasePattern"></td>
+                 </tr>
+                 <tr>
+                     <td>Icon</td>
+                     <td>approved solution designs</td>
+                     <td class="approvedSolutionDesign"></td>
+                 </tr>
+              </tbody>
+            </table>
             </div>
         </div>
-    </#if>
-
 </div>
 
 
@@ -121,12 +157,13 @@
   url:"getAPCDetailsInCount",
   type:"POST",
   success : function(res){
-  console.log(res.ProblemStatementCount);
-  $("#createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
-  $("#approvedBasePattern").append(res.data.approvedBasePatternCount);
-  $("#ProblemStatement").append(res.data.ProblemStatementCount);
-  $("#createdBasePattern").append(res.data.createdBasePatternCount);
-  $("#approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
+  console.log(res);
+
+  $(".createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
+  $(".approvedBasePattern").append(res.data.approvedBasePatternCount);
+  $(".ProblemStatement").append(res.data.ProblemStatementCount);
+  $(".createdBasePattern").append(res.data.createdBasePatternCount);
+  $(".approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
   },
   error:function(res){
     console.log(res);

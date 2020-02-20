@@ -17,7 +17,6 @@ $(function () {
     App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
-
         $(".saveChangesBtn").on('click', function (e) {
             let problemStatement = $('#problemStatement').val(),
                 problemDescription = $('#problemDescription').val(),
@@ -28,8 +27,7 @@ $(function () {
                 };
             console.log(formData);
             if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription)) {
-                // App.genericFetch('editProblemStatement', 'POST', formData, "", "", "", "");
-                // response is not rendered
+                App.genericFetch('editProblemStatement', 'POST', formData, App.modalFormResponse, "", "", "");
             } else {
                 App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
             }
@@ -137,8 +135,9 @@ function renderProblemStmt(problemStmt, psid) {
 
         // Tags Adding
         for (var k = 0; k < tagsList.length; k++) {
-            let htmlTags = `<a href="javascript:void(0);" id="${tagsList[k].tagid}"
-                 class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`; // Redirect to productApc page to show problem statements
+            let url = `productAPC?`, queryStr = `tagid=${tagsList[k].tagid}`,
+                htmlTags = `<a href="${url}${App.encrypt(queryStr)}" id="${tagsList[k].tagid}"
+                 class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`;
             document.querySelector(".problemTags").insertAdjacentHTML("beforeend", htmlTags);
         }
 
@@ -186,7 +185,6 @@ function renderProblemStmt(problemStmt, psid) {
             }
             $('.bpid').val(bpid);
             // Fetch solution designs and render
-            // App.loader('');
             $(".basePattern").removeClass("active");
             $(this).addClass("active");
             App.genericFetch("getSolutionDesignByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");

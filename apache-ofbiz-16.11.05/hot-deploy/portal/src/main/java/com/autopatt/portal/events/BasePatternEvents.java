@@ -40,10 +40,7 @@ public class BasePatternEvents{
         Map<String,Object> data = UtilMisc.toMap();
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            data.put("info", "You do not have permission to create.");
-            System.out.println("You do not have permission to create."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
 
@@ -60,22 +57,15 @@ public class BasePatternEvents{
                     UtilMisc.<String, Object>toMap("psid", psid, "baseName", baseName,"baseDescription",baseDescription,
                             "baseDescription",baseDescription, "baseForces",baseForces,"baseBenefits",baseBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
-                Debug.logError("Error creating addBasePatternResp for " + addBasePatternResp, module);
-                data.put("info", "BasePattern creation failed!");
-                data.put("message",ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "BasePattern creation failed!", ERROR);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            data.put("info", "BasePattern creation failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "BasePattern creation failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "BasePattern creation Successfull");
-        data.put("message",SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "BasePattern creation Successfull", SUCCESS);
         return SUCCESS;
 
     }
@@ -90,10 +80,7 @@ public class BasePatternEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
-            data.put("info", "You do not have permission to create.");
-            System.out.println("You do not have permission to create."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
         String id = request.getParameter("id");
@@ -117,14 +104,10 @@ public class BasePatternEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            data.put("info", "BasePattern update failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "BasePattern update failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "BasePattern update Successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "BasePattern update Successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -192,15 +175,11 @@ public class BasePatternEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
-            data.put("info", "You do not have permission to approve.");
-            System.out.println("You do not have permission to approve."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to approve.", ERROR);
             return ERROR;
         }
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
-
         request.setAttribute("psid", psid);
         request.setAttribute("bpid", bpid);
         String status = "approved";
@@ -212,21 +191,24 @@ public class BasePatternEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            data.put("info", "BasePattern approval failed");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "BasePattern approval failed", ERROR);
             return ERROR;
         }
-        data.put("info", "BasePattern approval Successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "BasePattern approval Successfull", SUCCESS);
         return SUCCESS;
     }
 
     public static String deleteBasePattern(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         String bpid = request.getParameter("bpid");
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission to delete.", ERROR);
+            return ERROR;
+        }
 
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
@@ -238,21 +220,15 @@ public class BasePatternEvents{
                     deleteBasePattern.remove();
                 }
             }else{
-                data.put("info", "BasePattern delete failed - user defined!");
-                data.put("message", ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "BasePattern delete failed - user defined!", ERROR);
                 return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            data.put("info", "BasePattern delete failed!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "BasePattern delete failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "BasePattern deleted successfully ");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "BasePattern deleted successfully ", SUCCESS);
         return SUCCESS;
     }
 
@@ -265,10 +241,7 @@ public class BasePatternEvents{
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
-            data.put("info", "You do not have permission to edit.");
-            System.out.println("You do not have permission to edit."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to edit.", ERROR);
             return ERROR;
         }
 
@@ -294,20 +267,14 @@ public class BasePatternEvents{
                 delegator.store(myBasePattern);
                 } catch (GenericEntityException ex) {
                 ex.printStackTrace();
-                data.put("info", "BasePattern edit failed - !");
-                data.put("message", ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "BasePattern edit failed - !", ERROR);
                 return ERROR;
             }
         }else{
-            data.put("info", "BasePattern edit failed - pre-defined!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "BasePattern edit failed - pre-defined!", ERROR);
             return ERROR;
             }
-        data.put("info", "BasePattern edited successfully ");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "Edited successfully ", SUCCESS);
         return SUCCESS;
     }
 
@@ -325,9 +292,7 @@ public class BasePatternEvents{
             basePatternTypeData = basePattern.getString("type");
         }catch (GenericEntityException e) {
             e.printStackTrace();
-            data.put("info", "Cannot retrieve type from base pattern");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "Cannot retrieve type from base pattern", ERROR);
             return ERROR;
         }
         return basePatternTypeData;
@@ -341,6 +306,16 @@ public class BasePatternEvents{
             return false;
         }
         return true;
+    }
+
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
     }
 
 }

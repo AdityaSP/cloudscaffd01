@@ -363,6 +363,12 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
+	<request-map uri="deleteProblemStatement">
+		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="deleteProblemStatement" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
 	<request-map uri="editProblemStatement">
 		<event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="editProblemStatement" />
 		<response name="success" type="request" value="json"/>

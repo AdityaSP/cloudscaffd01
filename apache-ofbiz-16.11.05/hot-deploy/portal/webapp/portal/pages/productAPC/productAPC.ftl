@@ -111,7 +111,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-9">
-                                            <div class="toastMsg"></div>
+                                            <div class="formToastMsg"></div>
                                         </div>
                                         <div class="col-3">
                                             <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="problemStmtFormSubmitBtn" style="width: 125px;">

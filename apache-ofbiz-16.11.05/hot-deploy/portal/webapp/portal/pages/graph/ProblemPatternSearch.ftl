@@ -77,11 +77,11 @@
                     <div class="tabbable" id="tabss">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active show" href="#solutionTab1" data-toggle="tab">Solution Patterns</a>
+                                <a class="nav-link active show" href="#solutionTab1" data-toggle="tab">Solution Design</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="createBasicPattern" href="#solutionTab2"
-                                   data-toggle="tab">Create Solution Pattern</a>
+                                   data-toggle="tab">Create Solution Design</a>
                             </li>
                         </ul>
                         <div class="tab-content">

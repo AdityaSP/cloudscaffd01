@@ -5,7 +5,7 @@ export const App = {
     urlParams: function () {
         let search = location.search.substring(1), urlParams;
 
-        if (search.includes('psid')) {
+        if (search.includes('psid') || search.includes('tagid')) {
             urlParams = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) });
             return urlParams;
         } else {
@@ -94,6 +94,26 @@ export const App = {
     clearLoader() {
         const loader = $(`.loader`);
         if (loader) { loader.remove(); }
+    },
+    modalFormResponse: function (data) {
+        // console.log(data);
+        if (data && data.message == "success") {
+            $('.modalBody').addClass('alert alert-success m-2');
+            $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
+            $('#closeBtn').hide();
+            $('#saveChangesBtn').hide();
+            setTimeout(function () {
+                window.location.reload();
+            }, 1500);
+        } else {
+            $('.modalBody').addClass('alert alert-danger m-2');
+            $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
+            $('#closeBtn').hide();
+            $('#saveChangesBtn').hide();
+            setTimeout(function () {
+                window.location.reload();
+            }, 3000);
+        }
     },
     isEmpty: function (data) {
         if (typeof (data) == 'number' || typeof (data) == 'boolean') { return false; }

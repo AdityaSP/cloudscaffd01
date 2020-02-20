@@ -127,33 +127,12 @@ $(function () {
             };
         console.log(formData);
         if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
-            App.genericFetch('editBasePattern', 'POST', formData, BasePatternModificationSuccess, "", "", "");
+            App.genericFetch('editBasePattern', 'POST', formData, App.modalFormResponse, "", "", "");
         } else {
             App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
         }
     });
 });
-
-function BasePatternModificationSuccess(data) {
-    // console.log(data);
-    if (data.message == "success") {
-        $('.modalBody').addClass('alert alert-success m-2');
-        $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
-        $('#closeBtn').hide();
-        $('#saveChangesBtn').hide();
-        setTimeout(function () {
-            window.location.reload();
-        }, 1500);
-    } else {
-        $('.modalBody').addClass('alert alert-danger m-2');
-        $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
-        $('#closeBtn').hide();
-        $('#saveChangesBtn').hide();
-        setTimeout(function () {
-            window.location.reload();
-        }, 3000);
-    }
-}
 
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);

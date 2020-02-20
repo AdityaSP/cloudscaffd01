@@ -1,7 +1,12 @@
 import { App } from './app.js';
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    var userRole = App.userRole; console.log(userRole);
+    var urlParams,
+        userRole = App.userRole; console.log(urlParams, userRole);
+    if (window.location.search != "") {
+        urlParams = App.urlParams();
+    }
+
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
     App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
     $("#tags").on('click', '.tag', function (evt) {
@@ -10,6 +15,11 @@ $(function () {
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", "", "");
     });
+    if (urlParams && urlParams['tagid']) {
+        clearSearchResults();
+        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": urlParams['tagid'] }, renderProblemStatements, "", "", "");
+    }
+
     let PS_input = document.querySelector(".inputSearch"),
         searchStr;
     let searchStr;
@@ -84,18 +94,27 @@ $(function () {
                 App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);
             } else {
+                App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
                 // App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
                 $('.toastMsg').text('Please enter all the details');
             }
+
+
         });
     } else {
         $('.submitBtn').attr("disabled", true);
     }
+
+
 });
+
+
 function submitForm(data) {
     console.log(data)
     window.location.reload();
 }
+
+
 function checkBeforeRender(data) {
     // Remove Existing Data in search result
     clearSearchResults();
@@ -121,6 +140,8 @@ function checkBeforeRender(data) {
         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
     }
 }
+
+
 function clearSearchResults() {
     let isExpanded = $('.filterToggler').attr("aria-expanded");
     if (isExpanded == 'true') {
@@ -129,6 +150,8 @@ function clearSearchResults() {
     $('.searchResultsList').children().remove();
     App.loader('.searchResultsList');
 }
+
+
 function renderProblemStatements(problems) {
     if (problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
@@ -141,6 +164,8 @@ function renderProblemStatements(problems) {
         console.log("PS is empty")
     }
 }
+
+
 function renderBasePatterns(basePattern) {
     if (basePattern.length > 0) {
         for (let i = 0; i < basePattern.length; i++) {
@@ -160,6 +185,8 @@ function renderSolutionDesigns(solutionDesign) {
             let queryStr, sdid = solutionDesign[i].id,
                 psid = solutionDesign[i].psid, bpid;
             queryStr = `sdid=${sdid}&psid=${psid}`;
+
+
             if (solutionDesign[i].bpid != null) {
                 bpid = solutionDesign[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
@@ -184,10 +211,12 @@ function renderTags(tags) {
         $('#tags').hide();
     }
 }
+
+
 function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
-        url: "getAPCDetailsInCount",
+        url: "getAll",
         data: { "inputSearch": searchStr },
         success: function (res) {
             console.log(res);
