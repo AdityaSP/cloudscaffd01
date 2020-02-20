@@ -22,7 +22,6 @@ $(function () {
 
     let PS_input = document.querySelector(".inputSearch"),
         searchStr;
-    let searchStr;
     $('.applyBtn').on('click', function (event) {
         event.preventDefault();
         let selected = [];

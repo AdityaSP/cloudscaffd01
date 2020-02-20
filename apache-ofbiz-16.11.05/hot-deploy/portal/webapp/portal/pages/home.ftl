@@ -16,7 +16,7 @@
         </div>
 
 
-        <div class="col-sm-3">
+     <!--   <div class="col-sm-3">
             <div class="card  mb-3 widget-body">
                 <div class="card-body card-padding" >
                     <h6 class="card-text" align="center">
@@ -28,7 +28,7 @@
                     </h6>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <div class="col-sm-4">
