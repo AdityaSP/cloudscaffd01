@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.security.Security;
 
 public class ProblemStatementEvents{
 
@@ -35,11 +36,16 @@ public class ProblemStatementEvents{
     public static String addProblemStatement(HttpServletRequest request, HttpServletResponse response) {
 
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
+            getResponse(request, response, "You do not have permission to create.", ERROR);
+            return ERROR;
+        }
 
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
@@ -60,9 +66,7 @@ public class ProblemStatementEvents{
             delegator.create(newProblemStatement);
             } catch (GenericEntityException ex) {
                 Debug.logError(ex, module);
-            data.put("info", "Problem Statement creation failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
 
@@ -103,14 +107,10 @@ public class ProblemStatementEvents{
             }
         } catch (GenericEntityException e) {
             Debug.logError(e, module);
-            data.put("info", "Problem Statement creation failed!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "Problem Statement creation successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "Problem Statement creation successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -349,6 +349,91 @@ public class ProblemStatementEvents{
         }
         request.setAttribute("message", SUCCESS);
         return SUCCESS;
+    }
+
+    public static String editProblemStatement(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission to edit.", ERROR);
+            return ERROR;
+        }
+
+        String psid = request.getParameter("psid");
+        String problemStatement = request.getParameter("problemStatement");
+        String problemDescription = request.getParameter("problemDescription");
+        String tagName = request.getParameter("tagName");
+        String updatedBy = userLoginData.getString("userLoginId");
+        Map<String, Object> inputs = UtilMisc.toMap("id", psid);
+
+        String type = "pre-defined";
+        String basePatternType = getProblemStatementType(request,response,psid);
+
+        if(!basePatternType.equals(type)) {
+            try {
+                GenericValue myProblemStatement = delegator.findOne("problemStatementApc", inputs, false);
+                myProblemStatement.setString("updatedBy", updatedBy);
+                myProblemStatement.set("problemStatement", problemStatement);
+                myProblemStatement.set("problemDescription", problemDescription);
+                delegator.store(myProblemStatement);
+            } catch (GenericEntityException ex) {
+                ex.printStackTrace();
+                getResponse(request, response, "SolutionDesign edit failed - !", ERROR);
+                return ERROR;
+            }
+        }else{
+            getResponse(request, response, "problem statement edit failed - pre-defined!", ERROR);
+            return ERROR;
+        }
+        getResponse(request, response, "problem statement edited successfully ", SUCCESS);
+        return SUCCESS;
+    }
+
+
+    private static String getProblemStatementType(HttpServletRequest request, HttpServletResponse response,String id){
+        HttpSession session = request.getSession();
+        Map<String,Object> data = UtilMisc.toMap();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String problemStatementType = null;
+        try {
+            GenericValue problemStatementApc = EntityQuery.use(delegator)
+                    .select("type").from("problemStatementApc")
+                    .where("id", id)
+                    .queryOne();
+            problemStatementType = problemStatementApc.getString("type");
+        }catch (GenericEntityException e) {
+            e.printStackTrace();
+            data.put("info", "Cannot retrieve type from problem statement");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        return problemStatementType;
+    }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                         String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
     }
 
 }

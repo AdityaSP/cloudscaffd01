@@ -3,6 +3,8 @@
 
 <entity-engine-xml>
 
+    <!-- An onboarding time admin person's role cannot be changed -->
+    <RoleType description="Onboarded Admin" hasTable="N" parentTypeId="" roleTypeId="ONBOARDED_ADMIN"/>
 
 </entity-engine-xml>
 

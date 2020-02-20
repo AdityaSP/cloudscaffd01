@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
+import org.apache.ofbiz.security.Security;
 
 public class BasePatternEvents{
 
@@ -36,6 +37,15 @@ public class BasePatternEvents{
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
 
         String psid = request.getParameter("psid");
         String baseName = request.getParameter("baseName");
@@ -43,7 +53,6 @@ public class BasePatternEvents{
         String baseForces = request.getParameter("baseForces");
         String baseBenefits = request.getParameter("baseBenefits");
 
-        Map<String,Object> data = UtilMisc.toMap();
         request.setAttribute("psid", psid);
 
         try {
@@ -79,6 +88,14 @@ public class BasePatternEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Object> data = UtilMisc.toMap();
 
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
         Object xml = request.getParameter("xml");
@@ -170,8 +187,17 @@ public class BasePatternEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
 
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
+            data.put("info", "You do not have permission to approve.");
+            System.out.println("You do not have permission to approve."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
 
@@ -205,14 +231,8 @@ public class BasePatternEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
             String type = "pre-defined";
-            GenericValue basePatternType = EntityQuery.use(delegator)
-                    .select("type").from("basePatternApc")
-                    .where("id", bpid)
-                    .queryOne();
-
-            String patternType = basePatternType.getString("type");
-            if(!patternType.equals(type)) {
-
+            String basePatternType = getBasePatternType(request,response,bpid);
+            if(!basePatternType.equals(type)) {
                 GenericValue deleteBasePattern = delegator.findOne("basePatternApc", UtilMisc.toMap("id", bpid), false);
                 if (!UtilValidate.isEmpty(deleteBasePattern)) {
                     deleteBasePattern.remove();
@@ -234,6 +254,93 @@ public class BasePatternEvents{
         data.put("message", SUCCESS);
         request.setAttribute("data", data);
         return SUCCESS;
+    }
+
+
+    public static String editBasePattern(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        Map<String,Object> data = UtilMisc.toMap();
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            data.put("info", "You do not have permission to edit.");
+            System.out.println("You do not have permission to edit."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
+        String bpid = request.getParameter("bpid");
+        String baseName = request.getParameter("baseName");
+        String baseDescription = request.getParameter("baseDescription");
+        String baseForces = request.getParameter("baseForces");
+        String baseBenefits = request.getParameter("baseBenefits");
+        String updatedBy = userLoginData.getString("userLoginId");
+        Map<String, Object> inputs = UtilMisc.toMap("id", bpid);
+
+        String type = "pre-defined";
+        String basePatternType = getBasePatternType(request,response,bpid);
+
+        if(!basePatternType.equals(type)) {
+            try {
+                GenericValue myBasePattern = delegator.findOne("basePatternApc", inputs, false);
+                myBasePattern.setString("updatedBy", updatedBy);
+                myBasePattern.set("baseName", baseName);
+                myBasePattern.set("baseDescription", baseDescription);
+                myBasePattern.set("baseForces", baseForces);
+                myBasePattern.set("baseBenefits", baseBenefits);
+                delegator.store(myBasePattern);
+                } catch (GenericEntityException ex) {
+                ex.printStackTrace();
+                data.put("info", "BasePattern edit failed - !");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
+                return ERROR;
+            }
+        }else{
+            data.put("info", "BasePattern edit failed - pre-defined!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+            }
+        data.put("info", "BasePattern edited successfully ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
+        return SUCCESS;
+    }
+
+
+    private static String getBasePatternType(HttpServletRequest request, HttpServletResponse response,String id){
+        HttpSession session = request.getSession();
+        Map<String,Object> data = UtilMisc.toMap();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String basePatternTypeData = null;
+        try {
+            GenericValue basePattern = EntityQuery.use(delegator)
+                    .select("type").from("basePatternApc")
+                    .where("id", id)
+                    .queryOne();
+            basePatternTypeData = basePattern.getString("type");
+        }catch (GenericEntityException e) {
+            e.printStackTrace();
+            data.put("info", "Cannot retrieve type from base pattern");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        return basePatternTypeData;
+    }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                                 String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
     }
 
 }

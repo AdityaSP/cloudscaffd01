@@ -1,25 +1,23 @@
 import { App } from './app.js';
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 
     var userRole = App.userRole; console.log(userRole);
 
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
 
-    App.genericFetch('getTags', "POST", "", renderTags, "", notFound, "");
+    App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
 
     $("#tags").on('click', '.tag', function (evt) {
-        let tag = evt.target.textContent;
-        let tagId = evt.target.id;
-        // Remove Existing Data in search result
+        let tag = evt.target.textContent,
+            tagId = evt.target.id;
         clearSearchResults();
-        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", notFound, "");
+        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", "", "");
     });
 
-    var PS_input = document.querySelector(".inputSearch");
-
-    let searchStr;
+    let PS_input = document.querySelector(".inputSearch"),
+        searchStr;
 
     $('.applyBtn').on('click', function (event) {
         event.preventDefault();
@@ -27,7 +25,6 @@ $(function () {
         $('.custom-checkbox input:checked').each(function () {
             selected.push($(this).attr('name'));
         });
-
         console.log(selected.toString())
     });
 
@@ -41,6 +38,7 @@ $(function () {
             this.checked = false;
         });
     });
+
     PS_input.addEventListener('keypress', e => {
         let selected = [], type, data;
         if (e.key === 'Enter') {
@@ -52,13 +50,12 @@ $(function () {
             } else {
                 type = selected.toString();
             }
-
             searchStr = event.target.value;
             if (searchStr != '') {
                 if (type != '') {
                     data = { "inputSearch": searchStr, "type": type };
                     console.log(data);
-                    //getDataForSearchResults(searchStr);
+                    // ajaxTest(searchStr);
                     App.genericFetch('search', "POST", data, checkBeforeRender, "", "", "")
                     App.clearInput(".inputSearch");
                 } else {
@@ -72,8 +69,6 @@ $(function () {
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);
-                // $('.searchResultsList').children().remove();
-                // App.toastMsg('Sorry, no results found', '', '.searchResultsList');
             }
         }
     });
@@ -81,15 +76,22 @@ $(function () {
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
         $("#problemStmtFormSubmitBtn").on('click', function (e) {
             let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
+                problemStatement = $('#problemStatement').val(),
+                problemDescription = $('#problemDescription').val(),
                 formData = {
-                    "problemStatement": $('#problemStatement').val(),
-                    "problemDescription": $('#problemDescription').val(),
+                    "problemStatement": problemStatement,
+                    "problemDescription": problemDescription,
                     "tag": tag.toString()
                 };
             console.log(formData);
-            $('.submitBtn').val('Creating...');
-            App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
-            $('.submitBtn').attr("disabled", true);
+            if (problemStatement != null && problemDescription != null && tag.length > 0) {
+                $('.submitBtn').val('Creating...');
+                App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
+                $('.submitBtn').attr("disabled", true);
+            } else {
+                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+            }
+
         });
     } else {
         $('.submitBtn').attr("disabled", true);
@@ -106,15 +108,12 @@ function checkBeforeRender(data) {
     // Remove Existing Data in search result
     clearSearchResults();
 
-    if (data.basePatterns) {
-        renderBasePatterns(data.basePatterns);
-    }
-    if (data.solutionDesigns) {
-        renderSolutionDesigns(data.solutionDesigns);
-    }
-    if (data.ProblemStatements) {
-        renderProblemStatements(data.ProblemStatements);
-    }
+    if (data.basePatterns) { renderBasePatterns(data.basePatterns); }
+
+    if (data.solutionDesigns) { renderSolutionDesigns(data.solutionDesigns); }
+
+    if (data.ProblemStatements) { renderProblemStatements(data.ProblemStatements); }
+
     if ((data.basePatterns && data.basePatterns.length == 0) &&
         (data.solutionDesigns && data.solutionDesigns.length == 0) &&
         (data.ProblemStatements && data.ProblemStatements.length == 0)) {
@@ -140,7 +139,7 @@ function renderProblemStatements(problems) {
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
-        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        console.log("PS is empty")
     }
 }
 
@@ -154,7 +153,7 @@ function renderBasePatterns(basePattern) {
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
-        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        console.log("BP is empty");
     }
 }
 function renderSolutionDesigns(solutionDesign) {
@@ -173,10 +172,9 @@ function renderSolutionDesigns(solutionDesign) {
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
-        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        console.log("SD is empty");
     }
 }
-
 
 function renderTags(tags) {
     if (!App.isEmpty(tags)) {
@@ -190,7 +188,7 @@ function renderTags(tags) {
     }
 }
 
-function getDataForSearchResults(searchStr) { // Remove this method
+function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
         url: "getAPCDetailsInCount",
@@ -202,7 +200,4 @@ function getDataForSearchResults(searchStr) { // Remove this method
             console.log(err);
         }
     });
-}
-function notFound() {
-    App.toastMsg(`Nothing found related to '${searchStr}'`, "failed", ".searchResultsList", false)
 }

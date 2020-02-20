@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Problem Description</label>
-                                        <div class="input-container">
+                                        <div class="input-container problemDescription">
                                             <input type="text" class="form-control" id="problemDescription" required>
                                         </div>
                                     </div>
@@ -109,9 +109,13 @@
                                         </div>
                                         <label for="tag">Note : Please use space for entering multiple tags. </label>
                                     </div>
-                                    <div>
-                                        <div class="toastMsg"></div>
-                                        <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="problemStmtFormSubmitBtn" style="width: 125px;">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="toastMsg"></div>
+                                        </div>
+                                        <div class="col-3">
+                                            <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="problemStmtFormSubmitBtn" style="width: 125px;">
+                                        </div>
                                     </div>
                                 </form>
                             </div>

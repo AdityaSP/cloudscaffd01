@@ -266,6 +266,19 @@ public class CustomerOnboardingServices {
                 Debug.logError("Error creating new Party Role for " + contactEmail + " in tenant " + tenantId, module);
                 return adminUserLoginPartyId;
             }
+
+            // Add ONBOARDED_ADMIN Role to this admin user, so that we restrict any role changes for this user.
+            Map<String, Object> onboardedAdminPartyRole = UtilMisc.toMap(
+                    "partyId", adminUserLoginPartyId,
+                    "roleTypeId", "ONBOARDED_ADMIN",
+                    "userLogin", UserLoginUtils.getSystemUserLogin(tenantDelegator)
+            );
+            Map<String,Object> createOnboardedAdminPartyRoleResp = tenantDispatcher.runSync("createPartyRole", onboardedAdminPartyRole);
+            if(!ServiceUtil.isSuccess(createOnboardedAdminPartyRoleResp)) {
+                Debug.logError("Error creating new ONBOARDED_ADMIN Party Role for " + contactEmail + " in tenant " + tenantId, module);
+                return adminUserLoginPartyId;
+            }
+
             // Add partyRelationship with ORG Party (orgPartyId)
             Map<String, Object> partyRelationship = UtilMisc.toMap(
                     "partyIdFrom", orgPartyId,

@@ -20,6 +20,7 @@ import java.util.TimeZone;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.security.Security;
 
 public class SolutionDesignEvents{
 
@@ -33,16 +34,23 @@ public class SolutionDesignEvents{
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
 
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
-
         String solutionDesignName = request.getParameter("solutionDesignName");
         String solutionDesignDesc = request.getParameter("solutionDesignDesc");
         String solutionForces = request.getParameter("solutionForces");
         String solutionBenefits = request.getParameter("solutionBenefits");
-
-        Map<String,Object> data = UtilMisc.toMap();
         request.setAttribute("psid", psid);
 
         try {
@@ -76,6 +84,15 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+        // Check Permission
+        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
+            data.put("info", "You do not have permission to create.");
+            System.out.println("You do not have permission to create."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
 
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
@@ -84,8 +101,6 @@ public class SolutionDesignEvents{
         Object json = request.getParameter("json");
         String updatedBy = userLoginData.getString("userLoginId");
         String status = "Under-Development";
-
-        Map<String,Object> data = UtilMisc.toMap();
         Map<String, Object> inputs = UtilMisc.toMap("id", id);
         try {
             GenericValue myBasePattern = delegator.findOne("solutionDesignApc", inputs, false);
@@ -138,8 +153,17 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
-
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
+            data.put("info", "You do not have permission to approve.");
+            System.out.println("You do not have permission to approve."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
         String sdid = request.getParameter("sdid");
         String psid = request.getParameter("psid");
         String bpid = null;
@@ -178,14 +202,9 @@ public class SolutionDesignEvents{
 
         try {
             String type = "pre-defined";
-            GenericValue solutionDesignType = EntityQuery.use(delegator)
-                    .select("type").from("solutionDesignApc")
-                    .where("id", sdid)
-                    .queryOne();
+            String solDesignType = getSolutionDesignType(request,response,sdid);
 
-            String solDesignType = solutionDesignType.getString("type");
             if(!solDesignType.equals(type)) {
-
                 GenericValue deleteSolutionDesign = delegator.findOne("solutionDesignApc", UtilMisc.toMap("id", sdid), false);
                 if (!UtilValidate.isEmpty(deleteSolutionDesign)) {
                     deleteSolutionDesign.remove();
@@ -207,5 +226,93 @@ public class SolutionDesignEvents{
         data.put("message", SUCCESS);
         request.setAttribute("data", data);
         return SUCCESS;
+    }
+
+    public static String editSolutionDesign(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
+            data.put("info", "You do not have permission to edit SolutionDesign.");
+            System.out.println("You do not have permission to edit SolutionDesign."  );
+            data.put("message",ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+
+        String sdid = request.getParameter("sdid");
+        String solutionDesignName = request.getParameter("solutionDesignName");
+        String solutionDesignDesc = request.getParameter("solutionDesignDesc");
+        String solutionForces = request.getParameter("solutionForces");
+        String solutionBenefits = request.getParameter("solutionBenefits");
+        String updatedBy = userLoginData.getString("userLoginId");
+        Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
+
+        String type = "pre-defined";
+        String solutionDesignType = getSolutionDesignType(request,response,sdid);
+
+        if(!solutionDesignType.equals(type)) {
+            try {
+                GenericValue mySolutionDesign= delegator.findOne("basePatternApc", inputs, false);
+                mySolutionDesign.setString("updatedBy", updatedBy);
+                mySolutionDesign.set("solutionDesignName", solutionDesignName);
+                mySolutionDesign.set("solutionDesignDesc", solutionDesignDesc);
+                mySolutionDesign.set("solutionForces", solutionForces);
+                mySolutionDesign.set("solutionBenefits", solutionBenefits);
+                delegator.store(mySolutionDesign);
+            } catch (GenericEntityException ex) {
+                ex.printStackTrace();
+                data.put("info", "SolutionDesign edit failed - !");
+                data.put("message", ERROR);
+                request.setAttribute("data", data);
+                return ERROR;
+            }
+        }else{
+            data.put("info", "SolutionDesign edit failed - pre-defined!");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        data.put("info", "SolutionDesign edited successfully ");
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
+        return SUCCESS;
+    }
+
+
+    private static String getSolutionDesignType(HttpServletRequest request, HttpServletResponse response,String id){
+        HttpSession session = request.getSession();
+        Map<String,Object> data = UtilMisc.toMap();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String solutionDesignApcType = null;
+        try {
+            GenericValue solutionDesignApc = EntityQuery.use(delegator)
+                    .select("type").from("solutionDesignApc")
+                    .where("id", id)
+                    .queryOne();
+            solutionDesignApcType = solutionDesignApc.getString("type");
+        }catch (GenericEntityException e) {
+            e.printStackTrace();
+            data.put("info", "Cannot retrieve type from solution design");
+            data.put("message", ERROR);
+            request.setAttribute("data", data);
+            return ERROR;
+        }
+        return solutionDesignApcType;
+    }
+
+    private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
+                                                 String permissionName, GenericValue userLogin){
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Security security = dispatcher.getSecurity();
+        if (!security.hasPermission(permissionName, userLogin)) {
+            return false;
+        }
+        return true;
     }
 }

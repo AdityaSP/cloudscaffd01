@@ -69,6 +69,9 @@ export const App = {
             }
         });
     },
+    outputResponse: function (data) {
+        console.log(data);
+    },
     loader: function (place) {
         const load = `<div class="loader"><center><svg width="65" height="65" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#4f4c4c">
 	    <g fill="none" fill-rule="evenodd">
@@ -142,7 +145,7 @@ export const App = {
                         </div>`;
             }; break;
             default: {
-                toast = `<div class="text-center alert bg-light" role="alert">
+                toast = `<div class="text-center alert bg-light " role="alert">
                             ${msg}
                         </div>`;
             }
@@ -166,6 +169,9 @@ export const App = {
         let div = `<div class="toastMsg mx-2 mt-2"></div>`;
         $(place).after(div);
         return "toastMsg";
+    },
+    customToastMessage: function (msg, type, place, isTrue) {
+        App.toastMsg(`${msg}`, type, place, isTrue);
     },
     toastAlert: function (msg) {
         let toast = `<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
