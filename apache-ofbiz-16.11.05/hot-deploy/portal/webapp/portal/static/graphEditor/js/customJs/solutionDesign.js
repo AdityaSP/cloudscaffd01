@@ -110,7 +110,7 @@ $(function () {
                 if (result) {
                     App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
                     $('.solutionDesignForm').hide(); $('.svgDiv').hide();
-                    App.toastMsg(`<u><a href="${document.referrer}">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
+                    App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
                     $('.edit').attr("disabled", true);
                     $('.deploy').attr("disabled", true);
                     $('.title').text("Problem Statement");
@@ -142,6 +142,10 @@ $(function () {
                 App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
             }
         });
+    } else {
+        // TODO:
+        $('.editSD').hide();
+        $('.deleteSD').hide();
     }
 
     $('.edit').on('click', function (evt) {
@@ -261,6 +265,7 @@ function renderSolutionDesign(solutionDesign, sdid) {
             }
         }
     } else {
+        $('.title').text('Problem Statement')
         $('.solutionDesignForm').hide();
         $('.edit').hide(); $('.svgDiv').hide();
     }
