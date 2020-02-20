@@ -1,24 +1,18 @@
 import { App } from './app.js';
-
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-
     var userRole = App.userRole; console.log(userRole);
-
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
-
     App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
-
     $("#tags").on('click', '.tag', function (evt) {
         let tag = evt.target.textContent,
             tagId = evt.target.id;
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", "", "");
     });
-
     let PS_input = document.querySelector(".inputSearch"),
         searchStr;
-
+    let searchStr;
     $('.applyBtn').on('click', function (event) {
         event.preventDefault();
         let selected = [];
@@ -55,7 +49,7 @@ $(function () {
                 if (type != '') {
                     data = { "inputSearch": searchStr, "type": type };
                     console.log(data);
-                    // ajaxTest(searchStr);
+                  // getDataForSearchResults(searchStr);
                     App.genericFetch('search', "POST", data, checkBeforeRender, "", "", "")
                     App.clearInput(".inputSearch");
                 } else {
@@ -69,10 +63,11 @@ $(function () {
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
                 }, 1500);
+                // $('.searchResultsList').children().remove();
+                // App.toastMsg('Sorry, no results found', '', '.searchResultsList');
             }
         }
     });
-
     if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
         $("#problemStmtFormSubmitBtn").on('click', function (e) {
             let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
@@ -89,25 +84,31 @@ $(function () {
                 App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);
             } else {
-                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                // App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                $('.toastMsg').text('Please enter all the details');
             }
-
         });
     } else {
         $('.submitBtn').attr("disabled", true);
     }
-
 });
-
 function submitForm(data) {
     console.log(data)
     window.location.reload();
 }
-
 function checkBeforeRender(data) {
     // Remove Existing Data in search result
     clearSearchResults();
 
+    if (data.basePatterns) {
+        renderBasePatterns(data.basePatterns);
+    }
+    if (data.solutionDesigns) {
+        renderSolutionDesigns(data.solutionDesigns);
+    }
+    if (data.ProblemStatements) {
+        renderProblemStatements(data.ProblemStatements);
+    }
     if (data.basePatterns) { renderBasePatterns(data.basePatterns); }
 
     if (data.solutionDesigns) { renderSolutionDesigns(data.solutionDesigns); }
@@ -120,7 +121,6 @@ function checkBeforeRender(data) {
         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
     }
 }
-
 function clearSearchResults() {
     let isExpanded = $('.filterToggler').attr("aria-expanded");
     if (isExpanded == 'true') {
@@ -129,7 +129,6 @@ function clearSearchResults() {
     $('.searchResultsList').children().remove();
     App.loader('.searchResultsList');
 }
-
 function renderProblemStatements(problems) {
     if (problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
@@ -142,7 +141,6 @@ function renderProblemStatements(problems) {
         console.log("PS is empty")
     }
 }
-
 function renderBasePatterns(basePattern) {
     if (basePattern.length > 0) {
         for (let i = 0; i < basePattern.length; i++) {
@@ -162,7 +160,6 @@ function renderSolutionDesigns(solutionDesign) {
             let queryStr, sdid = solutionDesign[i].id,
                 psid = solutionDesign[i].psid, bpid;
             queryStr = `sdid=${sdid}&psid=${psid}`;
-
             if (solutionDesign[i].bpid != null) {
                 bpid = solutionDesign[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
@@ -187,7 +184,6 @@ function renderTags(tags) {
         $('#tags').hide();
     }
 }
-
 function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
@@ -200,4 +196,7 @@ function ajaxTest(searchStr) {
             console.log(err);
         }
     });
+}
+function notFound() {
+    App.toastMsg(`Nothing found related to '${searchStr}'`, "failed", ".searchResultsList", false)
 }

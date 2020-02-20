@@ -70,9 +70,9 @@ public class ProblemStatementEvents{
             return ERROR;
         }
 
-        String tagsId = null;
         int tagSize = tag.length;
         try{
+            String tagsId = delegator.getNextSeqId("Quote");
             for (int TagNameCount=0; TagNameCount < tagSize; TagNameCount++) {
             List<GenericValue> TagList = EntityQuery.use(delegator)
                     .select("id","tagName")
@@ -80,7 +80,7 @@ public class ProblemStatementEvents{
                     .queryList();
                 if (TagList.isEmpty()) {
                     GenericValue newproblemStatementTags = delegator.makeValue("problemStatementTags");
-                    tagsId = delegator.getNextSeqId("Quote");
+
                     newproblemStatementTags.setString("id", tagsId);
                     newproblemStatementTags.setString("tagName", (String) tag[TagNameCount]);
                     delegator.create(newproblemStatementTags);
@@ -216,7 +216,9 @@ public class ProblemStatementEvents{
             request.setAttribute("data", rs1);
         } catch (GenericEntityException e) {
             e.printStackTrace();
+            request.setAttribute("error msg", ERROR);
         }
+        request.setAttribute("random", SUCCESS);
         return SUCCESS;
     }
 

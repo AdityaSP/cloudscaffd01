@@ -14,6 +14,24 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="col-sm-3">
+            <div class="card  mb-3 widget-body">
+                <div class="card-body card-padding" >
+                    <h6 class="card-title text-center">Count</h6
+                    <img src="../static/images/icon/1626113.png" class="float-right card-user-icon">
+                    <h5 class="card-text" align="center">created solution designs:<span id="createdSolutionDesigns"></span></br>
+                    <span id="approvedBasePattern">approved patterns : </span></br>
+                    <span id="createdBasePattern">created base patterns : </span></br>
+                    <span id="approvedSolutionDesign">approved solution design : </span></br>
+                    <span id="ProblemStatement">problem statement : </span></br>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+
         <div class="col-sm-4">
             <div class="card mb-4 widget-body">
                 <div class="card-body card-padding">
@@ -89,3 +107,30 @@
 
 </div>
 
+
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+
+<script>
+ (function apcDetailInCount(){
+ $.ajax({
+  url:"getAPCDetailsInCount",
+  type:"POST",
+  success : function(res){
+  console.log(res.ProblemStatementCount);
+  $("#createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
+  $("#approvedBasePattern").append(res.data.approvedBasePatternCount);
+  $("#ProblemStatement").append(res.data.ProblemStatementCount);
+  $("#createdBasePattern").append(res.data.createdBasePatternCount);
+  $("#approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
+  },
+  error:function(res){
+    console.log(res);
+ }
+ });
+ })();
+</script>
