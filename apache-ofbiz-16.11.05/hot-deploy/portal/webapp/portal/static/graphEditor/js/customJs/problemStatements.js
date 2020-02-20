@@ -3,7 +3,12 @@ import { App } from './app.js';
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
-    var userRole = App.userRole; console.log(userRole);
+    var urlParams,
+        userRole = App.userRole; console.log(urlParams, userRole);
+
+    if (window.location.search != "") {
+        urlParams = App.urlParams();
+    }
 
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
 
@@ -15,6 +20,11 @@ $(function () {
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", "", "");
     });
+
+    if (urlParams && urlParams['tagid']) {
+        clearSearchResults();
+        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": urlParams['tagid'] }, renderProblemStatements, "", "", "");
+    }
 
     let PS_input = document.querySelector(".inputSearch"),
         searchStr;
@@ -89,7 +99,7 @@ $(function () {
                 App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);
             } else {
-                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
             }
 
         });

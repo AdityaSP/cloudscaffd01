@@ -137,7 +137,7 @@ $(function () {
                 };
             console.log(formData);
             if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionBenefits)) {
-                App.genericFetch('editSolutionDesign', 'POST', formData, solutionDesignModificationSuccess, "", "", "");
+                App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, "", "", "");
             } else {
                 App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
             }
@@ -158,27 +158,6 @@ $(function () {
         window.location.href = `graphEditor?${window.btoa(urlParam)}`
     });
 });
-
-function solutionDesignModificationSuccess(data) {
-    // console.log(data);
-    if (data.message == "success") {
-        $('.modalBody').addClass('alert alert-success m-2');
-        $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
-        $('#closeBtn').hide();
-        $('#saveChangesBtn').hide();
-        setTimeout(function () {
-            window.location.reload();
-        }, 1500);
-    } else {
-        $('.modalBody').addClass('alert alert-danger m-2');
-        $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
-        $('#closeBtn').hide();
-        $('#saveChangesBtn').hide();
-        setTimeout(function () {
-            window.location.reload();
-        }, 3000);
-    }
-}
 
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
