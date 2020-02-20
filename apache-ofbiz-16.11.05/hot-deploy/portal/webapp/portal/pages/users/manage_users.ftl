@@ -17,6 +17,15 @@
         </div>
     </#if>
 
+    <#if requestParameters.userReEnabled?? && requestParameters.userReEnabled=="Y">
+        <div class="alert alert-success" role="alert">
+            <i class="material-icons">check</i> User has been re-enabled successfully.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </#if>
+
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">

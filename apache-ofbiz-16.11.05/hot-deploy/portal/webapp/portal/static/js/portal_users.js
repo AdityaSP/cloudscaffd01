@@ -1,6 +1,7 @@
 var users = {
     removeUser: _removeUser,
     loadUsers: _loadUsers,
+    reEnableUser: _reEnableUser
 };
 
 $(function () {
@@ -109,14 +110,37 @@ function initResetUserPwd() {
         });
 }
 
+function _reEnableUser() {
+    var email = $("#userEmail").val()
+    var postData = {email: email};
+    var formURL = getAppUrl("ajaxReenableOrgUser");
+    console.log("Re-enabling user.. " + email);
+    $.ajax(
+        {
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                showSuccessToast("User re-enabled successfully");
+                setTimeout(function () {
+                    location.href = getAppUrl("manage_users") + "?userReEnabled=Y"
+                }, 200);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error: " + errorThrown);
+            }
+        });
+}
+
 function checkIfEmailExists() {
     console.log("checkemail invoked...")
     var email = $("#userEmail").val()
     var postData = {email: email};
     var formURL = getAppUrl("checkEmailAlreadyExists");
-    console.log("invoking.. " + formURL)
 
     $("#email_notavailable").addClass("d-none");
+    $("#removed_email_allow_reenable").addClass("d-none");
+
     $.ajax(
         {
             url: formURL,
@@ -126,7 +150,11 @@ function checkIfEmailExists() {
             success: function(resp) {
                 var respObj = JSON.parse(resp);
                 if(respObj.EMAIL_EXISTS === "YES") {
-                    $("#email_notavailable").removeClass("d-none");
+                    if(respObj.IS_REMOVED_USER === "YES") {
+                        $("#removed_email_allow_reenable").removeClass("d-none");
+                    } else {
+                        $("#email_notavailable").removeClass("d-none");
+                    }
                 } else {
                     //$("#emailInfo").html("FALSE");
                 }
