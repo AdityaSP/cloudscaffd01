@@ -37,11 +37,14 @@ under the License.
 
     <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_CREATE_APC"/>
     <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_EDIT_APC"/>
+    <SecurityGroupPermission groupId="AP_FULLADMIN" permissionId="PORTAL_DELETE_APC"/>
+
 
 
     <!-- Security Group Permissions for AP_PLANNER -->
     <SecurityGroupPermission groupId="AP_PLANNER" permissionId="PORTAL_CREATE_APC"/>
     <SecurityGroupPermission groupId="AP_PLANNER" permissionId="PORTAL_EDIT_APC"/>
+    <SecurityGroupPermission groupId="AP_PLANNER" permissionId="PORTAL_DELETE_APC"/>
 
 
     <!-- Security Group Permissions for AP_APPROVER -->

@@ -38,10 +38,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            data.put("info", "You do not have permission to create.");
-            System.out.println("You do not have permission to create."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
 
@@ -59,21 +56,15 @@ public class SolutionDesignEvents{
                             "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBenefits",
                             solutionBenefits,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addSolutionDesignResp)) {
-                data.put("info", "SolutionDesign creation failed!");
-                data.put("message",ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "SolutionDesign creation failed!", ERROR);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            data.put("info", "SolutionDesign creation failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "SolutionDesign creation failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "SolutionDesign creation Successfull");
-        data.put("message",SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "SolutionDesign creation Successfull", SUCCESS);
         return SUCCESS;
 
     }
@@ -87,10 +78,7 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
         // Check Permission
         if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
-            data.put("info", "You do not have permission to create.");
-            System.out.println("You do not have permission to create."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
 
@@ -114,14 +102,10 @@ public class SolutionDesignEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            data.put("info", "SolutionDesign update failed!");
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "SolutionDesign update failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "SolutionDesign update successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "SolutionDesign update successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -157,10 +141,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
-            data.put("info", "You do not have permission to approve.");
-            System.out.println("You do not have permission to approve."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "You do not have permission to approve.", ERROR);
             return ERROR;
         }
 
@@ -183,14 +164,10 @@ public class SolutionDesignEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            data.put("info", "SolutionDesign approval failed!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "SolutionDesign approval failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "SolutionDesign approval successfull");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "SolutionDesign approval successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -198,7 +175,14 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         String sdid = request.getParameter("sdid");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Map<String,Object> data = UtilMisc.toMap();
+
+        // Check permission
+        if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission to approve.", ERROR);
+            return ERROR;
+        }
 
         try {
             String type = "pre-defined";
@@ -210,21 +194,15 @@ public class SolutionDesignEvents{
                     deleteSolutionDesign.remove();
                 }
             }else{
-                data.put("info", "SolutionDesign deletion failed - user defined!");
-                data.put("message", ERROR);
-                request.setAttribute("data", data);
+                getResponse(request, response, "SolutionDesign deletion failed - user defined!", ERROR);
                 return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            data.put("info", "SolutionDesign deletion failed!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "SolutionDesign deletion failed!", ERROR);
             return ERROR;
         }
-        data.put("info", "SolutionDesign deletion ");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "SolutionDesign deletion", SUCCESS);
         return SUCCESS;
     }
 
@@ -236,12 +214,8 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        Security security = dispatcher.getSecurity();
-        if (!security.hasPermission("PORTAL_EDIT_APC", userLoginData)) {
-            data.put("info", "You do not have permission to edit SolutionDesign.");
-            System.out.println("You do not have permission to edit SolutionDesign."  );
-            data.put("message",ERROR);
-            request.setAttribute("data", data);
+        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission to edit.", ERROR);
             return ERROR;
         }
 
@@ -266,21 +240,15 @@ public class SolutionDesignEvents{
                 mySolutionDesign.set("solutionBenefits", solutionBenefits);
                 delegator.store(mySolutionDesign);
             } catch (GenericEntityException ex) {
+                getResponse(request, response, "SolutionDesign edit failed - !", ERROR);
                 ex.printStackTrace();
-                data.put("info", "SolutionDesign edit failed - !");
-                data.put("message", ERROR);
-                request.setAttribute("data", data);
                 return ERROR;
             }
         }else{
-            data.put("info", "SolutionDesign edit failed - pre-defined!");
-            data.put("message", ERROR);
-            request.setAttribute("data", data);
+            getResponse(request, response, "SolutionDesign edit failed - pre-defined!", ERROR);
             return ERROR;
         }
-        data.put("info", "SolutionDesign edited successfully ");
-        data.put("message", SUCCESS);
-        request.setAttribute("data", data);
+        getResponse(request, response, "SolutionDesign edited successfully ", ERROR);
         return SUCCESS;
     }
 
@@ -314,5 +282,15 @@ public class SolutionDesignEvents{
             return false;
         }
         return true;
+    }
+
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
     }
 }

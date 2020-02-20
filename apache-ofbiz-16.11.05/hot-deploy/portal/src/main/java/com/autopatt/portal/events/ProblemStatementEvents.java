@@ -402,7 +402,6 @@ public class ProblemStatementEvents{
         return SUCCESS;
     }
 
-
     private static String getProblemStatementType(HttpServletRequest request, HttpServletResponse response,String id){
         HttpSession session = request.getSession();
         Map<String,Object> data = UtilMisc.toMap();
