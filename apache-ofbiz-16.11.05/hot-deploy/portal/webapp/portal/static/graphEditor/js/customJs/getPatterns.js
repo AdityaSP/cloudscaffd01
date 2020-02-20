@@ -82,6 +82,8 @@ $(function () {
         });
     } else {
         $('.submitBtn').attr("disabled", true);
+        $('.editPS').hide();
+        $('.deletePS').hide();
     }
 
     $('.solutionPatternResults').on('click', '.solutionDesigns', function (evt) {

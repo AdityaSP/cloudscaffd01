@@ -101,7 +101,7 @@ $(function () {
                 if (result) {
                     App.genericFetch('deleteBasePattern', "POST", { "bpid": bpid }, "", "", "", "");
                     $('.basePatternForm').hide(); $('.svgDiv').hide();
-                    App.toastMsg(`<u><a href="${document.referrer}">Go back</a></u> to create a new Base Pattern`, 'info', '.toastMsg')
+                    App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new Base Pattern`, 'info', '.toastMsg')
                     $('.edit').attr("disabled", true);
                     $('.deploy').attr("disabled", true);
                     $('.title').text("Problem Statement");
@@ -113,26 +113,33 @@ $(function () {
         });
     });
 
-    $('#saveChangesBtn').on('click', function (e) {
-        let baseName = $('#baseProblem').val(),
-            baseDescription = $('#baseProblemDescription').val(),
-            baseForces = $('#baseForces').val(),
-            baseBenefits = $('#baseBenefits').val(),
-            formData = {
-                "baseName": baseName,
-                "baseDescription": baseDescription,
-                "baseForces": baseForces,
-                "baseBenefits": baseBenefits,
-                "bpid": bpid,
-            };
-        console.log(formData);
-        if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
-            App.genericFetch('editBasePattern', 'POST', formData, App.modalFormResponse, "", "", "");
-        } else {
-            App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
-        }
-    });
+    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
+        $('#saveChangesBtn').on('click', function (e) {
+            let baseName = $('#baseProblem').val(),
+                baseDescription = $('#baseProblemDescription').val(),
+                baseForces = $('#baseForces').val(),
+                baseBenefits = $('#baseBenefits').val(),
+                formData = {
+                    "baseName": baseName,
+                    "baseDescription": baseDescription,
+                    "baseForces": baseForces,
+                    "baseBenefits": baseBenefits,
+                    "bpid": bpid,
+                };
+            console.log(formData);
+            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
+                App.genericFetch('editBasePattern', 'POST', formData, App.modalFormResponse, "", "", "");
+            } else {
+                App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
+            }
+        });
+    } else {
+        // TODO:
+        $('.editBP').hide();
+        $('.deleteBP').hide();
+    }
 });
+
 
 function reloadPage(data, id) {
     App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
