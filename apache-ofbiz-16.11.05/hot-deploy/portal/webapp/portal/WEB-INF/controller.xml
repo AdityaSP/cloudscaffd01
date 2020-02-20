@@ -178,6 +178,13 @@
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json"/>
 	</request-map>
+	<request-map uri="ajaxReenableOrgUser">
+		<security https="true" auth="true"/>
+		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="reenableOrgUser" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
 	<request-map uri="initResetUserPwd">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="sendUserPasswordResetLink" />

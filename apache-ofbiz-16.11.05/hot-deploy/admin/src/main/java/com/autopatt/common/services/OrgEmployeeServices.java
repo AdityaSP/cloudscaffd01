@@ -1,10 +1,7 @@
 package com.autopatt.common.services;
 
 import com.autopatt.admin.utils.UserLoginUtils;
-import org.apache.ofbiz.base.util.UtilDateTime;
-import org.apache.ofbiz.base.util.UtilMisc;
-import org.apache.ofbiz.base.util.UtilProperties;
-import org.apache.ofbiz.base.util.UtilValidate;
+import org.apache.ofbiz.base.util.*;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -13,6 +10,7 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.entity.util.EntityUtilProperties;
 import org.apache.ofbiz.service.DispatchContext;
+import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
 
@@ -61,19 +59,21 @@ public class OrgEmployeeServices {
                 delegator.storeAll(partyRelationships);
             }
 
-            // Delete UserLoginSecurityGroup Assoc too
             String userLoginId = UserLoginUtils.getUserLoginIdForPartyId(delegator, orgEmployeePartyId);
-            List<GenericValue> userLoginSecGroups = delegator.findByAnd("UserLoginSecurityGroup", UtilMisc.toMap("userLoginId", userLoginId), null, false);
+            // Delete UserLoginSecurityGroup Assoc too
+            /*List<GenericValue> userLoginSecGroups = delegator.findByAnd("UserLoginSecurityGroup", UtilMisc.toMap("userLoginId", userLoginId), null, false);
             if(UtilValidate.isNotEmpty(userLoginSecGroups)) {
                 for(GenericValue userLoginSecGroup : userLoginSecGroups) {
                     userLoginSecGroup.remove();
                 }
-            }
+            }*/
+
             // Disable UserLogin entry
             GenericValue partyUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", userLoginId), false);
             if(UtilValidate.isNotEmpty(partyUserLogin)) {
                 //partyUserLogin.remove(); // Can't delete due to UserLoginHistory
                 partyUserLogin.setString("enabled", "N");
+                partyUserLogin.set("disabledDateTime", null);
                 partyUserLogin.store();
             }
         } catch (GenericEntityException e) {
@@ -82,5 +82,63 @@ public class OrgEmployeeServices {
         }
         return resp;
     }
-    
+
+
+    /**
+     * Service to re-enable an removed user from Org
+     * @param ctx
+     * @param context
+     * @return
+     */
+    public static Map<String, Object> reenableRemovedOrgEmployee(DispatchContext ctx, Map<String, ? extends Object> context) {
+        Map<String, Object> resp = ServiceUtil.returnSuccess();
+        LocalDispatcher dispatcher = ctx.getDispatcher();
+        Delegator delegator = ctx.getDelegator();
+        GenericValue userLogin = (GenericValue) context.get("userLogin");
+        String employeeUserLoginId = (String) context.get("employeeUserLoginId");
+
+        String organizationPartyKey = UtilProperties.getPropertyValue("admin.properties","customer.organization.party.key", "ORGANIZATION_PARTY_ID");
+        String tenantOrganizationPartyId = EntityUtilProperties.getPropertyValue("general", organizationPartyKey,null, delegator);
+        try {
+            GenericValue existingUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", employeeUserLoginId), false);
+            String orgEmployeePartyId = existingUserLogin.getString("partyId");
+
+            Map<String, Object> partyRelationship = UtilMisc.toMap(
+                    "partyIdFrom", tenantOrganizationPartyId,
+                    "partyIdTo", orgEmployeePartyId,
+                    "roleTypeIdFrom", "ORGANIZATION_ROLE",
+                    "roleTypeIdTo", "EMPLOYEE",
+                    "partyRelationshipTypeId", "EMPLOYMENT",
+                    "userLogin", UserLoginUtils.getSystemUserLogin(delegator)
+            );
+            Map<String, Object> createPartyRelationResp = dispatcher.runSync("createPartyRelationship", partyRelationship);
+            if (!ServiceUtil.isSuccess(createPartyRelationResp)) {
+                Debug.logError("Error creating new Party Relationship between " + tenantOrganizationPartyId + " and "
+                        + orgEmployeePartyId + " in tenant " + delegator.getDelegatorTenantId(), module);
+            }
+
+            // Assign SecurityGroup to user
+            /*GenericValue userLoginSecurityGroup = delegator.makeValue("UserLoginSecurityGroup",
+                    UtilMisc.toMap("userLoginId", employeeUserLoginId,
+                            "groupId", securityGroupId,
+                            "fromDate", UtilDateTime.nowTimestamp()));
+            try {
+                userLoginSecurityGroup.create();
+            } catch (GenericEntityException e) {
+                return ServiceUtil.returnError("Error trying to re-enable user with user login id "+ employeeUserLoginId);
+            }*/
+
+            // Enable UserLogin entry
+            GenericValue partyUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", employeeUserLoginId), false);
+            if(UtilValidate.isNotEmpty(partyUserLogin)) {
+                partyUserLogin.setString("enabled", "Y");
+                partyUserLogin.set("disabledDateTime", null);
+                partyUserLogin.store();
+            }
+        } catch (GenericEntityException | GenericServiceException e) {
+            e.printStackTrace();
+            return ServiceUtil.returnError("Error trying to re-enable user with user login id "+ employeeUserLoginId);
+        }
+        return resp;
+    }
 }

@@ -80,6 +80,12 @@ under the License.
         <description>remove employee user from the org</description>
         <attribute name="orgEmployeePartyId" type="String" mode="IN" optional="false"/>
     </service>
+    <service name="reenableRemovedOrgEmployee" engine="java"
+             location="com.autopatt.common.services.OrgEmployeeServices" invoke="reenableRemovedOrgEmployee"
+             auth="true" require-new-transaction="true" transaction-timeout="300">
+        <description>Re-enable an already removed employee user from the org</description>
+        <attribute name="employeeUserLoginId" type="String" mode="IN" optional="false"/>
+    </service>
 
     <service name="updateSubscriptionThruDate" engine="java"
              location="com.autopatt.admin.services.SubscriptionServices" invoke="updateSubscriptionThruDate"

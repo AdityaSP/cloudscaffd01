@@ -46,6 +46,9 @@
                 <div class="col-sm-8">
                     <input type="email" class="form-control" id="userEmail" name="email" placeholder="username@domain.com" onblur="checkIfEmailExists()" required>
                     <span id="email_notavailable" class="text-danger d-none">This Email address has already been used</span>
+                    <span id="removed_email_allow_reenable" class="text-danger d-none">User with this email address was removed earlier,
+                        would you like to re-enable the user?
+                        <a href="javascript:void(0)" onclick="users.reEnableUser();" class="btn btn-outline-primary">Re-enable user</a></span>
                 </div>
             </div>
             <div class="form-group row">

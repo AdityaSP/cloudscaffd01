@@ -2,7 +2,6 @@ package com.autopatt.portal.events;
 
 import com.autopatt.admin.utils.TenantCommonUtils;
 import com.autopatt.admin.utils.UserLoginUtils;
-import com.autopatt.common.utils.JWTHelper;
 import com.autopatt.common.utils.SecurityGroupUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.ofbiz.base.util.*;
@@ -16,6 +15,7 @@ import org.apache.ofbiz.service.ServiceUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.Map;
 
 public class UserMgmtEvents {
@@ -63,15 +63,19 @@ public class UserMgmtEvents {
             return ERROR;
         }
 
-        // TODO: Validations - check for duplicate email
-
+        // Validations - check for duplicate email
         try {
-            GenericValue person = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", email), false);
-            if (person != null) {
+            GenericValue existingUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", email), false);
+            if (existingUserLogin != null) {
+                if(isDeletedUser(existingUserLogin)) {
+                    // TODO: auto re-enable?
+                    request.setAttribute("_ERROR_MESSAGE_", "User with this email address was earlier removed, use Re-enable option to activate the user again.");
+                    return ERROR;
+                }
                 request.setAttribute("_ERROR_MESSAGE_", "Email already exists");
                 return ERROR;
             }
-        } catch (GenericEntityException e) {
+        } catch (GenericEntityException  e) {
             e.printStackTrace();
             request.setAttribute("_ERROR_MESSAGE_", "Unable to add user, email already exists");
             return ERROR;
@@ -169,6 +173,15 @@ public class UserMgmtEvents {
         }
         request.setAttribute("createSuccess", "Y");
         return SUCCESS;
+    }
+
+    private static boolean isDeletedUser(GenericValue existingUserLogin) {
+        if(UtilValidate.isNotEmpty(existingUserLogin)) {
+            String enabled = existingUserLogin.getString("enabled");
+            Timestamp disabledTs = existingUserLogin.getTimestamp("disabledDateTime");
+            return "N".equalsIgnoreCase(enabled) && UtilValidate.isEmpty(disabledTs);
+        }
+        return false;
     }
 
     public static String updateUser(HttpServletRequest request, HttpServletResponse response) {
@@ -386,12 +399,14 @@ public class UserMgmtEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String email = request.getParameter("email");
         try {
-            // TODO: handle deleted user's email check
-
-            GenericValue person = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", email), false);
-            if (person == null) {
+            GenericValue existingUserLogin = delegator.findOne("UserLogin", UtilMisc.toMap("userLoginId", email), false);
+            if (existingUserLogin == null) {
                 request.setAttribute("EMAIL_EXISTS", "NO");
+                request.setAttribute("IS_REMOVED_USER", "NO");
             } else {
+                if(isDeletedUser(existingUserLogin)) {
+                    request.setAttribute("IS_REMOVED_USER", "YES");
+                }
                 request.setAttribute("EMAIL_EXISTS", "YES");
             }
         } catch (GenericEntityException e) {
@@ -399,7 +414,30 @@ public class UserMgmtEvents {
             request.setAttribute("_ERROR_MESSAGE_", "Email already exists");
             return ERROR;
         }
-        request.setAttribute("_EVENT_MESSAGE_", "Available to use");
         return SUCCESS;
     }
+
+
+    public static String reenableOrgUser(HttpServletRequest request, HttpServletResponse response) {
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        HttpSession session = request.getSession();
+        GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        String email = request.getParameter("email");
+        try {
+            Map<String, Object> removeOrgEmpResp = dispatcher.runSync("reenableRemovedOrgEmployee",
+                    UtilMisc.toMap("userLogin", userLogin,
+                            "employeeUserLoginId", email));
+            if (!ServiceUtil.isSuccess(removeOrgEmpResp)) {
+                request.setAttribute("_ERROR_MESSAGE_", "Error trying to reenable user with user login id " + email);
+                return ERROR;
+            }
+        } catch (GenericServiceException e) {
+            e.printStackTrace();
+            request.setAttribute("_ERROR_MESSAGE_", "Error trying to reenable user with user login id " + email);
+            return ERROR;
+        }
+        request.setAttribute("_EVENT_MESSAGE_", "User re-enabled successfully.");
+        return SUCCESS;
+    }
+
 }
