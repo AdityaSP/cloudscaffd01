@@ -43,10 +43,10 @@ public class ProblemStatementEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
+       /* if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
-        }
+        }*/
 
         String problemStatement = request.getParameter("problemStatement");
         String problemDescription = request.getParameter("problemDescription");
@@ -361,10 +361,10 @@ public class ProblemStatementEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+       /* if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to edit.", ERROR);
             return ERROR;
-        }
+        }*/
 
         String psid = request.getParameter("psid");
         String problemStatement = request.getParameter("problemStatement");
@@ -404,10 +404,10 @@ public class ProblemStatementEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
+        /*if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to delete.", ERROR);
             return ERROR;
-        }
+        }*/
 
         try {
             String type = "pre-defined";
