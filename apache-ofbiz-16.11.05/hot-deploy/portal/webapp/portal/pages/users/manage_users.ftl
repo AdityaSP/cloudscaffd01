@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <#if requestParameters.createSuccess?? && requestParameters.createSuccess=="Y">
         <div class="alert alert-success" role="alert">
-            <i class="material-icons">check</i> User has been addedd successfully.
+            <i class="material-icons">check</i> User has been added successfully.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

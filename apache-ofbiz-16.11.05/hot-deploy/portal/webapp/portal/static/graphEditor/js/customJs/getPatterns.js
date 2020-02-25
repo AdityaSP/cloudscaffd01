@@ -153,7 +153,8 @@ function renderProblemStmt(problemStmt, psid) {
                         data-psid="${psid}"
                         data-bpid="${basePatternList[j].id}">
                         <span class="">${basePatternList[j].baseName}</span>
-                        <a href="basePattern?${urlParams}" class="h-50 badge badge-secondary p-2 pull-right basePatternView">View BP</a>
+                        <a href="basePattern?${urlParams}" class="h-50 badge badge-secondary p-2 pull-right
+                        ">View Pattern</a>
                         </li>`;
                 document.querySelector(".basePatternResults").insertAdjacentHTML("afterbegin", basePatternsHtml);
             }

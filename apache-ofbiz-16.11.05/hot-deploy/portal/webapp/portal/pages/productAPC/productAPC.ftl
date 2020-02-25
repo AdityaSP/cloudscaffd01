@@ -59,7 +59,7 @@
                                                         </div>
                                                         <div class="custom-control custom-checkbox col-4">
                                                             <input type="checkbox" class="custom-control-input" name="typeBasePattern" id="checkBP">
-                                                            <label class="custom-control-label" for="checkBP">Base Pattern</label>
+                                                            <label class="custom-control-label" for="checkBP">Pattern</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox col-4">
                                                             <input type="checkbox" class="custom-control-input" name="typeSolutionDesign" id="checkSD">
