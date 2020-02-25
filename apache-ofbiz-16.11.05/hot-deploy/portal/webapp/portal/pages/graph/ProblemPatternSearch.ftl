@@ -54,7 +54,7 @@
                                             <label>Forces</label>
                                             <input class="form-control" name="baseForces" required id="baseForces"
                                                    rows="3"/>
-                                            <label>Benefits</label>
+                                            <label>Consequences</label>
                                             <input class="form-control" name="baseBenefits" required id="baseBenefits"
                                                    rows="3"/>
                                         </div>
