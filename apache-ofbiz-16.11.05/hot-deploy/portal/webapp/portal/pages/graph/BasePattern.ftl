@@ -24,7 +24,7 @@
                         <p class="basePatternForces"></p>
                     </div>
                     <div class="col-6 border rounded">
-                        <label for="basePatternBenefits"><b>Benefits</b></label><hr class="m-0">
+                        <label for="basePatternBenefits"><b>Consequences</b></label><hr class="m-0">
                         <p class="basePatternBenefits"></p>
                     </div>
                 </div>
