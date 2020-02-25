@@ -142,7 +142,7 @@ $(function () {
 
 
 function reloadPage(data, id) {
-    App.toastMsg(`${id} : Design Approved`, 'success', '.toastMsg', true);
+    App.toastMsg(`${id} : Pattern Approved`, 'success', '.toastMsg', true);
     $('.approve').hide();
 }
 
