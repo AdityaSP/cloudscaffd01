@@ -25,14 +25,14 @@
                     <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit data"></i></a>
                 
                 <p class="solutionDesignDescription"></p>
-                <div class="solutionDesignConsequences p-4 row">
+                <div class="p-4 row">
                     <div class="col-6 border rounded">
                         <label for="solutionDesignForces h5"><b>Forces</b></label><hr class="m-0">
                         <p class="solutionDesignForces"></p>
                     </div>
                     <div class="col-6 border rounded">
-                        <label for="solutionDesignBenefits"><b>Benefits</b></label><hr class="m-0">
-                        <p class="solutionDesignBenefits"></p>
+                        <label for="solutionDesignConsequences"><b>Consequences</b></label><hr class="m-0">
+                        <p class="solutionDesignConsequences"></p>
                     </div>
                 </div>
             </div>
@@ -91,8 +91,8 @@
                 <div class="form-group m-0">
                     <label>Forces</label>
                     <input class="form-control" name="solutionDesignForces" required id="solutionDesignForces" rows="3"/>
-                    <label>Benefits</label>
-                    <input class="form-control" name="solutionDesignBenefits" required id="solutionDesignBenefits" rows="3"/>
+                    <label>Consequences</label>
+                    <input class="form-control" name="solutionDesignConsequences" required id="solutionDesignConsequences" rows="3"/>
                     <div class="formToastMsg my-1"></div>
                 </div>
             </form>

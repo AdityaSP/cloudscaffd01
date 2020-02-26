@@ -99,12 +99,10 @@ function updatePassword() {
             success: function (resp) {
                 console.log(resp);
                 renderError(resp);
-                // window.open('home', '_self');
             },
             error: function (resp) {
                 console.log(resp);
                 renderError(resp);
-                // window.open('changePassword', '_self');
             }
         });
     });

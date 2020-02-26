@@ -217,19 +217,19 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 let solutionDesignName = solutionDesign[i].solutionDesignName,
                     solutionDesignDescription = solutionDesign[i].solutionDesignDesc,
                     solutionDesignForces = solutionDesign[i].solutionForces,
-                    solutionDesignBenefits = solutionDesign[i].solutionBenefits;
+                    solutionDesignConsequences = solutionDesign[i].solutionConsequences;
 
                 $('.solutionDesign').text(`${solutionDesign[i].id} : ${solutionDesignName}`);
                 $('.typeDataSD').text(` (Type : ${patternType.toUpperCase()})`);
                 $('.solutionDesignDescription').text(solutionDesignDescription);
                 $('.solutionDesignForces').text(solutionDesignForces);
-                $('.solutionDesignBenefits').text(solutionDesignBenefits);
+                $('.solutionDesignConsequences').text(solutionDesignConsequences);
 
                 // Setting data to form for modifying.
                 $('#solutionDesignProblem').val(solutionDesignName);
                 $('#solutionDesignDescription').val(solutionDesignDescription);
                 $('#solutionDesignForces').val(solutionDesignForces);
-                $('#solutionDesignBenefits').val(solutionDesignBenefits);
+                $('#solutionDesignConsequences').val(solutionDesignConsequences);
 
                 if (solutionDesign[i].xml) { xml = solutionDesign[i].xml };
 
