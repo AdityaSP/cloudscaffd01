@@ -97,7 +97,8 @@ function updatePassword() {
             type: "POST",
             data: formData,
             success: function (resp) {
-                window.open('updatePassword', '_self');
+                // console.log(resp);
+                // window.open('login', '_self');
             },
             error: function (resp) {
                 console.log(resp)

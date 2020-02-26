@@ -113,8 +113,8 @@
                                             <label>Forces</label>
                                             <input class="form-control" name="solutionForces" required id="solutionForces"
                                                    rows="3"/>
-                                            <label>Benefits</label>
-                                            <input class="form-control" name="solutionBenefits" required id="solutionBenefits"
+                                            <label>Consequences</label>
+                                            <input class="form-control" name="solutionConsequences" required id="solutionConsequences"
                                                    rows="3"/>
                                         </div>
                                         <#--  <div>

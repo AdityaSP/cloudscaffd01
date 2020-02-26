@@ -59,20 +59,20 @@ $(function () {
             let solutionDesignName = $('#solutionDesignName').val(),
                 solutionDesignDesc = $('#solutionDesignDescription').val(),
                 solutionForces = $('#solutionForces').val(),
-                solutionBenefits = $('#solutionBenefits').val(),
+                solutionConsequences = $('#solutionConsequences').val(),
                 psid = $('.psid').val(),
                 bpid = $('.bpid').val(),
                 formData = {
                     "solutionDesignName": solutionDesignName,
                     "solutionDesignDesc": solutionDesignDesc,
                     "solutionForces": solutionForces,
-                    "solutionBenefits": solutionBenefits,
+                    "solutionConsequences": solutionConsequences,
                     "psid": psid,
                     "bpid": bpid,
                 };
             console.log(formData);
             if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) &&
-                !App.isEmpty(solutionBenefits) && !App.isEmpty(psid)) {
+                !App.isEmpty(solutionConsequences) && !App.isEmpty(psid)) {
                 $('.submitBtn').val('Creating...');
                 App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);
