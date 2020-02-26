@@ -70,7 +70,7 @@ under the License.
         <attribute name="solutionDesignName" type="String" mode="IN" optional="false"/>
         <attribute name="solutionDesignDesc" type="String" mode="IN" optional="false"/>
         <attribute name="solutionForces" type="String" mode="IN" optional="true"/>
-        <attribute name="solutionBenefits" type="String" mode="IN" optional="true"/>
+        <attribute name="solutionConsequences" type="String" mode="IN" optional="true"/>
     </service>
 
 </services>

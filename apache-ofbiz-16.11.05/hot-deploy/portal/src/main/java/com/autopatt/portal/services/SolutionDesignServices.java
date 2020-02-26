@@ -36,7 +36,7 @@ public class SolutionDesignServices{
         String solutionDesignName = (String) context.get("solutionDesignName");
         String solutionDesignDesc = (String) context.get("solutionDesignDesc");
         String solutionForces = (String) context.get("solutionForces");
-        String solutionBenefits =  (String) context.get("solutionBenefits");
+        String solutionConsequences =  (String) context.get("solutionConsequences");
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
         String type = "user defined";
@@ -51,7 +51,7 @@ public class SolutionDesignServices{
             newSolutionDesign.setString("solutionDesignName", solutionDesignName);
             newSolutionDesign.setString("solutionDesignDesc", solutionDesignDesc);
             newSolutionDesign.setString("solutionForces", solutionForces);
-            newSolutionDesign.setString("solutionBenefits", solutionBenefits);
+            newSolutionDesign.setString("solutionConsequences", solutionConsequences);
             newSolutionDesign.setString("createdBy", createdBy);
             newSolutionDesign.setString("status", status);
             newSolutionDesign.setString("type", type);

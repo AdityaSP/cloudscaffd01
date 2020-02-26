@@ -147,7 +147,7 @@ public class BasePatternEvents{
                     EntityCondition.makeCondition( EntityFunction.UPPER_FIELD("bpid"), EntityOperator.EQUALS,bpid )));
 
             List<GenericValue> BasePatternList = EntityQuery.use(delegator)
-                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","solutionForces","solutionBenefits","type")
+                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","solutionForces","solutionConsequences","type")
                     .from("solutionDesignApc")
                     .where("bpid", bpid)
                     .queryList();
