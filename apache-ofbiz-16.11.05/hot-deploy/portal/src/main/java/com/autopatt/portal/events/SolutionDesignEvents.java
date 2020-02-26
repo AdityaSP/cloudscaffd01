@@ -47,14 +47,14 @@ public class SolutionDesignEvents{
         String solutionDesignName = request.getParameter("solutionDesignName");
         String solutionDesignDesc = request.getParameter("solutionDesignDesc");
         String solutionForces = request.getParameter("solutionForces");
-        String solutionBenefits = request.getParameter("solutionBenefits");
+        String solutionConsequences = request.getParameter("solutionConsequences");
         request.setAttribute("psid", psid);
 
         try {
             Map<String, Object> addSolutionDesignResp = dispatcher.runSync("createSolutionDesign",
                     UtilMisc.<String, Object>toMap("psid", psid,"bpid", bpid, "solutionDesignName", solutionDesignName,
-                            "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionBenefits",
-                            solutionBenefits,"userLogin",userLogin));
+                            "solutionDesignDesc",solutionDesignDesc, "solutionForces",solutionForces,"solutionConsequences",
+                            solutionConsequences,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addSolutionDesignResp)) {
                 getResponse(request, response, "SolutionDesign creation failed!", ERROR);
                 return ERROR;
@@ -114,7 +114,7 @@ public class SolutionDesignEvents{
         String sdid = request.getParameter("sdid");
         try {
             List<GenericValue> SolutionDesignList = EntityQuery.use(delegator)
-                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","png","svg","xml","status","solutionForces","solutionBenefits","type").from("solutionDesignApc")
+                    .select("id","psid","bpid","solutionDesignName","solutionDesignDesc","png","svg","xml","status","solutionForces","solutionConsequences","type").from("solutionDesignApc")
                     .where("id", sdid)
                     .queryList();
 
@@ -223,7 +223,7 @@ public class SolutionDesignEvents{
         String solutionDesignName = request.getParameter("solutionDesignName");
         String solutionDesignDesc = request.getParameter("solutionDesignDesc");
         String solutionForces = request.getParameter("solutionForces");
-        String solutionBenefits = request.getParameter("solutionBenefits");
+        String solutionConsequences = request.getParameter("solutionConsequences");
         String updatedBy = userLoginData.getString("userLoginId");
         Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
 System.out.println("updatedBy ="+updatedBy);
@@ -237,7 +237,7 @@ System.out.println("updatedBy ="+updatedBy);
                 mySolutionDesign.set("solutionDesignName", solutionDesignName);
                 mySolutionDesign.set("solutionDesignDesc", solutionDesignDesc);
                 mySolutionDesign.set("solutionForces", solutionForces);
-                mySolutionDesign.set("solutionBenefits", solutionBenefits);
+                mySolutionDesign.set("solutionConsequences", solutionConsequences);
                 delegator.store(mySolutionDesign);
             } catch (GenericEntityException ex) {
                 getResponse(request, response, "SolutionDesign edit failed - !", ERROR);

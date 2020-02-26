@@ -130,7 +130,7 @@
         <field name="status" type="name"></field>
         <field name="type" type="name"></field>
         <field name="solutionForces" type="name"></field>
-        <field name="solutionBenefits" type="name"></field>
+        <field name="solutionConsequences" type="name"></field>
         <prim-key field="id"/>
     </entity>
 </entitymodel>

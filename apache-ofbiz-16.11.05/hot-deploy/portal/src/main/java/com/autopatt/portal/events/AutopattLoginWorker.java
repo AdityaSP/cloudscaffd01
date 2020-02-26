@@ -135,6 +135,11 @@ public class AutopattLoginWorker extends LoginWorker{
     }
 
     public static String updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
@@ -146,9 +151,7 @@ public class AutopattLoginWorker extends LoginWorker{
         inMap.put("newPassword", request.getParameter("newPassword"));
         inMap.put("newPasswordVerify", request.getParameter("newPasswordVerify"));
         Map<String, Object> resultPasswordChange = null;
-
         resultPasswordChange = LoginWorker.updatePassword(request, response,inMap);
-
         if (ServiceUtil.isError(resultPasswordChange)) {
             String errorMessage = (String) resultPasswordChange.get(ModelService.ERROR_MESSAGE);
             if (UtilValidate.isNotEmpty(errorMessage)) {
@@ -161,6 +164,7 @@ public class AutopattLoginWorker extends LoginWorker{
         request.setAttribute("info","Password updated successfully");
         return SUCCESS;
     }
+
 
 
 }
