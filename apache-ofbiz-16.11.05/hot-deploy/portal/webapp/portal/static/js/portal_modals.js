@@ -97,11 +97,12 @@ function updatePassword() {
             type: "POST",
             data: formData,
             success: function (resp) {
-                // console.log(resp);
-                // window.open('login', '_self');
+                console.log(resp);
+                // window.open('home', '_self');
             },
             error: function (resp) {
-                console.log(resp)
+                console.log(resp);
+                // window.open('changePassword', '_self');
             }
         });
     });

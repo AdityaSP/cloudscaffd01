@@ -109,8 +109,8 @@
 	<request-map uri="updatePassword">
 		<security https="true" auth="true" />
 		<event type="java" path="com.autopatt.portal.events.AutopattLoginWorker" invoke="updatePassword" />
-		<response name="success" type="request-redirect" value="login" />
-		<response name="error" type="request" value="changePassword" />
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
 	</request-map>
 
 	<request-map uri="CreateUser">

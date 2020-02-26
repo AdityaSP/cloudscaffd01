@@ -18,11 +18,11 @@
         </div>
     </div>
     <div>
-        <#list errorMessageList as error>
-            <div class="alert alert-danger" role="alert">
-                ${error}
+        <#--  <#list errorMessageList as error>  -->
+            <div class="toastMsgDiv" role="alert">
+                <#--  ${error}  -->
             </div>
-        </#list>
+        <#--  </#list>  -->
     </div>
     <form id="login"> <#--   action="<@ofbizUrl>updatePassword</@ofbizUrl>" method="post"  -->
         <div class="col-md-8 my-4">
@@ -39,7 +39,7 @@
                 <label for="nwpswd" class="col-sm-3 col-form-label">New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-9">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="newPassword" placeholder="Password" name="newPassword"
+                        <input type="password" class="form-control" id="newPassword" placeholder="Password" name="PASSWORD"
                                onblur="checkPasswordPolicy('newPassword','password_policy_error')"
                                required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPassword_eye"></i>
