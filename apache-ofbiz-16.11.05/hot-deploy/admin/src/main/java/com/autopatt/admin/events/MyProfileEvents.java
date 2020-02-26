@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.webapp.control.LoginWorker;
 
 public class MyProfileEvents {
     public final static String module = MyProfileEvents.class.getName();
@@ -62,13 +63,7 @@ public class MyProfileEvents {
         inMap.put("newPassword", request.getParameter("newPassword"));
         inMap.put("newPasswordVerify", request.getParameter("newPasswordVerify"));
         Map<String, Object> resultPasswordChange = null;
-        try {
-            resultPasswordChange = dispatcher.runSync("updatePassword", inMap);
-        } catch (GenericServiceException e) {
-            Debug.logError(e, module);
-            request.setAttribute("_ERROR_MESSAGE_", "Failed to authenticate with current password");
-            return ERROR;
-        }
+        resultPasswordChange = LoginWorker.updatePassword(request, response,inMap);
         if (ServiceUtil.isError(resultPasswordChange)) {
             String errorMessage = (String) resultPasswordChange.get(ModelService.ERROR_MESSAGE);
             if (UtilValidate.isNotEmpty(errorMessage)) {
@@ -77,6 +72,8 @@ public class MyProfileEvents {
             request.setAttribute("_ERROR_MESSAGE_LIST_", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
             return ERROR;
         }
+        request.setAttribute("message",SUCCESS);
+        request.setAttribute("info","Password updated successfully");
         return SUCCESS;
     }
 
