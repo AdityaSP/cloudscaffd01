@@ -118,16 +118,16 @@ $(function () {
             let baseName = $('#baseProblem').val(),
                 baseDescription = $('#baseProblemDescription').val(),
                 baseForces = $('#baseForces').val(),
-                baseBenefits = $('#baseBenefits').val(),
+                baseConsequences = $('#baseConsequences').val(),
                 formData = {
                     "baseName": baseName,
                     "baseDescription": baseDescription,
                     "baseForces": baseForces,
-                    "baseBenefits": baseBenefits,
+                    "baseConsequences": baseConsequences,
                     "bpid": bpid,
                 };
             console.log(formData);
-            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
+            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseConsequences)) {
                 App.genericFetch('editBasePattern', 'POST', formData, App.modalFormResponse, "", "", "");
             } else {
                 App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
@@ -164,19 +164,19 @@ function renderBasePattern(basePattern, bpid) {
             let baseName = basePattern[i].baseName,
                 baseDescription = basePattern[i].baseDescription,
                 baseForces = basePattern[i].baseForces,
-                baseBenefits = basePattern[i].baseBenefits;
+                basePatternConsequences = basePattern[i].baseConsequences;
 
             $('.basePattern').text(`${basePattern[i].id} : ${baseName}`);
             $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
             $('.basePatternDescription').text(baseDescription);
             $('.basePatternForces').text(baseForces);
-            $('.basePatternBenefits').text(baseBenefits);
+            $('.basePatternConsequences').text(basePatternConsequences);
 
             // Setting data to form for modifying.
             $('#baseProblem').val(baseName);
             $('#baseProblemDescription').val(baseDescription);
             $('#baseForces').val(baseForces);
-            $('#baseBenefits').val(baseBenefits);
+            $('#baseConsequences').val(basePatternConsequences);
 
             if (patternType == 'pre-defined') {
                 $('.deleteBP').hide();

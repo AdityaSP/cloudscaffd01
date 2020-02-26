@@ -24,7 +24,7 @@
             </div>
         </#list>
     </div>
-    <form id="login" action="<@ofbizUrl>updatePassword</@ofbizUrl>" method="post">
+    <form id="login"> <#--   action="<@ofbizUrl>updatePassword</@ofbizUrl>" method="post"  -->
         <div class="col-md-8 my-4">
             <div class="form-group row required">
                 <label for="CrrPswd" class="col-sm-3 col-form-label" >Current Password <span class="mandatory">*</span></label>
@@ -63,7 +63,7 @@
             <div class="form-group row">
                 <div class="col-sm-3">&nbsp;</div>
                     <div class="col-sm-9">
-                  <button type="submit" class="btn btn-primary">Change Password</button>
+                  <input type="button" class="btn btn-primary loginFormSubmitBtn" value="Change Password">
                     </div>
                 </div>
             </div>

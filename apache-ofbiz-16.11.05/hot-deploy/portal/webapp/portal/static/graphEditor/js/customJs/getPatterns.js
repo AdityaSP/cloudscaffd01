@@ -37,16 +37,16 @@ $(function () {
             let baseName = $('#baseProblem').val(),
                 baseDescription = $('#baseProblemDescription').val(),
                 baseForces = $('#baseForces').val(),
-                baseBenefits = $('#baseBenefits').val(),
+                baseConsequences = $('#baseConsequences').val(),
                 psid = $('.psid').val(),
                 formData = {
                     "baseName": baseName,
                     "baseDescription": baseDescription,
                     "baseForces": baseForces,
-                    "baseBenefits": baseBenefits,
+                    "baseConsequences": baseConsequences,
                     "psid": psid,
                 };
-            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseBenefits)) {
+            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseConsequences)) {
                 $('.submitBtn').val('Creating...');
                 App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);

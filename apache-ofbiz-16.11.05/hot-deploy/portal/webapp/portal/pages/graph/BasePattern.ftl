@@ -18,14 +18,14 @@
                     <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit data"></i></a>
                 
                 <p class="basePatternDescription"></p>
-                <div class="basePatternConsequences px-4 row">
+                <div class="px-4 row">
                     <div class="col-6 border rounded">
                         <label for="basePatternForces"><b>Forces</b></label><hr class="m-0">
                         <p class="basePatternForces"></p>
                     </div>
                     <div class="col-6 border rounded">
-                        <label for="basePatternBenefits"><b>Consequences</b></label><hr class="m-0">
-                        <p class="basePatternBenefits"></p>
+                        <label for="basePatternConsequences"><b>Consequences</b></label><hr class="m-0">
+                        <p class="basePatternConsequences"></p>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                     <label>Forces</label>
                     <input class="form-control" name="baseForces" required id="baseForces" rows="3"/>
                     <label>Consequences</label>
-                    <input class="form-control" name="baseBenefits" required id="baseBenefits" rows="3"/>
+                    <input class="form-control" name="baseConsequences" required id="baseConsequences" rows="3"/>
                     <div class="formToastMsg my-1"></div>
                 </div>
             </form>

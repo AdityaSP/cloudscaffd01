@@ -458,7 +458,7 @@
             <actions>
                 <set field="title" value=""/>
                 <set field="currentPage" value="solutionPattern"/>
-                <set field="currentViewId" value="solutionPattern"/>
+                <set field="currentViewId" value="PRODUCT_APC"/>
             </actions>
             <widgets>
                 <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
