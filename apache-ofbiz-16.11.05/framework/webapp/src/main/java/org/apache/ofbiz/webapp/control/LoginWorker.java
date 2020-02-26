@@ -1239,4 +1239,19 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
         }
         return "success";
     }
+
+    public static Map<String, Object> updatePassword(HttpServletRequest request, HttpServletResponse response,Map<String, Object> inMap) {
+        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        Map<String, Object> resultPasswordChange = null;
+        try {
+            resultPasswordChange = dispatcher.runSync("updatePassword", inMap);
+        } catch (GenericServiceException e) {
+            Debug.logError(e, module);
+            System.out.println("Password update failed ="+e);
+            return resultPasswordChange;
+            // request.setAttribute("_ERROR_MESSAGE_", "Failed to authenticate with current password");
+        }
+        return resultPasswordChange;
+    }
+
 }
