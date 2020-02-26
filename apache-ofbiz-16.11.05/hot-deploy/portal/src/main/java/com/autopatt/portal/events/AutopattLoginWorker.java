@@ -155,9 +155,11 @@ public class AutopattLoginWorker extends LoginWorker{
         if (ServiceUtil.isError(resultPasswordChange)) {
             String errorMessage = (String) resultPasswordChange.get(ModelService.ERROR_MESSAGE);
             if (UtilValidate.isNotEmpty(errorMessage)) {
-                request.setAttribute("_ERROR_MESSAGE_", errorMessage);
+                request.setAttribute("message",ERROR);
+                request.setAttribute("info", errorMessage);
             }
-            request.setAttribute("_ERROR_MESSAGE_LIST_", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
+            request.setAttribute("message",ERROR);
+            request.setAttribute("info", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
             return ERROR;
         }
         request.setAttribute("message",SUCCESS);

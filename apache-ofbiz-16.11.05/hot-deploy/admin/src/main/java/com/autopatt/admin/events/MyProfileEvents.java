@@ -49,7 +49,8 @@ public class MyProfileEvents {
     public static String updatePassword(HttpServletRequest request, HttpServletResponse response) {
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
         if(!errorList.isEmpty()){
-            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            request.setAttribute("info", errorList);
+            request.setAttribute("message",ERROR);
             return ERROR;
         }
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
@@ -67,9 +68,11 @@ public class MyProfileEvents {
         if (ServiceUtil.isError(resultPasswordChange)) {
             String errorMessage = (String) resultPasswordChange.get(ModelService.ERROR_MESSAGE);
             if (UtilValidate.isNotEmpty(errorMessage)) {
-                request.setAttribute("_ERROR_MESSAGE_", errorMessage);
+                request.setAttribute("info", errorMessage);
+                request.setAttribute("message",ERROR);
             }
-            request.setAttribute("_ERROR_MESSAGE_LIST_", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
+            request.setAttribute("info", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
+            request.setAttribute("message",ERROR);
             return ERROR;
         }
         request.setAttribute("message",SUCCESS);
