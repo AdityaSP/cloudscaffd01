@@ -137,7 +137,8 @@ public class AutopattLoginWorker extends LoginWorker{
     public static String updatePassword(HttpServletRequest request, HttpServletResponse response) {
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
         if(!errorList.isEmpty()){
-            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            request.setAttribute("message",ERROR);
+            request.setAttribute("info", errorList);
             return ERROR;
         }
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");

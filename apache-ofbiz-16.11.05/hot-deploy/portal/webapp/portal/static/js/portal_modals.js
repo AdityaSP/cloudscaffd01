@@ -98,12 +98,46 @@ function updatePassword() {
             data: formData,
             success: function (resp) {
                 console.log(resp);
+                renderError(resp);
                 // window.open('home', '_self');
             },
             error: function (resp) {
                 console.log(resp);
+                renderError(resp);
                 // window.open('changePassword', '_self');
             }
         });
     });
+}
+
+function renderError(res) {
+    if (res.message == "success") {
+        $('.toastMsgDiv').children().remove();
+        if (typeof (res.info) == "object") {
+            for (let i = 0; i < res.info.length; i++) {
+                $('.toastMsgDiv').append(`<div class="alert alert-success">${res.info[i]}</div>`);
+            }
+        } else {
+            $('.toastMsgDiv').append(`<div class="alert alert-success">${res.info}</div>`);
+        }
+        $('input:not(.loginFormSubmitBtn)').val('');
+        $('.loginFormSubmitBtn').attr('disabled', true);
+        setTimeout(function () {
+            window.open('logout', '_self');
+        }, 2500);
+
+    } else if (res.message == "error") {
+        $('.toastMsgDiv').children().remove();
+        if (typeof (res.info) == "object") {
+            for (let i = 0; i < res.info.length; i++) {
+                $('.toastMsgDiv').append(`<div class="alert alert-danger">${res.info[i]}</div>`);
+            }
+        } else {
+            $('.toastMsgDiv').append(`<div class="alert alert-danger">${res.info}</div>`);
+        }
+        $('input:not(.loginFormSubmitBtn)').val('');
+
+    } else {
+        console.log(res);
+    }
 }
