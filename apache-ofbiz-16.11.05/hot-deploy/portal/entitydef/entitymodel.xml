@@ -88,7 +88,7 @@
         <field name="status" type="name"></field>
         <field name="type" type="name"></field>
         <field name="baseForces" type="name"></field>
-        <field name="baseBenefits" type="name"></field>
+        <field name="baseConsequences" type="name"></field>
         <prim-key field="id"/>
     </entity>
 

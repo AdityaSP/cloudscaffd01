@@ -48,14 +48,14 @@ public class BasePatternEvents{
         String baseName = request.getParameter("baseName");
         String baseDescription = request.getParameter("baseDescription");
         String baseForces = request.getParameter("baseForces");
-        String baseBenefits = request.getParameter("baseBenefits");
+        String baseConsequences = request.getParameter("baseConsequences");
 
         request.setAttribute("psid", psid);
 
         try {
             Map<String, Object> addBasePatternResp = dispatcher.runSync("createBasePattern",
                     UtilMisc.<String, Object>toMap("psid", psid, "baseName", baseName,"baseDescription",baseDescription,
-                            "baseDescription",baseDescription, "baseForces",baseForces,"baseBenefits",baseBenefits,"userLogin",userLogin));
+                            "baseDescription",baseDescription, "baseForces",baseForces,"baseConsequences",baseConsequences,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
                 getResponse(request, response, "BasePattern creation failed!", ERROR);
                 return ERROR;
@@ -117,7 +117,7 @@ public class BasePatternEvents{
         String bpid = request.getParameter("bpid");
         try {
             List<GenericValue> BasePatternList = EntityQuery.use(delegator)
-                    .select("id","psid","baseName","baseDescription","png","svg","xml","status","baseForces","baseBenefits","type").from("basePatternApc")
+                    .select("id","psid","baseName","baseDescription","png","svg","xml","status","baseForces","baseConsequences","type").from("basePatternApc")
                     .where("id", bpid)
                     .queryList();
 
@@ -249,7 +249,7 @@ public class BasePatternEvents{
         String baseName = request.getParameter("baseName");
         String baseDescription = request.getParameter("baseDescription");
         String baseForces = request.getParameter("baseForces");
-        String baseBenefits = request.getParameter("baseBenefits");
+        String baseConsequences = request.getParameter("baseConsequences");
         String updatedBy = userLoginData.getString("userLoginId");
         Map<String, Object> inputs = UtilMisc.toMap("id", bpid);
 
@@ -263,7 +263,7 @@ public class BasePatternEvents{
                 myBasePattern.set("baseName", baseName);
                 myBasePattern.set("baseDescription", baseDescription);
                 myBasePattern.set("baseForces", baseForces);
-                myBasePattern.set("baseBenefits", baseBenefits);
+                myBasePattern.set("baseConsequences", baseConsequences);
                 delegator.store(myBasePattern);
                 } catch (GenericEntityException ex) {
                 ex.printStackTrace();

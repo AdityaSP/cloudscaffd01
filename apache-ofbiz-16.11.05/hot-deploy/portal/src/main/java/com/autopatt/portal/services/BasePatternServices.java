@@ -35,7 +35,7 @@ public class BasePatternServices{
         String baseName = (String) context.get("baseName");
         String baseDescription = (String) context.get("baseDescription");
         String baseForces = (String) context.get("baseForces");
-        String baseBenefits = (String) context.get("baseBenefits");
+        String baseConsequences = (String) context.get("baseConsequences");
 
         String createdBy = userLogin.getString("userLoginId");
         String status = "created";
@@ -50,7 +50,7 @@ public class BasePatternServices{
             newBasePattern.setString("baseName", baseName);
             newBasePattern.setString("baseDescription", baseDescription);
             newBasePattern.setString("baseForces", baseForces);
-            newBasePattern.setString("baseBenefits", baseBenefits);
+            newBasePattern.setString("baseConsequences", baseConsequences);
             newBasePattern.setString("createdBy", createdBy);
             newBasePattern.setString("status", status);
             newBasePattern.setString("type", type);

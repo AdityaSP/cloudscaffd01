@@ -57,7 +57,7 @@ under the License.
         <attribute name="baseName" type="String" mode="IN" optional="false"/>
         <attribute name="baseDescription" type="String" mode="IN" optional="false"/>
         <attribute name="baseForces" type="String" mode="IN" optional="true"/>
-        <attribute name="baseBenefits" type="String" mode="IN" optional="true"/>
+        <attribute name="baseConsequences" type="String" mode="IN" optional="true"/>
     </service>
 
 
