@@ -53,8 +53,8 @@ $(function () {
     // IF approved display only  deploy and edit
     $('.approve').on('click', function () {
         bootbox.confirm({
-            title: "Base Pattern Design Approval",
-            message: "Please confirm to approve design",
+            title: "Pattern Approval",
+            message: "Please confirm to approve Pattern",
             buttons: {
                 cancel: {
                     label: '<i class="fa fa-times"></i> Cancel'
@@ -87,7 +87,7 @@ $(function () {
 
     $('.deleteBP').on('click', function (e) {
         bootbox.confirm({
-            title: "Delete Base Pattern",
+            title: "Delete Pattern",
             message: "Are sure you want to delete?",
             buttons: {
                 cancel: {
@@ -199,7 +199,7 @@ function renderBasePattern(basePattern, bpid) {
                 isBasePatternApproved = basePattern[i].status;
                 checkImageAproval(isBasePatternApproved);
             } else {
-                App.toastMsg('No Design Created', 'failed', '.toastMsg');
+                App.toastMsg('No Pattern Created', 'failed', '.toastMsg');
                 $('.svgDiv').hide();
                 $('.edit').attr("disabled", false);
             }
@@ -221,11 +221,11 @@ function checkImageAproval(isBasePatternApproved) {
     if (isBasePatternApproved == "approved") {
         $('.approve').hide();
     } else {
-        App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
+        App.toastMsg("Pattern is not Approved", 'failed', '.toastMsg');
         if (isApprover) {
             $('.approve').attr("disabled", false);
         } else {
-            App.toastMsg("Base Pattern is not Approved", 'failed', '.toastMsg');
+            App.toastMsg("Pattern is not Approved", 'failed', '.toastMsg');
         }
     }
 }
