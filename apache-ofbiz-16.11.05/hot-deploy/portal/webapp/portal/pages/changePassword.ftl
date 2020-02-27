@@ -63,7 +63,7 @@
             <div class="form-group row">
                 <div class="col-sm-3">&nbsp;</div>
                     <div class="col-sm-9">
-                  <input type="button" class="btn btn-primary loginFormSubmitBtn" value="Change Password">
+                        <input type="button" class="btn btn-primary loginFormSubmitBtn" value="Change Password">
                     </div>
                 </div>
             </div>

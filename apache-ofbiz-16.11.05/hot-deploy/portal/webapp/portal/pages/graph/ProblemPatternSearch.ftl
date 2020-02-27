@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="m-3 px-2">
+            <#--  <div class="navigationControl">
+                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">Back</span></a>
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next</span></a>
+            </div><br>  -->
             <div class="problemStatementDiv">
                 <div class="form-group">
                     <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"

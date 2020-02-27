@@ -88,7 +88,7 @@ $(function () {
                     "tag": tag.toString()
                 };
             console.log(formData);
-            if (problemStatement != null && problemDescription != null && tag.length > 0) {
+            if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription) && tag.length > 0) {
                 $('.submitBtn').val('Creating...');
                 App.genericFetch('AddProblemStatement', 'POST', formData, submitForm, "", "", "");
                 $('.submitBtn').attr("disabled", true);
@@ -102,8 +102,21 @@ $(function () {
 });
 
 function submitForm(data) {
-    console.log(data)
-    window.location.reload();
+    $('.submitBtn').hide();
+    if (data.message == 'success') {
+        App.toastMsg('Creation Successful', 'success', '.formToastMsg', true);
+        setTimeout(function () {
+            window.location.reload();
+        }, 1000);
+    } else {
+        App.toastMsg('Failed to create', 'failed', '.formToastMsg', 1500);
+        App.clearInput('input:not(:button)');
+        setTimeout(function () {
+            $('.submitBtn').val('Create');
+            $('.submitBtn').attr("disabled", false);
+            $('.submitBtn').show();
+        }, 1500);
+    }
 }
 
 function checkBeforeRender(data) {

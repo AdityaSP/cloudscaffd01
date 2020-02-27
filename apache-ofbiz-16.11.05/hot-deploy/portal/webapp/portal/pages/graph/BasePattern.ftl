@@ -4,7 +4,7 @@
     <div class="col-12 pb-2 h3 text-center title">User Defined Pattern</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
-                <label class="probStatement h5"></label>
+                <a href="" class="text-dark probStatementLink"><span class="probStatement h5"></span></a>
                 <p class="probStatementDescription"></p>
             </div>
             <hr class="my-4">

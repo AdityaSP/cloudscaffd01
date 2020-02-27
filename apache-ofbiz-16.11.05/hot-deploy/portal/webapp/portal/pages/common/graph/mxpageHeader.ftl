@@ -28,7 +28,7 @@
             
             <div class="toastMsg pull-right alert alert-secondary p-2 m-0" role="alert" style="display:none;"></div>
             
-            <div class="text p-2" style="cursor: pointer;"><span class="text-primary goBack"><u>Go Back</u></span></div>
+            <div class="text p-2" style="cursor: pointer;"><span class="text-primary goBack"><u>Close Editor</u></span></div>
             <script>$('.goBack').on('click',function(){window.history.back();});</script>
             
             <#if userLogin??>

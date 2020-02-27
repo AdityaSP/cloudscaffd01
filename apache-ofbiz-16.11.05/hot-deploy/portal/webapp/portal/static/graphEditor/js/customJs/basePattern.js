@@ -149,6 +149,10 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
+            let urlParam = `psid=${problemList[i].id}`
+            $('.probStatementLink').attr({
+                href: `problemPatternSearch?${App.encrypt(urlParam)}`
+            });
             $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
@@ -156,7 +160,7 @@ function renderProblemStmt(problemList, psid) {
 }
 
 function renderBasePattern(basePattern, bpid) {
-    if (basePattern.length > 0) {
+    if (!App.isEmpty(basePattern) && basePattern.length > 0) {
         for (let i = 0; i < basePattern.length; i++) {
             psid = basePattern[i].psid;
             let patternType = basePattern[i].type;
@@ -185,19 +189,17 @@ function renderBasePattern(basePattern, bpid) {
             }
 
             if (basePattern[i].svg) {
-                // let imgURL = basePattern[i].png;
-                // console.log(imgURL);
-                // $("#basePatternImg")[0].src = imgURL;
-                // console.log(basePattern[i].svg);
-
                 $('.svgDiv').append(basePattern[i].svg);
                 $('svg').attr({
                     "min-width": "100px",
                     "min-height": "100px"
                 });
+
                 //Check If Solution Design is apporoved or not
                 isBasePatternApproved = basePattern[i].status;
+
                 checkImageAproval(isBasePatternApproved);
+
             } else {
                 App.toastMsg('No Design Created', 'failed', '.toastMsg');
                 $('.svgDiv').hide();

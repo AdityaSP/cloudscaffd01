@@ -4,12 +4,14 @@
     <div class="col-12 pb-2 h3 text-center title">Solution Design</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
-                <label class="probStatement h5"></label>
+                <a href="#" class="text-dark probStatementLink"><span class="probStatement h5"></span></a>
                 <p class="probStatementDescription"></p>
                 <hr class="my-4">
             </div>
             <div class="form-group basePatternForm">
-                <label class="basePattern h5"></label><span class="typeDataBP"></span>
+                <a href="#" class="text-dark basePatternLink"><span class="basePattern h5"></span></a>
+                <span class="typeDataBP"></span>
+
                 <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Base Pattern" href="javascript:void(0);">
                     <i class="fa fa-picture-o fa-2x" data-target="#modalIMG" data-toggle="modal" aria-hidden="true"></i></a>
                 <p class="basePatternDescription"></p>
@@ -17,7 +19,6 @@
             </div>
             <div class="form-group solutionDesignForm">
                 <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
-                
                 <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                 <a class="btn btn-info pull-right mr-2 editSD" href="javascript:void(0);" aria-label="Edit"

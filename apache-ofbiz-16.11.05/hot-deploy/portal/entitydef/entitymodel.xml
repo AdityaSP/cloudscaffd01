@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/entitymodel.xsd">
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/entitymodel.xsd">
     <!-- ========================================================= -->
     <!-- ======================== Defaults ======================= -->
     <!-- ========================================================= -->
@@ -27,9 +26,7 @@
         </relation>
     </entity>
 
-    <view-entity entity-name="PartyRelationshipCount"
-                 package-name="org.apache.ofbiz.party"
-                 title="View entity to get party relationship counts">
+    <view-entity entity-name="PartyRelationshipCount" package-name="org.apache.ofbiz.party" title="View entity to get party relationship counts">
         <member-entity entity-alias="PR" entity-name="PartyRelationship"/>
         <alias entity-alias="PR" name="partyIdTo" function="count"/>
         <alias entity-alias="PR" name="partyIdFrom" group-by="true"/>
@@ -39,8 +36,6 @@
         <alias entity-alias="PR" name="fromDate" />
         <alias entity-alias="PR" name="thruDate" />
     </view-entity>
-
-
 
     <entity entity-name="problemStatementApc" package-name="org.apache.problemStatementApc" title="problemStatementApc Entity">
         <field name="id" type="id"></field>
@@ -72,7 +67,6 @@
         </relation>
     </entity>
 
-
     <entity entity-name="basePatternApc" package-name="org.apache.basePatternApc" title="basePatternApc Entity">
         <field name="id" type="name"></field>
         <field name="psid" type="name"></field>
@@ -87,8 +81,8 @@
         <field name="updatedDate" type="date-time"></field>
         <field name="status" type="name"></field>
         <field name="type" type="name"></field>
-        <field name="baseForces" type="name"></field>
-        <field name="baseConsequences" type="name"></field>
+        <field name="baseForces" type="very-long"></field>
+        <field name="baseConsequences" type="very-long"></field>
         <prim-key field="id"/>
     </entity>
 
@@ -129,8 +123,8 @@
         <field name="updatedDate" type="date-time"></field>
         <field name="status" type="name"></field>
         <field name="type" type="name"></field>
-        <field name="solutionForces" type="name"></field>
-        <field name="solutionConsequences" type="name"></field>
+        <field name="solutionForces" type="very-long"></field>
+        <field name="solutionConsequences" type="very-long"></field>
         <prim-key field="id"/>
     </entity>
 </entitymodel>

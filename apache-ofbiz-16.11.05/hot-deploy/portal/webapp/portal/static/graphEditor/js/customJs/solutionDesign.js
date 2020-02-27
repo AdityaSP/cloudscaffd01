@@ -171,6 +171,10 @@ function reloadPage(data, id) {
 function renderProblemStmt(problemList, psid) {
     for (let i = 0; i < problemList.length; i++) {
         if (psid == problemList[i].id) {
+            let urlParam = `psid=${problemList[i].id}`
+            $('.probStatementLink').attr({
+                href: `problemPatternSearch?${App.encrypt(urlParam)}`
+            });
             $('.probStatement').text(`${problemList[i].id} : ${problemList[i].problemStatement}`);
             $('.probStatementDescription').text(problemList[i].problemDescription);
         }
@@ -182,6 +186,11 @@ function renderBasePattern(basePattern, bpid) {
         for (let i = 0; i < basePattern.length; i++) {
             let patternType = basePattern[i].type;
             if (bpid == basePattern[i].id) {
+                let urlParam = `psid=${basePattern[i].psid}&bpid=${basePattern[i].id}`
+                $('.basePatternLink').attr({
+                    href: `basePattern?${App.encrypt(urlParam)}`
+                });
+
                 $('.basePattern').text(`${basePattern[i].id} : ${basePattern[i].baseName}`);
                 $('.typeDataBP').text(` (Type : ${patternType.toUpperCase()})`);
                 $('.basePatternDescription').text(basePattern[i].baseDescription);
@@ -210,7 +219,7 @@ function renderBasePattern(basePattern, bpid) {
 }
 
 function renderSolutionDesign(solutionDesign, sdid) {
-    if (solutionDesign.length > 0) {
+    if (!App.isEmpty(solutionDesign) && solutionDesign.length > 0) {
         for (let i = 0; i < solutionDesign.length; i++) {
             let patternType = solutionDesign[i].type;
             if (sdid == solutionDesign[i].id) {
