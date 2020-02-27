@@ -37,11 +37,10 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        /*if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
+        if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
         }
-*/
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
         String solutionDesignName = request.getParameter("solutionDesignName");
@@ -77,10 +76,10 @@ public class SolutionDesignEvents{
         GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
         Map<String,Object> data = UtilMisc.toMap();
         // Check Permission
-      /*  if(getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
+        if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to create.", ERROR);
             return ERROR;
-        }*/
+        }
 
         String id = request.getParameter("id");
         Object png = request.getParameter("png");
@@ -140,11 +139,10 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-       /* if(getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
+        if(!getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to approve.", ERROR);
             return ERROR;
         }
-*/
         String sdid = request.getParameter("sdid");
         String psid = request.getParameter("psid");
         String bpid = null;
@@ -179,10 +177,10 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        /*if(getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
+        if(!getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to delete.", ERROR);
             return ERROR;
-        }*/
+        }
 
         try {
             String type = "pre-defined";
@@ -214,10 +212,10 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
-        /*if(getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+        if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
             getResponse(request, response, "You do not have permission to edit.", ERROR);
             return ERROR;
-        }*/
+        }
 
         String sdid = request.getParameter("sdid");
         String solutionDesignName = request.getParameter("solutionDesignName");
@@ -278,10 +276,10 @@ System.out.println("updatedBy ="+updatedBy);
                                                  String permissionName, GenericValue userLogin){
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Security security = dispatcher.getSecurity();
-        if (!security.hasPermission(permissionName, userLogin)) {
-            return false;
+        if (security.hasPermission(permissionName, userLogin)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,

@@ -70,6 +70,7 @@ public class MyProfileEvents {
             if (UtilValidate.isNotEmpty(errorMessage)) {
                 request.setAttribute("info", errorMessage);
                 request.setAttribute("message",ERROR);
+                return ERROR;
             }
             request.setAttribute("info", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
             request.setAttribute("message",ERROR);

@@ -31,4 +31,10 @@ under the License.
     <!--  super group -->
     <SecurityGroupPermission groupId="SUPER" permissionId="PORTAL_ADMIN"/>
 
+
+    <SecurityPermission description="Create APC" permissionId="PORTAL_CREATE_APC"/>
+    <SecurityPermission description="Edit APC" permissionId="PORTAL_EDIT_APC"/>
+    <SecurityPermission description="Delete APC" permissionId="PORTAL_DELETE_APC"/>
+    <SecurityPermission description="Approve APC" permissionId="PORTAL_APPROVE_APC"/>
+
 </entity-engine-xml>
