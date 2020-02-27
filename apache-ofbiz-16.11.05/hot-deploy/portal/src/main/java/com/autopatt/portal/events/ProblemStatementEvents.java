@@ -207,21 +207,21 @@ public class ProblemStatementEvents{
         return SUCCESS;
     }
 
-    public static String getAll(HttpServletRequest request, HttpServletResponse response)  {
-        Delegator delegator = (Delegator) request.getAttribute("delegator");
-        GenericHelperInfo genericHelper = new GenericHelperInfo("main", "localmysql"); ;
-        SQLProcessor sqlProcessor = new SQLProcessor(delegator,genericHelper);
-        try {
-            sqlProcessor.prepareStatement("SELECT * FROM BASE_PATTERN_APC ;");
-            ResultSet rs1 = sqlProcessor.executeQuery();
-            request.setAttribute("data", rs1);
-        } catch (GenericEntityException e) {
-            e.printStackTrace();
-            request.setAttribute("error msg", ERROR);
-        }
-        request.setAttribute("random", SUCCESS);
-        return SUCCESS;
-    }
+//    public static String getAll(HttpServletRequest request, HttpServletResponse response)  {
+//        Delegator delegator = (Delegator) request.getAttribute("delegator");
+//        GenericHelperInfo genericHelper = new GenericHelperInfo("main", "localmysql"); ;
+//        SQLProcessor sqlProcessor = new SQLProcessor(delegator,genericHelper);
+//        try {
+//            sqlProcessor.prepareStatement("SELECT * FROM BASE_PATTERN_APC ;");
+//            ResultSet rs1 = sqlProcessor.executeQuery();
+//            request.setAttribute("data", rs1);
+//        } catch (GenericEntityException e) {
+//            e.printStackTrace();
+//            request.setAttribute("error msg", ERROR);
+//        }
+//        request.setAttribute("random", SUCCESS);
+//        return SUCCESS;
+//    }
 
     private static List<GenericValue> getSolutionDesign(String inputSearch, Delegator delegator) {
         List<EntityCondition> entityConditionList = new LinkedList<EntityCondition>();

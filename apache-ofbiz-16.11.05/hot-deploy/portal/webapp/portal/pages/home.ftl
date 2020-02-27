@@ -1,9 +1,9 @@
 <div class="dashboard-widget">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3">
+<div class="container-fluid m-0 p-0">
+    <div class="row p-0 m-0">
+        <div class="col-4">
             <div class="card  mb-3 widget-body">
-                <div class="card-body card-padding">
+                <div class="card-body card-padding pb-4 pt-1">
                     <h6 class="card-title text-center">Users</h6
                     <img src="../static/images/icon/1626113.png" class="float-right card-user-icon">
                     <h5 class="card-text" align="center">Total: ${users!?size}</h5>
@@ -14,24 +14,7 @@
                 </div>
             </div>
         </div>
-
-
-     <!--   <div class="col-sm-3">
-            <div class="card  mb-3 widget-body">
-                <div class="card-body card-padding" >
-                    <h6 class="card-text" align="center">
-                    <span class="createdSolutionDesigns">available designs:</span></br>
-                    <span class="approvedBasePattern">approved patterns : </span></br>
-                    <span class="createdBasePattern">created patterns : </span></br>
-                    <span class="approvedSolutionDesign">approved solution design : </span></br>
-                    <span class="ProblemStatement">problem statement : </span></br>
-                    </h6>
-                </div>
-            </div>
-        </div> -->
-
-
-        <div class="col-sm-4">
+        <div class="col-4">
             <div class="card mb-4 widget-body">
                 <div class="card-body card-padding">
                     <h6 class="card-title text-center">Active Subscription</h6>
@@ -53,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-4">
             <div class="card  mb-3 widget-body">
                 <div class="card-body card-padding">
                     <h6 class="card-title text-center">Products</h6>
@@ -63,106 +46,58 @@
                 </div>
             </div>
         </div>
+
+                <div class="row p-0 mx-0 mb-4">
+                    <div class="col-6 chart-container" style="position:relative;align:center;height: 33vh;width: 54vw;" width:40vw;">
+                        <canvas id="dashboardPatternChart"></canvas>
+                    </div>
+                    <div class="col-6 chart-container" style="position:relative;align:center;height: 33vh;width: 54vw;" width:40vw;">
+                         <canvas id="dashboardSolutionChart"></canvas>
+                     </div>
+
+                </div>
+
+                <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>
+                                    <div class="col-12">
+                                    <table class="table  table-sm table-style">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Last Logged-in</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <#if users??>
+                                        <#list users as user>
+                                        <tr>
+                                            <th><img id="table-user-icon" src="../static/images/icon/uicon3.png" alt="user"></th>
+                                            <td>${user.partyName!} </td>
+                                            <td>
+                                            <#if user.userStatus?? && user.userStatus == "ACTIVE">
+                                                <span class="status text-success">&#8226;</span> Active
+                                            <#elseif user.userStatus?? && user.userStatus == "INACTIVE">
+                                                <span class="status text-info">&bull;</span> In-Active
+                                            <#elseif user.userStatus?? && user.userStatus == "LOCKED">
+                                                <span class="status text-warning" style="size:40px">&bull;</span> Locked
+                                            <#else>
+                                                <span class="status text-warning">&bull;</span> Suspended
+                                            </#if>
+                                            </td>
+                                            <td width="30%">${user.lastLoggedInPrettyTime!}</td>
+                                        </tr>
+                                        </#list>
+                                        </#if>
+                                        </tbody>
+                                    </table>
+                                    </div></#if>
     </div>
-
-        <div class="row">
-            <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>
-            <div class="col-sm-6 ">
-            <table class="table  table-sm table-style">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Last Logged-in</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#if users??>
-                <#list users as user>
-                <tr>
-                    <th><img id="table-user-icon" src="../static/images/icon/uicon3.png" alt="user"></th>
-                    <td>${user.partyName!} </td>
-                    <td>
-                    <#if user.userStatus?? && user.userStatus == "ACTIVE">
-                        <span class="status text-success">&#8226;</span> Active
-                    <#elseif user.userStatus?? && user.userStatus == "INACTIVE">
-                        <span class="status text-info">&bull;</span> In-Active
-                    <#elseif user.userStatus?? && user.userStatus == "LOCKED">
-                        <span class="status text-warning" style="size:40px">&bull;</span> Locked
-                    <#else>
-                        <span class="status text-warning">&bull;</span> Suspended
-                    </#if>
-                    </td>
-                    <td width="30%">${user.lastLoggedInPrettyTime!}</td>
-                </tr>
-                </#list>
-                </#if>
-                </tbody>
-            </table>
-            </div></#if>
-
-            <div class="col-sm-6 " >
-            <table class="table table-sm table-style">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Count</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Approved Patterns</td>
-                    <td class="approvedBasePattern"></td>
-                </tr>
-                 <tr>
-                    <td>2</td>
-                    <td>Created Solution Designs</td>
-                    <td class="createdSolutionDesigns"></td>
-                 </tr>
-                 <tr>
-                    <td>3</td>
-                    <td>Problem Statement</td>
-                    <td class="ProblemStatement"></td>
-                 </tr>
-                 <tr>
-                     <td>4</td>
-                     <td>Custom Patterns</td>
-                     <td class="createdBasePattern"></td>
-                 </tr>
-                 <tr>
-                     <td>5</td>
-                     <td>Approved Solution Designs</td>
-                     <td class="approvedSolutionDesign"></td>
-                 </tr>
-              </tbody>
-            </table>
-            </div>
-        </div>
 </div>
 
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-
-
-<script>
- (function apcDetailInCount(){
- $.ajax({
-  url:"getAPCDetailsInCount",
-  type:"POST",
-  success : function(res){
-    $(".createdSolutionDesigns").append(res.data.createdSolutionDesignCount);
-    $(".approvedBasePattern").append(res.data.approvedBasePatternCount);
-    $(".ProblemStatement").append(res.data.ProblemStatementCount);
-    $(".createdBasePattern").append(res.data.createdBasePatternCount);
-    $(".approvedSolutionDesign").append(res.data.approvedSolutionDesignCount);
-  },
-  error:function(res){
-    console.log(res);
-  }});
- })();
-</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js'></script>
+<script src="../static/js/donutChart.js"> </script>
