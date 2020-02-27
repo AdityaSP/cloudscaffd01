@@ -19,15 +19,6 @@ public class DashboardEvents
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Long> data = UtilMisc.toMap();
         try {
-            Long ProblemStatementCount = EntityQuery.use(delegator)
-                    .select("id")
-                    .from("problemStatementApc")
-                    .queryCount();
-            if (ProblemStatementCount != null) {
-                data.put("ProblemStatementCount",ProblemStatementCount);
-            } else {
-                data.put("ProblemStatementCount",null);
-            }
 
             Long createdBasePatternCount = EntityQuery.use(delegator)
                     .select("id")
@@ -38,6 +29,28 @@ public class DashboardEvents
                 data.put("createdBasePatternCount",createdBasePatternCount);
             } else {
                 data.put("createdBasePatternCount",null);
+            }
+
+            Long underDevelopmentPatternCount = EntityQuery.use(delegator)
+                    .select("id")
+                    .from("basePatternApc")
+                    .where("status","Under-Development")
+                    .queryCount();
+            if (underDevelopmentPatternCount != null) {
+                data.put("underDevelopmentPatternCount",underDevelopmentPatternCount);
+            } else {
+                data.put("underDevelopmentPatternCount",null);
+            }
+
+            Long approvedBasePatternCount = EntityQuery.use(delegator)
+                    .select("id")
+                    .from("basePatternApc")
+                    .where("status","approved")
+                    .queryCount();
+            if (approvedBasePatternCount != null) {
+                data.put("approvedBasePatternCount",approvedBasePatternCount);
+            } else {
+                data.put("approvedBasePatternCount",null);
             }
 
             Long createdSolutionDesignCount = EntityQuery.use(delegator)
@@ -51,6 +64,17 @@ public class DashboardEvents
                 data.put("createdSolutionDesignCount",null);
             }
 
+            Long underDevelopmentSolutionCount = EntityQuery.use(delegator)
+                    .select("id")
+                    .from("solutionDesignApc")
+                    .where("status","Under-Development")
+                    .queryCount();
+            if (underDevelopmentPatternCount != null) {
+                data.put("underDevelopmentSolutionCount",underDevelopmentSolutionCount);
+            } else {
+                data.put("underDevelopmentSolutionCount",null);
+            }
+
             Long approvedSolutionDesignCount = EntityQuery.use(delegator)
                     .select("id")
                     .from("solutionDesignApc")
@@ -60,17 +84,6 @@ public class DashboardEvents
                 data.put("approvedSolutionDesignCount",approvedSolutionDesignCount);
             } else {
                 data.put("approvedSolutionDesignCount",null);
-            }
-
-            Long approvedBasePatternCount = EntityQuery.use(delegator)
-                    .select("id")
-                    .from("basePatternApc")
-                    .where("status","approved")
-                    .queryCount();
-            if (approvedBasePatternCount != null) {
-                data.put("approvedBasePatternCount",approvedBasePatternCount);
-            } else {
-                data.put("approvedBasePatternCount",null);
             }
 
             request.setAttribute("data", data);

@@ -266,7 +266,7 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 } else {
                     // $('.edit').attr("disabled", true);
                     // $("#solutionDesignImg")[0].alt = "Image Not Found";
-                    App.toastMsg('No Design Created', 'failed', '.toastMsg');
+                    App.toastMsg('No Solution Design Created', 'failed', '.toastMsg');
                     $('.svgDiv').hide();
                     $('.edit').attr("disabled", false);
                     // $('.svg').attr('src', '../static/graphEditor/images/No_image_available.svg.svg');
