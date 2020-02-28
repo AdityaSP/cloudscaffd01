@@ -30,7 +30,7 @@
                 <label for="CrrPswd" class="col-sm-3 col-form-label" >Current Password <span class="mandatory">*</span></label>
                 <div class="col-sm-5">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="password" name="PASSWORD" required>
+                        <input type="password" maxlength="50" class="form-control" id="password" name="PASSWORD" required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <label for="cnfnewswd" class="col-sm-3 col-form-label">Confirm New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-5">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="newPasswordVerify" name="newPasswordVerify"  onblur="checkPasswordPolicy('newPasswordVerify','confirm_password_policy_error')"  required>
+                        <input type="password" maxlength="50" class="form-control" id="newPasswordVerify" name="newPasswordVerify"  onblur="checkPasswordPolicy('newPasswordVerify','confirm_password_policy_error')"  required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPasswordVerify_eye"></i>
                     </div>
                     <div id="confirm_password_policy_error"></div>
