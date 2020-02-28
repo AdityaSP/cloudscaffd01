@@ -200,6 +200,7 @@ function renderBasePattern(basePattern, bpid) {
                 if (basePattern[i].svg) {
                     // if (basePattern[i].status == 'approved') {
                     $('.BPsvgDiv').append(basePattern[i].svg);
+                    $('.BPStatus').text(`Status : ${basePattern[i].status}`);
                     $('.BPsvgDiv > svg').attr({
                         "width": "800px",
                         "height": "550px"

@@ -933,6 +933,28 @@ EditorUi.prototype.init = function () {
 	var ids = App.urlParams(), type = App.getTypeOfPattern(ids)['typeOfPattern'],
 		id = App.getTypeOfPattern(ids)['id'], url, data, xml = null, svg = null, png = null;
 
+	let bpid = ids['bpid'];
+
+	console.log("BPID: " + bpid);
+	if (bpid) {
+		$.ajax({
+			method: "POST",
+			url: 'getBasePattern',
+			data: data = { "bpid": bpid },
+			cache: true,
+			success: function (res) {
+				// console.log(res.data[0]);
+				let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
+				window.currentGraphData = { xml, svg, png, id };
+			},
+			statusCode: {
+				404: function (err) {
+					console.log(err);
+				}
+			}
+		});
+	}
+
 	if (type == 'solution_design') {
 		url = "getSolutionDesign";
 		data = { "sdid": id };
@@ -947,9 +969,10 @@ EditorUi.prototype.init = function () {
 		data: data,
 		cache: true,
 		success: function (res) {
-			console.log(res.data[0]);
+			// console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
-			displayFetchedDataInEditor(xml);
+			window.currentSolutionDesignData = { xml, svg, png, id };
+			checkFetchedData(xml, type);
 		},
 		statusCode: {
 			404: function (err) {
@@ -957,30 +980,6 @@ EditorUi.prototype.init = function () {
 			}
 		}
 	});
-
-	let bpid = ids['bpid'];
-
-	console.log("BPID: " + bpid)
-	if (bpid) {
-		$.ajax({
-			method: "POST",
-			url: 'getBasePattern',
-			data: data = { "bpid": bpid },
-			cache: true,
-			success: function (res) {
-				console.log(res.data[0]);
-				let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
-				window.currentGraphData = { xml, svg, png, id };
-				// displayFetchedDataInEditor(xml);
-			},
-			statusCode: {
-				404: function (err) {
-					console.log(err);
-				}
-			}
-		});
-	}
-
 };
 
 //??? 
@@ -1060,12 +1059,23 @@ xmlToJson = function (xml) {
 	return obj;
 }
 
-displayFetchedDataInEditor = function (docXml) {
-	var that = this;
+checkFetchedData = function (docXml, type) {
+	// console.log(docXml, type);
+	// console.log(window.currentGraphData);
+	if (docXml) {
+		displayFetchedDataInEditor(docXml, type);
+	}
+	if (window.currentGraphData && window.currentGraphData.xml && (docXml == '' || docXml == null)) {
+		docXml = window.currentGraphData.xml;
+		displayFetchedDataInEditor(docXml, "Pattern");
+	}
+}
+
+displayFetchedDataInEditor = function (docXml, type) {
 	if (docXml) {
 		editorUi.editor.graph.model.beginUpdate();
 		try {
-			// console.log(docXml)
+			console.log(`Rendering ${type} Graph`);
 			var doc = mxUtils.parseXml(docXml);
 			var model = new mxGraphModel();
 			var codec = new mxCodec(doc);
@@ -1081,8 +1091,6 @@ displayFetchedDataInEditor = function (docXml) {
 		finally {
 			editorUi.editor.graph.model.endUpdate();
 		}
-	} else {
-		console.log("empty data");
 	}
 };
 EditorUi.prototype.alertY = function (msg) {

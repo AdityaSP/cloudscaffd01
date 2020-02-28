@@ -1017,11 +1017,7 @@ Actions.prototype.init = function () {
 	this.addAction('viewbasicpattern', function () {
 
 		// var basicPattern = `<img src="https://via.placeholder.com/150/000000/FFFFFF/?text=IPaddress.net" style="width:100%;height:100%">`;
-		// let xml = window.currentGraphData;
-		// console.log(xml)
-		// mxUtils.popuphtml(basicPattern, true);
 		let svg = window.currentGraphData.svg;
-		// console.log(xml);
 		mxUtils.popuphtml(svg, true);
 
 	});

@@ -12,7 +12,7 @@
                 <a href="#" class="text-dark basePatternLink"><span class="basePattern h5"></span></a>
                 <span class="typeDataBP"></span>
 
-                <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Base Pattern" href="javascript:void(0);">
+                <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Pattern" href="javascript:void(0);">
                     <i class="fa fa-picture-o fa-2x" data-target="#modalIMG" data-toggle="modal" aria-hidden="true"></i></a>
                 <p class="basePatternDescription"></p>
                 <hr class="my-4">
@@ -62,6 +62,7 @@
                     <div class='BPsvgDiv img-fluid img-thumbnail p-1' style="overflow:auto;"></div>
 			    </div>
 			<div class="modal-footer">
+                <span class="BPStatus"></span>
 				<button class="btn btn-outline-danger btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Close</button>
 			</div>
 		</div>
