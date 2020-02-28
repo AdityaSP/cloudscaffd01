@@ -73,6 +73,14 @@
 		<security https="true" auth="true" />
 		<response name="success" type="view" value="customers" />
 	</request-map>
+	<request-map uri="in-progress">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="in-progress" />
+	</request-map>
+	<request-map uri="view_transaction">
+		<security https="true" auth="true" />
+		<response name="success" type="view" value="view_transaction" />
+	</request-map>
 	<request-map uri="new_customer">
 		<security https="true" auth="true" />
 		<response name="success" type="view" value="new_customer" />
@@ -327,6 +335,11 @@
 
 	<view-map name="customers" type="screen"
 			  page="component://admin/widget/AdminCustomerScreens.xml#customers" />
+	<view-map name="in-progress" type="screen"
+			  page="component://admin/widget/AdminCustomerScreens.xml#in-progress" />
+	<view-map name="view_transaction" type="screen"
+			  page="component://admin/widget/AdminCustomerScreens.xml#view_transaction" />
+
 	<view-map name="new_customer" type="screen"
 			  page="component://admin/widget/AdminCustomerScreens.xml#new_customer" />
 	<view-map name="new_admin_user" type="screen"

@@ -10,13 +10,14 @@
             <div class="col-sm-7">
                 <a href="<@ofbizUrl>new_customer</@ofbizUrl>" class="btn btn-primary" title="Onboard New Customer"><i class="material-icons">&#xE147;</i> <span>New Client</span></a>
                 <a href="<@ofbizUrl>customers</@ofbizUrl>" class="btn btn-primary" title="Refresh"><i class="material-icons">refresh</i> <span>Refresh</span></a>
+                <a href="<@ofbizUrl>in-progress</@ofbizUrl>" class="btn btn-info" title="Refresh"><i class="material-icons">update</i> <span>View Transactions</span></a>
             </div>
         </div>
     </div>
 
     <#if requestParameters.createInitiated?? && requestParameters.createInitiated=="Y">
         <div class="alert alert-success" role="alert">
-            <i class="material-icons">check</i> Customer creation process has been initiated....
+            <i class="material-icons">check</i> Customer creation process has been initiated.... <a href="<@ofbizUrl>in-progress</@ofbizUrl>">View Progress</a>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

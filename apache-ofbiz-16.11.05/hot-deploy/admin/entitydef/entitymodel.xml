@@ -10,6 +10,7 @@
 
     <entity entity-name="NewTenantTransaction" package-name="org.apache.ofbiz">
         <field name="tenantId" type="id-ne"/>
+        <field name="tenantOrgName" type="id-long-ne"/>
         <field name="transactionId" type="id-long-ne"/>
         <field name="status" type="id-ne"/>
         <prim-key field="transactionId"/>

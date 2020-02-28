@@ -83,7 +83,7 @@ public class CustomerOnboardingServices {
             tenantId = RandomStringUtils.random(6, "abcdefghijklmnopqrstuvwyz1234567890_".toCharArray());
         }
 
-        String newTenantTransactionId = NewTenantTransactionLogUtils.startNewTenantTransaction(delegator, tenantId);
+        String newTenantTransactionId = NewTenantTransactionLogUtils.startNewTenantTransaction(dispatcher, tenantId, organizationName);
 
         // 1. Initiate Tenant DB Creation
         String dbHostIp = ONBOARDING_PROPERTIES.getProperty("onboarding.database.mysql.hostname", "127.0.0.1");
@@ -97,17 +97,17 @@ public class CustomerOnboardingServices {
         String tenantDbUsername = "user" + tenantDbPrefix;
         String tenantDbPassword = "P@" + RandomStringUtils.random(15, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwyz1234567890@".toCharArray());
 
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS", "Creating Databases", "beginning to create tenant databases");
-        boolean isSuccess = createTenantDatabase(delegator, newTenantTransactionId, dbHostIp, dbHostPort, dbUsername, dbPassword, tenantDbPrefix, tenantDbUsername, tenantDbPassword);
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS", "Creating Databases", "beginning to create tenant databases");
+        boolean isSuccess = createTenantDatabase(dispatcher, newTenantTransactionId, dbHostIp, dbHostPort, dbUsername, dbPassword, tenantDbPrefix, tenantDbUsername, tenantDbPassword);
         if(!isSuccess) {
             Debug.logError("Error running script to create tenant database for tenant " + tenantId, module);
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED", "Creating Databases", "error running script to create tenant databases");
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED", "Creating Databases", "error running script to create tenant databases");
             return ServiceUtil.returnFailure("Error running script to create tenant Database for tenant " + tenantId);
         }
 
         // Create Tenant entries
         Debug.logInfo("Creating Tenant and TenantDataSource entries ", module);
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS", "Creating Tenant Entries", "beginning to create tenant entries in main db");
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS", "Creating Tenant Entries", "beginning to create tenant entries in main db");
         try {
             Map<String,Object> createTenantResp = dispatcher.runSync("createTenantEntries", UtilMisc.<String, Object> toMap("tenantId", tenantId,
                     "organizationName", organizationName,
@@ -120,7 +120,7 @@ public class CustomerOnboardingServices {
             if(!ServiceUtil.isSuccess(createTenantResp)) {
                 Debug.logError("createTenantEntries service failed to create Tenant and TenantDataSource entries in Main DB", module);
                 Debug.logError("Response: " + createTenantResp, module);
-                NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+                NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                         "Creating Tenant Entries",
                         "createTenantEntries service failed to create Tenant and TenantDataSource entries for new tenant. Details: " + createTenantResp.get("message"));
                 return ServiceUtil.returnFailure("Unable to create Tenant and TenantDataSource entries for new tenant " + tenantId);
@@ -128,56 +128,62 @@ public class CustomerOnboardingServices {
         } catch (GenericServiceException e) {
             Debug.logError("Unable to create Tenant and TenantDataSource entries Main DB", module);
             e.printStackTrace();
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                     "Creating Tenant Entries", ExceptionUtils.getFullStackTrace(e));
             return ServiceUtil.returnFailure("Error Creating Tenant Entries for new tenant " + tenantId);
         }
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Done Creating Tenant Entries", "Tenant entries in main db created successfully");
 
         // 2. Create OrgEntry in Main DB (along with status)
         Debug.logInfo("Creating OrgEntry in Main Db................", module);
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
-                "Creating Org Party (Main DB)", "beginning to create org party in Main DB");
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Creating Org Party (Main DB)", "Beginning to create org party in Main DB");
         String mainDbOrgPartyId = null;
         try {
             mainDbOrgPartyId = createOrgPartyInMainDB(dispatcher, userLogin, tenantId, organizationName);
         } catch (OrgPartyCreationException e) {
             e.printStackTrace();
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                     "Creating Org Party (Main DB)", "Creating org party in main db failed. Details: " + ExceptionUtils.getFullStackTrace(e));
             return ServiceUtil.returnFailure(e.getMessage());
         }
         Debug.log("Organization Party Id in Main DB is: " + mainDbOrgPartyId, module);
         if(UtilValidate.isEmpty(mainDbOrgPartyId)) {
             Debug.logError("Unable to create Organization party in Main DB", module);
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                     "Creating Org Party (Main DB)", "Empty party Id found for org party in main db failed");
             return ServiceUtil.returnFailure(" Unable to create Organization party in Main DB for tenantId " + tenantId);
         }
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Done Creating Org Party (Main DB)", "Org party creation in Main DB completed successfully");
 
         // 3. Create Org Entry in TenantDB,
         Debug.logInfo("Creating Org Entry in Tenant DB, for tenant " + tenantId, module);
         String tenantDbOrgPartyId = null;
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
-                "Creating Organization (Tenant DB)", "beginning to create organization in Tenant db");
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Creating Organization (Tenant DB)", "Beginning to create organization in Tenant db");
         try {
             tenantDbOrgPartyId = createOrgPartyInTenantDB(tenantId, organizationName);
         } catch (OrgPartyCreationException e) {
             e.printStackTrace();
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                     "Creating Organization (Main DB)", "Creating organization failed. Details: " + ExceptionUtils.getFullStackTrace(e));
             return ServiceUtil.returnFailure(e.getMessage());
         }
         Debug.logInfo("Organization Party Id in Tenant DB is: " + tenantDbOrgPartyId, module);
 
         // 4. create user login for given contact in Tenant DB, and build relationship
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
-                "Creating Admin UserLogin (Tenant DB)", "beginning to create Admin user login in Tenant db");
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Creating Admin UserLogin (Tenant DB)", "Beginning to create Admin user login in Tenant db");
         String adminUserLoginPartyId = createAdminUserLoginInTenantDb(tenantId, tenantDbOrgPartyId, contactFirstName, contactLastName, contactEmail, contactPassword );
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                "Creating Admin UserLogin (Tenant DB)", "Creation of Admin user in tenant DB completed successfully");
 
         // 5. Send EMail notification
         if(UtilValidate.isNotEmpty(sendNotificationToContact) && "Y".equalsIgnoreCase(sendNotificationToContact)) {
-            NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
-                    "Sending Email Notification", "beginning to send email notification");
+            NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
+                    "Sending Email Notification", "Beginning to send email notification");
             Delegator tenantDelegator = DelegatorFactory.getDelegator("default#" + tenantId);
             Map<String,Object> emailNotificationCtx = UtilMisc.toMap(
                     "userLogin", UserLoginUtils.getSystemUserLogin(delegator),
@@ -192,7 +198,7 @@ public class CustomerOnboardingServices {
                 dispatcher.runAsync("sendNewCustomerOnboardedEmail", emailNotificationCtx);
             } catch (GenericServiceException e) {
                 e.printStackTrace();
-                NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "FAILED",
+                NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "FAILED",
                         "Sending Email Notification", "Unable to send email notification. Details: " + ExceptionUtils.getFullStackTrace(e));
             }
         }
@@ -200,7 +206,7 @@ public class CustomerOnboardingServices {
         result.put(ModelService.RESPONSE_MESSAGE, ModelService.RESPOND_SUCCESS);
         result.put("tenantId", tenantId);
 
-        NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "COMPLETED", "Complete", "Tenant Creation completed successfully");
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "COMPLETED", "Completed", "Customer On-boarding process completed successfully");
         return result;
     }
 
@@ -471,7 +477,7 @@ public class CustomerOnboardingServices {
     }
 
 
-    private static boolean createTenantDatabase(Delegator delegator, String newTenantTransactionId, String dbHostname, String dbHostPort, String dbUsername, String dbPassword,
+    private static boolean createTenantDatabase(LocalDispatcher dispatcher, String newTenantTransactionId, String dbHostname, String dbHostPort, String dbUsername, String dbPassword,
                                       String tenantId, String tenantDbUsername, String tenantDbPassword) {
         String cloneScriptFile = getCloneScriptFilePath();
         Debug.logInfo("Cloning Database from template for new tenant: " + tenantId, module);
@@ -505,15 +511,15 @@ public class CustomerOnboardingServices {
             if(scriptExitCode == 0) {
                 // Success
                 Debug.logInfo("Tenant Database creation completed for tenant: " + tenantId, module);
-                NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
+                NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
                         "Completed Creating Databases", "Tenant Database creation completed with exit code 0. \nLogs: " + scriptLogs.toString());
             } else {
                 // Error code
                 Debug.logInfo("Script execution returned error code. Exit Code:" + scriptExitCode, module);
-                NewTenantTransactionLogUtils.logTransactionStep(delegator, newTenantTransactionId, "IN-PROGRESS",
+                NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "IN-PROGRESS",
                         "Failed Creating Databases", "Tenant Database creation completed with exit code " + scriptExitCode  +"\n Logs: " + scriptLogs.toString());
             }
-            return scriptExitCode==0;
+            return scriptExitCode == 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

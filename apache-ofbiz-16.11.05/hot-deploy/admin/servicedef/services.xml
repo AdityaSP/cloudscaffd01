@@ -119,4 +119,21 @@ under the License.
         <attribute name="newPasswordVerify" type="String" mode="IN" optional="false"/>
     </service>
 
+    <service name="createNewTenantTransactionService" engine="java"
+             location="com.autopatt.admin.utils.NewTenantTransactionLogUtils" invoke="createNewTenantTransactionService"
+             auth="true" require-new-transaction="true" transaction-timeout="300">
+        <attribute name="tenantId" type="String" mode="IN" optional="false"/>
+        <attribute name="tenantOrgName" type="String" mode="IN" optional="true"/>
+        <attribute name="transactionId" type="String" mode="OUT" optional="false"/>
+    </service>
+    <service name="createNewTenantTransactionLogService" engine="java"
+             location="com.autopatt.admin.utils.NewTenantTransactionLogUtils" invoke="createNewTenantTransactionLogService"
+             auth="true" require-new-transaction="true" transaction-timeout="300">
+        <attribute name="transactionId" type="String" mode="IN" optional="false"/>
+        <attribute name="status" type="String" mode="IN" optional="false"/>
+        <attribute name="stepName" type="String" mode="IN" optional="true"/>
+        <attribute name="details" type="String" mode="IN" optional="true" allow-html="any"/>
+        <attribute name="transactionLogId" type="String" mode="OUT" optional="false"/>
+    </service>
+
 </services>

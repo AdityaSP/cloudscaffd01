@@ -26,6 +26,53 @@
             </widgets>
         </section>
     </screen>
+
+    <screen name="in-progress">
+        <section>
+            <actions>
+                <set field="title" value="Customers"/>
+                <set field="currentPage" value="CUSTOMERS"/>
+                <set field="currentViewId" value="CUSTOMERS"/>
+                <script location="component://admin/webapp/admin/WEB-INF/actions/customers/in-progress.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://admin/webapp/admin/pages/customers/in-progress.ftl" />
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="view_transaction">
+        <section>
+            <actions>
+                <set field="title" value="Customers"/>
+                <set field="currentPage" value="CUSTOMERS"/>
+                <set field="currentViewId" value="CUSTOMERS"/>
+                <script location="component://admin/webapp/admin/WEB-INF/actions/customers/view_transaction.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="GeneralDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html>
+                                <html-template
+                                        location="component://admin/webapp/admin/pages/customers/view_transaction.ftl" />
+                            </html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
     <screen name="new_customer">
         <section>
             <actions>
