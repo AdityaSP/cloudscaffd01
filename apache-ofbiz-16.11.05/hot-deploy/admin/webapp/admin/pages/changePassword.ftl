@@ -39,7 +39,7 @@
                 <label for="nwpswd" class="col-sm-3 col-form-label">New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-5">
                     <div class="input-container">
-                            <input type="password" maxlength="50" class="form-control" id="newPassword" name="newPassword" onblur="checkPasswordPolicy('newPassword','password_policy_error')" required>
+                            <input type="password" maxlength="50" class="form-control" id="newPassword" name="PASSWORD" onblur="checkPasswordPolicy('newPassword','password_policy_error')" required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPassword_eye"></i>
                     </div>
                     <div id="password_policy_error"></div>
