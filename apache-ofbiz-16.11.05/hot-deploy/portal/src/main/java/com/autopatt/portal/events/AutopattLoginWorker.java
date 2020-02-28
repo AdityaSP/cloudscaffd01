@@ -164,6 +164,11 @@ public class AutopattLoginWorker extends LoginWorker{
             request.setAttribute("info", resultPasswordChange.get(ModelService.ERROR_MESSAGE_LIST));
             return ERROR;
         }
+        if(null == resultPasswordChange){
+            request.setAttribute("info", "Current Password is not correct, please re-enter.");
+            request.setAttribute("message",ERROR);
+            return ERROR;
+        }
         request.setAttribute("message",SUCCESS);
         request.setAttribute("info","Password updated successfully");
         return SUCCESS;
