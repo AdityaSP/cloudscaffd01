@@ -105,4 +105,39 @@ public class AutopattSubscriptionServices {
         return response;
     }
 
+
+    /**
+     * check if given tenantId has a valid subscription
+     * This is same as hasValidSubscriptionCheck, but not used as permission-service, instead as a normal service
+     * @param ctx
+     * @param context
+     * @return
+     */
+    public static Map<String, Object> checkForValidSubscription(DispatchContext ctx, Map<String, ? extends Object> context) {
+        String tenantId = (String) context.get("tenantId");
+        GenericDelegator mainDelegator = TenantCommonUtils.getMainDelegator();
+
+        Map<String,Object> response = UtilMisc.toMap();
+        if (UtilValidate.isEmpty(tenantId)) {
+            return ServiceUtil.returnFailure("Tenant Id is missing");
+        }
+        String orgPartyId = TenantCommonUtils.getOrgPartyId(mainDelegator, tenantId);
+        if (UtilValidate.isEmpty(orgPartyId)) {
+            return ServiceUtil.returnFailure("Org party Id is missing");
+        }
+        try {
+            List<GenericValue> subscriptions = mainDelegator.findByAnd("Subscription", UtilMisc.toMap("partyId", orgPartyId), null, false);
+            List<GenericValue> activeSubscriptions = EntityUtil.filterByDate(subscriptions);
+            if (UtilValidate.isNotEmpty(activeSubscriptions)) {
+                response.put("hasValidSubscription", true);
+            } else {
+                response.put("hasValidSubscription", false);
+            }
+        } catch (GenericEntityException e) {
+            Debug.logError(e, module);
+            return ServiceUtil.returnFailure("Failed to fetch subscription, error: " + e.getMessage());
+        }
+        return response;
+    }
+
 }

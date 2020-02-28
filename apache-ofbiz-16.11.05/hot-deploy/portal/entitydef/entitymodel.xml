@@ -60,10 +60,10 @@
         <field name="problemId" type="name"></field>
         <prim-key field="id"/>
         <relation type="one" title="tagid" rel-entity-name="problemStatementTags">
-            <key-map field-name="tagid" />
+            <key-map field-name="tagid" rel-field-name="id"/>
         </relation>
         <relation type="one" title="problemId" rel-entity-name="problemStatementApc">
-            <key-map field-name="problemId" />
+            <key-map field-name="problemId" rel-field-name="id" />
         </relation>
     </entity>
 

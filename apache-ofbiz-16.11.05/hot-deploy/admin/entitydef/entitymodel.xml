@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <!-- ========================================================= -->
+    <!-- ======================== Defaults ======================= -->
+    <!-- ========================================================= -->
+    <title>Entity of AutoPatt Admin Component</title>
+    <description>None</description>
+    <copyright></copyright>
+    <version></version>
+
+    <entity entity-name="NewTenantTransaction" package-name="org.apache.ofbiz">
+        <field name="tenantId" type="id-ne"/>
+        <field name="transactionId" type="id-long-ne"/>
+        <field name="status" type="id-ne"/>
+        <prim-key field="transactionId"/>
+    </entity>
+
+    <entity entity-name="NewTenantTransactionLog" package-name="org.apache.ofbiz">
+        <field name="transactionLogId" type="id-ne"/>
+        <field name="transactionId" type="id-long-ne"/>
+        <field name="status" type="id-ne"/>
+        <field name="stepName" type="id-long-ne"/>
+        <field name="details" type="very-long"/>
+        <prim-key field="transactionLogId"/>
+    </entity>
+
+</entitymodel>

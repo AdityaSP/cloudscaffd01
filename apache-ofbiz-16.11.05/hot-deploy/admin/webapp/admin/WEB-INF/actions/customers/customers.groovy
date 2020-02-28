@@ -16,11 +16,9 @@ if(UtilValidate.isNotEmpty(tenantOrgParties)) {
         customer.put("orgPartyId", tenantOrg.orgPartyId)
         customer.put("createdStamp", tenantOrg.createdStamp)
 
-        def tenantDispatcher = TenantCommonUtils.getTenantDispatcherByOrgPartyId(tenantOrg.orgPartyId)
-        def hasValidSubCheckResp = tenantDispatcher.runSync("hasValidSubscriptionCheck",
-                UtilMisc.toMap("userLogin", UserLoginUtils.getSystemUserLogin(tenantDispatcher.getDelegator())))
-
-        customer.put("hasActiveSubscription", hasValidSubCheckResp.get("hasPermission"))
+        def hasValidSubCheckResp = dispatcher.runSync("checkForValidSubscription",
+                UtilMisc.toMap("userLogin", UserLoginUtils.getSystemUserLogin(delegator), "tenantId", tenantOrg.tenantId))
+        customer.put("hasActiveSubscription", hasValidSubCheckResp.get("hasValidSubscription"))
 
         def getSubscriptionsResp = dispatcher.runSync("getSubscriptions",
                 UtilMisc.toMap("orgPartyId", tenantOrg.orgPartyId,

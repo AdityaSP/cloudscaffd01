@@ -26,7 +26,7 @@ under the License.
 
     <service name="onboardNewCustomer" engine="java"
              location="com.autopatt.admin.services.CustomerOnboardingServices" invoke="onboardNewCustomer"
-             auth="true" require-new-transaction="true" transaction-timeout="1200">
+             auth="true" require-new-transaction="true" transaction-timeout="1200" max-retry="0">
         <!--<permission-service service-name="partyStatusPermissionCheck" main-action="UPDATE"/>-->
         <attribute name="tenantId" type="String" mode="INOUT"/>
         <attribute name="organizationName" type="String" mode="IN"/>
@@ -37,6 +37,11 @@ under the License.
         <attribute name="sendNotificationToContact" type="String" mode="IN"/>
     </service>
 
+    <service name="testShellScriptService" engine="java"
+             location="com.autopatt.admin.services.CustomerOnboardingServices" invoke="testShellScriptService"
+             auth="true" require-new-transaction="true" transaction-timeout="300">
+        <description>Service to test out shell script execution</description>
+    </service>
 
     <service name="createTenantEntries" engine="java"
              location="com.autopatt.admin.services.CustomerOnboardingServices" invoke="createTenantEntries"

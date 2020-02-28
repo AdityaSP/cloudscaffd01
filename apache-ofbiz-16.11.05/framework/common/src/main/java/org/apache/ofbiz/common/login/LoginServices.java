@@ -907,7 +907,7 @@ public class LoginServices {
 
         String errMsg = null;
 
-        /*if (!ignoreCurrentPassword) {*/
+        if (!ignoreCurrentPassword) {
             // if the password.accept.encrypted.and.plain property in security is set to true allow plain or encrypted passwords
             // if this is a system account don't bother checking the passwords
             boolean passwordMatches = checkPassword(userLogin.getString("currentPassword"), useEncryption, currentPassword);
@@ -919,8 +919,7 @@ public class LoginServices {
                 errMsg = UtilProperties.getMessage(resource,"loginservices.new_password_is_equal_to_old_password", locale);
                 errorMessageList.add(errMsg);
             }
-/*
-        }*/
+        }
 
         if (UtilValidate.isEmpty(newPassword) || UtilValidate.isEmpty(newPasswordVerify)) {
             errMsg = UtilProperties.getMessage(resource,"loginservices.password_or_verify_missing", locale);

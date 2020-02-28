@@ -15,9 +15,8 @@
     <classpath type="jar" location="lib/*"/>
 
     <!-- entity resources: model(s), eca(s), group, and data definitions -->
-<!--
     <entity-resource type="model" reader-name="main" loader="main" location="entitydef/entitymodel.xml"/>
--->
+
     <entity-resource type="data" reader-name="seed" loader="main" location="data/AdminTypeData.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/AdminSecurityPermissionSeedData.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/AdminSecurityGroupSeedData.xml"/>

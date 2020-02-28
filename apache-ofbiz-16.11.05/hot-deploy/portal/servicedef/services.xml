@@ -38,6 +38,14 @@ under the License.
         <implements service="permissionInterface"/>
     </service>
 
+    <service name="checkForValidSubscription" engine="java"
+             location="com.autopatt.portal.services.AutopattSubscriptionServices" invoke="checkForValidSubscription"
+             auth="true" require-new-transaction="true" transaction-timeout="300">
+        <description>Check if given tenantId has valid subscription</description>
+        <attribute name="tenantId" type="String" mode="IN" optional="false"/>
+        <attribute name="hasValidSubscription" type="Boolean" mode="OUT" optional="false"/>
+    </service>
+
 
     <service name="createProblemStatement" engine="java"
              location="com.autopatt.portal.services.ProblemStatementServices" invoke="createProblemStatement"
