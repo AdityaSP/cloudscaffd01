@@ -38,7 +38,7 @@ public class NewTenantTransactionLogUtils {
         }
         if(UtilValidate.isEmpty(transactionId)) return null;
 
-        logTransactionStep(dispatcher, transactionId, "INITIATED", "Initialized", "Beginning the process of on-boarding tenant " + tenantId);
+        logTransactionStep(dispatcher, transactionId, "SCHEDULED", "Scheduled", "Onboarding process scheduled for tenant: " + tenantId);
         transactionId = (String) createTenantTnxResp.get("transactionId");
         return transactionId;
     }

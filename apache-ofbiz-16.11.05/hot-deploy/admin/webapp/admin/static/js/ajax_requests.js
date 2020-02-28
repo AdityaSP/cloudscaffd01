@@ -17,8 +17,9 @@ $("#new_customer_form").submit(function (event) {
             data: postData,
             success: function (resp) {
                 //data: return data from server
+                console.log(resp)
                 if(resp.success === "Y") {
-                    window.location.replace(getUrl("customers") + "?createInitiated=Y");
+                    window.location.replace(getUrl("customers") + "?createInitiated=Y&transactionId="+resp.transactionId);
                 } else {
                     showErrorToast("Unable to create new customer, Organization Id already exists")
                     $("#newCustomerFormSubmitButton").attr("disabled", false);

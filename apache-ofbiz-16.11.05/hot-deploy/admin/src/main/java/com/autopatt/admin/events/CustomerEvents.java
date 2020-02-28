@@ -1,5 +1,6 @@
 package com.autopatt.admin.events;
 
+import com.autopatt.admin.utils.NewTenantTransactionLogUtils;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.base.util.UtilValidate;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.UUID;
 
 public class CustomerEvents {
     public final static String module = CustomerEvents.class.getName();
@@ -55,6 +57,8 @@ public class CustomerEvents {
         }
         Map<String, Object> onboardCustomerResp = null;
         try {
+
+            String newTenantTransactionId = NewTenantTransactionLogUtils.startNewTenantTransaction(dispatcher, tenantId, organizationName);
             //Async call - use status on Org Party to know the result
             dispatcher.runAsync("onboardNewCustomer", UtilMisc.<String, Object>toMap("tenantId", tenantId,
                     "organizationName", organizationName,
@@ -63,7 +67,10 @@ public class CustomerEvents {
                     "contactEmail", contactEmail,
                     "contactPassword", contactPassword,
                     "sendNotificationToContact", sendNotificationToContact,
+                    "transactionId", newTenantTransactionId,
                     "userLogin", userLogin));
+
+            request.setAttribute("transactionId", newTenantTransactionId);
 
             /*if(!ServiceUtil.isSuccess(onboardCustomerResp)) {
                 Debug.logError("Error onboarding new customer with organization Id: " + tenantId, module);

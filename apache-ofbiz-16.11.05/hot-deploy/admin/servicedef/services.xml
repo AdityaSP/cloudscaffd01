@@ -28,6 +28,7 @@ under the License.
              location="com.autopatt.admin.services.CustomerOnboardingServices" invoke="onboardNewCustomer"
              auth="true" require-new-transaction="true" transaction-timeout="1200" max-retry="0">
         <!--<permission-service service-name="partyStatusPermissionCheck" main-action="UPDATE"/>-->
+        <attribute name="transactionId" type="String" mode="IN" optional="true"/>
         <attribute name="tenantId" type="String" mode="INOUT"/>
         <attribute name="organizationName" type="String" mode="IN"/>
         <attribute name="contactFirstName" type="String" mode="IN"/>

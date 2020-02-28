@@ -76,14 +76,15 @@ public class CustomerOnboardingServices {
         String contactPassword = (String) context.get("contactPassword");
         String sendNotificationToContact = (String) context.get("sendNotificationToContact");
 
+        String newTenantTransactionId = (String) context.get("transactionId");
+
         // TODO: Validation - check for duplicate tenantId
 
         if(UtilValidate.isEmpty(tenantId)) {
             // Generate tenantId from organizationName
             tenantId = RandomStringUtils.random(6, "abcdefghijklmnopqrstuvwyz1234567890_".toCharArray());
         }
-
-        String newTenantTransactionId = NewTenantTransactionLogUtils.startNewTenantTransaction(dispatcher, tenantId, organizationName);
+        NewTenantTransactionLogUtils.logTransactionStep(dispatcher, newTenantTransactionId, "INITIATED", "Initiating Onboarding process", "Beginning the onboarding process");
 
         // 1. Initiate Tenant DB Creation
         String dbHostIp = ONBOARDING_PROPERTIES.getProperty("onboarding.database.mysql.hostname", "127.0.0.1");

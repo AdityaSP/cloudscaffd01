@@ -17,7 +17,7 @@
 
     <#if requestParameters.createInitiated?? && requestParameters.createInitiated=="Y">
         <div class="alert alert-success" role="alert">
-            <i class="material-icons">check</i> Customer creation process has been initiated.... <a href="<@ofbizUrl>in-progress</@ofbizUrl>">View Progress</a>
+            <i class="material-icons">check</i> Customer creation process has been initiated.... <a href="<@ofbizUrl>view_transaction</@ofbizUrl>?transactionId=${requestParameters.transactionId!}">View Progress</a>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
