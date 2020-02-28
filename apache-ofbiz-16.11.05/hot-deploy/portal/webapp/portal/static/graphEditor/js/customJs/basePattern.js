@@ -11,6 +11,7 @@ $(function () {
     $('.py-3').contents().filter(function () {
         return this.nodeType === 3;
     }).remove();
+    $('.toast').remove();
 
     $('[data-toggle="tooltip"]').tooltip();
 

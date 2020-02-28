@@ -80,7 +80,6 @@ function restrictSpecialCharacters(event) {
 }
 
 function updatePassword() {
-
     $('.changePasswordFormSubmitBtn').on('click', function (evt) {
         let formData = {
             "PASSWORD": $('#password').val(),

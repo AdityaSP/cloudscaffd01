@@ -11,7 +11,7 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">
-                <h4>Change Password</h4>
+                <h4>Change Password</h4> 
             </div>
             <div class="col-sm-7">
             </div>

@@ -3,7 +3,7 @@ import { App } from './app.js';
 var problemStatementList, basePatternList, solutionDesignList, tagsList;
 
 $(function () {
-
+    $('.toast').remove();
     $('[data-toggle="tooltip"]').tooltip();
 
     var urlParams = App.urlParams(),
