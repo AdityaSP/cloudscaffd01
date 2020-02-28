@@ -30,7 +30,7 @@
                 <label for="CrrPswd" class="col-sm-3 col-form-label" >Current Password <span class="mandatory">*</span></label>
                 <div class="col-sm-9">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="password" placeholder="Password" name="PASSWORD" required>
+                        <input type="password" maxlength="50" class="form-control" id="password" placeholder="Password" name="PASSWORD" required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                 <label for="nwpswd" class="col-sm-3 col-form-label">New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-9">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="newPassword" placeholder="Password" name="PASSWORD"
+                        <input type="password" maxlength="50" class="form-control" id="newPassword" placeholder="Password" name="PASSWORD"
                                onblur="checkPasswordPolicy('newPassword','password_policy_error')"
                                required>
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="newPassword_eye"></i>
@@ -51,7 +51,7 @@
                 <label for="cnfnewswd" class="col-sm-3 col-form-label">Confirm New Password <span class="mandatory">*</span></label>
                 <div class="col-sm-9">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="newPasswordVerify" placeholder="Confirm Password"
+                        <input type="password" maxlength="50" class="form-control" id="newPasswordVerify" placeholder="Confirm Password"
                                name="newPasswordVerify"
                                onblur="checkPasswordPolicy('newPasswordVerify','confirm_password_policy_error')"
                                required>
