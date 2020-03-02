@@ -65,23 +65,27 @@ public class ProblemStatementEvents{
             newProblemStatement.setString("createdBy", createdBy);
             newProblemStatement.setString("type", type);
             delegator.create(newProblemStatement);
+            addTagAndProblemStatementTagProblem(delegator,psid,tag);
             } catch (GenericEntityException ex) {
                 Debug.logError(ex, module);
             getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
+        getResponse(request, response, "Problem Statement creation successfull", SUCCESS);
+        return SUCCESS;
+    }
 
+    public static void addTagAndProblemStatementTagProblem(Delegator delegator,String psid,String [] tag){
         int tagSize = tag.length;
         try{
             String tagsId = delegator.getNextSeqId("Quote");
             for (int TagNameCount=0; TagNameCount < tagSize; TagNameCount++) {
-            List<GenericValue> TagList = EntityQuery.use(delegator)
-                    .select("id","tagName")
-                    .from("problemStatementTags").where("tagName",tag[TagNameCount])
-                    .queryList();
+                List<GenericValue> TagList = EntityQuery.use(delegator)
+                        .select("id","tagName")
+                        .from("problemStatementTags").where("tagName",tag[TagNameCount])
+                        .queryList();
                 if (TagList.isEmpty()) {
                     GenericValue newproblemStatementTags = delegator.makeValue("problemStatementTags");
-
                     newproblemStatementTags.setString("id", tagsId);
                     newproblemStatementTags.setString("tagName", (String) tag[TagNameCount]);
                     delegator.create(newproblemStatementTags);
@@ -95,7 +99,7 @@ public class ProblemStatementEvents{
 
                 } else {
                     for (int TagIdCount=0; TagIdCount < TagList.size(); TagIdCount++) {
-                        
+
                         tagsId = TagList.get(TagIdCount).getString("id");
                         GenericValue newproblemStatementTagProblem = delegator.makeValue("problemStatementTagProblem");
                         String tagProblemId = delegator.getNextSeqId("Quote");
@@ -108,12 +112,10 @@ public class ProblemStatementEvents{
             }
         } catch (GenericEntityException e) {
             Debug.logError(e, module);
-            getResponse(request, response, "Problem Statement creation failed!", ERROR);
-            return ERROR;
         }
-        getResponse(request, response, "Problem Statement creation successfull", SUCCESS);
-        return SUCCESS;
     }
+
+
 
     public static String getPatternByPsId(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
