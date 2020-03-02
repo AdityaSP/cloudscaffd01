@@ -14,6 +14,13 @@ $(function(){
 })
 function renderPatternChartData(data){
 var ctx = document.getElementById("dashboardPatternChart").getContext('2d');
+if(data.underDevelopmentPatternCount == 0 && data.underDevelopmentSolutionCount == 0 && data.approvedBasePatternCount == 0
+     && data.createdBasePatternCount == 0 && data.createdSolutionDesignCount == 0 && data.approvedSolutionDesignCount == 0){
+
+    $('#patternCountChart').hide();
+
+} else {
+
 var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -40,6 +47,7 @@ var myChart = new Chart(ctx, {
                   }
     }
 });
+}
 }
 
 
