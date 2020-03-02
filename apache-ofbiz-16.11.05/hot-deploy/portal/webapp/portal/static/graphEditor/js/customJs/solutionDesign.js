@@ -12,159 +12,183 @@ $(function () {
     }).remove();
     $('.toast').remove();
 
-    $('[data-toggle="tooltip"]').tooltip();
+    if (!App.isEmpty(urldata)) {
 
-    if (urldata['bpid']) { bpid = urldata['bpid'] };
-    let userRole = $('.userRoleName').text();
-    let userName = $('.userName').text();
+        $('[data-toggle="tooltip"]').tooltip();
 
-    // Fetch and Rendering Problem Statement
-    App.loader(".probStatementForm");
-    App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
+        if (urldata['bpid']) { bpid = urldata['bpid'] };
+        let userRole = $('.userRoleName').text();
+        let userName = $('.userName').text();
 
-    $('.deploy').attr("disabled", true);
-    $('.approve').attr("disabled", true);
+        // Fetch and Rendering Problem Statement
+        App.loader(".probStatementForm");
+        App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    // Fetch and Rendering Solution Design
-    if (sdid) {
-        App.loader(".solutionDesignForm");
-        App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
-    }
+        $('.deploy').attr("disabled", true);
+        $('.approve').attr("disabled", true);
 
-    // Fetch and Rendering Base Pattern if bpid exits
-    if (bpid) {
-        // App.loader(".basePatternForm");
-        App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
-    } else {
-        $('.basePatternForm').hide();
-    }
-
-    switch (userRole) {
-        case "Administrator": {
-            isAdmin = true;
-            $('.approve').attr("disabled", true);
-            $('.deploy').attr("disabled", true);
-        }; break;
-        case "Deployer": {
-            isDeployer = true;
-            $('.approve').attr("disabled", true);
-        }; break;
-        case "Approver": {
-            isApprover = true;
-            $('.deploy').attr("disabled", true);
-            $('.edit').attr("disabled", true);
-        }; break;
-        case "Planner": {
-            isPlanner = true;
-            $('.approve').attr("disabled", true);
-            $('.deploy').attr("disabled", true);
-        }; break;
-        default: break;
-    }
-
-    console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
-
-    $('.deploy').on('click', function (e) {
-        let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
-        console.log(data);// console.log(xml);
-        // App.genericFetch("deploySolutionDesign", "POST", data, "", "", "", "");
-
-        // After successfull Deployment Change status to 'Deployed-Successful'
-        // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", ""); // urlData includes status
-
-    });
-
-    // IF approved display only  deploy and edit
-    $('.approve').on('click', function (e) {
-        bootbox.confirm({
-            title: "Solution Design Approval",
-            message: "Please confirm to approve design",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> Cancel'
-                },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> Confirm'
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", "");
-                }
-            }
-        });
-    });
-
-    $('.deleteSD').on('click', function (e) {
-        bootbox.confirm({
-            title: "Delete Solution Design",
-            message: "Are sure you want to delete?",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> Cancel'
-                },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> Confirm'
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
-                    $('.solutionDesignForm').hide(); $('.svgDiv').hide();
-                    App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
-                    $('.edit').attr("disabled", true);
-                    $('.deploy').attr("disabled", true);
-                    $('.title').text("Problem Statement");
-                    urldata["sdid"] = null
-                } else {
-                    console.log(result);
-                }
-            }
-        });
-    });
-
-    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
-        $('#saveChangesBtn').on('click', function (e) {
-            let solutionDesignName = $('#solutionDesignProblem').val(),
-                solutionDesignDesc = $('#solutionDesignDescription').val(),
-                solutionForces = $('#solutionDesignForces').val(),
-                solutionBenefits = $('#solutionDesignBenefits').val(),
-                formData = {
-                    "solutionDesignName": solutionDesignName,
-                    "solutionDesignDesc": solutionDesignDesc,
-                    "solutionForces": solutionForces,
-                    "solutionBenefits": solutionBenefits,
-                    "sdid": sdid,
-                };
-            console.log(formData);
-            if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionBenefits)) {
-                App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, "", "", "");
-            } else {
-                App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
-            }
-        });
-    } else {
-        // TODO:
-        $('.editSD').hide();
-        $('.deleteSD').hide();
-    }
-
-    $('.edit').on('click', function (evt) {
-        let urlParam;
-        if (psid != null && bpid != null && sdid != null) {
-            urlParam = `psid=${psid}&bpid=${bpid}&sdid=${sdid}`;
-        } else if (psid != null && bpid != null) {
-            urlParam = `psid=${psid}&bpid=${bpid}`;
-        } else if (psid != null && sdid != null) {
-            urlParam = `psid=${psid}&sdid=${sdid}`;
-        } else {
-            urlParam = `psid=${psid}`;
+        // Fetch and Rendering Solution Design
+        if (sdid) {
+            App.loader(".solutionDesignForm");
+            App.genericFetch('getSolutionDesign', "POST", { "sdid": sdid }, renderSolutionDesign, sdid);
         }
-        window.location.href = `graphEditor?${window.btoa(urlParam)}`
-    });
+
+        // Fetch and Rendering Base Pattern if bpid exits
+        if (bpid) {
+            // App.loader(".basePatternForm");
+            App.genericFetch('getBasePattern', "POST", { "bpid": bpid }, renderBasePattern, bpid);
+        } else {
+            $('.basePatternForm').hide();
+        }
+
+        switch (userRole) {
+            case "Administrator": {
+                isAdmin = true;
+                $('.approve').attr("disabled", true);
+                $('.deploy').attr("disabled", true);
+            }; break;
+            case "Deployer": {
+                isDeployer = true;
+                $('.approve').attr("disabled", true);
+                $('.edit').attr("disabled", true);
+            }; break;
+            case "Approver": {
+                isApprover = true;
+                $('.deploy').attr("disabled", true);
+                $('.edit').attr("disabled", true);
+            }; break;
+            case "Planner": {
+                isPlanner = true;
+                $('.approve').attr("disabled", true);
+                $('.deploy').attr("disabled", true);
+            }; break;
+            default: break;
+        }
+
+        console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
+
+        $('.deploy').on('click', function (e) {
+            bootbox.confirm({
+                title: "Deploy Solution Design",
+                message: "Please confirm to deploy design",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
+                        console.log(data);// console.log(xml);
+                        // App.genericFetch("deploySolutionDesign", "POST", data, "", "", "", "");
+
+                        // After successfull Deployment Change status to 'Deployed-Successful'
+                        // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", ""); // urlData includes status
+                    }
+                }
+            });
+        });
+
+        // IF approved display only  deploy and edit
+        $('.approve').on('click', function (e) {
+            bootbox.confirm({
+                title: "Solution Design Approval",
+                message: "Please confirm to approve design",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
+                    }
+                }
+            });
+        });
+
+        $('.deleteSD').on('click', function (e) {
+            bootbox.confirm({
+                title: "Delete Solution Design",
+                message: "Are sure you want to delete?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
+                        $('.solutionDesignForm').hide(); $('.svgDiv').hide();
+                        App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
+                        $('.edit').attr("disabled", true);
+                        $('.deploy').attr("disabled", true);
+                        $('.title').text("Problem Statement");
+                        urldata["sdid"] = null
+                    } else {
+                        console.log(result);
+                    }
+                }
+            });
+        });
+
+        if (userRole == "Planner" || userRole == "Administrator") {
+            $('#saveChangesBtn').on('click', function (e) {
+                let solutionDesignName = $('#solutionDesignProblem').val(),
+                    solutionDesignDesc = $('#solutionDesignDescription').val(),
+                    solutionForces = $('#solutionDesignForces').val(),
+                    solutionBenefits = $('#solutionDesignBenefits').val(),
+                    formData = {
+                        "solutionDesignName": solutionDesignName,
+                        "solutionDesignDesc": solutionDesignDesc,
+                        "solutionForces": solutionForces,
+                        "solutionBenefits": solutionBenefits,
+                        "sdid": sdid,
+                    };
+                console.log(formData);
+                if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionBenefits)) {
+                    App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, "", "", "");
+                } else {
+                    App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
+                }
+            });
+        } else {
+            // TODO:
+            $('.editSD').hide();
+            $('.deleteSD').hide();
+        }
+
+        $('.edit').on('click', function (evt) {
+            let urlParam;
+            if (psid != null && bpid != null && sdid != null) {
+                urlParam = `psid=${psid}&bpid=${bpid}&sdid=${sdid}`;
+            } else if (psid != null && bpid != null) {
+                urlParam = `psid=${psid}&bpid=${bpid}`;
+            } else if (psid != null && sdid != null) {
+                urlParam = `psid=${psid}&sdid=${sdid}`;
+            } else {
+                urlParam = `psid=${psid}`;
+            }
+            window.location.href = `graphEditor?${window.btoa(urlParam)}`
+        });
+    } else {
+        $('.title').html(`No Data Found`);
+        $('.basePatternForm').hide();$('.solutionDesignForm').hide();
+        $('.approve').hide(); $('.edit').hide();$('.deploy').hide();
+        $('.svgDiv').hide();
+    }
 });
 
-function reloadPage(data, id) {
+function approveSolutionDesignStatus(data, id) {
     App.toastMsg(`${id} : Solution Design Approved`, 'success', '.toastMsg', true);
     $('.approve').hide();
 }
@@ -200,7 +224,7 @@ function renderBasePattern(basePattern, bpid) {
                 if (basePattern[i].svg) {
                     // if (basePattern[i].status == 'approved') {
                     $('.BPsvgDiv').append(basePattern[i].svg);
-                    $('.BPStatus').text(`Status : ${basePattern[i].status}`);
+                    $('.BPStatus').text(`Status : ${basePattern[i].status.toUpperCase()}`);
                     $('.BPsvgDiv > svg').attr({
                         "width": "800px",
                         "height": "550px"

@@ -6,12 +6,23 @@ export const App = {
         let search = location.search.substring(1), urlParams;
 
         if (search.includes('psid') || search.includes('tagid')) {
-            urlParams = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) });
-            return urlParams;
+            try {
+                urlParams = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) });
+                return urlParams;
+            } catch (error) {
+                console.log(error);
+                return {};
+            }
         } else {
             search = this.decrypt(search.replace("%3D", "="));
-            urlParams = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) });
-            return urlParams;
+            try {
+                urlParams = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) });
+                return urlParams;
+            } catch (error) {
+                console.log(error);
+                return {};
+            }
+
         }
     },
     getTypeOfPattern: function (ids) {

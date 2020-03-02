@@ -11,10 +11,10 @@
                         data-toggle="modal" data-target="#editFormModal">
                         <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit Problem Statement"></i>
                     </a>
-                    <#--  <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete">
+                    <#--  <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete"
+                        data-toggle="modal" data-target="#deletePSModal">
                         <i class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Delete Problem Statement"></i>
                     </a>  -->
-
                     <p class="h4" id="probStatement"></p>
                     <p id="probStatementDescription"></p>
                 </div>
@@ -143,7 +143,7 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+<!--Problem Statement Edit Modal -->
 <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -180,6 +180,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
         <button type="button" class="btn btn-primary saveChangesBtn" id="saveChangesBtn">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Problem Statement Delete Modal -->
+<div class="modal fade" id="deletePSModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFormModalTitle">Delete Problem Statement</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modalBody">
+        <p class="">
+            Are you sure you want to delete Problem Statement <span class="psid h6"></span> ?<br>
+            <span class="psid h6"></span> has <span class="tagsCount h6"></span>, <span class="ptCount h6"></span> and <span class="sdCount h6"></span>.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Cancel</button>
+        <button type="button" class="btn btn-primary deleteBtn" id="deleteBtn">Delete</button>
       </div>
     </div>
   </div>

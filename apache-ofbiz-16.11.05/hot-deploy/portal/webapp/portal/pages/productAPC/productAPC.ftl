@@ -54,15 +54,15 @@
                                                     <hr class="">
                                                     <div class="row text-center" id="checkboxes">
                                                         <div class="custom-control custom-checkbox col-4">
-                                                            <input type="checkbox" class="custom-control-input" name="typeProblemStatement" id="checkPS" checked>
+                                                            <input type="checkbox" class="custom-control-input check" name="typeProblemStatement" id="checkPS" checked>
                                                             <label class="custom-control-label" for="checkPS">Problem Statement</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox col-4">
-                                                            <input type="checkbox" class="custom-control-input" name="typeBasePattern" id="checkBP">
+                                                            <input type="checkbox" class="custom-control-input check" name="typeBasePattern" id="checkBP">
                                                             <label class="custom-control-label" for="checkBP">Pattern</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox col-4">
-                                                            <input type="checkbox" class="custom-control-input" name="typeSolutionDesign" id="checkSD">
+                                                            <input type="checkbox" class="custom-control-input check" name="typeSolutionDesign" id="checkSD">
                                                             <label class="custom-control-label" for="checkSD">Solution Design</label>
                                                         </div>
                                                         <#--  <div class="custom-control custom-checkbox col-3">

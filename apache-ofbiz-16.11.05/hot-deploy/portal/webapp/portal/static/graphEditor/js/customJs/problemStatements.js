@@ -3,10 +3,11 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     var urlParams,
-        userRole = App.userRole; console.log(urlParams, userRole);
+        userRole = App.userRole;
     if (window.location.search != "") {
         urlParams = App.urlParams();
     }
+    console.log(urlParams, userRole);
 
     App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
     App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
@@ -77,7 +78,7 @@ $(function () {
             }
         }
     });
-    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
+    if (userRole == "Planner" || userRole == "Administrator") {
         $("#problemStmtFormSubmitBtn").on('click', function (e) {
             let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
                 problemStatement = $('#problemStatement').val(),
@@ -122,12 +123,15 @@ function submitForm(data) {
 function checkBeforeRender(data) {
     // Remove Existing Data in search result
     clearSearchResults();
+    let check = {
+        PS: $('#checkPS')[0].checked, PT: $('#checkBP')[0].checked, SD: $('#checkSD')[0].checked
+    };
 
-    if (data.basePatterns) { renderBasePatterns(data.basePatterns); }
+    if (data.basePatterns) { renderBasePatterns(data.basePatterns, check); }
 
-    if (data.solutionDesigns) { renderSolutionDesigns(data.solutionDesigns); }
+    if (data.solutionDesigns) { renderSolutionDesigns(data.solutionDesigns, check); }
 
-    if (data.ProblemStatements) { renderProblemStatements(data.ProblemStatements); }
+    if (data.ProblemStatements) { renderProblemStatements(data.ProblemStatements, check); }
 
     if ((data.basePatterns && data.basePatterns.length == 0) &&
         (data.solutionDesigns && data.solutionDesigns.length == 0) &&
@@ -145,7 +149,7 @@ function clearSearchResults() {
     App.loader('.searchResultsList');
 }
 
-function renderProblemStatements(problems) {
+function renderProblemStatements(problems, check) {
     if (problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
@@ -154,11 +158,14 @@ function renderProblemStatements(problems) {
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
-        console.log("PS is empty")
+        console.log("PS is empty");
+        if (check.PS || check.SD || check.PT || (check.PT && check.SD)) {
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
     }
 }
 
-function renderBasePatterns(basePattern) {
+function renderBasePatterns(basePattern, check) {
     if (basePattern.length > 0) {
         for (let i = 0; i < basePattern.length; i++) {
             let queryStr, bpid = `bpid=${basePattern[i].id}`, psid = basePattern[i].psid;
@@ -169,10 +176,13 @@ function renderBasePatterns(basePattern) {
         }
     } else {
         console.log("BP is empty");
+        if (check.PT || check.SD || check.PS || (check.PS && check.SD)) {
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
     }
 }
 
-function renderSolutionDesigns(solutionDesign) {
+function renderSolutionDesigns(solutionDesign, check) {
     if (solutionDesign.length > 0) {
         for (let i = 0; i < solutionDesign.length; i++) {
             let queryStr, sdid = solutionDesign[i].id,
@@ -189,6 +199,9 @@ function renderSolutionDesigns(solutionDesign) {
         }
     } else {
         console.log("SD is empty");
+        if (check.SD || check.PS || check.PT || (check.PT && check.PS)) {
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
     }
 }
 

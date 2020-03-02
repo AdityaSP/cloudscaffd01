@@ -3407,9 +3407,20 @@ EditorUi.prototype.save = function (name) {
 				$(".toastMsg").text("Data Saving...");
 			},
 			success: function (res) {
-				// console.log(res);
-				if (res) {
-					$(".toastMsg").text("Data Saved in DB");
+				console.log(res);
+				if (res.data.message == 'success') {
+					$(".toastMsg").text("Data Saved in DB"); //res.data.info
+					setTimeout(function () {
+						$(".toastMsg").hide();
+					}, 3000);
+				}
+
+				if (res.data.message == 'error') {
+					$(".toastMsg").show();
+					$(".toastMsg").css({
+						"backgroundColor": "#F94343"
+					});
+					$(".toastMsg").text(res.data.info);
 					setTimeout(function () {
 						$(".toastMsg").hide();
 					}, 3000);
@@ -3441,8 +3452,8 @@ EditorUi.prototype.save = function (name) {
 			else {
 				if (xml.length < MAX_REQUEST_SIZE) {
 
-					console.log("Saving in DB");
-
+					console.log("XML length is less than MAX_REQUEST_SIZE.");
+					// console.log(xml.length, MAX_REQUEST_SIZE);
 
 				}
 				else {

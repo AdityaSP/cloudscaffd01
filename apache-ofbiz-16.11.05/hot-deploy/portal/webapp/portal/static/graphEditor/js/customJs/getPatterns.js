@@ -10,97 +10,106 @@ $(function () {
         userRole = App.userRole,
         psid = urlParams['psid']; console.log(urlParams, userRole);
 
-    $(".psid").val(psid);
+    if (!App.isEmpty(urlParams)) {
+        $(".psid").val(psid); // For form
+        $(".psid").text(psid); // For Modal
 
-    // Fetch and render Problem Statement
-    App.loader(".problemStatementDiv"); App.loader(".basePatternResults"); App.loader(".solutionPatternResults");
-    App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
+        // Fetch and render Problem Statement
+        App.loader(".problemStatementDiv"); App.loader(".basePatternResults"); App.loader(".solutionPatternResults");
+        App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
-    if (userRole == "Planner" || userRole == "Administrator") { // || userRole == "Deployer"
-        $(".saveChangesBtn").on('click', function (e) {
-            let problemStatement = $('#problemStatement').val(),
-                problemDescription = $('#problemDescription').val(),
-                formData = {
-                    "problemStatement": problemStatement,
-                    "problemDescription": problemDescription,
-                    "psid": psid,
-                };
-            console.log(formData);
-            if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription)) {
-                App.genericFetch('editProblemStatement', 'POST', formData, App.modalFormResponse, "", "", "");
-            } else {
-                App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
-            }
-        });
+        if (userRole == "Planner" || userRole == "Administrator") {
+            $(".saveChangesBtn").on('click', function (e) {
+                let problemStatement = $('#problemStatement').val(),
+                    problemDescription = $('#problemDescription').val(),
+                    formData = {
+                        "problemStatement": problemStatement,
+                        "problemDescription": problemDescription,
+                        "psid": psid,
+                    };
+                console.log(formData);
+                if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription)) {
+                    App.genericFetch('editProblemStatement', 'POST', formData, App.modalFormResponse, "", "", "");
+                } else {
+                    App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
+                }
+            });
 
-        $("#basePatternFormSubmitBtn").on('click', function (e) {
-            let baseName = $('#baseProblem').val(),
-                baseDescription = $('#baseProblemDescription').val(),
-                baseForces = $('#baseForces').val(),
-                baseConsequences = $('#baseConsequences').val(),
-                psid = $('.psid').val(),
-                formData = {
-                    "baseName": baseName,
-                    "baseDescription": baseDescription,
-                    "baseForces": baseForces,
-                    "baseConsequences": baseConsequences,
-                    "psid": psid,
-                };
-            if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseConsequences)) {
-                $('.submitBtn').val('Creating...');
-                App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
-                $('.submitBtn').attr("disabled", true);
-            } else {
-                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
-            }
-        });
+            $("#basePatternFormSubmitBtn").on('click', function (e) {
+                let baseName = $('#baseProblem').val(),
+                    baseDescription = $('#baseProblemDescription').val(),
+                    baseForces = $('#baseForces').val(),
+                    baseConsequences = $('#baseConsequences').val(),
+                    psid = $('.psid').val(),
+                    formData = {
+                        "baseName": baseName,
+                        "baseDescription": baseDescription,
+                        "baseForces": baseForces,
+                        "baseConsequences": baseConsequences,
+                        "psid": psid,
+                    };
+                if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseConsequences)) {
+                    $('.submitBtn').val('Creating...');
+                    App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
+                    $('.submitBtn').attr("disabled", true);
+                } else {
+                    App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                }
+            });
 
-        $("#solutionDesignFormSubmitBtn").on('click', function (e) {
-            let solutionDesignName = $('#solutionDesignName').val(),
-                solutionDesignDesc = $('#solutionDesignDescription').val(),
-                solutionForces = $('#solutionForces').val(),
-                solutionConsequences = $('#solutionConsequences').val(),
-                psid = $('.psid').val(),
-                bpid = $('.bpid').val(),
-                formData = {
-                    "solutionDesignName": solutionDesignName,
-                    "solutionDesignDesc": solutionDesignDesc,
-                    "solutionForces": solutionForces,
-                    "solutionConsequences": solutionConsequences,
-                    "psid": psid,
-                    "bpid": bpid,
-                };
-            console.log(formData);
-            if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) &&
-                !App.isEmpty(solutionConsequences) && !App.isEmpty(psid)) {
-                $('.submitBtn').val('Creating...');
-                App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
-                $('.submitBtn').attr("disabled", true);
-            } else {
-                App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
-            }
-        });
-    } else {
-        $('.submitBtn').attr("disabled", true);
-        $('.editPS').hide();
-        $('.deletePS').hide();
-    }
-
-    $('.solutionPatternResults').on('click', '.solutionDesigns', function (evt) {
-        let sdid = evt.target.dataset["sdid"];
-        let psid = evt.target.dataset["psid"];
-        let bpid, url = `psid=${psid}&sdid=${sdid}`;
-
-        if (evt.target.dataset["bpid"]) {
-            bpid = evt.target.dataset["bpid"];
-            url = `psid=${psid}&bpid=${bpid}&sdid=${sdid}`
+            $("#solutionDesignFormSubmitBtn").on('click', function (e) {
+                let solutionDesignName = $('#solutionDesignName').val(),
+                    solutionDesignDesc = $('#solutionDesignDescription').val(),
+                    solutionForces = $('#solutionForces').val(),
+                    solutionConsequences = $('#solutionConsequences').val(),
+                    psid = $('.psid').val(),
+                    bpid = $('.bpid').val(),
+                    formData = {
+                        "solutionDesignName": solutionDesignName,
+                        "solutionDesignDesc": solutionDesignDesc,
+                        "solutionForces": solutionForces,
+                        "solutionConsequences": solutionConsequences,
+                        "psid": psid,
+                        "bpid": bpid,
+                    };
+                console.log(formData);
+                if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) &&
+                    !App.isEmpty(solutionConsequences) && !App.isEmpty(psid)) {
+                    $('.submitBtn').val('Creating...');
+                    App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
+                    $('.submitBtn').attr("disabled", true);
+                } else {
+                    App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                }
+            });
+        } else {
+            $('.submitBtn').attr("disabled", true);
+            $('.editPS').hide();
+            $('.deletePS').hide();
         }
-        url = App.encrypt(url);
-        // console.log(psid, sdid, bpid, url);
-        window.location.href = `solutionPattern?${url}`;
-    });
 
-    $('[data-toggle="tooltip"]').tooltip();
+        $('.solutionPatternResults').on('click', '.solutionDesigns', function (evt) {
+            let sdid = evt.target.dataset["sdid"];
+            let psid = evt.target.dataset["psid"];
+            let bpid, url = `psid=${psid}&sdid=${sdid}`;
+
+            if (evt.target.dataset["bpid"]) {
+                bpid = evt.target.dataset["bpid"];
+                url = `psid=${psid}&bpid=${bpid}&sdid=${sdid}`
+            }
+            url = App.encrypt(url);
+            // console.log(psid, sdid, bpid, url);
+            window.location.href = `solutionPattern?${url}`;
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+    }
+    else {
+        $('#probStatement').text(`No Data Found`);
+        $('.editPS').hide(); $('.deletePS').hide();
+        $('.allSolutions').hide();
+    }
 });
 
 function submitForm(data, path, res) {
@@ -133,10 +142,20 @@ function renderProblemStmt(problemStmt, psid) {
             $('#probStatementDescription').text(problemStatementList.problemDescription);
             $('#problemStatement').val(problemStatementList.problemStatement);
             $('#problemDescription').val(problemStatementList.problemDescription);
+        } else {
+            $('.editPS').hide();
+            let problemStmt = `<span class="text-center pt-3">No Data Found</span>`;
+            document.querySelector("#probStatement").insertAdjacentHTML("afterbegin", problemStmt);
         }
 
         // Tags Adding
         for (var k = 0; k < tagsList.length; k++) {
+            //Adding tags to modal
+            $('#tagInput').val(`${$('#tagInput').val()} ${tagsList[k].tagName}`);
+
+            //Count for modal
+            $('.tagsCount').text(tagsList.length+"-Tag");
+
             let url = `productAPC?`, queryStr = `tagid=${tagsList[k].tagid}`,
                 htmlTags = `<a href="${url}${App.encrypt(queryStr)}" id="${tagsList[k].tagid}"
                  class="badge badge-light mr-2 p-2">${tagsList[k].tagName}</a>`;
@@ -145,6 +164,9 @@ function renderProblemStmt(problemStmt, psid) {
 
         // Rendering Base Patterns
         if (basePatternList.length > 0) {
+            // Pattern count for modal
+            $('.ptCount').text(basePatternList.length+"-Pattern");
+
             for (let j = 0; j < basePatternList.length; j++) {
                 let urlParams = `psid=${psid}&bpid=${basePatternList[j].id}`;
                 urlParams = App.encrypt(urlParams);
@@ -161,10 +183,15 @@ function renderProblemStmt(problemStmt, psid) {
         } else {
             let basePatternsHtml = `<span class="text-center pt-3">No Patterns Found</span>`;
             document.querySelector(".basePatternResults").insertAdjacentHTML("afterbegin", basePatternsHtml);
+            // Pattern count for modal
+            $('.ptCount').text("0-Pattern");
         }
 
         // Solution Design Rendering
         if (solutionDesignList.length > 0) {
+            // Design count for modal
+            $('.sdCount').text(solutionDesignList.length+"-Solution Design");
+
             for (let j = 0; j < solutionDesignList.length; j++) {
                 var solutionDesignsHtml = `<li class="list-group-item solutionDesigns" 
                 data-psid="${psid}" data-sdid="${solutionDesignList[j].id}">
@@ -174,6 +201,8 @@ function renderProblemStmt(problemStmt, psid) {
         } else {
             let solutionDesignsHtml = `<span class="text-center pt-3">No Solution Designs Found</span>`;
             document.querySelector(".solutionPatternResults").insertAdjacentHTML("afterbegin", solutionDesignsHtml);
+            // Design count for modal
+            $('.sdCount').text("0-Solution Design");
         }
 
         $('.basePattern').on('click', function (evt) {
@@ -192,10 +221,6 @@ function renderProblemStmt(problemStmt, psid) {
             $(this).addClass("active");
             App.genericFetch("getSolutionDesignByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");
         });
-    }
-    else {
-        $('#probStatement').text(`PSID : ${psid} is not valid / not passed`);
-        $('.allSolutions').hide();
     }
 }
 
