@@ -184,6 +184,14 @@ function revokeSubscription() {
     var validTo = $('input[name="revokeValidTo"]').val();
     var postData = {"orgPartyId": orgPartyId, "subscriptionId":subscriptionId, "revokeEffective": revokeEffective, "validTo": validTo};
     var formURL = getUrl("revokeSubscription");
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() +"-"+(month)+"-"+(day);
+    if(validTo < today){
+         showErrorToast("Selected Date is before the Current Date");
+         return;
+    }
     $.ajax(
         {
             url: formURL,
@@ -199,8 +207,9 @@ function revokeSubscription() {
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error: " + errorThrown);
             }
-        }); 
+        });
 }
+
 
 function renewSubscription() {
     var orgPartyId = $('input[name="orgPartyId"]').val();
@@ -382,4 +391,13 @@ function checkPasswordPolicy(textFieldId, errorDivId) {
                 //TODO: handle error
             }
         });
+}
+
+function openRevokeValidToDivFn(){
+    $('#revokeValidToDiv').removeClass('d-none');
+     var now = new Date();
+     var day = ("0" + now.getDate()).slice(-2);
+     var month = ("0" + (now.getMonth() + 1)).slice(-2);
+     var today = now.getFullYear() +"-"+(month)+"-"+(day);
+    $('#revokeValidTo').attr('min', today);
 }

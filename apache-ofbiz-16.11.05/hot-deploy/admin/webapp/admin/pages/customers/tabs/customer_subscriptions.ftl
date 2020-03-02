@@ -185,8 +185,7 @@
                         <label class="form-check-label is-pointer" for="radio_revoke_immediately">Revoke Immediately</label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2 ">
-                        <input type="radio" name="revokeNow" id="radio_revoke_later" class="form-check-input is-pointer" value="REVOKE_LATER"
-                        onclick="$('#revokeValidToDiv').removeClass('d-none')">
+                        <input type="radio" name="revokeNow" id="radio_revoke_later" class="form-check-input is-pointer" value="REVOKE_LATER" onclick="openRevokeValidToDivFn()">
                         <label class="form-check-label is-pointer" for="radio_revoke_later">Revoke Later</label>
                     </div>
                     <input type="hidden" name="subscriptionId" id="subscriptionId" value=""/>
