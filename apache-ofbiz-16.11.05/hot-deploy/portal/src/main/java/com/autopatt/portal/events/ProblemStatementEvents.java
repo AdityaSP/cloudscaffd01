@@ -44,7 +44,7 @@ public class ProblemStatementEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            getResponse(request, response, "You do not have permission to create.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -362,7 +362,7 @@ public class ProblemStatementEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to edit.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -405,7 +405,7 @@ public class ProblemStatementEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to delete.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 

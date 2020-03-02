@@ -38,7 +38,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            getResponse(request, response, "You do not have permission to create.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
         String psid = request.getParameter("psid");
@@ -77,7 +77,7 @@ public class SolutionDesignEvents{
         Map<String,Object> data = UtilMisc.toMap();
         // Check Permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to create.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -140,7 +140,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to approve.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
         String sdid = request.getParameter("sdid");
@@ -178,7 +178,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to delete.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -213,7 +213,7 @@ public class SolutionDesignEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to edit.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 

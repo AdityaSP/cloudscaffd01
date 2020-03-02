@@ -40,7 +40,7 @@ public class BasePatternEvents{
         Map<String,Object> data = UtilMisc.toMap();
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
-            getResponse(request, response, "You do not have permission to create.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -80,7 +80,7 @@ public class BasePatternEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to create.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
         String id = request.getParameter("id");
@@ -175,7 +175,7 @@ public class BasePatternEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_APPROVE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to approve.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
         String psid = request.getParameter("psid");
@@ -206,7 +206,7 @@ public class BasePatternEvents{
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_DELETE_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to delete.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
@@ -241,7 +241,7 @@ public class BasePatternEvents{
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
-            getResponse(request, response, "You do not have permission to edit.", ERROR);
+            getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
         }
 
