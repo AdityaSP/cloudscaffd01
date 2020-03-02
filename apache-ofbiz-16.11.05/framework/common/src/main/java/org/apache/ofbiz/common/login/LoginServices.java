@@ -1029,4 +1029,30 @@ public class LoginServices {
         }
         return passwordMatches;
     }
+
+    public static Map<String, Object> verifyPassword(DispatchContext ctx, Map<String, ?> context) {
+        Delegator delegator = ctx.getDelegator();
+        Security security = ctx.getSecurity();
+        GenericValue userLogin = (GenericValue) context.get("userLogin");
+        Locale locale = (Locale) context.get("locale");
+        boolean useEncryption = "true".equals(EntityUtilProperties.getPropertyValue("security", "password.encrypt", delegator));
+        String currentPassword =(String)context.get("currentPassword");
+        boolean passwordMatches = checkPassword(userLogin.getString("currentPassword"), useEncryption, (String)context.get("currentPassword"));
+        List<String> errorMessageList = new LinkedList<String>();
+        String errMsg ="";
+        if ((currentPassword == null) || (userLogin != null && currentPassword != null && !passwordMatches)) {
+            errMsg = UtilProperties.getMessage(resource, "loginservices.old_password_not_correct_reenter", locale);
+            errorMessageList.add(errMsg);
+        }
+        if (checkPassword(userLogin.getString("currentPassword"), useEncryption, (String)context.get("newPassword"))) {
+            errMsg = UtilProperties.getMessage(resource, "loginservices.new_password_is_equal_to_old_password", locale);
+            errorMessageList.add(errMsg);
+        }
+        if(errorMessageList.size()>0){
+            return ServiceUtil.returnError(errorMessageList);
+        } else {
+            return ServiceUtil.returnSuccess();
+        }
+    }
+
 }

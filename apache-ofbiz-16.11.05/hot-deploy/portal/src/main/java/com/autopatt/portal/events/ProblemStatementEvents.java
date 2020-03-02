@@ -376,9 +376,9 @@ public class ProblemStatementEvents{
         Map<String, Object> inputs = UtilMisc.toMap("id", psid);
 
         String type = "pre-defined";
-        String basePatternType = getProblemStatementType(request,response,psid);
+        String problemStatementType = getProblemStatementType(request,response,psid);
 
-        if(!basePatternType.equals(type)) {
+        if(!problemStatementType.equals(type)) {
             try {
                 GenericValue myProblemStatement = delegator.findOne("problemStatementApc", inputs, false);
                 myProblemStatement.setString("updatedBy", updatedBy);

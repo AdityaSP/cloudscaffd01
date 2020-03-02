@@ -1242,16 +1242,28 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
 
     public static Map<String, Object> updatePassword(HttpServletRequest request, HttpServletResponse response,Map<String, Object> inMap) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+        String ERROR = "error";
         Map<String, Object> resultPasswordChange = null;
+        Map<String, Object> passwordValidationMsg = null;
+        try {
+            passwordValidationMsg = dispatcher.runSync("verifyPassword", inMap);
+            if (ServiceUtil.isError(passwordValidationMsg)) {
+                return passwordValidationMsg;
+            }
+        } catch (GenericServiceException e) {
+            Debug.logError(e, module);
+            System.out.println("Password update failed ="+e);
+            return passwordValidationMsg;
+        }
         try {
             resultPasswordChange = dispatcher.runSync("updatePassword", inMap);
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
             System.out.println("Password update failed ="+e);
             return resultPasswordChange;
-            // request.setAttribute("_ERROR_MESSAGE_", "Failed to authenticate with current password");
         }
         return resultPasswordChange;
     }
+
 
 }
