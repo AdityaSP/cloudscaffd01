@@ -1,10 +1,14 @@
 
 <div class="container-fluid h-100">
     <div class="row py-3">
+    <div class="navigationControl ml-3">
+                <a href='javascript:window.history.back();' id='previousPage'><span class="text-decoration-underline">< Back</span></a> | 
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next ></span></a>
+            </div><br>
     <div class="col-12 pb-2 h3 text-center title">User Defined Pattern</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
-                <a href="" class="text-dark probStatementLink"><span class="probStatement h5"></span></a>
+                <a href="" class="text-dark probStatementLink"><span class="probStatement h5"></span> <i class="fa fa-link linkIcon" aria-hidden="true" style="display:none;"></i></a>
                 <p class="probStatementDescription"></p>
             </div>
             <hr class="my-4">

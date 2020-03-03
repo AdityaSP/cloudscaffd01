@@ -62,7 +62,7 @@ $(function () {
                     data = { "inputSearch": searchStr, "type": type };
                     console.log(data);
                     // getDataForSearchResults(searchStr);
-                    App.genericFetch('search', "POST", data, checkBeforeRender, "", "", "")
+                    App.genericFetch('search', "POST", data, renderSearchResults, "", "", "")
                     App.clearInput(".inputSearch");
                 } else {
                     App.toastMsg('Please select the type', 'info', '.toastMsg');
@@ -120,26 +120,6 @@ function submitForm(data) {
     }
 }
 
-function checkBeforeRender(data) {
-    // Remove Existing Data in search result
-    clearSearchResults();
-    let check = {
-        PS: $('#checkPS')[0].checked, PT: $('#checkBP')[0].checked, SD: $('#checkSD')[0].checked
-    };
-
-    if (data.basePatterns) { renderBasePatterns(data.basePatterns, check); }
-
-    if (data.solutionDesigns) { renderSolutionDesigns(data.solutionDesigns, check); }
-
-    if (data.ProblemStatements) { renderProblemStatements(data.ProblemStatements, check); }
-
-    if ((data.basePatterns && data.basePatterns.length == 0) &&
-        (data.solutionDesigns && data.solutionDesigns.length == 0) &&
-        (data.ProblemStatements && data.ProblemStatements.length == 0)) {
-        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    }
-}
-
 function clearSearchResults() {
     let isExpanded = $('.filterToggler').attr("aria-expanded");
     if (isExpanded == 'true') {
@@ -149,60 +129,108 @@ function clearSearchResults() {
     App.loader('.searchResultsList');
 }
 
-function renderProblemStatements(problems, check) {
-    if (problems.length > 0) {
+// Rendering Problem Statements based on TagID
+function renderProblemStatements(problems, PSLength, isPSChecked, isPTChecked, PTLength, isSDChecked, SDLength) {
+    if (problems && problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
             var row = `<li class="list-group-item"><a href="problemPatternSearch?${App.encrypt(queryStr)}"
-        rel="noopener noreferrer">${problems[i].id} : ${problems[i].problemStatement}</a></li>`;
+                        rel="noopener noreferrer">${problems[i].id} : ${problems[i].problemStatement}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
         console.log("PS is empty");
-        if (check.PS || check.SD || check.PT || (check.PT && check.SD)) {
-            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-        }
     }
 }
 
-function renderBasePatterns(basePattern, check) {
-    if (basePattern.length > 0) {
-        for (let i = 0; i < basePattern.length; i++) {
-            let queryStr, bpid = `bpid=${basePattern[i].id}`, psid = basePattern[i].psid;
+function renderSearchResults(data) {
+    // Remove Existing Data in search result
+    clearSearchResults();
+
+    let isPSChecked = $('#checkPS')[0].checked, isPTChecked = $('#checkBP')[0].checked, isSDChecked = $('#checkSD')[0].checked,
+        problems = data.ProblemStatements, PSLength = 0, patterns = data.basePatterns, PTLength = 0,
+        solutionDesigns = data.solutionDesigns, SDLength = 0;
+
+    if (problems) PSLength = problems.length; if (patterns) PTLength = patterns.length;
+    if (solutionDesigns) SDLength = solutionDesigns.length;
+
+    // Rendering Problem Statements
+    renderProblemStatements(problems, PSLength, isPSChecked, isPTChecked, PTLength, isSDChecked, SDLength);
+
+    // Rendering Patterns
+    if (PTLength > 0) {
+        for (let i = 0; i < PTLength; i++) {
+            let queryStr, bpid = `bpid=${patterns[i].id}`, psid = patterns[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
-                        rel="noopener noreferrer">${basePattern[i].id} : ${basePattern[i].baseName}</a></li>`;
+                        rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
-        console.log("BP is empty");
-        if (check.PT || check.SD || check.PS || (check.PS && check.SD)) {
-            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-        }
+        console.log("PT is empty");
     }
-}
 
-function renderSolutionDesigns(solutionDesign, check) {
-    if (solutionDesign.length > 0) {
-        for (let i = 0; i < solutionDesign.length; i++) {
-            let queryStr, sdid = solutionDesign[i].id,
-                psid = solutionDesign[i].psid, bpid;
+    // Rendering Solution Designs
+    if (SDLength > 0) {
+        for (let i = 0; i < SDLength; i++) {
+            let queryStr, sdid = solutionDesigns[i].id,
+                psid = solutionDesigns[i].psid, bpid;
             queryStr = `sdid=${sdid}&psid=${psid}`;
 
-            if (solutionDesign[i].bpid != null) {
-                bpid = solutionDesign[i].bpid;
+            if (solutionDesigns[i].bpid != null) {
+                bpid = solutionDesigns[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
-                        rel="noopener noreferrer">${solutionDesign[i].id} : ${solutionDesign[i].solutionDesignName}</a></li>`;
+                        rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
     } else {
         console.log("SD is empty");
-        if (check.SD || check.PS || check.PT || (check.PT && check.PS)) {
+    }
+
+    if ((isPSChecked && PSLength <= 0) && (isPTChecked && PTLength <= 0) && (isSDChecked && SDLength <= 0)) {
+        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    }
+
+    // if (isPSChecked) {
+    //     console.log("PS is checked");
+    //     if (PSLength <= 0) {
+    //         console.log("PS is empty");
+    //         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    //     }
+    //     if ((isPTChecked && PTLength <= 0) || (isSDChecked && SDLength <= 0)) {
+    //         console.log("pt / sd is satisfied")
+    //         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    //     }
+    // }
+
+    if (isPSChecked || (isPSChecked && PSLength <= 0)) {
+        if (isPTChecked && PTLength <= 0) {
             App.toastMsg('Sorry, no results found', '', '.searchResultsList');
         }
+        if (isSDChecked && SDLength <= 0) {
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
+        if ((isPTChecked && PTLength <= 0) && (isSDChecked && SDLength <= 0)) {
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
+    } else {
+        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
     }
+
+    // if (check.PS || check.SD || check.PT || (check.PT && check.SD)) {
+    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    // }
+    // console.log("BP is empty");
+    // if (check.PT || check.SD || check.PS || (check.PS && check.SD)) {
+    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    // }
+    // console.log("SD is empty");
+    // if (check.SD || check.PS || check.PT || (check.PT && check.PS)) {
+    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    // }
+
 }
 
 function renderTags(tags) {

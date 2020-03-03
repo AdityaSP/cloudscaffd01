@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col-md-12">
         <div class="m-3 px-2">
-            <#--  <div class="navigationControl">
-                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">Back</span></a>
-                <a href='javascript:window.history.forward();'><span class="nextPage">Next</span></a>
-            </div><br>  -->
+            <div class="navigationControl">
+                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">< Back</span></a> | 
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next ></span></a>
+            </div><br>
             <div class="problemStatementDiv">
                 <div class="form-group">
-                    <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"
+                  <#--  <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"
                         data-toggle="modal" data-target="#editFormModal">
                         <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit Problem Statement"></i>
                     </a>
-                    <#--  <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete"
+                      <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete"
                         data-toggle="modal" data-target="#deletePSModal">
                         <i class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Delete Problem Statement"></i>
                     </a>  -->
@@ -167,19 +167,19 @@
                     <textarea type="text" class="form-control" id="problemDescription" required></textarea>
                 </div>
             </div>
-            <#--  <div class="form-group">
+            <div class="form-group">
                 <label>Tag</label>
                 <div class="input-container">
                     <input type="text" class="form-control" id="tagInput" required>
                 </div>
                 <label for="tag">Note : Please use space for entering multiple tags. </label>
-            </div>    -->
+            </div>  
             <div class="formToastMsg my-1"></div>
             </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
-        <button type="button" class="btn btn-primary saveChangesBtn" id="saveChangesBtn">Save changes</button>
+        <button type="button" class="btn btn-primary editModalSaveBtn" id="editModalSaveBtn">Save changes</button>
       </div>
     </div>
   </div>

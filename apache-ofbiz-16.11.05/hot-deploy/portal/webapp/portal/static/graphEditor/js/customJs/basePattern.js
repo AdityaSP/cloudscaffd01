@@ -117,6 +117,14 @@ $(function () {
             });
         });
 
+        $(".probStatement").hover(
+            function () {
+                $('.linkIcon').show();
+            }, function () {
+                $('.linkIcon').hide();
+            }
+        );
+
         if (userRole == "Planner" || userRole == "Administrator") {
             $('#saveChangesBtn').on('click', function (e) {
                 let baseName = $('#baseProblem').val(),

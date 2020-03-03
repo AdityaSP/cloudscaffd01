@@ -1,16 +1,24 @@
 
+<style>
+
+</style>
+
 <div class="container-fluid">
     <div class="row py-3">
+    <div class="navigationControl ml-3">
+                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">< Back</span></a> | 
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next ></span></a>
+            </div><br>
     <div class="col-12 pb-2 h3 text-center title">Solution Design</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
-                <a href="#" class="text-dark probStatementLink"><span class="probStatement h5"></span></a>
+                <a href="#" class="text-dark probStatementLink"><span class="probStatement h5"></span> <i class="fa fa-link linkIcon" aria-hidden="true" style="display:none;"></i></a>
                 <p class="probStatementDescription"></p>
                 <hr class="my-4">
             </div>
             <div class="form-group basePatternForm">
                 <a href="#" class="text-dark basePatternLink"><span class="basePattern h5"></span></a>
-                <span class="typeDataBP"></span>
+                <span class="typeDataBP"></span> <i class="fa fa-link linkIconPT" aria-hidden="true" style="display:none;"></i>
 
                 <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Pattern" href="javascript:void(0);">
                     <i class="fa fa-picture-o fa-2x" data-target="#modalIMG" data-toggle="modal" aria-hidden="true"></i></a>
