@@ -222,7 +222,7 @@ function renderProblemStmt(problemStmt, psid) {
                 bpid = evt.target.parentNode.dataset["bpid"];
             }
             $('.bpid').val(bpid);
-            // Fetch solution designs and render
+            // Fetch solution designs based on BPID and render
             $(".basePattern").removeClass("active");
             $(this).addClass("active");
             App.genericFetch("getSolutionDesignByBpid", "POST", { "bpid": bpid }, renderSolutionDesignsForBasePattern, "", "", "");
