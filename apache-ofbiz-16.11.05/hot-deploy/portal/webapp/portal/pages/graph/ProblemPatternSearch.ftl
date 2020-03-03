@@ -7,11 +7,11 @@
             </div><br>  -->
             <div class="problemStatementDiv">
                 <div class="form-group">
-                    <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"
+                  <#--  <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"
                         data-toggle="modal" data-target="#editFormModal">
                         <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit Problem Statement"></i>
                     </a>
-                    <#--  <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete"
+                      <a class="btn btn-danger pull-right mr-2 deletePS" href="javascript:void(0);" aria-label="Delete"
                         data-toggle="modal" data-target="#deletePSModal">
                         <i class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Delete Problem Statement"></i>
                     </a>  -->
