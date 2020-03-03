@@ -141,6 +141,22 @@ $(function () {
             });
         });
 
+        $(".probStatement").hover(
+            function () {
+                $('.linkIcon').show();
+            }, function () {
+                $('.linkIcon').hide();
+            }
+        );
+
+        $(".basePattern").hover(
+            function () {
+                $('.linkIconPT').show();
+            }, function () {
+                $('.linkIconPT').hide();
+            }
+        );
+
         if (userRole == "Planner" || userRole == "Administrator") {
             $('#saveChangesBtn').on('click', function (e) {
                 let solutionDesignName = $('#solutionDesignProblem').val(),
@@ -182,8 +198,8 @@ $(function () {
         });
     } else {
         $('.title').html(`No Data Found`);
-        $('.basePatternForm').hide();$('.solutionDesignForm').hide();
-        $('.approve').hide(); $('.edit').hide();$('.deploy').hide();
+        $('.basePatternForm').hide(); $('.solutionDesignForm').hide();
+        $('.approve').hide(); $('.edit').hide(); $('.deploy').hide();
         $('.svgDiv').hide();
     }
 });

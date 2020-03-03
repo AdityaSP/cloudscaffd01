@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="m-3 px-2">
-            <#--  <div class="navigationControl">
-                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">Back</span></a>
-                <a href='javascript:window.history.forward();'><span class="nextPage">Next</span></a>
-            </div><br>  -->
+            <div class="navigationControl">
+                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">< Back</span></a> | 
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next ></span></a>
+            </div><br>
             <div class="problemStatementDiv">
                 <div class="form-group">
                   <#--  <a class="btn btn-info pull-right editPS" href="javascript:void(0);" aria-label="Edit"
@@ -57,10 +57,10 @@
                                         <div class="form-group">
                                             <label>Forces</label>
                                             <input class="form-control" name="baseForces" required id="baseForces"
-                                                   maxlength="100" rows="3"/>
+                                                   rows="3"/>
                                             <label>Consequences</label>
                                             <input class="form-control" name="baseConsequences" required id="baseConsequences"
-                                                   maxlength="100" rows="3"/>
+                                                   rows="3"/>
                                         </div>
                                         <#--  <div>
                                             <div class="toastMsg"></div>
@@ -116,10 +116,10 @@
                                         <div class="form-group">
                                             <label>Forces</label>
                                             <input class="form-control" name="solutionForces" required id="solutionForces"
-                                                   maxlength="100" rows="3"/>
+                                                   rows="3"/>
                                             <label>Consequences</label>
                                             <input class="form-control" name="solutionConsequences" required id="solutionConsequences"
-                                                   maxlength="100" rows="3"/>
+                                                   rows="3"/>
                                         </div>
                                         <#--  <div>
                                             <div class="toastMsg"></div>
