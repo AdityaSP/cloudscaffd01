@@ -167,19 +167,19 @@
                     <textarea type="text" class="form-control" id="problemDescription" required></textarea>
                 </div>
             </div>
-            <#--  <div class="form-group">
+            <div class="form-group">
                 <label>Tag</label>
                 <div class="input-container">
                     <input type="text" class="form-control" id="tagInput" required>
                 </div>
                 <label for="tag">Note : Please use space for entering multiple tags. </label>
-            </div>    -->
+            </div>  
             <div class="formToastMsg my-1"></div>
             </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
-        <button type="button" class="btn btn-primary saveChangesBtn" id="saveChangesBtn">Save changes</button>
+        <button type="button" class="btn btn-primary editModalSaveBtn" id="editModalSaveBtn">Save changes</button>
       </div>
     </div>
   </div>

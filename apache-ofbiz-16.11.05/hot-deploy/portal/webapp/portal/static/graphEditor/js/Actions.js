@@ -1018,7 +1018,19 @@ Actions.prototype.init = function () {
 
 		// var basicPattern = `<img src="https://via.placeholder.com/150/000000/FFFFFF/?text=IPaddress.net" style="width:100%;height:100%">`;
 		let svg = window.currentGraphData.svg;
-		mxUtils.popuphtml(svg, true);
+		if (!App.isEmpty(svg)) {
+			mxUtils.popuphtml(svg, true);
+		} else {
+			let urlParams = App.urlParams(), bpid = urlParams['bpid'], sdid = urlParams['sdid'];
+			console.log(urlParams)
+			if (bpid && !sdid) {
+				mxUtils.popuphtml("No Pattern Created", true);
+			}
+			if (sdid) {
+				mxUtils.popuphtml("No pattern is found for this design", true);
+			}
+		}
+
 
 	});
 

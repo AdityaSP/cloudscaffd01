@@ -1,6 +1,6 @@
 import { App } from './app.js';
 
-var problemStatementList, basePatternList, solutionDesignList, tagsList;
+var problemStatementList, basePatternList, solutionDesignList, tagsList, tagIds = [];
 
 $(function () {
     $('.toast').remove();
@@ -11,7 +11,7 @@ $(function () {
         psid = urlParams['psid']; console.log(urlParams, userRole);
 
     if (!App.isEmpty(urlParams)) {
-        $(".psid").val(psid); // For form
+        $(".psid").val(psid); // For create forms 
         $(".psid").text(psid); // For Modal
 
         // Fetch and render Problem Statement
@@ -19,17 +19,21 @@ $(function () {
         App.genericFetch('getPatternByPsId', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         if (userRole == "Planner" || userRole == "Administrator") {
-            $(".saveChangesBtn").on('click', function (e) {
+            $(".editModalSaveBtn").on('click', function (e) {
                 let problemStatement = $('#problemStatement').val(),
                     problemDescription = $('#problemDescription').val(),
+                    oldTagIds = tagIds,
+                    newTags = App.getUniqueArray($('#tagInput').val().split(' ')),
                     formData = {
                         "problemStatement": problemStatement,
                         "problemDescription": problemDescription,
+                        "oldTagIds": oldTagIds.toString(),
+                        "newTags": newTags.toString(),
                         "psid": psid,
                     };
                 console.log(formData);
                 if (!App.isEmpty(problemStatement) && !App.isEmpty(problemDescription)) {
-                    App.genericFetch('editProblemStatement', 'POST', formData, App.modalFormResponse, "", "", "");
+                    // App.genericFetch('editProblemStatement', 'POST', formData, App.modalFormResponse, "", "", "");
                 } else {
                     App.toastMsg('Please enter all the details', 'failed', '.formToastMsg', true);
                 }
@@ -152,9 +156,10 @@ function renderProblemStmt(problemStmt, psid) {
         for (var k = 0; k < tagsList.length; k++) {
             //Adding tags to modal
             $('#tagInput').val(`${$('#tagInput').val()} ${tagsList[k].tagName}`);
+            tagIds.push(tagsList[k].tagid);
 
             //Count for modal
-            $('.tagsCount').text(tagsList.length+"-Tag");
+            $('.tagsCount').text(tagsList.length + "-Tag");
 
             let url = `productAPC?`, queryStr = `tagid=${tagsList[k].tagid}`,
                 htmlTags = `<a href="${url}${App.encrypt(queryStr)}" id="${tagsList[k].tagid}"
@@ -165,7 +170,7 @@ function renderProblemStmt(problemStmt, psid) {
         // Rendering Base Patterns
         if (basePatternList.length > 0) {
             // Pattern count for modal
-            $('.ptCount').text(basePatternList.length+"-Pattern");
+            $('.ptCount').text(basePatternList.length + "-Pattern");
 
             for (let j = 0; j < basePatternList.length; j++) {
                 let urlParams = `psid=${psid}&bpid=${basePatternList[j].id}`;
@@ -190,7 +195,7 @@ function renderProblemStmt(problemStmt, psid) {
         // Solution Design Rendering
         if (solutionDesignList.length > 0) {
             // Design count for modal
-            $('.sdCount').text(solutionDesignList.length+"-Solution Design");
+            $('.sdCount').text(solutionDesignList.length + "-Solution Design");
 
             for (let j = 0; j < solutionDesignList.length; j++) {
                 var solutionDesignsHtml = `<li class="list-group-item solutionDesigns" 
