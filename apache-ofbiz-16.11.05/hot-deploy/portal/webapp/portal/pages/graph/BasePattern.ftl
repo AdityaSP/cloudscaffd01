@@ -65,9 +65,9 @@
                 </div>
                 <div class="form-group m-0">
                     <label>Forces</label>
-                    <input class="form-control" name="baseForces" required id="baseForces" rows="3"/>
+                    <input class="form-control" name="baseForces" required id="baseForces" maxlength="100" rows="3"/>
                     <label>Consequences</label>
-                    <input class="form-control" name="baseConsequences" required id="baseConsequences" rows="3"/>
+                    <input class="form-control" name="baseConsequences" required id="baseConsequences" maxlength="100" rows="3"/>
                     <div class="formToastMsg my-1"></div>
                 </div>
             </form>

@@ -57,10 +57,10 @@
                                         <div class="form-group">
                                             <label>Forces</label>
                                             <input class="form-control" name="baseForces" required id="baseForces"
-                                                   rows="3"/>
+                                                   maxlength="100" rows="3"/>
                                             <label>Consequences</label>
                                             <input class="form-control" name="baseConsequences" required id="baseConsequences"
-                                                   rows="3"/>
+                                                   maxlength="100" rows="3"/>
                                         </div>
                                         <#--  <div>
                                             <div class="toastMsg"></div>
@@ -116,10 +116,10 @@
                                         <div class="form-group">
                                             <label>Forces</label>
                                             <input class="form-control" name="solutionForces" required id="solutionForces"
-                                                   rows="3"/>
+                                                   maxlength="100" rows="3"/>
                                             <label>Consequences</label>
                                             <input class="form-control" name="solutionConsequences" required id="solutionConsequences"
-                                                   rows="3"/>
+                                                   maxlength="100" rows="3"/>
                                         </div>
                                         <#--  <div>
                                             <div class="toastMsg"></div>
