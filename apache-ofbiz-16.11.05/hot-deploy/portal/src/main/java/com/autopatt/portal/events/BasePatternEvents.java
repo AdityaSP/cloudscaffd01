@@ -104,10 +104,10 @@ public class BasePatternEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request, response, "BasePattern update failed!", ERROR);
+            getResponse(request, response, "Pattern update failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "BasePattern update Successfull", SUCCESS);
+        getResponse(request, response, "Pattern update Successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -191,10 +191,10 @@ public class BasePatternEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request, response, "BasePattern approval failed", ERROR);
+            getResponse(request, response, "Pattern approval failed", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "BasePattern approval Successfull", SUCCESS);
+        getResponse(request, response, "Pattern approval Successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -220,15 +220,15 @@ public class BasePatternEvents{
                     deleteBasePattern.remove();
                 }
             }else{
-                getResponse(request, response, "BasePattern delete failed - user defined!", ERROR);
+                getResponse(request, response, "Pattern delete failed - user defined!", ERROR);
                 return ERROR;
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            getResponse(request, response, "BasePattern delete failed!", ERROR);
+            getResponse(request, response, "Pattern delete failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "BasePattern deleted successfully ", SUCCESS);
+        getResponse(request, response, "Pattern deleted successfully ", SUCCESS);
         return SUCCESS;
     }
 
@@ -267,11 +267,11 @@ public class BasePatternEvents{
                 delegator.store(myBasePattern);
                 } catch (GenericEntityException ex) {
                 ex.printStackTrace();
-                getResponse(request, response, "BasePattern edit failed - !", ERROR);
+                getResponse(request, response, "Pattern edit failed - !", ERROR);
                 return ERROR;
             }
         }else{
-            getResponse(request, response, "BasePattern edit failed - pre-defined!", ERROR);
+            getResponse(request, response, "Pattern edit failed - pre-defined!", ERROR);
             return ERROR;
             }
         getResponse(request, response, "Edited successfully ", SUCCESS);

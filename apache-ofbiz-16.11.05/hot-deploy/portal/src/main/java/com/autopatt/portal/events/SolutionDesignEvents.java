@@ -60,10 +60,10 @@ public class SolutionDesignEvents{
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            getResponse(request, response, "SolutionDesign creation failed!", ERROR);
+            getResponse(request, response, "Solution Design creation failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign creation Successfull", SUCCESS);
+        getResponse(request, response, "Solution Design creation Successfull", SUCCESS);
         return SUCCESS;
 
     }
@@ -101,10 +101,10 @@ public class SolutionDesignEvents{
 
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request, response, "SolutionDesign update failed!", ERROR);
+            getResponse(request, response, "Solution Design update failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign update successfull", SUCCESS);
+        getResponse(request, response, "Solution Design update successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -162,10 +162,10 @@ public class SolutionDesignEvents{
             delegator.store(solutionDesign);
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request, response, "SolutionDesign approval failed!", ERROR);
+            getResponse(request, response, "Solution Design approval failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign approval successfull", SUCCESS);
+        getResponse(request, response, "Solution Design approval successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -197,10 +197,10 @@ public class SolutionDesignEvents{
             }
         } catch (GenericEntityException ex) {
             ex.printStackTrace();
-            getResponse(request, response, "SolutionDesign deletion failed!", ERROR);
+            getResponse(request, response, "Solution Design deletion failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign deletion successfull", SUCCESS);
+        getResponse(request, response, "Solution Design deletion successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -243,10 +243,10 @@ System.out.println("updatedBy ="+updatedBy);
                 return ERROR;
             }
         }else{
-            getResponse(request, response, "SolutionDesign edit failed - pre-defined!", ERROR);
+            getResponse(request, response, "Solution Design edit failed - pre-defined!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "SolutionDesign edited successfully ", SUCCESS);
+        getResponse(request, response, "Solution Design edited successfully ", SUCCESS);
         return SUCCESS;
     }
 
