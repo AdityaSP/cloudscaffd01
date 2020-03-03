@@ -35,9 +35,6 @@
                 <#if security.hasEntityPermission("PORTAL", "_ADD_USER", session)>
                     <a href="<@ofbizUrl>new_user</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
                 </#if>
-                <a href="javascript:void(0);" class="btn btn-primary" onclick="users.loadUsers()">
-                    <i class="fa fa-refresh" aria-hidden="true"></i>Refresh
-                </a>
             </div>
         </div>
     </div>
