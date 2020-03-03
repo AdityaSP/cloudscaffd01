@@ -47,14 +47,13 @@
             </div>
         </div>
 
-                <div class="row p-0 mx-0 mb-4">
+                <div class="row p-0 mx-0 mb-4" id="patternCountChart">
                     <div class="col-6 chart-container" style="position:relative;align:center;height: 33vh;width: 54vw;" width:40vw;">
                         <canvas id="dashboardPatternChart"></canvas>
                     </div>
                     <div class="col-6 chart-container" style="position:relative;align:center;height: 33vh;width: 54vw;" width:40vw;">
                          <canvas id="dashboardSolutionChart"></canvas>
                      </div>
-
                 </div>
 
                 <#if security.hasEntityPermission("PORTAL", "_VIEW_USERS", session)>

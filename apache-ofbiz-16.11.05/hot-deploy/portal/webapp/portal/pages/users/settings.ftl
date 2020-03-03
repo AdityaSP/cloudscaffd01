@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">
@@ -9,6 +8,22 @@
     </div>
 </div>
 <form action="<@ofbizUrl>UpdateCompanyDetails</@ofbizUrl>" method="post">
+     <#list errorMessageList as error>
+          <div class="alert alert-danger mx-3" role="alert">
+                ${error}
+          </div>
+     </#list>
+     <#list eventMessageList as success>
+        <#if organizationName.groupName != organizationName>
+           <div class="alert alert-success mx-3" role="alert">
+                 ${success}
+           </div>
+        </#if>
+        <#else>
+        <div class="alert alert-danger mx-3" role="alert">
+                        "failed"
+        </div>
+     </#list>
     <input type="hidden" name="orgPartyId" value="${orgPartyId!}"/>
     <div class="col-md-9 my-3">
         <div class="form-group row required">

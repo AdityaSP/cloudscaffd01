@@ -157,7 +157,7 @@
 	<request-map uri="UpdateCompanyDetails">
 		<event type="java" path="com.autopatt.portal.events.UserMgmtEvents" invoke="updateCompanyDetails" />
 		<response name="success" type="request-redirect" value="settings">
-			<redirect-parameter name="updateSuccess"/>
+<!--			<redirect-parameter name="updateSuccess"/>-->
 		</response>
 		<response name="error" type="request-redirect" value="settings" />
 	</request-map>
