@@ -16,7 +16,7 @@ $(function () {
         let tag = evt.target.textContent,
             tagId = evt.target.id;
         clearSearchResults();
-        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, "", "", "");
+        App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, tagId, "", "");
     });
     if (urlParams && urlParams['tagid']) {
         clearSearchResults();
@@ -130,7 +130,7 @@ function clearSearchResults() {
 }
 
 // Rendering Problem Statements based on TagID
-function renderProblemStatements(problems, PSLength, isPSChecked, isPTChecked, PTLength, isSDChecked, SDLength) {
+function renderProblemStatements(problems, tagId) {
     if (problems && problems.length > 0) {
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
@@ -140,6 +140,10 @@ function renderProblemStatements(problems, PSLength, isPSChecked, isPTChecked, P
         }
     } else {
         console.log("PS is empty");
+        if (tagId) {
+            console.log("PS is empty for tag id " + tagId);
+            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+        }
     }
 }
 

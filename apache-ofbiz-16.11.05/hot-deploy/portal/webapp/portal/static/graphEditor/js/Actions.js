@@ -1017,7 +1017,9 @@ Actions.prototype.init = function () {
 	this.addAction('viewbasicpattern', function () {
 
 		// var basicPattern = `<img src="https://via.placeholder.com/150/000000/FFFFFF/?text=IPaddress.net" style="width:100%;height:100%">`;
-		let svg = window.currentGraphData.svg;
+		let svg;
+		if (window.currentGraphData) svg = window.currentGraphData.svg;
+		
 		if (!App.isEmpty(svg)) {
 			mxUtils.popuphtml(svg, true);
 		} else {

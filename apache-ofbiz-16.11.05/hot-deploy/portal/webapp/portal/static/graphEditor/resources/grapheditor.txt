@@ -329,5 +329,5 @@ aws=AWS
 azure=Azure
 formatJson=JSON
 deploy=Deploy
-viewbasicpattern=View Base Pattern
+viewbasicpattern=View Pattern
 defaultJsonData=Default JSON Data

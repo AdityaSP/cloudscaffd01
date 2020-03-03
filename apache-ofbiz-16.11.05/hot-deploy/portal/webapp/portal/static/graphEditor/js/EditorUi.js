@@ -3409,7 +3409,7 @@ EditorUi.prototype.save = function (name) {
 			success: function (res) {
 				console.log(res);
 				if (res.data.message == 'success') {
-					$(".toastMsg").text("Data Saved in DB"); //res.data.info
+					$(".toastMsg").text(res.data.info);
 					setTimeout(function () {
 						$(".toastMsg").hide();
 					}, 3000);

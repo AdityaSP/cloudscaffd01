@@ -213,6 +213,7 @@ function renderProblemStmt(problemStmt, psid) {
         $('.basePattern').on('click', function (evt) {
             $(".solutionPatternDiv").show();
             $('.solutionPatternResults').children().remove();
+            App.loader('.solutionPatternResults');
 
             let bpid = evt.target.dataset["bpid"];
             let psid = evt.target.dataset["psid"];
