@@ -969,7 +969,7 @@ EditorUi.prototype.init = function () {
 		data: data,
 		cache: true,
 		success: function (res) {
-			// console.log(res.data[0]);
+			console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
 			window.currentSolutionDesignData = { xml, svg, png, id };
 			checkFetchedData(xml, type);
@@ -1025,6 +1025,7 @@ addScript = function (path) {
 
 xmlToJson = function (xml) {
 	// Create the return object
+	// new DOMParser().parseFromString(xml, 'text/xml') convert xml to doc then pass that as argument to xmlToJson()
 	var obj = {};
 	if (xml.nodeType == 1) { // element
 		// do attributes
@@ -3390,7 +3391,6 @@ EditorUi.prototype.save = function (name) {
 			"parentId": parentId,
 			"psid": psid,
 			"xml": xml,
-			// "json": this.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml')),
 			"svg": svgData,
 			"png": pngData
 		};

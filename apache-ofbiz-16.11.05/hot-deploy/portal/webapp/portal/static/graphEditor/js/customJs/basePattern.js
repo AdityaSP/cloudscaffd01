@@ -221,7 +221,7 @@ function renderBasePattern(basePattern, bpid) {
             } else {
                 App.toastMsg('No Pattern Created', 'failed', '.toastMsg');
                 $('.svgDiv').hide();
-                $('.edit').attr("disabled", false);
+                // $('.edit').attr("disabled", false);
             }
             if (patternType == 'pre-defined') {
                 $('.approve').hide();

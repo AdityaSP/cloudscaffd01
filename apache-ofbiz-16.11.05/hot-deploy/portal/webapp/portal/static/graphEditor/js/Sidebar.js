@@ -84,14 +84,24 @@ Sidebar.prototype.init = function () {
 	// this.addStencilPalette('flowchart', 'Flowchart', dir + '/flowchart.xml',
 	// 	';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
 
-	this.addStencilPalette('AWS Media', 'AWS Mobile Services', dir + '/aws/mobile_services.xml',
-		';whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#ED3E42;strokeWidth=2');
+	// this.addStencilPalette('AWS Media', 'AWS Mobile Services', dir + '/aws/mobile_services.xml',
+	// 	';whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#ED3E42;strokeWidth=2');
 
 	this.addStencilPalette('AWS', 'AWS Instances', dir + '/custom/customAWS.xml',
 		';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 
 	this.addStencilPalette('Azure', 'Azure', dir + '/azure.xml',
 		';whiteSpace=wrap;html=1;fillColor=#00BEF2;strokeColor=#00BEF2;strokeWidth=1');
+
+	// this.addStencilPalette('AWS', 'App Services', dir + '/aws/aws3.xml',
+	// 	';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+
+	// this.addStencilPalette('AWS', 'Analytics', dir + '/aws/groups.xml',
+	// 	';whiteSpace=wrap;html=1strokeWidth=1');
+
+	// this.addStencilPalette('AWS', 'AWS General', dir + '/aws17/general.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	// this.addStencilPalette('AWS', 'AWS Compoute', dir + '/aws17/compoute.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	// this.addStencilPalette('AWS', 'AWS Iot', dir + '/aws17/iot.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
 
 	// this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
 	// 	['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',

@@ -1,4 +1,7 @@
 import { App } from './app.js';
+
+var isPSChecked = $('#checkPS')[0].checked, isPTChecked = $('#checkBP')[0].checked, isSDChecked = $('#checkSD')[0].checked;
+
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -18,9 +21,21 @@ $(function () {
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": tagId }, renderProblemStatements, tagId, "", "");
     });
+
     if (urlParams && urlParams['tagid']) {
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": urlParams['tagid'] }, renderProblemStatements, "", "", "");
+    }
+
+    if (urlParams && urlParams['type'] && urlParams['status']) {
+        clearSearchResults();
+        let status = urlParams['status'], type = urlParams['type'].split(' ')[0],
+            formData = {
+                "status": status.replace(' ', '-').split(' ')[0],
+                "type": type
+            };
+        console.log(formData);
+        // App.genericFetch('getChartData', "POST", formData, "", type, "", ""); // type = BP? pattern=checked(true)
     }
 
     let PS_input = document.querySelector(".inputSearch"),
@@ -46,7 +61,7 @@ $(function () {
     });
 
     PS_input.addEventListener('keypress', e => {
-        let selected = [], type, data;
+        let selected = [], type, data, searchStrWithoutSpecialCharacters;
         if (e.key === 'Enter') {
             $('.custom-checkbox input:checked').each(function () {
                 selected.push($(this).attr('name'));
@@ -57,23 +72,33 @@ $(function () {
                 type = selected.toString();
             }
             searchStr = event.target.value;
-            if (searchStr != '') {
-                if (type != '') {
-                    data = { "inputSearch": searchStr, "type": type };
-                    console.log(data);
-                    // getDataForSearchResults(searchStr);
-                    App.genericFetch('search', "POST", data, renderSearchResults, "", "", "")
-                    App.clearInput(".inputSearch");
+            searchStrWithoutSpecialCharacters = searchStr.replace(/[^\w\s]/gi, '');
+
+            if (!App.isEmpty(searchStrWithoutSpecialCharacters) && !App.checkForSpecialChar(searchStr)) {
+                if (searchStr != '') {
+                    if (type != '') {
+                        data = { "inputSearch": searchStrWithoutSpecialCharacters, "type": type };
+                        console.log(data);
+                        // ajaxTest(searchStr);
+                        App.genericFetch('search', "POST", data, renderSearchResults, "", "", "")
+                        App.clearInput(".inputSearch");
+                    } else {
+                        App.toastMsg('Please select the type', 'info', '.toastMsg');
+                        setTimeout(function () {
+                            $(".toastMsg").fadeOut(800);
+                        }, 1500);
+                    }
                 } else {
-                    App.toastMsg('Please select the type', 'info', '.toastMsg');
+                    App.toastMsg('Enter the search string', 'info', '.toastMsg');
                     setTimeout(function () {
                         $(".toastMsg").fadeOut(800);
                     }, 1500);
                 }
             } else {
-                App.toastMsg('Enter the search string', 'info', '.toastMsg');
+                App.toastMsg('Invalid Search String', 'info', '.toastMsg');
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
+                    $('input:not(.submitBtn)').val('');
                 }, 1500);
             }
         }
@@ -144,6 +169,7 @@ function renderProblemStatements(problems, tagId) {
             console.log("PS is empty for tag id " + tagId);
             App.toastMsg('Sorry, no results found', '', '.searchResultsList');
         }
+
     }
 }
 
@@ -151,8 +177,7 @@ function renderSearchResults(data) {
     // Remove Existing Data in search result
     clearSearchResults();
 
-    let isPSChecked = $('#checkPS')[0].checked, isPTChecked = $('#checkBP')[0].checked, isSDChecked = $('#checkSD')[0].checked,
-        problems = data.ProblemStatements, PSLength = 0, patterns = data.basePatterns, PTLength = 0,
+    let problems = data.ProblemStatements, PSLength = 0, patterns = data.basePatterns, PTLength = 0,
         solutionDesigns = data.solutionDesigns, SDLength = 0;
 
     if (problems) PSLength = problems.length; if (patterns) PTLength = patterns.length;
@@ -170,8 +195,6 @@ function renderSearchResults(data) {
                         rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
-    } else {
-        console.log("PT is empty");
     }
 
     // Rendering Solution Designs
@@ -189,52 +212,11 @@ function renderSearchResults(data) {
                         rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
-    } else {
-        console.log("SD is empty");
     }
 
-    if ((isPSChecked && PSLength <= 0) && (isPTChecked && PTLength <= 0) && (isSDChecked && SDLength <= 0)) {
+    if ((PSLength + PTLength + SDLength) <= 0) {
         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
     }
-
-    // if (isPSChecked) {
-    //     console.log("PS is checked");
-    //     if (PSLength <= 0) {
-    //         console.log("PS is empty");
-    //         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    //     }
-    //     if ((isPTChecked && PTLength <= 0) || (isSDChecked && SDLength <= 0)) {
-    //         console.log("pt / sd is satisfied")
-    //         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    //     }
-    // }
-
-    if (isPSChecked || (isPSChecked && PSLength <= 0)) {
-        if (isPTChecked && PTLength <= 0) {
-            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-        }
-        if (isSDChecked && SDLength <= 0) {
-            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-        }
-        if ((isPTChecked && PTLength <= 0) && (isSDChecked && SDLength <= 0)) {
-            App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-        }
-    } else {
-        App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    }
-
-    // if (check.PS || check.SD || check.PT || (check.PT && check.SD)) {
-    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    // }
-    // console.log("BP is empty");
-    // if (check.PT || check.SD || check.PS || (check.PS && check.SD)) {
-    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    // }
-    // console.log("SD is empty");
-    // if (check.SD || check.PS || check.PT || (check.PT && check.PS)) {
-    //     App.toastMsg('Sorry, no results found', '', '.searchResultsList');
-    // }
-
 }
 
 function renderTags(tags) {

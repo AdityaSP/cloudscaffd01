@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="toastMsg"></div>
                                 <br>
-                                <div class="form-group" id="searchResults">
+                                <div class="form-group mt-2" id="searchResults">
                                     <label>Search Result</label>
                                     <ul class="list-group searchResultsList">
                                         
@@ -89,7 +89,6 @@
                         <div class="tab-pane" id="tab2">
                             <div class="container my-2 py-2">
                                 <form id="problemStmtForm">
-                                 <#--  action="<@ofbizUrl>AddProblemStatement</@ofbizUrl>" method="POST"  -->
                                     <div class="form-group">
                                         <label>Problem Statement</label>
                                         <div class="input-container">
