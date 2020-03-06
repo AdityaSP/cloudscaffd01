@@ -188,9 +188,11 @@ function revokeSubscription() {
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
     var today = now.getFullYear() +"-"+(month)+"-"+(day);
-    if(validTo < today){
-         showErrorToast("Selected Date is before the Current Date");
-         return;
+    if(!radio_revoke_immediately.checked){
+        if(validTo < today){
+             showErrorToast("Selected Date is before the Current Date");
+             return;
+        }
     }
     $.ajax(
         {
