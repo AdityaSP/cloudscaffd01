@@ -35,7 +35,9 @@ $(function () {
                 "type": type.toLowerCase()
             };
         console.log(formData);
-        // App.genericFetch('getChartData', "POST", formData, renderSearchResults, "", "", ""); // type = BP? pattern=checked(true)
+
+        $('.custom-checkbox input:checked').each(function () { this.checked = false; });
+        App.genericFetch('getChartData', "POST", formData, renderSearchResults, type, "", "");
     }
 
     let PS_input = document.querySelector(".inputSearch"),
@@ -172,7 +174,7 @@ function renderProblemStatements(problems, tagId) {
     }
 }
 
-function renderSearchResults(data) {
+function renderSearchResults(data, type) {
     // Remove Existing Data in search result
     clearSearchResults();
 
@@ -191,10 +193,12 @@ function renderSearchResults(data) {
         for (let i = 0; i < PTLength; i++) {
             let queryStr, bpid = `bpid=${patterns[i].id}`, psid = patterns[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
+
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
+        checkTheMatchingType(type);
     }
 
     // Rendering Solution Designs
@@ -212,10 +216,19 @@ function renderSearchResults(data) {
                         rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a></li>`;
             document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
         }
+        checkTheMatchingType(type);
     }
-
     if ((PSLength + PTLength + SDLength) <= 0) {
         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
+    }
+}
+
+function checkTheMatchingType(type) {
+    type = type.toLowerCase();
+    switch (type) {
+        case 'pattern': $('#checkBP')[0].checked = true; break;
+        case 'solution': $('#checkSD')[0].checked = true; break;
+        default: console.log("Type Not found");
     }
 }
 

@@ -124,7 +124,8 @@ Sidebar.prototype.init = function () {
 	this.addStencilPalette('AWS', 'AWS On-Demand Workforce', dir + '/aws17/on-demand workforce.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Sdk', dir + '/aws17/sdk.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Security Identity And Compliance', dir + '/aws17/security identity and compliance.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Storage', dir + '/aws17/storage.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
+	// this.addStencilPalette('AWS', 'AWS Storage', dir + '/aws17/storage.xml', ';whiteSpace=wrap;html=1;fillColor=black;strokeColor=black;strokeWidth=1');
+	
 	// this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
 	// 	['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
 	// 		'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
