@@ -931,7 +931,7 @@ EditorUi.prototype.init = function () {
 	window.editorUi = this;
 
 	var ids = App.urlParams(), type = App.getTypeOfPattern(ids)['typeOfPattern'],
-		id = App.getTypeOfPattern(ids)['id'], url, data, localCurrentGraphData;
+		id = App.getTypeOfPattern(ids)['id'], url, data;
 
 	let bpid = ids['bpid'];
 
@@ -980,7 +980,6 @@ fetchPatternFromDB = function (bpid, type) {
 		success: function (res) {
 			console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
-			window.currentGraphData = { xml, svg, png, id };
 			checkFetchedData(xml, type);
 		},
 		statusCode: {

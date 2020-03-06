@@ -17,6 +17,10 @@
 <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-4">
+            <#--  <div class="navigationControl">
+                <a href='javascript:window.history.back();'><span class="previousPage text-decoration-underline">< Back</span></a> | 
+                <a href='javascript:window.history.forward();'><span class="nextPage">Next ></span></a>
+            </div><br>  -->
                 <div class="tabbable" id="tabs">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
