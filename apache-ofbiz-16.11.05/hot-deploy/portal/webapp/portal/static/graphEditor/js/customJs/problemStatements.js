@@ -32,7 +32,7 @@ $(function () {
         let status = urlParams['status'], type = urlParams['type'].split(' ')[0],
             formData = {
                 "status": status.replace(' ', '-').split(' ')[0],
-                "type": type
+                "type": type.toLowerCase()
             };
         console.log(formData);
         // App.genericFetch('getChartData', "POST", formData, "", type, "", ""); // type = BP? pattern=checked(true)
@@ -72,35 +72,35 @@ $(function () {
                 type = selected.toString();
             }
             searchStr = event.target.value;
-            searchStrWithoutSpecialCharacters = searchStr.replace(/[^\w\s]/gi, '');
+            // searchStrWithoutSpecialCharacters = searchStr.replace(/[^\w\s]/gi, '');
 
-            if (!App.isEmpty(searchStrWithoutSpecialCharacters) && !App.checkForSpecialChar(searchStr)) {
-                if (searchStr != '') {
-                    if (type != '') {
-                        data = { "inputSearch": searchStrWithoutSpecialCharacters, "type": type };
-                        console.log(data);
-                        // ajaxTest(searchStr);
-                        App.genericFetch('search', "POST", data, renderSearchResults, "", "", "")
-                        App.clearInput(".inputSearch");
-                    } else {
-                        App.toastMsg('Please select the type', 'info', '.toastMsg');
-                        setTimeout(function () {
-                            $(".toastMsg").fadeOut(800);
-                        }, 1500);
-                    }
+            // if (!App.isEmpty(searchStrWithoutSpecialCharacters) && !App.checkForSpecialChar(searchStr)) {
+            if (searchStr != '') {
+                if (type != '') {
+                    data = { "inputSearch": searchStr, "type": type };
+                    console.log(data);
+                    // ajaxTest(searchStr);
+                    App.genericFetch('search', "POST", data, renderSearchResults, "", "", "")
+                    App.clearInput(".inputSearch");
                 } else {
-                    App.toastMsg('Enter the search string', 'info', '.toastMsg');
+                    App.toastMsg('Please select the type', 'info', '.toastMsg');
                     setTimeout(function () {
                         $(".toastMsg").fadeOut(800);
                     }, 1500);
                 }
             } else {
-                App.toastMsg('Invalid Search String', 'info', '.toastMsg');
+                App.toastMsg('Enter the search string', 'info', '.toastMsg');
                 setTimeout(function () {
                     $(".toastMsg").fadeOut(800);
-                    $('input:not(.submitBtn)').val('');
                 }, 1500);
             }
+            // } else {
+            //     App.toastMsg('Invalid Search String', 'info', '.toastMsg');
+            //     setTimeout(function () {
+            //         $(".toastMsg").fadeOut(800);
+            //         $('input:not(.submitBtn)').val('');
+            //     }, 1500);
+            // }
         }
     });
     if (userRole == "Planner" || userRole == "Administrator") {
@@ -180,11 +180,12 @@ function renderSearchResults(data) {
     let problems = data.ProblemStatements, PSLength = 0, patterns = data.basePatterns, PTLength = 0,
         solutionDesigns = data.solutionDesigns, SDLength = 0;
 
-    if (problems) PSLength = problems.length; if (patterns) PTLength = patterns.length;
+    if (problems) PSLength = problems.length;
+    if (patterns) PTLength = patterns.length;
     if (solutionDesigns) SDLength = solutionDesigns.length;
 
     // Rendering Problem Statements
-    renderProblemStatements(problems, PSLength, isPSChecked, isPTChecked, PTLength, isSDChecked, SDLength);
+    renderProblemStatements(problems);
 
     // Rendering Patterns
     if (PTLength > 0) {
