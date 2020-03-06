@@ -120,6 +120,6 @@ var myChart = new Chart(ctx, {
 function chartClicked(e){
 var activePoints = myChart.getElementsAtEvent(e);
     var selectedIndex = activePoints[0]._index;
-    console.log(this.data.datasets[0].data[selectedIndex]);
+  //  console.log(this.data.datasets[0].data[selectedIndex]);
 
 }

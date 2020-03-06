@@ -20,9 +20,7 @@
            </div>
         </#if>
         <#else>
-        <div class="alert alert-danger mx-3" role="alert">
-                        "failed"
-        </div>
+
      </#list>
     <input type="hidden" name="orgPartyId" value="${orgPartyId!}"/>
     <div class="col-md-9 my-3">
