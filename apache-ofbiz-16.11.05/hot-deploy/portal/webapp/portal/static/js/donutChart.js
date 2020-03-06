@@ -74,7 +74,7 @@ var myChart = new Chart(ctx, {
     data: {
 
         datasets: [{
-            data: [data.createdSolutionDesignCount,  data.underDevelopmentSolutionCount, data.approvedSolutionDesignCount],
+            data: [data.approvedSolutionDesignCount,  data.underDevelopmentSolutionCount, data.createdSolutionDesignCount],
             borderColor: ['#6f00ff', '#0092ff','#00c5ff'],
             backgroundColor: ['#6f00ff', '#0092ff','#00c5ff'],
             borderWidth: 1
