@@ -266,6 +266,13 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<request-map uri="getChartData">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.DashboardEvents" invoke="getChartData" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json" />
+	</request-map>
+
 	<!-- test mapping -->
 	<request-map uri="getAll">
 		<security https="true" auth="true" />

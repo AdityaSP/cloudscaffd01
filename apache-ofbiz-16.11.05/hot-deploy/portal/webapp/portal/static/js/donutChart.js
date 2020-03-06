@@ -34,6 +34,17 @@ var myChart = new Chart(ctx, {
             labels: ["Available Patterns", "Under Development Pattern", "Created Patterns"]
         },
     options: {
+    onClick : function(e){
+        var activePoints = myChart.getElementsAtEvent(e);
+            var selectedIndex = activePoints[0]._index;
+            let status = activePoints[0]._view.label, count = this.data.datasets[0].data[selectedIndex],
+            type = activePoints[0]._chart.titleBlock.options.text;
+
+
+        let queryStr = `type=${type}&status=${status}`;
+//        console.log(queryStr);
+        window.location.href =`productAPC?${window.btoa(queryStr)}`;
+    },
     title: {
                   position : 'top',
                   display: true,
@@ -71,6 +82,19 @@ var myChart = new Chart(ctx, {
           labels: ["Available Solution Designs", "Under Development Solution Design", "Created Solution Designs"]
         },
     options: {
+
+    onClick : function(e){
+            var activePoints = myChart.getElementsAtEvent(e);
+                var selectedIndex = activePoints[0]._index;
+                let status = activePoints[0]._view.label, count = this.data.datasets[0].data[selectedIndex],
+                type = activePoints[0]._chart.titleBlock.options.text;
+
+
+            let queryStr = `type=${type}&status=${status}`;
+    //        console.log(queryStr);
+            window.location.href =`productAPC?${window.btoa(queryStr)}`;
+        },
+
     title: {
               position : 'top',
 
@@ -91,4 +115,11 @@ var myChart = new Chart(ctx, {
 
     }
 });
+}
+
+function chartClicked(e){
+var activePoints = myChart.getElementsAtEvent(e);
+    var selectedIndex = activePoints[0]._index;
+    console.log(this.data.datasets[0].data[selectedIndex]);
+
 }
