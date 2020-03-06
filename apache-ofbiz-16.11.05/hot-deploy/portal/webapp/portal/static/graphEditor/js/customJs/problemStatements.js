@@ -35,7 +35,7 @@ $(function () {
                 "type": type.toLowerCase()
             };
         console.log(formData);
-        // App.genericFetch('getChartData', "POST", formData, "", type, "", ""); // type = BP? pattern=checked(true)
+        // App.genericFetch('getChartData', "POST", formData, renderSearchResults, "", "", ""); // type = BP? pattern=checked(true)
     }
 
     let PS_input = document.querySelector(".inputSearch"),
@@ -73,7 +73,6 @@ $(function () {
             }
             searchStr = event.target.value;
             // searchStrWithoutSpecialCharacters = searchStr.replace(/[^\w\s]/gi, '');
-
             // if (!App.isEmpty(searchStrWithoutSpecialCharacters) && !App.checkForSpecialChar(searchStr)) {
             if (searchStr != '') {
                 if (type != '') {

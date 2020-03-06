@@ -931,36 +931,20 @@ EditorUi.prototype.init = function () {
 	window.editorUi = this;
 
 	var ids = App.urlParams(), type = App.getTypeOfPattern(ids)['typeOfPattern'],
-		id = App.getTypeOfPattern(ids)['id'], url, data, xml = null, svg = null, png = null;
+		id = App.getTypeOfPattern(ids)['id'], url, data, localCurrentGraphData;
 
 	let bpid = ids['bpid'];
 
 	console.log("BPID: " + bpid);
-	if (bpid) {
-		$.ajax({
-			method: "POST",
-			url: 'getBasePattern',
-			data: data = { "bpid": bpid },
-			cache: true,
-			success: function (res) {
-				// console.log(res.data[0]);
-				let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
-				window.currentGraphData = { xml, svg, png, id };
-			},
-			statusCode: {
-				404: function (err) {
-					console.log(err);
-				}
-			}
-		});
-	}
 
 	if (type == 'solution_design') {
 		url = "getSolutionDesign";
 		data = { "sdid": id };
+		type = 'Solution Design';
 	} else if (type == 'base_pattern') {
 		url = "getBasePattern";
 		data = { "bpid": id };
+		type = 'Pattern'
 	}
 
 	$.ajax({
@@ -972,7 +956,12 @@ EditorUi.prototype.init = function () {
 			console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
 			window.currentSolutionDesignData = { xml, svg, png, id };
-			checkFetchedData(xml, type);
+
+			if (bpid && App.isEmpty(xml)) {
+				fetchPatternFromDB(bpid, "Pattern");
+			} else {
+				checkFetchedData(xml, type);
+			}
 		},
 		statusCode: {
 			404: function (err) {
@@ -981,6 +970,26 @@ EditorUi.prototype.init = function () {
 		}
 	});
 };
+
+fetchPatternFromDB = function (bpid, type) {
+	$.ajax({
+		method: "POST",
+		url: 'getBasePattern',
+		data: data = { "bpid": bpid },
+		cache: true,
+		success: function (res) {
+			console.log(res.data[0]);
+			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
+			window.currentGraphData = { xml, svg, png, id };
+			checkFetchedData(xml, type);
+		},
+		statusCode: {
+			404: function (err) {
+				console.log(err);
+			}
+		}
+	});
+}
 
 //??? 
 svgToPng = function (data) {
@@ -1061,8 +1070,6 @@ xmlToJson = function (xml) {
 }
 
 checkFetchedData = function (docXml, type) {
-	// console.log(docXml, type);
-	// console.log(window.currentGraphData);
 	if (docXml) {
 		displayFetchedDataInEditor(docXml, type);
 	}
@@ -1076,7 +1083,12 @@ displayFetchedDataInEditor = function (docXml, type) {
 	if (docXml) {
 		editorUi.editor.graph.model.beginUpdate();
 		try {
-			console.log(`Rendering ${type} Graph`);
+			$(".toastMsg").show();
+			$(".toastMsg").text(`Rendered ${type}`);
+			setTimeout(function () {
+				$(".toastMsg").hide();
+			}, 3000);
+
 			var doc = mxUtils.parseXml(docXml);
 			var model = new mxGraphModel();
 			var codec = new mxCodec(doc);

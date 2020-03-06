@@ -1,0 +1,89 @@
+<shapes name="mxgraph.contact center">
+<shape aspect="variable" h="46" name="Connect" strokewidth="inherit" w="59.6">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.5" y="0.345"/>
+        <constraint name="S" perimeter="0" x="0.5" y="0.655"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.5"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0" y="0.04"/>
+        <constraint name="NE" perimeter="0" x="1" y="0.04"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.96"/>
+        <constraint name="SE" perimeter="0" x="1.0" y="0.96"/>
+    </connections>
+    <foreground>
+        <strokecolor color="none"/>
+        <path>
+            <move x="22.7" y="38.2"/>
+            <line x="13.9" y="39.8"/>
+            <line x="11.69" y="39.15"/>
+            <line x="11.69" y="44.1"/>
+            <line x="3.8" y="46"/>
+            <line x="0" y="44.1"/>
+            <line x="0" y="1.9"/>
+            <line x="3.8" y="0"/>
+            <line x="11.69" y="1.9"/>
+            <line x="11.69" y="6.84"/>
+            <line x="13.9" y="6.2"/>
+            <line x="22.7" y="7.8"/>
+            <line x="22.7" y="16.52"/>
+            <line x="29.8" y="15.8"/>
+            <line x="36.9" y="16.52"/>
+            <line x="36.9" y="7.8"/>
+            <line x="45.7" y="6.2"/>
+            <line x="47.7" y="6.78"/>
+            <line x="47.7" y="1.9"/>
+            <line x="55.8" y="0"/>
+            <line x="59.6" y="1.9"/>
+            <line x="59.6" y="44.1"/>
+            <line x="55.8" y="45.99"/>
+            <line x="47.7" y="44.1"/>
+            <line x="47.7" y="39.21"/>
+            <line x="45.7" y="39.8"/>
+            <line x="36.9" y="38.2"/>
+            <line x="36.9" y="29.49"/>
+            <line x="29.8" y="30.2"/>
+            <line x="22.7" y="29.48"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#000000"/>
+        <alpha alpha="0.3"/>
+        <path>
+            <move x="55.8" y="45.99"/>
+            <line x="47.7" y="44.1"/>
+            <line x="47.7" y="39.21"/>
+            <line x="51.2" y="38.23"/>
+            <line x="51.2" y="7.8"/>
+            <line x="47.7" y="6.78"/>
+            <line x="47.7" y="1.9"/>
+            <line x="55.8" y="0"/>
+            <close/>
+            <move x="36.9" y="38.2"/>
+            <line x="36.9" y="29.49"/>
+            <line x="38.7" y="29.3"/>
+            <line x="38.7" y="16.7"/>
+            <line x="36.9" y="16.52"/>
+            <line x="36.9" y="7.8"/>
+            <line x="45.7" y="6.2"/>
+            <line x="45.7" y="39.8"/>
+            <close/>
+            <move x="20.9" y="29.3"/>
+            <line x="20.9" y="16.7"/>
+            <line x="29.8" y="15.8"/>
+            <line x="29.8" y="30.2"/>
+            <close/>
+            <move x="13.9" y="39.8"/>
+            <line x="8.4" y="38.2"/>
+            <line x="8.4" y="7.8"/>
+            <line x="13.9" y="6.2"/>
+            <close/>
+            <move x="3.8" y="46"/>
+            <line x="0" y="44.1"/>
+            <line x="0" y="1.9"/>
+            <line x="3.8" y="0"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+</shapes>

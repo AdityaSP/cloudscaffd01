@@ -1,0 +1,511 @@
+<shapes name="mxgraph.SDK">
+<shape aspect="variable" h="55.72" name="Android" strokewidth="inherit" w="49.06">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.5" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.5" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.5"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.0" y="0.25"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.25"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.75"/>
+        <constraint name="SE" perimeter="0" x="1.0" y="0.75"/>
+    </connections>
+    <foreground>
+        <save/>
+        <fillcolor color="#444444"/>
+        <path>
+            <move x="24.53" y="55.72"/>
+            <line x="0.0" y="41.77"/>
+            <line x="0.0" y="13.88"/>
+            <line x="24.53" y="0.0"/>
+            <line x="49.06" y="13.88"/>
+            <line x="49.06" y="41.77"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="25.28" y="53.47"/>
+            <line x="25.28" y="42.98"/>
+            <line x="24.53" y="43.42"/>
+            <line x="23.78" y="42.98"/>
+            <line x="23.78" y="53.47"/>
+            <line x="1.5" y="40.87"/>
+            <line x="1.5" y="15.6"/>
+            <line x="10.8" y="20.87"/>
+            <line x="10.8" y="20.02"/>
+            <line x="11.56" y="19.56"/>
+            <line x="2.33" y="14.32"/>
+            <line x="24.53" y="1.72"/>
+            <line x="46.73" y="14.32"/>
+            <line x="37.49" y="19.57"/>
+            <line x="38.25" y="19.95"/>
+            <line x="38.25" y="20.86"/>
+            <line x="47.55" y="15.6"/>
+            <line x="47.55" y="40.87"/>
+            <close/>
+        </path>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        <path>
+            <move x="24.53" y="26.92"/>
+            <line x="13.06" y="20.48"/>
+            <line x="24.53" y="13.95"/>
+            <line x="36.0" y="20.4"/>
+            <close/>
+            <move x="25.28" y="41.25"/>
+            <line x="25.28" y="28.28"/>
+            <line x="36.75" y="21.75"/>
+            <line x="36.75" y="34.72"/>
+            <close/>
+            <move x="23.78" y="41.25"/>
+            <line x="12.3" y="34.72"/>
+            <line x="12.3" y="21.75"/>
+            <line x="23.78" y="28.27"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="55.21" name="CLI" strokewidth="inherit" w="48.31">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.57" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.5" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.145" y="0.5"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.145" y="0.21"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.215"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.85"/>
+        <constraint name="SE" perimeter="0" x="1.0" y="0.635"/>
+    </connections>
+    <foreground>
+        <path>
+            <move x="24.3" y="55.21"/>
+            <line x="17.07" y="51.12"/>
+            <line x="12.08" y="53.97"/>
+            <line x="0.0" y="47.11"/>
+            <line x="0.0" y="33.43"/>
+            <line x="6.9" y="29.5"/>
+            <line x="6.9" y="11.78"/>
+            <line x="27.6" y="0.0"/>
+            <line x="48.31" y="11.76"/>
+            <line x="48.31" y="35.26"/>
+            <line x="31.65" y="44.71"/>
+            <line x="31.65" y="51.0"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="27.6" y="22.65"/>
+            <line x="46.13" y="12.15"/>
+            <line x="27.68" y="1.73"/>
+            <line x="9.23" y="12.15"/>
+            <close/>
+            <move x="11.47" y="40.51"/>
+            <line x="1.12" y="34.66"/>
+            <line x="1.12" y="46.43"/>
+            <line x="11.47" y="52.36"/>
+            <close/>
+            <move x="12.0" y="39.61"/>
+            <line x="22.35" y="33.68"/>
+            <line x="12.0" y="27.83"/>
+            <line x="1.65" y="33.68"/>
+            <close/>
+            <move x="22.95" y="39.2"/>
+            <line x="22.95" y="34.73"/>
+            <line x="12.6" y="40.58"/>
+            <line x="12.6" y="52.36"/>
+            <line x="16.88" y="49.92"/>
+            <line x="16.88" y="42.61"/>
+            <close/>
+            <move x="26.85" y="39.96"/>
+            <line x="26.85" y="24.0"/>
+            <line x="8.4" y="13.5"/>
+            <line x="8.4" y="28.65"/>
+            <line x="12.07" y="26.56"/>
+            <line x="24.07" y="33.38"/>
+            <line x="24.07" y="38.57"/>
+            <line x="24.23" y="38.49"/>
+            <close/>
+            <move x="31.64" y="43.1"/>
+            <line x="46.88" y="34.43"/>
+            <line x="46.88" y="13.43"/>
+            <line x="28.43" y="23.93"/>
+            <line x="28.43" y="40.84"/>
+            <line x="31.64" y="42.65"/>
+            <close/>
+            <move x="24.08" y="46.21"/>
+            <line x="29.78" y="42.99"/>
+            <line x="24.15" y="39.75"/>
+            <line x="18.52" y="42.99"/>
+            <close/>
+            <move x="23.7" y="53.56"/>
+            <line x="23.7" y="47.11"/>
+            <line x="18.0" y="43.88"/>
+            <line x="18.0" y="50.34"/>
+            <close/>
+            <move x="24.74" y="53.56"/>
+            <line x="30.45" y="50.34"/>
+            <line x="30.45" y="43.88"/>
+            <line x="24.74" y="47.11"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="52.24" name="Toolkit for Eclipse" strokewidth="inherit" w="46.88">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.59" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.52" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.61"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.18" y="0.21"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.21"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.87"/>
+    </connections>
+    <foreground>
+        <save/>
+        
+        <fillcolor color="#444444"/>
+        <path>
+            <move x="17.07" y="49.38"/>
+            <line x="12.08" y="52.24"/>
+            <line x="0.0" y="45.38"/>
+            <line x="0.0" y="31.7"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="22.95" y="37.46"/>
+            <line x="22.95" y="33.0"/>
+            <line x="12.6" y="38.85"/>
+            <line x="12.6" y="50.63"/>
+            <line x="16.88" y="48.18"/>
+            <line x="16.88" y="49.27"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="12.0" y="37.88"/>
+            <line x="22.35" y="31.95"/>
+            <line x="12.0" y="26.1"/>
+            <line x="1.65" y="31.95"/>
+            <close/>
+            <move x="11.47" y="38.78"/>
+            <line x="1.12" y="32.93"/>
+            <line x="1.12" y="44.7"/>
+            <line x="11.47" y="50.63"/>
+            <close/>
+        </path>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        
+        <path>
+            <move x="31.64" y="41.37"/>
+            <line x="46.88" y="32.7"/>
+            <line x="46.88" y="11.7"/>
+            <line x="28.43" y="22.2"/>
+            <line x="28.43" y="39.11"/>
+            <line x="31.64" y="40.91"/>
+            <close/>
+            <move x="26.85" y="38.23"/>
+            <line x="26.85" y="22.27"/>
+            <line x="8.4" y="11.77"/>
+            <line x="8.4" y="26.92"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="24.23" y="36.75"/>
+            <close/>
+            <move x="27.6" y="20.92"/>
+            <line x="46.13" y="10.42"/>
+            <line x="27.68" y="0.0"/>
+            <line x="9.23" y="10.42"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#33385a"/>
+        <path>
+            <move x="24.74" y="51.82"/>
+            <line x="30.45" y="48.61"/>
+            <line x="30.45" y="42.15"/>
+            <line x="24.74" y="45.38"/>
+            <close/>
+            <move x="23.7" y="51.83"/>
+            <line x="23.7" y="45.38"/>
+            <line x="18.0" y="42.15"/>
+            <line x="18.0" y="48.61"/>
+            <close/>
+            <move x="24.08" y="44.47"/>
+            <line x="29.78" y="41.26"/>
+            <line x="24.15" y="38.02"/>
+            <line x="18.52" y="41.26"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="52.24" name="Toolkit for Visual Studio" strokewidth="inherit" w="46.88">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.59" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.52" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.61"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.18" y="0.21"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.21"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.87"/>
+    </connections>
+    <foreground>
+        <save/>
+        
+        <fillcolor color="#444444"/>
+        <path>
+            <move x="17.07" y="49.38"/>
+            <line x="12.08" y="52.24"/>
+            <line x="0.0" y="45.38"/>
+            <line x="0.0" y="31.7"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="22.95" y="37.46"/>
+            <line x="22.95" y="33.0"/>
+            <line x="12.6" y="38.85"/>
+            <line x="12.6" y="50.63"/>
+            <line x="16.88" y="48.18"/>
+            <line x="16.88" y="49.27"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="12.0" y="37.88"/>
+            <line x="22.35" y="31.95"/>
+            <line x="12.0" y="26.1"/>
+            <line x="1.65" y="31.95"/>
+            <close/>
+            <move x="11.47" y="38.78"/>
+            <line x="1.12" y="32.93"/>
+            <line x="1.12" y="44.7"/>
+            <line x="11.47" y="50.63"/>
+            <close/>
+        </path>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        
+        <path>
+            <move x="31.64" y="41.37"/>
+            <line x="46.88" y="32.7"/>
+            <line x="46.88" y="11.7"/>
+            <line x="28.43" y="22.2"/>
+            <line x="28.43" y="39.11"/>
+            <line x="31.64" y="40.91"/>
+            <close/>
+            <move x="26.85" y="38.23"/>
+            <line x="26.85" y="22.27"/>
+            <line x="8.4" y="11.77"/>
+            <line x="8.4" y="26.92"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="24.23" y="36.75"/>
+            <close/>
+            <move x="27.6" y="20.92"/>
+            <line x="46.13" y="10.42"/>
+            <line x="27.68" y="0.0"/>
+            <line x="9.23" y="10.42"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#4f0f87"/>
+        <path>
+            <move x="24.74" y="51.82"/>
+            <line x="30.45" y="48.61"/>
+            <line x="30.45" y="42.15"/>
+            <line x="24.74" y="45.38"/>
+            <close/>
+            <move x="23.7" y="51.83"/>
+            <line x="23.7" y="45.38"/>
+            <line x="18.0" y="42.15"/>
+            <line x="18.0" y="48.61"/>
+            <close/>
+            <move x="24.08" y="44.47"/>
+            <line x="29.78" y="41.26"/>
+            <line x="24.15" y="38.02"/>
+            <line x="18.52" y="41.26"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="52.24" name="Toolkit for Windows PowerShell" strokewidth="inherit" w="46.88">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.59" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.52" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.61"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.18" y="0.21"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.21"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.87"/>
+    </connections>
+    <foreground>
+        <save/>
+        
+        <fillcolor color="#444444"/>
+        <path>
+            <move x="17.07" y="49.38"/>
+            <line x="12.08" y="52.24"/>
+            <line x="0.0" y="45.38"/>
+            <line x="0.0" y="31.7"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="22.95" y="37.46"/>
+            <line x="22.95" y="33.0"/>
+            <line x="12.6" y="38.85"/>
+            <line x="12.6" y="50.63"/>
+            <line x="16.88" y="48.18"/>
+            <line x="16.88" y="49.27"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="12.0" y="37.88"/>
+            <line x="22.35" y="31.95"/>
+            <line x="12.0" y="26.1"/>
+            <line x="1.65" y="31.95"/>
+            <close/>
+            <move x="11.47" y="38.78"/>
+            <line x="1.12" y="32.93"/>
+            <line x="1.12" y="44.7"/>
+            <line x="11.47" y="50.63"/>
+            <close/>
+        </path>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        
+        <path>
+            <move x="31.64" y="41.37"/>
+            <line x="46.88" y="32.7"/>
+            <line x="46.88" y="11.7"/>
+            <line x="28.43" y="22.2"/>
+            <line x="28.43" y="39.11"/>
+            <line x="31.64" y="40.91"/>
+            <close/>
+            <move x="26.85" y="38.23"/>
+            <line x="26.85" y="22.27"/>
+            <line x="8.4" y="11.77"/>
+            <line x="8.4" y="26.92"/>
+            <line x="12.07" y="24.83"/>
+            <line x="24.07" y="31.65"/>
+            <line x="24.07" y="36.83"/>
+            <line x="24.23" y="36.75"/>
+            <close/>
+            <move x="27.6" y="20.92"/>
+            <line x="46.13" y="10.42"/>
+            <line x="27.68" y="0.0"/>
+            <line x="9.23" y="10.42"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#115193"/>
+        <path>
+            <move x="24.74" y="51.82"/>
+            <line x="30.45" y="48.61"/>
+            <line x="30.45" y="42.15"/>
+            <line x="24.74" y="45.38"/>
+            <close/>
+            <move x="23.7" y="51.83"/>
+            <line x="23.7" y="45.38"/>
+            <line x="18.0" y="42.15"/>
+            <line x="18.0" y="48.61"/>
+            <close/>
+            <move x="24.08" y="44.47"/>
+            <line x="29.78" y="41.26"/>
+            <line x="24.15" y="38.02"/>
+            <line x="18.52" y="41.26"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="55.73" name="iOS" strokewidth="inherit" w="49.05">
+    <connections>
+        <constraint name="N" perimeter="0" x="0.5" y="0.0"/>
+        <constraint name="S" perimeter="0" x="0.51" y="1.0"/>
+        <constraint name="W" perimeter="0" x="0.0" y="0.5"/>
+        <constraint name="E" perimeter="0" x="1.0" y="0.5"/>
+        <constraint name="NW" perimeter="0" x="0.0" y="0.25"/>
+        <constraint name="NE" perimeter="0" x="1.0" y="0.25"/>
+        <constraint name="SW" perimeter="0" x="0.0" y="0.75"/>
+        <constraint name="SE" perimeter="0" x="1.0" y="0.75"/>
+    </connections>
+    <foreground>
+        <save/>
+        <fillcolor color="#444444"/>
+        <path>
+            <move x="24.53" y="55.73"/>
+            <line x="0.0" y="41.78"/>
+            <line x="0.0" y="13.88"/>
+            <line x="24.53" y="0.0"/>
+            <line x="49.05" y="13.88"/>
+            <line x="49.05" y="41.77"/>
+            <close/>
+        </path>
+        <fill/>
+        <fillcolor color="#ffffff"/>
+        <path>
+            <move x="25.28" y="53.48"/>
+            <line x="47.55" y="40.88"/>
+            <line x="47.55" y="15.6"/>
+            <line x="38.25" y="20.86"/>
+            <line x="38.25" y="19.95"/>
+            <line x="37.49" y="19.57"/>
+            <line x="46.73" y="14.33"/>
+            <line x="24.53" y="1.73"/>
+            <line x="2.33" y="14.33"/>
+            <line x="11.56" y="19.57"/>
+            <line x="10.8" y="20.03"/>
+            <line x="10.8" y="20.86"/>
+            <line x="1.5" y="15.59"/>
+            <line x="1.5" y="40.88"/>
+            <line x="23.78" y="53.48"/>
+            <line x="23.78" y="42.98"/>
+            <line x="24.53" y="43.43"/>
+            <line x="25.28" y="42.98"/>
+            <close/>
+        </path>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        <path>
+            <move x="24.53" y="26.93"/>
+            <line x="13.05" y="20.48"/>
+            <line x="24.53" y="13.95"/>
+            <line x="35.99" y="20.4"/>
+            <close/>
+            <move x="25.28" y="41.25"/>
+            <line x="25.28" y="28.28"/>
+            <line x="36.75" y="21.75"/>
+            <line x="36.75" y="34.73"/>
+            <close/>
+            <move x="23.78" y="41.25"/>
+            <line x="12.3" y="34.73"/>
+            <line x="12.3" y="21.75"/>
+            <line x="23.78" y="28.28"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+</shapes>
