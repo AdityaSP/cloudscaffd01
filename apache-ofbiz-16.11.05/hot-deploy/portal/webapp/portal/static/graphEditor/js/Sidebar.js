@@ -101,29 +101,29 @@ Sidebar.prototype.init = function () {
 
 	// this.addStencilPalette('AWS', 'AWS General', dir + '/aws17/general.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	// this.addStencilPalette('AWS', 'AWS Compoute', dir + '/aws17/compoute.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
-	// this.addStencilPalette('AWS', 'AWS Iot', dir + '/aws17/iot.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
+	// this.addStencilPalette('AWS', 'AWS Iot', dir + '/aws17/iot.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 
-	this.addStencilPalette('AWS', 'AWS Analytics', dir + '/aws17/analytics.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Application Services', dir + '/aws17/application services.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Artificial Intelligence', dir + '/aws17/artificial intelligence.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Business Productivity', dir + '/aws17/business productivity.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Compute', dir + '/aws17/compute.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Contact Center', dir + '/aws17/contact center.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Database', dir + '/aws17/database.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Desktop And App Streaming', dir + '/aws17/desktop and app streaming.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Developer Tools', dir + '/aws17/developer tools.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Game Development', dir + '/aws17/game development.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS General', dir + '/aws17/general.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Groups', dir + '/aws17/groups.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Internet Of Things', dir + '/aws17/internet of things.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Management Tools', dir + '/aws17/management tools.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Messaging', dir + '/aws17/messaging.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Migration', dir + '/aws17/migration.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Mobile Services', dir + '/aws17/mobile services.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Network And Content Delivery', dir + '/aws17/network and content delivery.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS On-Demand Workforce', dir + '/aws17/on-demand workforce.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Sdk', dir + '/aws17/sdk.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Security Identity And Compliance', dir + '/aws17/security identity and compliance.xml', ';whiteSpace=wrap;html=1;fillColor=#5294CF;strokeColor=#5294CF;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Analytics', dir + '/aws17/analytics.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Application Services', dir + '/aws17/application services.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Artificial Intelligence', dir + '/aws17/artificial intelligence.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Business Productivity', dir + '/aws17/business productivity.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Compute', dir + '/aws17/compute.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Contact Center', dir + '/aws17/contact center.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Database', dir + '/aws17/database.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Desktop And App Streaming', dir + '/aws17/desktop and app streaming.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Developer Tools', dir + '/aws17/developer tools.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Game Development', dir + '/aws17/game development.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS General', dir + '/aws17/general.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Groups', dir + '/aws17/groups.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Internet Of Things', dir + '/aws17/internet of things.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Management Tools', dir + '/aws17/management tools.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Messaging', dir + '/aws17/messaging.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Migration', dir + '/aws17/migration.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Mobile Services', dir + '/aws17/mobile services.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Network And Content Delivery', dir + '/aws17/network and content delivery.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS On-Demand Workforce', dir + '/aws17/on-demand workforce.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Sdk', dir + '/aws17/sdk.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS Security Identity And Compliance', dir + '/aws17/security identity and compliance.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	// this.addStencilPalette('AWS', 'AWS Storage', dir + '/aws17/storage.xml', ';whiteSpace=wrap;html=1;fillColor=black;strokeColor=black;strokeWidth=1');
 	
 	// this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
