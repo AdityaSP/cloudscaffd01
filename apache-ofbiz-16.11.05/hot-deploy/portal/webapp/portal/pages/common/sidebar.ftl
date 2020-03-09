@@ -1,6 +1,6 @@
 
 <!-- Sidebar -->
-<div class="bg-light border-right" id="sidebar-wrapper">
+<div class="bg-dark border-right" id="sidebar-wrapper">
  <!--<div class="sidebar-logo">
      <a href="<@ofbizUrl>home</@ofbizUrl>">
      <img src="../static/logo/AutoPatt_mini.png" class="pl-3 pt-1 pb-0 mb-0" width="36px" align="left"/></a>
@@ -13,7 +13,7 @@
        <img src="../static/logo/AutoPatt_mini.png" class="pl-3 " width="60px" align="left"/></a>
    </div>
    <div class="sidebar-heading pt-2"><a href="<@ofbizUrl>home</@ofbizUrl>" class="sidebar-heading">
-          <span class="text text-muted pl-3"> AutoPatt</span></a>
+          <span class="text pl-3" style="color:lightblue;"> AutoPatt</span></a>
    </div>
 
   <div class="list-group list-group-flush">
