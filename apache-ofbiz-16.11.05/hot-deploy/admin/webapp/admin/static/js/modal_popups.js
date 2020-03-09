@@ -4,6 +4,7 @@ $(function() {
     initializeOrgEmployeeModals();
     initializeOrgSubscriptionModals();
     initializeAdminUsersModals();
+
 });
 
 /** Initialize Modals in Subscriptions Tab */
@@ -15,6 +16,11 @@ function initializeOrgSubscriptionModals() {
         var modal = $(this)
         modal.find('#orgPartyId').text(orgPartyId)
     });
+
+    $('#createSubscriptionModal').on('hidden.bs.modal', function (e) {
+        $('input:not(button)').val('');
+        $('#productId')[0].options[0].selected = true;
+     });
 
     $('#revokeSubscriptionModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
