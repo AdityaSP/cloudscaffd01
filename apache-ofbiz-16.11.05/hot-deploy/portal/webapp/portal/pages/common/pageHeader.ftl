@@ -6,15 +6,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="ml-3">
-            <a href="<@ofbizUrl>home</@ofbizUrl>" ><img src="../static/logo/AutoPatt_mini.png" width="30px" align="left" title="AutoPatt"/>
+    <#--    <div class="ml-3">
+                <a href="<@ofbizUrl>home</@ofbizUrl>" ><img src="../static/logo/AutoPatt_mini.png" width="30px" align="left" title="AutoPatt"/>
             </a>
         </div>
 
         <div class="ml-1">
             <a href="<@ofbizUrl>home</@ofbizUrl>" >
                 <span class="pt-2" style="padding-top: 10px;">&nbsp; <b>AutoPatt</b></span></a>
-        </div>
+        </div>  -->
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
