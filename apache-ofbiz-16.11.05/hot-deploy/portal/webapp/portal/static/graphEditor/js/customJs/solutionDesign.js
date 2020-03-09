@@ -162,16 +162,16 @@ $(function () {
                 let solutionDesignName = $('#solutionDesignProblem').val(),
                     solutionDesignDesc = $('#solutionDesignDescription').val(),
                     solutionForces = $('#solutionDesignForces').val(),
-                    solutionBenefits = $('#solutionDesignBenefits').val(),
+                    solutionConsequences = $('#solutionDesignConsequences').val(),
                     formData = {
                         "solutionDesignName": solutionDesignName,
                         "solutionDesignDesc": solutionDesignDesc,
                         "solutionForces": solutionForces,
-                        "solutionBenefits": solutionBenefits,
+                        "solutionConsequences": solutionConsequences,
                         "sdid": sdid,
                     };
                 console.log(formData);
-                if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionBenefits)) {
+                if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionConsequences)) {
                     App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, "", "", "");
                 } else {
                     App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);

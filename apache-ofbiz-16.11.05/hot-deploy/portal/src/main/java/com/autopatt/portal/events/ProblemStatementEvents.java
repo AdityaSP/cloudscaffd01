@@ -71,7 +71,7 @@ public class ProblemStatementEvents{
             getResponse(request, response, "Problem Statement creation failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Problem Statement creation successfull", SUCCESS);
+        getResponse(request, response, "Problem Statement created successfully", SUCCESS);
         return SUCCESS;
     }
 
@@ -429,7 +429,7 @@ public class ProblemStatementEvents{
             getResponse(request, response, "ProblemStatement deletion failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "ProblemStatement deletion successfull", SUCCESS);
+        getResponse(request, response, "ProblemStatement deleted successfully", SUCCESS);
         return SUCCESS;
     }
 

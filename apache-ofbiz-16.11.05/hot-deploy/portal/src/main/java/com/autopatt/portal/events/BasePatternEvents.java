@@ -57,15 +57,15 @@ public class BasePatternEvents{
                     UtilMisc.<String, Object>toMap("psid", psid, "baseName", baseName,"baseDescription",baseDescription,
                             "baseDescription",baseDescription, "baseForces",baseForces,"baseConsequences",baseConsequences,"userLogin",userLogin));
             if (!ServiceUtil.isSuccess(addBasePatternResp)) {
-                getResponse(request, response, "BasePattern creation failed!", ERROR);
+                getResponse(request, response, "Pattern creation failed!", ERROR);
                 return ERROR;
             }
         } catch (GenericServiceException e) {
             Debug.logError(e, module);
-            getResponse(request, response, "BasePattern creation failed!", ERROR);
+            getResponse(request, response, "Pattern creation failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "BasePattern creation Successfull", SUCCESS);
+        getResponse(request, response, "Pattern created Successfully", SUCCESS);
         return SUCCESS;
 
     }
@@ -107,7 +107,7 @@ public class BasePatternEvents{
             getResponse(request, response, "Pattern update failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Pattern update Successfull", SUCCESS);
+        getResponse(request, response, "Pattern updated Successfully", SUCCESS);
         return SUCCESS;
     }
 
@@ -194,7 +194,7 @@ public class BasePatternEvents{
             getResponse(request, response, "Pattern approval failed", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Pattern approval Successfull", SUCCESS);
+        getResponse(request, response, "Pattern approved successfully", SUCCESS);
         return SUCCESS;
     }
 
@@ -274,7 +274,7 @@ public class BasePatternEvents{
             getResponse(request, response, "Pattern edit failed - pre-defined!", ERROR);
             return ERROR;
             }
-        getResponse(request, response, "Edited successfully ", SUCCESS);
+        getResponse(request, response, "Pattern edited successfully ", SUCCESS);
         return SUCCESS;
     }
 

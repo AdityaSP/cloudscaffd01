@@ -63,7 +63,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "Solution Design creation failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Solution Design creation Successfull", SUCCESS);
+        getResponse(request, response, "Solution Design created Successfully", SUCCESS);
         return SUCCESS;
 
     }
@@ -104,7 +104,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "Solution Design update failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Solution Design update successfull", SUCCESS);
+        getResponse(request, response, "Solution Design updated successfully", SUCCESS);
         return SUCCESS;
     }
 
@@ -165,7 +165,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "Solution Design approval failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Solution Design approval successfull", SUCCESS);
+        getResponse(request, response, "Solution Design approved successfully", SUCCESS);
         return SUCCESS;
     }
 
@@ -200,7 +200,7 @@ public class SolutionDesignEvents{
             getResponse(request, response, "Solution Design deletion failed!", ERROR);
             return ERROR;
         }
-        getResponse(request, response, "Solution Design deletion successfull", SUCCESS);
+        getResponse(request, response, "Solution Design deleted successfully", SUCCESS);
         return SUCCESS;
     }
 
