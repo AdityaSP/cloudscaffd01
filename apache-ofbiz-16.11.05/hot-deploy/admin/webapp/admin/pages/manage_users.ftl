@@ -1,4 +1,16 @@
+<#if requestAttributes.eventMessageList?has_content><#assign eventMessageList=requestAttributes.eventMessageList></#if>
+<#if !eventMessage?has_content>
+<#assign eventMessage = requestAttributes._EVENT_MESSAGE_!>
+</#if>
 <div class="container-fluid">
+    <div>
+        <#list eventMessageList as success>l
+        <div class="alert alert-success" role="alert">
+            ${success}
+        </div>
+    </#list>
+
+</div>
     <div class="table-title">
         <div class="row">
             <div class="col-sm-5">

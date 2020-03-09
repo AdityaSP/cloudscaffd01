@@ -98,6 +98,7 @@ public class AdminMgmtEvents {
             return ERROR;
         }
         request.setAttribute("createSuccess", "Y");
+        request.setAttribute("_EVENT_MESSAGE_", "Admin User created successfully.");
         return SUCCESS;
     }
 
