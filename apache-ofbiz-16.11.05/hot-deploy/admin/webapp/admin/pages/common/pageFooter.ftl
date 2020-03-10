@@ -1,8 +1,6 @@
 </div>
 <!-- /#page-content-wrapper -->
 
-
-
 <!-- TOASTS -->
 <div aria-live="polite" aria-atomic="true">
     <!-- Position toast to top-right  -->

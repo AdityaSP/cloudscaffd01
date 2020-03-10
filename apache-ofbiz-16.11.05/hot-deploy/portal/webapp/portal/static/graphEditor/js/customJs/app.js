@@ -143,7 +143,7 @@ export const App = {
         let toast;
         switch (type) {
             case 'success': { // <i class="fa fa-check fa-2x"></i>
-                toast = `<div class="alert alert-success text-center m-0 mx-auto" role="alert" style="max-width: 400px;">
+                toast = `<div class="alert alert-success text-center m-0 mt mx-auto" role="alert" style="max-width: 400px;">
                             <div class="row vertical-align">
                                 <div class="col-2 text-center">
                                     ${this.successIconSvg}
@@ -317,5 +317,18 @@ export const App = {
         }
         return false;
     },
+    titleCase: function (string) {
+        let sentence = string.toLowerCase().split(" ");
+        for (let i = 0; i < sentence.length; i++) {
+            sentence[i] = sentence[i].replace(/[^\w\s]/gi, ' ');
+            sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+        }
+        for (let j = 0; j < sentence.length; j++) {
+            sentence = sentence.toString().replace(',', ' ');
+            j++;
+        }
+        // console.log(sentence)
+        return sentence;
+    }
 };
 window.App = App;
