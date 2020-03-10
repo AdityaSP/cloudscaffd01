@@ -87,7 +87,7 @@ public class AutopattSubscriptionServices {
             List<GenericValue> activeSubscriptions = EntityUtil.filterByDate(subscriptions);
             for (GenericValue subscription : activeSubscriptions) {
                 String productId = subscription.getString("productId");
-                GenericValue productAttribute = delegator.findOne("ProductAttribute", UtilMisc.toMap("productId", productId, "attrName", MAX_USER_LOGINS), false);
+                GenericValue productAttribute = mainDelegator.findOne("ProductAttribute", UtilMisc.toMap("productId", productId, "attrName", MAX_USER_LOGINS), false);
                 int maxUserLogins = Integer.parseInt(productAttribute.getString("attrValue"));
                 Map<String,Object> tenantUsersCountResp = dispatcher.runSync("getTenantUsersCount", UtilMisc.toMap("userLogin", UserLoginUtils.getSystemUserLogin(mainDelegator), "tenantId", tenantId));
                 if(!ServiceUtil.isSuccess(tenantUsersCountResp)) {
