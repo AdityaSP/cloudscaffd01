@@ -72,9 +72,6 @@ function Sidebar(editorUi, container) {
 Sidebar.prototype.init = function () {
 	var dir = STENCIL_PATH;
 
-	// let newDir = STENCIL_PATH + "/aws17/analytics.xml";
-	// if()
-
 	this.addSearchPalette(true);
 	this.addGeneralPalette(false);
 	// this.addBasicPalette(dir); // added custom attr along with xml 
