@@ -18,7 +18,8 @@ function initializeOrgSubscriptionModals() {
     });
 
     $('#createSubscriptionModal').on('hidden.bs.modal', function (e) {
-        $('input:not(button)').val('');
+        var modal = $(this)
+        modal.find('input:not(button)').val('');
         $('#productId')[0].options[0].selected = true;
      });
 
