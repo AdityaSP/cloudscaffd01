@@ -3,8 +3,11 @@ var admins = {
 };
 $(function () {
 
-    updatePassword();
+setTimeout(function(){
+    $('.toastMsg').toggle();
+},4000)
 
+    updatePassword();
 });
 function _removeUser() {
     var userPartyId = $("#deleteAdminUser_partyId").val();
