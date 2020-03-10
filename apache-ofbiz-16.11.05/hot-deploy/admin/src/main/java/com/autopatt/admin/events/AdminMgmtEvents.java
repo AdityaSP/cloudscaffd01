@@ -1,6 +1,7 @@
 package com.autopatt.admin.events;
 
 import com.autopatt.admin.utils.UserLoginUtils;
+import com.autopatt.common.utils.PasswordPolicyHelper;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilDateTime;
 import org.apache.ofbiz.base.util.UtilMisc;
@@ -31,6 +32,11 @@ public class AdminMgmtEvents {
         String lastName = request.getParameter("lastname");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(password);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            return ERROR;
+        }
 
         try {
             Map<String, Object> createPersonResp = dispatcher.runSync("createPerson",

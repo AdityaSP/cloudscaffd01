@@ -52,9 +52,12 @@
                 <label for="userPassword" class="col-sm-2 col-form-label">Password  <span class="mandatory">*</span></label>
                 <div class="col-sm-6">
                     <div class="input-container">
-                        <input type="password" class="form-control" id="password" placeholder="Initial Password" name="password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Initial Password" name="password" required
+                               onblur="checkPasswordPolicy('password','password_policy_error')"
+                        >
                         <i class="fa fa-eye p_eye" aria-hidden="true" id="password_eye"></i>
                     </div>
+                    <div id="password_policy_error"></div>
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         User will be prompted to change their password when they login for the first time.
                     </small>
