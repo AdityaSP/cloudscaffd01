@@ -957,7 +957,8 @@ EditorUi.prototype.init = function () {
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
 			window.currentSolutionDesignData = { xml, svg, png, id };
 
-			if (bpid && App.isEmpty(xml)) {
+			console.log(url);
+			if ((url != "getBasePattern") && bpid && App.isEmpty(xml)) {
 				fetchPatternFromDB(bpid, "Pattern");
 			} else {
 				checkFetchedData(xml, type);
@@ -1088,13 +1089,15 @@ displayFetchedDataInEditor = function (docXml, type) {
 				$(".toastMsg").hide();
 			}, 3000);
 
-			var doc = mxUtils.parseXml(docXml);
-			var model = new mxGraphModel();
-			var codec = new mxCodec(doc);
-			codec.decode(doc.documentElement, model);
+			setTimeout(function () {
+				var doc = mxUtils.parseXml(docXml);
+				var model = new mxGraphModel();
+				var codec = new mxCodec(doc);
+				codec.decode(doc.documentElement, model);
 
-			var children = model.getChildren(model.getChildAt(model.getRoot(), 0));
-			editorUi.editor.graph.setSelectionCells(editorUi.editor.graph.importCells(children));
+				var children = model.getChildren(model.getChildAt(model.getRoot(), 0));
+				editorUi.editor.graph.setSelectionCells(editorUi.editor.graph.importCells(children));
+			}, 100);
 		}
 		catch (e) {
 			error = e;

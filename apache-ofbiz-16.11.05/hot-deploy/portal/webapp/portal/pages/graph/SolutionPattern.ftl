@@ -49,12 +49,12 @@
                 <div class="toastMsg m-0"></div>
                 <div class="text-center p-2">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
-                <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;">Approve</button>
-                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;">
+                <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
+                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Edit Design">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
                 <span class="deployCheck">
-                    <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" >Deploy</button>
+                    <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" tabindex="0" data-toggle="tooltip" data-placement="right" title="Deploy Design">Deploy</button>
                 </span>
                 </div>
                 <#--<img src="" srcset="" class="img-fluid img-thumbnail w-100 h-100" alt="..." id="solutionDesignImg">-->

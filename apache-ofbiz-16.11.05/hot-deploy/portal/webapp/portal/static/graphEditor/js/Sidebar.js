@@ -72,6 +72,9 @@ function Sidebar(editorUi, container) {
 Sidebar.prototype.init = function () {
 	var dir = STENCIL_PATH;
 
+	// let newDir = STENCIL_PATH + "/aws17/analytics.xml";
+	// if()
+
 	this.addSearchPalette(true);
 	this.addGeneralPalette(false);
 	// this.addBasicPalette(dir); // added custom attr along with xml 
@@ -122,10 +125,10 @@ Sidebar.prototype.init = function () {
 	this.addStencilPalette('AWS', 'AWS Mobile Services', dir + '/aws17/mobile services.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Network And Content Delivery', dir + '/aws17/network and content delivery.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS On-Demand Workforce', dir + '/aws17/on-demand workforce.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Sdk', dir + '/aws17/sdk.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+	this.addStencilPalette('AWS', 'AWS SDK', dir + '/aws17/sdk.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Security Identity And Compliance', dir + '/aws17/security identity and compliance.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	// this.addStencilPalette('AWS', 'AWS Storage', dir + '/aws17/storage.xml', ';whiteSpace=wrap;html=1;fillColor=black;strokeColor=black;strokeWidth=1');
-	
+
 	// this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
 	// 	['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
 	// 		'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
