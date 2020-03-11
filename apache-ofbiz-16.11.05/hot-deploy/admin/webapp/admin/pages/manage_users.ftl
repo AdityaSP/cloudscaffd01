@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div>
         <#list eventMessageList as success>
-        <div class="alert alert-success toastMsg" role="alert">
+        <div class="alert alert-success toastMsg" role="alert" onload="function(){setTimeout(function(){$('.toastMsg').hide();},4000);}">
             ${success}
         </div>
     </#list>

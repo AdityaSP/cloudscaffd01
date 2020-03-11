@@ -6,10 +6,6 @@ var users = {
 
 $(function () {
 
-setTimeout(function(){
-    $('.toastMsg').toggle();
-},4000)
-
     updatePassword();
 
 });

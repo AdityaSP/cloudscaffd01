@@ -10,10 +10,13 @@ $(function () {
     if (window.location.search != "") {
         urlParams = App.urlParams();
     }
-
     console.log(urlParams, userRole);
 
-    App.toastMsg('Input text to find Problem Statements', '', '.searchResultsList');
+    $('#psHeading').hide();$('#collapsePS').collapse('toggle');
+    $('#ptHeading').hide();$('#collapsePT').collapse('toggle');
+    $('#sdHeading').hide();$('#collapseSD').collapse('toggle');
+
+    App.toastMsg('Input text to search', '', '.searchResultsList');
     App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
 
     $("#tags").on('click', '.tag', function (evt) {
@@ -152,18 +155,22 @@ function clearSearchResults() {
     if (isExpanded == 'true') {
         $('.filterToggler').click();
     }
-    $('.searchResultsList').children().remove();
+    $('.collapsiblePSResults').children().remove();
+    $('.collapsiblePTResults').children().remove();
+    $('.collapsibleSDResults').children().remove();
+    $('.searchResultsList').text('');
     App.loader('.searchResultsList');
 }
 
 // Rendering Problem Statements based on TagID
 function renderProblemStatements(problems, tagId) {
     if (problems && problems.length > 0) {
+        $('#psHeading').show();
         for (let i = 0; i < problems.length; i++) {
             let queryStr = `psid=${problems[i].id}`;
             var row = `<li class="list-group-item"><a href="problemPatternSearch?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${problems[i].id} : ${problems[i].problemStatement}</a></li>`;
-            document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
+            document.querySelector('.collapsiblePSResults').insertAdjacentHTML("afterbegin", row);
         }
     } else {
         console.log("PS is empty");
@@ -171,7 +178,8 @@ function renderProblemStatements(problems, tagId) {
             console.log("PS is empty for tag id " + tagId);
             App.toastMsg('Sorry, no results found', '', '.searchResultsList');
         }
-
+            $('#psHeading').hide();
+            $('#collapsePS').collapse('hide');
     }
 }
 
@@ -186,24 +194,32 @@ function renderSearchResults(data, type) {
     if (patterns) PTLength = patterns.length;
     if (solutionDesigns) SDLength = solutionDesigns.length;
 
+    let collapsiblePS = ``;
+
     // Rendering Problem Statements
     renderProblemStatements(problems);
 
     // Rendering Patterns
     if (PTLength > 0) {
+    $('#ptHeading').show();
         for (let i = 0; i < PTLength; i++) {
             let queryStr, bpid = `bpid=${patterns[i].id}`, psid = patterns[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
 
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
-                        rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a></li>`;
-            document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
+                        rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a>
+                        <span class="pull-right">${App.titleCase(patterns[i].status)}</span></li>`;
+            document.querySelector('.collapsiblePTResults').insertAdjacentHTML("afterbegin", row);
         }
         checkTheMatchingType(type);
-    }
+    } else {
+             $('#ptHeading').hide();
+             $('#collapsePT').collapse('hide');
+         }
 
     // Rendering Solution Designs
     if (SDLength > 0) {
+    $('#sdHeading').show();
         for (let i = 0; i < SDLength; i++) {
             let queryStr, sdid = solutionDesigns[i].id,
                 psid = solutionDesigns[i].psid, bpid;
@@ -214,10 +230,14 @@ function renderSearchResults(data, type) {
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
-                        rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a></li>`;
-            document.querySelector('.searchResultsList').insertAdjacentHTML("afterbegin", row);
+                        rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a>
+                        <span class="pull-right">${App.titleCase(solutionDesigns[i].status)}</span></li>`;
+            document.querySelector('.collapsibleSDResults').insertAdjacentHTML("afterbegin", row);
         }
         checkTheMatchingType(type);
+    } else {
+        $('#sdHeading').hide();
+        $('#collapseSD').collapse('hide');
     }
     if ((PSLength + PTLength + SDLength) <= 0) {
         App.toastMsg('Sorry, no results found', '', '.searchResultsList');
