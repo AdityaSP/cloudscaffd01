@@ -2,11 +2,6 @@ var admins = {
     removeUser: _removeUser
 };
 $(function () {
-
-setTimeout(function(){
-    $('.toastMsg').toggle();
-},4000)
-
     updatePassword();
 });
 function _removeUser() {

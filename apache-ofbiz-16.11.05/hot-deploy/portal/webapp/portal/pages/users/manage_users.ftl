@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <#if requestParameters.createSuccess?? && requestParameters.createSuccess=="Y">
-        <div class="alert alert-success toastMsg" role="alert">
+        <div class="alert alert-success toastMsg" role="alert" onload="function(){setTimeout(function(){$('.toastMsg').hide();},4000);}">
             <i class="material-icons">check</i> User has been added successfully.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -9,7 +9,7 @@
     </#if>
 
     <#if requestParameters.updateSuccess?? && requestParameters.updateSuccess=="Y">
-        <div class="alert alert-success toastMsg" role="alert">
+        <div class="alert alert-success toastMsg" role="alert" onload="function(){setTimeout(function(){$('.toastMsg').hide();},4000);}">
             <i class="material-icons">check</i> User details updated successfully.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
