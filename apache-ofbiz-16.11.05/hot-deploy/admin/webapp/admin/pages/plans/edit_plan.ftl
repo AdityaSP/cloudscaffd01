@@ -21,7 +21,7 @@
                 <h4>Edit Plan</h4>
             </div>
             <div class="col-sm-8">
-                <a href="<@ofbizUrl>manage_products</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">keyboard_backspace</i> <span>Back</span></a>
+                <a href="<@ofbizUrl>manage_plans</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">keyboard_backspace</i> <span>Back</span></a>
                 <#--<a href="#" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>-->
             </div>
         </div>

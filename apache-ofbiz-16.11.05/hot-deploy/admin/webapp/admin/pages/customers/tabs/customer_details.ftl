@@ -6,12 +6,12 @@
 </#if>
         
 <#list errorMessageList as error>
-    <div class="alert alert-danger toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},3000);}" role="alert">
+    <div class="alert alert-danger toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},2500);}" role="alert">
         ${error}
     </div>
 </#list>
 <#list eventMessageList as success>
-    <div class="alert alert-success toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},3000);}" role="alert">
+    <div class="alert alert-success toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},2500);}" role="alert">
         ${success}
     </div>
 </#list>
