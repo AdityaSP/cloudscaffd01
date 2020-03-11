@@ -27,7 +27,6 @@ $(function () {
         clearSearchResults();
         App.genericFetch('getProblemStatementsByTagId', "POST", { "tagId": urlParams['tagid'] }, renderProblemStatements, "", "", "");
     }
-    
 
     if (urlParams && urlParams['type'] && urlParams['status']) {
         clearSearchResults();

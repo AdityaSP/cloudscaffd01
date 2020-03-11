@@ -29,9 +29,18 @@
                 <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
                 <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
-                <a class="btn btn-info pull-right mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
-                    data-toggle="modal" data-target="#editFormModal">
-                    <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit data"></i></a>
+
+                <span data-toggle="modal" data-target="#editFormModal">
+                    <a class="btn btn-info pull-right mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
+                        data-toggle="tooltip" data-placement="top" title="Edit data">
+                        <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                </span>
+
+                <span data-toggle="modal" data-target="#viewDeploymentSummaryModal">
+                    <a class="btn btn-info pull-right mr-2 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
+                        data-toggle="tooltip" data-placement="left" title="Deployment Summary">
+                        <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i></a>
+                </span>
                 
                 <p class="solutionDesignDescription"></p>
                 <div class="p-4 row">
@@ -47,6 +56,7 @@
             </div>
         <div class="col-12 px-3">
                 <div class="toastMsg m-0"></div>
+                <#--  toastMsgForSolutionDesignCheck  -->
                 <div class="text-center p-2">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
@@ -77,7 +87,7 @@
 	</div>
 </div>
 
-<!-- Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -108,10 +118,32 @@
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForEditModal">Close</button>
         <button type="button" class="btn btn-primary saveChangesBtn" id="saveChangesBtn">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- View Deployment Summary Modal -->
+<div class="modal fade" id="viewDeploymentSummaryModal" tabindex="-1" role="dialog" aria-labelledby="viewDeploymentSummaryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewDeploymentSummaryModalTitle">Deployment Summary</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modalBody">
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
+        <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn" style="display: none;">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="../static/graphEditor/js/customJs/solutionDesign.js"></script>

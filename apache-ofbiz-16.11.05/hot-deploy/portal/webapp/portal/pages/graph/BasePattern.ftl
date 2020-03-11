@@ -17,9 +17,12 @@
                 
                 <a class="btn btn-danger pull-right deleteBP" data-toggle="tooltip" data-placement="top" title="Delete Pattern" href="javascript:void(0);" aria-label="Delete">
                     <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
-                <a class="btn btn-info pull-right mr-2 editBP" href="javascript:void(0);" aria-label="Edit"
-                    data-toggle="modal" data-target="#editFormModal">
-                    <i class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Edit data"></i></a>
+
+                <span data-toggle="modal" data-target="#editFormModal">
+                    <a class="btn btn-info pull-right mr-2 editBP" href="javascript:void(0);" aria-label="Edit"
+                        data-toggle="tooltip" data-placement="left" title="Edit data">
+                        <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                </span>    
                 
                 <p class="basePatternDescription"></p>
                 <div class="px-4 row">

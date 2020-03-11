@@ -66,7 +66,7 @@ export const App = {
             // async: false,
             cache: false,
             success: function (res) {
-                console.log(res);
+                // console.log(res);
                 if (renderFunction) {
                     renderFunction(res.data, rparams, res);
                     App.clearLoader();
@@ -107,21 +107,31 @@ export const App = {
         const loader = $(`.loader`);
         if (loader) { loader.remove(); }
     },
-    modalFormResponse: function (data) {
+    modalFormResponse: function (data, modalData) {
         // console.log(data);
         if (data && data.message == "success") {
             $('.modalBody').addClass('alert alert-success m-2');
             $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
-            $('#closeBtn').hide();
-            $('#saveChangesBtn').hide();
+            if (!modalData) {
+                $('#closeBtn').hide();
+                $('#saveChangesBtn').hide();
+            } else {
+                $(`#${modalData.closeBtn}`).hide();
+                $(`#${modalData.submitBtn}`).hide();
+            }
             setTimeout(function () {
                 window.location.reload();
             }, 1500);
         } else {
             $('.modalBody').addClass('alert alert-danger m-2');
             $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
-            $('#closeBtn').hide();
-            $('#saveChangesBtn').hide();
+            if (!modalData) {
+                $('#closeBtn').hide();
+                $('#saveChangesBtn').hide();
+            } else {
+                $(`#${modalData.closeBtn}`).hide();
+                $(`#${modalData.submitBtn}`).hide();
+            }
             setTimeout(function () {
                 window.location.reload();
             }, 3000);
@@ -185,8 +195,9 @@ export const App = {
         if (place) {
             $(place).html(toast);
             $(place).show();
+
             if (time) {
-                if (time > 0) { time = time } else { time = true; }
+                (time > 0) ? time = time : time = true;
                 setTimeout(function () {
                     $(place).fadeOut(800);
                 }, 3000);

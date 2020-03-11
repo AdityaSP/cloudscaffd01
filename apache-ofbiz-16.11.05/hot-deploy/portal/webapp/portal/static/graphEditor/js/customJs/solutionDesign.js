@@ -25,6 +25,7 @@ $(function () {
         App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         $('.deploy').attr("disabled", true);
+        // $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
         $('.approve').attr("disabled", true);
 
         // Fetch and Rendering Solution Design
@@ -81,9 +82,14 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result) {
-                        let data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
-                        console.log(data);// console.log(xml);
-                        // App.genericFetch("deploySolutionDesign", "POST", data, "", "", "", "");
+                        let data = {
+                            'sdid': sdid,
+                            'psid': psid
+                        };
+                        // console.log(data)
+                        checkCompilationData()
+                        // data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
+                        // App.genericFetch("#", "POST", data, checkCompilationData, "", "", "");
 
                         // After successfull Deployment Change status to 'Deployed-Successful'
                         // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", ""); // urlData includes status
@@ -172,7 +178,7 @@ $(function () {
                     };
                 console.log(formData);
                 if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) && !App.isEmpty(solutionConsequences)) {
-                    App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, "", "", "");
+                    App.genericFetch('editSolutionDesign', 'POST', formData, App.modalFormResponse, { 'submitBtn': 'saveChangesBtn', 'closeBtn': 'closeBtnForEditModal' }, "", "");
                 } else {
                     App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
                 }
@@ -306,7 +312,7 @@ function renderSolutionDesign(solutionDesign, sdid) {
                     isSolutionDesignApproved = solutionDesign[i].status;
                     checkImageAproval(isSolutionDesignApproved, solutionDesign[i].id);
                 } else {
-                    App.toastMsg('No Solution Design Created', 'failed', '.toastMsg');
+                    App.toastMsg('No Solution Design Created', 'failed', '.toastMsg', false);
                     $('.svgDiv').hide();
                     // $('.edit').attr("disabled", false);
                 }
@@ -326,7 +332,7 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         $('.approve').hide();
         // $('.edit').attr("disabled", false);
     } else {
-        App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
+        App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
 
         if (isApprover) {
             $('.approve').attr("disabled", false);
@@ -339,9 +345,34 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
+            $('.viewDeploymentSummaryBtn').show();//TODO: Check
+            $('.proceedBtn').hide();
         }
         else {
             console.log("cannot deploy");
         }
     }
+}
+
+function checkCompilationData(data) {
+    // IF data has comiplation error or message show Deploment summary modal and ask for proceed then call deployment api
+    if (data) {// TODO : check if data has comiplation error
+        $('#viewDeploymentSummaryModal').modal('show');
+        $('#proceedBtn').show();
+
+        // Display all the compilation errors in modal
+
+        $('#proceedBtn').on('click', function (e) {
+            // Call Deployment API
+            deploySolutionDesign();
+        });
+    } else {
+        // Call Deployment API
+        deploySolutionDesign();
+    }
+}
+
+function deploySolutionDesign() {
+    App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
+    // App.genericFetch('#', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
 }
