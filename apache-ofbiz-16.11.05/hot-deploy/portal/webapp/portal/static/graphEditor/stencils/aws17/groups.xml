@@ -17,24 +17,6 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape name="Availability Zone" h="64.5" w="62.5" aspect="variable" strokewidth="inherit">
-		<connections>
-			<constraint x="0.5" y="0" perimeter="0" name="N"/>
-			<constraint x="0.5" y="1" perimeter="0" name="S"/>
-			<constraint x="0" y="0.5" perimeter="0" name="W"/>
-			<constraint x="1" y="0.5" perimeter="0" name="E"/>
-			<constraint x="0.025" y="0.025" perimeter="0" name="NW"/>
-			<constraint x="0.025" y="0.975" perimeter="0" name="SW"/>
-			<constraint x="0.975" y="0.025" perimeter="0" name="NE"/>
-			<constraint x="0.975" y="0.975" perimeter="0" name="SE"/>
-		</connections>
-		<foreground>
-			<dashed dashed="1"/>
-			<dashpattern pattern="6 2"/>
-			<roundrect x="0" y="0" w="62.5" h="64.5" arcsize="9.451162790697675"/>
-			<fillstroke/>
-		</foreground>
-	</shape>
 	<shape name="AWS Cloud" h="65.72" w="59.22" aspect="variable" strokewidth="inherit">
 		<connections>
 			<constraint x="0.5" y="0.1" perimeter="0" name="N"/>
@@ -990,24 +972,7 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape name="Region" h="57.5" w="58.5" aspect="variable" strokewidth="inherit">
-		<connections>
-			<constraint x="0.5" y="0" perimeter="0" name="N"/>
-			<constraint x="0.5" y="1" perimeter="0" name="S"/>
-			<constraint x="0" y="0.5" perimeter="0" name="W"/>
-			<constraint x="1" y="0.5" perimeter="0" name="E"/>
-			<constraint x="0.025" y="0.025" perimeter="0" name="NW"/>
-			<constraint x="0.025" y="0.975" perimeter="0" name="SW"/>
-			<constraint x="0.975" y="0.025" perimeter="0" name="NE"/>
-			<constraint x="0.975" y="0.975" perimeter="0" name="SE"/>
-		</connections>
-		<foreground>
-			<dashed dashed="1"/>
-			<dashpattern pattern="1 1"/>
-			<roundrect x="0" y="0" w="58.5" h="57.5" arcsize="10.345596432552954"/>
-			<fillstroke/>
-		</foreground>
-	</shape>
+
 	<shape name="Security Group" h="58" w="58.5" aspect="variable" strokewidth="inherit">
 		<connections>
 			<constraint x="0.5" y="0" perimeter="0" name="N"/>
@@ -1579,97 +1544,7 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape aspect="variable" h="8.95" name="Elastic Beanstalk Container Icon" strokewidth="inherit" w="12.6">
-		<connections/>
-		<foreground>
-			<save/>
-			<save/>
-			<path>
-				<move x="8.66" y="8.95"/>
-				<line x="3.15" y="8.95"/>
-				<line x="3.15" y="0"/>
-				<line x="8.66" y="0"/>
-				<line x="8.66" y="8.95"/>
-				<close/>
-			</path>
-			<fillstroke/>
-			<fillcolor color="#FFFFFF"/>
-			<path>
-				<move x="3.94" y="3.69"/>
-				<curve x1="3.94" x2="1.42" x3="0.79" y1="3.69" y2="3.69" y3="3.12"/>
-				<curve x1="0.16" x2="0.16" x3="0.16" y1="2.56" y2="0.85" y3="0.85"/>
-				<curve x1="0.16" x2="2.36" x3="3.15" y1="0.85" y2="0.99" y3="1.56"/>
-				<curve x1="3.62" x2="3.94" x3="3.94" y1="2.13" y2="3.69" y3="3.69"/>
-				<line x="3.94" y="3.69"/>
-				<close/>
-			</path>
-			<fillstroke/>
-			<restore/>
-			<rect/>
-			<stroke/>
-			<path>
-				<move x="3.78" y="3.84"/>
-				<curve x1="2.99" x2="1.26" x3="0.63" y1="3.84" y2="3.84" y3="3.27"/>
-				<curve x1="0" x2="0" x3="0" y1="2.7" y2="0.99" y3="0.85"/>
-				<curve x1="0" x2="0" x3="0" y1="0.57" y2="0.57" y3="0.57"/>
-				<curve x1="0.16" x2="0.16" x3="0.16" y1="0.57" y2="0.57" y3="0.57"/>
-				<curve x1="0.32" x2="2.52" x3="3.31" y1="0.71" y2="0.85" y3="1.42"/>
-				<curve x1="3.94" x2="4.09" x3="4.25" y1="1.99" y2="3.55" y3="3.69"/>
-				<curve x1="4.25" x2="4.25" x3="4.25" y1="3.83" y2="3.83" y3="3.83"/>
-				<curve x1="3.94" x2="3.94" x3="3.94" y1="3.83" y2="3.83" y3="3.83"/>
-				<curve x1="3.94" x2="3.94" x3="3.78" y1="3.83" y2="3.84" y3="3.84"/>
-				<line x="3.78" y="3.84"/>
-				<close/>
-				<move x="0.32" y="0.99"/>
-				<curve x1="0.47" x2="0.47" x3="0.95" y1="1.56" y2="2.7" y3="2.98"/>
-				<curve x1="1.26" x2="2.68" x3="3.78" y1="3.41" y2="3.55" y3="3.55"/>
-				<curve x1="3.62" x2="3.31" x3="2.99" y1="2.98" y2="2.13" y3="1.7"/>
-				<curve x1="2.52" x2="1.1" x3="0.32" y1="1.28" y2="1.14" y3="0.99"/>
-				<line x="0.32" y="0.99"/>
-				<close/>
-			</path>
-			<fillstroke/>
-			<fillcolor color="#FFFFFF"/>
-			<path>
-				<move x="7.72" y="7.39"/>
-				<curve x1="7.72" x2="8.82" x3="9.77" y1="7.39" y2="5.4" y3="5.11"/>
-				<curve x1="10.55" x2="12.29" x3="12.29" y1="4.97" y2="5.68" y3="5.68"/>
-				<curve x1="12.29" x2="11.03" x3="10.08" y1="5.68" y2="7.53" y3="7.67"/>
-				<curve x1="9.29" x2="7.72" x3="7.72" y1="7.96" y2="7.39" y3="7.39"/>
-				<line x="7.72" y="7.39"/>
-				<close/>
-			</path>
-			<fillstroke/>
-			<restore/>
-			<rect/>
-			<stroke/>
-			<path>
-				<move x="9.61" y="7.96"/>
-				<curve x1="8.82" x2="7.72" x3="7.56" y1="7.96" y2="7.67" y3="7.67"/>
-				<curve x1="7.4" x2="7.4" x3="7.4" y1="7.53" y2="7.53" y3="7.53"/>
-				<curve x1="7.4" x2="7.4" x3="7.4" y1="7.39" y2="7.39" y3="7.39"/>
-				<curve x1="7.56" x2="8.66" x3="9.61" y1="7.1" y2="5.26" y3="4.97"/>
-				<curve x1="9.77" x2="9.92" x3="10.08" y1="4.97" y2="4.97" y3="4.97"/>
-				<curve x1="10.87" x2="12.29" x3="12.29" y1="4.97" y2="5.54" y3="5.54"/>
-				<curve x1="12.6" x2="12.6" x3="12.6" y1="5.68" y2="5.68" y3="5.68"/>
-				<curve x1="12.44" x2="12.44" x3="12.44" y1="5.82" y2="5.82" y3="5.82"/>
-				<curve x1="12.44" x2="11.18" x3="10.24" y1="5.97" y2="7.67" y3="7.96"/>
-				<curve x1="10.08" x2="9.92" x3="9.61" y1="7.96" y2="7.96" y3="7.96"/>
-				<line x="9.61" y="7.96"/>
-				<close/>
-				<move x="8.03" y="7.39"/>
-				<curve x1="8.35" x2="9.14" x3="9.61" y1="7.39" y2="7.67" y3="7.67"/>
-				<curve x1="9.77" x2="9.92" x3="10.08" y1="7.67" y2="7.53" y3="7.53"/>
-				<curve x1="10.71" x2="11.5" x3="11.97" y1="7.39" y2="6.39" y3="5.82"/>
-				<curve x1="11.5" x2="10.55" x3="10.08" y1="5.68" y2="5.26" y3="5.26"/>
-				<curve x1="9.92" x2="9.92" x3="9.77" y1="5.26" y2="5.26" y3="5.4"/>
-				<curve x1="9.14" x2="8.35" x3="8.03" y1="5.54" y2="6.68" y3="7.39"/>
-				<line x="8.03" y="7.39"/>
-				<close/>
-			</path>
-			<fillstroke/>
-		</foreground>
-	</shape>
+
 	<shape aspect="variable" h="10.45" name="Virtual Private Cloud Icon" strokewidth="inherit" w="16.81">
 		<connections/>
 		<foreground>
@@ -1779,20 +1654,5 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape name="Rrect" h="64.5" w="62.5" aspect="variable" strokewidth="inherit">
-		<connections>
-			<constraint x="0.5" y="0" perimeter="0" name="N"/>
-			<constraint x="0.5" y="1" perimeter="0" name="S"/>
-			<constraint x="0" y="0.5" perimeter="0" name="W"/>
-			<constraint x="1" y="0.5" perimeter="0" name="E"/>
-			<constraint x="0.025" y="0.025" perimeter="0" name="NW"/>
-			<constraint x="0.025" y="0.975" perimeter="0" name="SW"/>
-			<constraint x="0.975" y="0.025" perimeter="0" name="NE"/>
-			<constraint x="0.975" y="0.975" perimeter="0" name="SE"/>
-		</connections>
-		<foreground>
-			<roundrect x="0" y="0" w="62.5" h="64.5" arcsize="9.451162790697675"/>
-			<fillstroke/>
-		</foreground>
-	</shape>
+
 </shapes>

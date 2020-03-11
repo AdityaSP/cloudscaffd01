@@ -4,8 +4,8 @@
 </#if>
 <div class="container-fluid">
     <div>
-        <#list eventMessageList as success>l
-        <div class="alert alert-success" role="alert">
+        <#list eventMessageList as success>
+        <div class="alert alert-success toastMsg" role="alert">
             ${success}
         </div>
     </#list>
