@@ -1,4 +1,20 @@
-
+<#if !errorMessageList?has_content>
+    <#assign errorMessageList = requestAttributes._ERROR_MESSAGE_!>
+</#if>
+<#if !eventMessageList?has_content>
+    <#assign eventMessageList = requestAttributes._EVENT_MESSAGE_!>
+</#if>
+        
+<#list errorMessageList as error>
+    <div class="alert alert-danger toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},3000);}" role="alert">
+        ${error}
+    </div>
+</#list>
+<#list eventMessageList as success>
+    <div class="alert alert-success toastMsg" onload="function(){setTimeout(function(){$('. toastMsg').hide();},3000);}" role="alert">
+        ${success}
+    </div>
+</#list>
 
 <form action="<@ofbizUrl>UpdateCustomerDetails</@ofbizUrl>" method="post">
     <input type="hidden" name="orgPartyId" value="${orgPartyId!}"/>
