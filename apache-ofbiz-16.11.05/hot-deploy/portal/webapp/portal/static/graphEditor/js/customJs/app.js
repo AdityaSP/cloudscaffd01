@@ -75,13 +75,14 @@ export const App = {
             error: function (err) {
                 console.log(err);
                 if (errFunction) {
-                    errFunction(eparams, err);
+                    errFunction(err, eparams);
                 }
             }
         });
     },
-    outputResponse: function (data) {
+    outputResponse: function (data, params) {
         console.log(data);
+        console.log(params);
     },
     loader: function (place) {
         const load = `<div class="loader"><center><svg width="65" height="65" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#4f4c4c">

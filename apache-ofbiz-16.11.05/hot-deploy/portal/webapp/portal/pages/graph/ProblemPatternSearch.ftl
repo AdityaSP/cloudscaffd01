@@ -68,10 +68,10 @@
                                         </div>  -->
                                         <div class="row">
                                             <div class="col-9">
-                                                <div class="toastMsg"></div>
+                                                <div class="toastMsgForPattern"></div>
                                             </div>
                                             <div class="col-3">
-                                                <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="basePatternFormSubmitBtn" style="width: 125px;">
+                                                <input type="button" value="Create" class="btn btn-primary pull-right submitBtnForPattern" id="basePatternFormSubmitBtn" style="width: 125px;">
                                             </div>
                                         </div>
                                     </form>
@@ -127,10 +127,10 @@
                                         </div>  -->
                                         <div class="row">
                                             <div class="col-9">
-                                                <div class="toastMsg"></div>
+                                                <div class="toastMsgForSolutionDesign"></div>
                                             </div>
                                             <div class="col-3">
-                                                <input type="button" value="Create" class="btn btn-primary pull-right submitBtn" id="solutionDesignFormSubmitBtn" style="width: 125px;">
+                                                <input type="button" value="Create" class="btn btn-primary pull-right submitBtnForSolutionDesign" id="solutionDesignFormSubmitBtn" style="width: 125px;">
                                             </div>
                                         </div>
                                     </form>
