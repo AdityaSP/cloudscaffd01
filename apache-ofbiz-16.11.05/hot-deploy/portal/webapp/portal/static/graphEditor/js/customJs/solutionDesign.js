@@ -25,7 +25,7 @@ $(function () {
         App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         $('.deploy').attr("disabled", true);
-        // $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
+        $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
         $('.approve').attr("disabled", true);
 
         // Fetch and Rendering Solution Design

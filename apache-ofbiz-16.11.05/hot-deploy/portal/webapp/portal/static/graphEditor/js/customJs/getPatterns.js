@@ -57,7 +57,7 @@ $(function () {
                     App.genericFetch('AddBasePattern', 'POST', formData, submitForm, {
                         "submitBtn": "submitBtnForPattern",
                         "toastMsgDiv": "toastMsgForPattern"
-                    }, outputResponse, "ERROR!");
+                    }, App.outputResponse, "ERROR!");
                     $('.submitBtnForPattern').attr("disabled", true);
                 } else {
                     App.toastMsg('Please enter all the details', 'failed', '.toastMsgForPattern', true);
@@ -86,7 +86,7 @@ $(function () {
                     App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, {
                         "submitBtn": "submitBtnForSolutionDesign",
                         "toastMsgDiv": "toastMsgForSolutionDesign"
-                    }, outputResponse, "ERROR!");
+                    }, App.outputResponse, "ERROR!");
 
                     $('.submitBtnForSolutionDesign').attr("disabled", true);
                 } else {
