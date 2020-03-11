@@ -25,7 +25,7 @@ $(function () {
         App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         $('.deploy').attr("disabled", true);
-        $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
+        // $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
         $('.approve').attr("disabled", true);
 
         // Fetch and Rendering Solution Design
@@ -82,17 +82,9 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result) {
-                        let data = {
-                            'sdid': sdid,
-                            'psid': psid
-                        };
-                        // console.log(data)
-                        checkCompilationData()
-                        // data = App.xmlToJson(new DOMParser().parseFromString(xml, 'text/xml'));
                         // App.genericFetch("#", "POST", data, checkCompilationData, "", "", "");
-
-                        // After successfull Deployment Change status to 'Deployed-Successful'
-                        // App.genericFetch('approveSolutionDesign', "POST", urldata, reloadPage, sdid, "", ""); // urlData includes status
+                        // After compilation change the status to compiled 
+                        checkCompilationData();
                     }
                 }
             });
@@ -345,12 +337,11 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
-            $('.viewDeploymentSummaryBtn').show();//TODO: Check
-            $('.proceedBtn').hide();
+            //TODO: Check if deployment summary is available, if present show the buttons
+            // $('.viewDeploymentSummaryBtn').show();
+            // $('.proceedBtn').hide();
         }
-        else {
-            console.log("cannot deploy");
-        }
+        else { console.log("cannot deploy"); }
     }
 }
 
@@ -375,4 +366,6 @@ function checkCompilationData(data) {
 function deploySolutionDesign() {
     App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
     // App.genericFetch('#', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
+
+    // After successfull Deployment Change status to 'Deployed-Successful'
 }

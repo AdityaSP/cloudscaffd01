@@ -29,7 +29,7 @@ Menus.prototype.defaultFontSize = '12';
  * Sets the default font size.
  */
 
-Menus.prototype.defaultMenuItems = ['file', 'edit', 'view', 'arrange', 'extras', 'deploy','help'];
+Menus.prototype.defaultMenuItems = ['file', 'edit', 'view', 'arrange', 'extras','help']; //, 'deploy'
 
 /**
  * Adds the label menu items to the given menu and parent.

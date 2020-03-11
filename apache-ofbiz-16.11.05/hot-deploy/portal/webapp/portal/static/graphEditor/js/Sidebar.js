@@ -3553,6 +3553,8 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 		x = graph.getSelectionCell()
 		var value = x.getValue();
 
+		console.log(x);
+
 		if (value != '') {
 			type = value.split("-")[0];
 
@@ -3787,7 +3789,7 @@ function xmlToJson(xml) {
 
 addCustomAttributes = function (json, type, name, value, graph, cell) {
 
-	// console.log(json, type, name, value, graph, cell)
+	console.log(json, type, name, value, graph, cell)
 
 	if (json != null) {
 		if (name.includes("<b>", 0)) {

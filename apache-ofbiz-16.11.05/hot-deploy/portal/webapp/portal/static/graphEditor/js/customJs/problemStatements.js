@@ -12,9 +12,9 @@ $(function () {
     }
     console.log(urlParams, userRole);
 
-    $('#psHeading').hide();$('#collapsePS').collapse('toggle');
-    $('#ptHeading').hide();$('#collapsePT').collapse('toggle');
-    $('#sdHeading').hide();$('#collapseSD').collapse('toggle');
+    $('#psHeading').hide(); $('#collapsePS').collapse('toggle');
+    $('#ptHeading').hide(); $('#collapsePT').collapse('toggle');
+    $('#sdHeading').hide(); $('#collapseSD').collapse('toggle');
 
     App.toastMsg('Input text to search', '', '.searchResultsList');
     App.genericFetch('getTags', "POST", "", renderTags, "", "", "");
@@ -178,8 +178,8 @@ function renderProblemStatements(problems, tagId) {
             console.log("PS is empty for tag id " + tagId);
             App.toastMsg('Sorry, no results found', '', '.searchResultsList');
         }
-            $('#psHeading').hide();
-            $('#collapsePS').collapse('hide');
+        $('#psHeading').hide();
+        $('#collapsePS').collapse('hide');
     }
 }
 
@@ -201,7 +201,7 @@ function renderSearchResults(data, type) {
 
     // Rendering Patterns
     if (PTLength > 0) {
-    $('#ptHeading').show();
+        $('#ptHeading').show();
         for (let i = 0; i < PTLength; i++) {
             let queryStr, bpid = `bpid=${patterns[i].id}`, psid = patterns[i].psid;
             queryStr = `${bpid}&psid=${psid}`;
@@ -213,13 +213,13 @@ function renderSearchResults(data, type) {
         }
         checkTheMatchingType(type);
     } else {
-             $('#ptHeading').hide();
-             $('#collapsePT').collapse('hide');
-         }
+        $('#ptHeading').hide();
+        $('#collapsePT').collapse('hide');
+    }
 
     // Rendering Solution Designs
     if (SDLength > 0) {
-    $('#sdHeading').show();
+        $('#sdHeading').show();
         for (let i = 0; i < SDLength; i++) {
             let queryStr, sdid = solutionDesigns[i].id,
                 psid = solutionDesigns[i].psid, bpid;
@@ -268,7 +268,7 @@ function renderTags(tags) {
 function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
-        url: "getAll",
+        url: "https://cors-anywhere.herokuapp.com/https://postb.in/1583933393098-4442378978710",
         data: { "inputSearch": searchStr },
         success: function (res) {
             console.log(res);
