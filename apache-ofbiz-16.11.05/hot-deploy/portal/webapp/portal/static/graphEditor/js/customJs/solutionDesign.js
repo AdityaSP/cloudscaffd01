@@ -336,13 +336,12 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         }
     }
 
-    if (isDeployer || isAdmin) {
+    if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
         }
         else {
             console.log("cannot deploy");
         }
-
     }
 }

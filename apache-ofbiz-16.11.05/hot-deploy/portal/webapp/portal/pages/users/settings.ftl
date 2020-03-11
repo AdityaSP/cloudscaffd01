@@ -9,13 +9,13 @@
 </div>
 <form action="<@ofbizUrl>UpdateCompanyDetails</@ofbizUrl>" method="post">
      <#list errorMessageList as error>
-          <div class="alert alert-danger mx-3" role="alert">
+          <div class="alert alert-danger mx-3 toastMsg" role="alert" onload="function(){setTimeout(function(){$('.toastMsg').hide();},2500);}">
                 ${error}
           </div>
      </#list>
      <#list eventMessageList as success>
         <#if organizationName.groupName != organizationName>
-           <div class="alert alert-success mx-3" role="alert">
+           <div class="alert alert-success mx-3 toastMsg" role="alert" onload="function(){setTimeout(function(){$('.toastMsg').hide();},2500);}">
                  ${success}
            </div>
         </#if>

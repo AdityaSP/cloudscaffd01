@@ -21,7 +21,7 @@
                 <h4>Edit Plan</h4>
             </div>
             <div class="col-sm-8">
-                <a href="<@ofbizUrl>manage_products</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">keyboard_backspace</i> <span>Back</span></a>
+                <a href="<@ofbizUrl>manage_plans</@ofbizUrl>" class="btn btn-primary"><i class="material-icons">keyboard_backspace</i> <span>Back</span></a>
                 <#--<a href="#" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>-->
             </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="form-group row">
             <label for="productPrice" class="col-sm-2 col-form-label ">Price <span class="mandatory">*</span></label>
             <div class="col-sm-10">
-                <input id="productPrice" type="number" step="any" class="form-control"  value="${priceGv.price}" name="price"  >
+                <input id="productPrice" type="number" step="any" class="form-control"  value="${priceGv.price}" name="price" required>
             </div>
         </div>
 <#--        <div class="form-group row">
@@ -60,13 +60,13 @@
         <div class="form-group row">
             <label for="maxUsers" class="col-sm-2 col-form-label">Max Users <span class="mandatory">*</span></label>
             <div class="col-sm-10">
-                <input id="maxUsers" type="number" class="form-control" value="${maxUserLogins!}" name="maxUserLogins" />
+                <input id="maxUsers" type="number" class="form-control" value="${maxUserLogins!}" name="maxUserLogins" required/>
             </div>
         </div>
         <div class="form-group row">
             <label for="maxPatterns" class="col-sm-2 col-form-label">Max Patterns <span class="mandatory">*</span></label>
             <div class="col-sm-10">
-                <input id="maxPatterns" type="number" class="form-control" value="${maxPatterns!"0"}" name="maxPatterns" />
+                <input id="maxPatterns" type="number" class="form-control" value="${maxPatterns!"0"}" name="maxPatterns" required/>
             </div>
         </div>
 

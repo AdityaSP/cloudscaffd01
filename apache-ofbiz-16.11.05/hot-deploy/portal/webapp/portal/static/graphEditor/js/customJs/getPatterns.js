@@ -53,11 +53,14 @@ $(function () {
                         "psid": psid,
                     };
                 if (!App.isEmpty(baseName) && !App.isEmpty(baseDescription) && !App.isEmpty(baseForces) && !App.isEmpty(baseConsequences)) {
-                    $('.submitBtn').val('Creating...');
-                    App.genericFetch('AddBasePattern', 'POST', formData, submitForm, "", "", "");
-                    $('.submitBtn').attr("disabled", true);
+                    $('.submitBtnForPattern').val('Creating...');
+                    App.genericFetch('AddBasePattern', 'POST', formData, submitForm, {
+                        "submitBtn": "submitBtnForPattern",
+                        "toastMsgDiv": "toastMsgForPattern"
+                    }, outputResponse, "ERROR!");
+                    $('.submitBtnForPattern').attr("disabled", true);
                 } else {
-                    App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                    App.toastMsg('Please enter all the details', 'failed', '.toastMsgForPattern', true);
                 }
             });
 
@@ -79,15 +82,19 @@ $(function () {
                 console.log(formData);
                 if (!App.isEmpty(solutionDesignName) && !App.isEmpty(solutionDesignDesc) && !App.isEmpty(solutionForces) &&
                     !App.isEmpty(solutionConsequences) && !App.isEmpty(psid)) {
-                    $('.submitBtn').val('Creating...');
-                    App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, "", "", "");
-                    $('.submitBtn').attr("disabled", true);
+                    $('.submitBtnForSolutionDesign').val('Creating...');
+                    App.genericFetch('AddSolutionDesign', 'POST', formData, submitForm, {
+                        "submitBtn": "submitBtnForSolutionDesign",
+                        "toastMsgDiv": "toastMsgForSolutionDesign"
+                    }, outputResponse, "ERROR!");
+
+                    $('.submitBtnForSolutionDesign').attr("disabled", true);
                 } else {
-                    App.toastMsg('Please enter all the details', 'failed', '.toastMsg', true);
+                    App.toastMsg('Please enter all the details', 'failed', '.toastMsgForSolutionDesign', true);
                 }
             });
         } else {
-            $('.submitBtn').attr("disabled", true);
+            $('.submitBtnForSolutionDesign').attr("disabled", true);
             $('.editPS').hide();
             $('.deletePS').hide();
         }
@@ -102,7 +109,6 @@ $(function () {
                 url = `psid=${psid}&bpid=${bpid}&sdid=${sdid}`
             }
             url = App.encrypt(url);
-            // console.log(psid, sdid, bpid, url);
             window.location.href = `solutionPattern?${url}`;
         });
 
@@ -116,20 +122,20 @@ $(function () {
     }
 });
 
-function submitForm(data, path, res) {
-    $('.submitBtn').hide();
+function submitForm(data, params) {
+    $(`${params.submitBtn}`).hide();
     if (data.message == 'success') {
-        App.toastMsg('Creation Successful', 'success', '.toastMsg', true);
+        App.toastMsg('Creation Successful', 'success', `.${params.toastMsgDiv}`, true);
         setTimeout(function () {
             window.location.reload();
         }, 1000);
     } else {
-        App.toastMsg('Failed to create', 'failed', '.toastMsg', 1500);
+        App.toastMsg('Failed to create', 'failed', `.${params.toastMsgDiv}`, 1500);
         App.clearInput('input:not(:button)');
         setTimeout(function () {
-            $('.submitBtn').val('Create');
-            $('.submitBtn').attr("disabled", false);
-            $('.submitBtn').show();
+            $(`.${params.toastMsgDiv}`).val('Create');
+            $(`.${params.toastMsgDiv}`).attr("disabled", false);
+            $(`.${params.toastMsgDiv}`).show();
         }, 1500);
     }
 }
