@@ -10,7 +10,7 @@
     <UserLogin partyId="ap_support_demo" userLoginId="ap_support_demo@asteroidnetworkz.com"
                currentPassword="$SHA$zH3xNkh9R2FEQ9$ijE5U0nrP5npX-ttD6_vznL8tkY" passwordHint="" enabled="Y" requirePasswordChange="Y"/>
     <!-- password: DH+yZ5&@jg    $SHA$zH3xNkh9R2FEQ9$ijE5U0nrP5npX-ttD6_vznL8tkY -->
-    <UserLoginSecurityGroup groupId="APADMIN_FULLADMIN" userLoginId="ap_support_demo@asteroidnetworkz.com," fromDate="2001-01-01 12:00:00.0"/>
+    <UserLoginSecurityGroup groupId="APADMIN_FULLADMIN" userLoginId="ap_support_demo@asteroidnetworkz.com" fromDate="2001-01-01 12:00:00.0"/>
 
 
     <!--APADMIN Admin -->
