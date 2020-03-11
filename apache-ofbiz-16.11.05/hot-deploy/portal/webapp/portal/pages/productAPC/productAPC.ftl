@@ -13,6 +13,9 @@
     pointer-events: none;
     color: #aaa;
 }
+.card{
+    border:0px !important;
+}
 </style>
 <div class="container-fluid">
         <div class="row">
@@ -84,6 +87,50 @@
                                 <br>
                                 <div class="form-group mt-2" id="searchResults">
                                     <label>Search Result</label>
+                                    <div id="accordion">
+                                      <div class="card">
+                                        <div class="card-header" id="psHeading">
+                                          <h5 class="mb-0">
+                                            <button class="btn" data-toggle="collapse" data-target="#collapsePS" aria-expanded="true" aria-controls="collapsePS">
+                                              Problem Statement
+                                            </button>
+                                          </h5>
+                                        </div>
+                                        <div id="collapsePS" class="collapse show" aria-labelledby="psHeading" data-parent="#accordion">
+                                          <div class="card-body collapsiblePSResults">
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card">
+                                        <div class="card-header" id="ptHeading">
+                                          <h5 class="mb-0">
+                                            <button class="btn collapsed" data-toggle="collapse" data-target="#collapsePT" aria-expanded="false" aria-controls="collapsePT">
+                                              Pattern
+                                            </button>
+                                          </h5>
+                                        </div>
+                                        <div id="collapsePT" class="collapse" aria-labelledby="ptHeading" data-parent="#accordion">
+                                          <div class="card-body collapsiblePTResults">
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card">
+                                        <div class="card-header" id="sdHeading">
+                                          <h5 class="mb-0">
+                                            <button class="btn collapsed" data-toggle="collapse" data-target="#collapseSD" aria-expanded="false" aria-controls="collapseSD">
+                                              Solution Design
+                                            </button>
+                                          </h5>
+                                        </div>
+                                        <div id="collapseSD" class="collapse" aria-labelledby="sdHeading" data-parent="#accordion">
+                                          <div class="card-body collapsibleSDResults">
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <ul class="list-group searchResultsList">
                                         
                                     </ul>
@@ -130,3 +177,5 @@
     </div>
 </div>
 <script type="module" src="../static/graphEditor/js/customJs/problemStatements.js"></script>
+
+

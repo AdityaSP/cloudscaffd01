@@ -113,7 +113,7 @@ public class DashboardEvents
 
             if(type.equals("pattern")) {
                 List<GenericValue> patternList = EntityQuery.use(delegator)
-                        .select("id","psid", "baseName")
+                        .select("id","psid", "baseName","status")
                         .from("basePatternApc")
                         .where("status", status)
                         .queryList();
@@ -124,7 +124,7 @@ public class DashboardEvents
                 }
             } else if(type.equals("solution")) {
                 List<GenericValue> solutionList = EntityQuery.use(delegator)
-                        .select("id","psid","bpid","solutionDesignName")
+                        .select("id","psid","bpid","solutionDesignName","status")
                         .from("solutionDesignApc")
                         .where("status", status)
                         .queryList();
