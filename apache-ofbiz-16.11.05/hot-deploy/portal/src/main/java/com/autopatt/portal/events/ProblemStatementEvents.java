@@ -78,8 +78,9 @@ public class ProblemStatementEvents{
     public static void addTagAndProblemStatementTagProblem(Delegator delegator,String psid,String [] tag){
         int tagSize = tag.length;
         try{
-            String tagsId = delegator.getNextSeqId("Quote");
+
             for (int TagNameCount=0; TagNameCount < tagSize; TagNameCount++) {
+                String tagsId = delegator.getNextSeqId("Quote");
                 List<GenericValue> TagList = EntityQuery.use(delegator)
                         .select("id","tagName")
                         .from("problemStatementTags").where("tagName",tag[TagNameCount])
@@ -234,7 +235,7 @@ public class ProblemStatementEvents{
         try {
             
             solutionDesignList = EntityQuery.use(delegator)
-                    .select("solutionDesignName", "id","psid","bpid")
+                    .select("solutionDesignName", "id","psid","bpid","status")
                     .from("solutionDesignApc")
                     .where(entityConditionList)
                     .queryList();
@@ -274,7 +275,7 @@ public class ProblemStatementEvents{
         List<GenericValue> basePatterList = null;
         try {
             basePatterList = EntityQuery.use(delegator)
-                    .select("baseName", "id","psid")
+                    .select("baseName", "id","psid","status")
                     .from("basePatternApc")
                     .where(entityConditionList)
                     .queryList();
