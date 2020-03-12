@@ -254,6 +254,8 @@ function renderBasePattern(basePattern, bpid) {
         }
 
         $('#proceedBtn').on('click', function (e) {
+            // close the running modal
+            $('#viewDeploymentSummaryModal').modal('hide');
             // recompile and Call Deployment API
             $(".deploy").click();
         });
@@ -359,23 +361,25 @@ function getLogs() {
 }
 
 function renderDataToModal(logs) {
-    // Display all the Logs in modal
-    if ((logs.message == 'success') && logs.length > 0) {
 
+    console.log(logs)
+    // Display all the Logs in modal
+    if (logs.message == 'success') {
         $('.viewDeploymentSummaryBtn').show();
 
-        for (let i = 0; i < logs.length; i++) {
+        let logList = logs.scaffoldLogList;
+        for (let i = 0; i < logList.length; i++) {
             // let table = `<tr>
             //                 <th scope="row">${i + 1}</th>
             //                 <td>${logs[i].componentData}</td>
-            //                 <td>${logs[i].comments}</td>
             //                 <td>${logs[i].creationDetails}</td>
+            //                 <td>${logs[i].comments}</td>
             //             </tr>`;
             // $('.compileTabTable').append(table);
 
-            $('.deploymentStatus').text(logs[i].csStatus.toUpperCase());
-            $('.compileTabData').text(logs[i].compileLogs);
-            $('.runtimeTabData').text(logs[i].runtimeLogs);
+            $('.deploymentStatus').text(logList[i].csStatus.toUpperCase());
+            $('.compileTabData').text(logList[i].compileLogs);
+            $('.runtimeTabData').text(logList[i].runtimeLogs);
         }
     } else {
         console.log("Pattern Approved but not deployed");
@@ -392,7 +396,7 @@ function compileDesign() {
 function checkCompilationData(compileData) {
     // IF data has comiplation log and if not present hide the modal's complie tab
 
-    if (compileData.message == 'success') {
+    if (compileData) {//.message == 'success') {
         $('#viewDeploymentSummaryModal').modal('show');
         $('#proceedBtn').show();
 
@@ -401,7 +405,7 @@ function checkCompilationData(compileData) {
         deploySolutionDesign();
     } else {
         // show error message in modal if possible
-        console.log("Compilation Failed!!!")
+        console.log("Compilation Failed!!!");
     }
 }
 
@@ -413,7 +417,7 @@ function deploySolutionDesign() {
 
     // App.modalFormResponse({ 'message': 'success', 'info': `${ sdid }, ${ psid } ` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary', 'spanStatusTextClass': 'deploymentStatus' });
 
-    // App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, checkDeploymentData, "", App.outputResponse, "ERROR!");
+    App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, App.outputResponse, "SUCCESS!", App.outputResponse, "ERROR!");
     // After successfull Deployment Change status to 'Deployed-Successful'
     // Display all the Logs in modal
 }
