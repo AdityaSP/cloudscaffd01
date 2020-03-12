@@ -358,7 +358,6 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
-
 	<!--<request-map uri="deleteProblemStatement">
             <event type="java" path="com.autopatt.portal.events.ProblemStatementEvents" invoke="deleteProblemStatement" />
             <response name="success" type="request" value="json"/>
@@ -401,8 +400,20 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
-	<request-map uri="getScaffoldBySdid">
-		<event type="java" path="com.autopatt.portal.events.ScaffoldEvents" invoke="getScaffoldBySdid" />
+	<request-map uri="compileScaffoldSolutionDesign">
+		<event type="java" path="com.autopatt.portal.events.ScaffoldEvents" invoke="compileScaffoldSolutionDesign" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
+	<request-map uri="deployScaffoldSolutionDesign">
+		<event type="java" path="com.autopatt.portal.events.ScaffoldEvents" invoke="deployScaffoldSolutionDesign" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
+	<request-map uri="getScaffoldSolutionDesignlogs">
+		<event type="java" path="com.autopatt.portal.events.ScaffoldEvents" invoke="getScaffoldSolutionDesignlogs" />
 		<response name="success" type="request" value="json"/>
 		<response name="error" type="request" value="json"/>
 	</request-map>
