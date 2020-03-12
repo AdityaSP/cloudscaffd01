@@ -268,8 +268,8 @@ function renderTags(tags) {
 function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
-        url: "https://cors-anywhere.herokuapp.com/https://postb.in/1583933393098-4442378978710",
-        data: { "inputSearch": searchStr },
+        url: "getScaffoldBySdid",
+        data: { "sdid": searchStr },
         success: function (res) {
             console.log(res);
         },

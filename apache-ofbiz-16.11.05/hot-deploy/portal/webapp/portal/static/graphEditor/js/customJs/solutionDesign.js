@@ -1,4 +1,5 @@
 import { App } from './app.js';
+// import { Deployment } from './solutionDesignDeploy.js';
 
 var urldata = App.urlParams(true);
 console.log(urldata);
@@ -25,7 +26,7 @@ $(function () {
         App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         $('.deploy').attr("disabled", true);
-        // $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
+        $('.viewDeploymentSummaryBtn').hide();//TODO:uncommment
         $('.approve').attr("disabled", true);
 
         // Fetch and Rendering Solution Design
@@ -83,9 +84,9 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result) {
-                        // App.genericFetch("#", "POST", data, checkCompilationData, "", "", "");
-                        // After compilation change the status to compiled 
-                        checkCompilationData(result);
+                        //TODO: change URI
+                        App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, compileDesign, "", "", "");
+                        // After compilation change the status to compiled
                     }
                 }
             });
@@ -323,7 +324,10 @@ function checkImageAproval(isSolutionDesignApproved, id) {
 
     if (isSolutionDesignApproved == "approved") {
         $('.approve').hide();
-        // $('.edit').attr("disabled", false);
+
+        //TODO: Check if deployment summary/log is available, if present show them in modal
+        App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, getLogs, "", "", "");
+
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
 
@@ -338,35 +342,73 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
-            //TODO: Check if deployment summary is available, if present show the buttons
-            // $('.viewDeploymentSummaryBtn').show();
-            // $('.proceedBtn').hide();
+
         }
         else { console.log("cannot deploy"); }
     }
 }
 
-function checkCompilationData(data) {
-    // IF data has comiplation error or message show Deploment summary modal and ask for proceed then call deployment api
-    if (data) {// TODO : check if data has comiplation error
+function getLogs() {
+    // Display all the Logs in modal
+    App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, renderDataToModal, "", "", "");
+}
+
+function renderDataToModal(data) {
+
+    if (data && data.length > 0) {//message == 'success')
+
+        $('.viewDeploymentSummaryBtn').show();
+
+        for (let i = 0; i < data.length; i++) {
+
+            // let row = `<tr>
+            //             <td>${data[i].runtimeLogs}</td>
+            //             <td>Otto</td>
+            //             <td>@mdo</td></tr>`;
+
+            $('.deploymentStatus').text(data[i].csStatus.toUpperCase());
+            $('.compileTabData').text(data[i].compileLogs);
+            $('.runtimeTabData').text(data[i].runtimeLogs);
+        }
+    } else {
+        console.log("Pattern Approved but not deployed");
+        $('.runtimeTabData').text('No logs found');
+        $('.compileTabData').text('No logs found');
+    }
+}
+
+function compileDesign(compileData) {
+
+    // App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
+
+    // After Compilation open deployment summary modal then ask for proceed
+    // if he preceeds call deploysolution()
+    if (compileData.message == 'success') {
         $('#viewDeploymentSummaryModal').modal('show');
         $('#proceedBtn').show();
-
-        // Display all the compilation errors in modal
-
         $('#proceedBtn').on('click', function (e) {
             // Call Deployment API
             deploySolutionDesign();
         });
     } else {
-        // Call Deployment API
-        deploySolutionDesign();
+        console.log("Compilation Failed!!!")
     }
+
 }
 
 function deploySolutionDesign() {
-    App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
-    // App.genericFetch('#', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
+    $('.deploymentStatus').text('Deployment inprogress');
+    App.loader(".deploymentSummaryModalBody");
 
+    // App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary', 'spanStatusTextClass': 'deploymentStatus' });
+    // App.genericFetch('#', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
     // After successfull Deployment Change status to 'Deployed-Successful'
+    // Display all the Logs in modal
 }
+
+function checkCompilationData() {
+    // IF data has comiplation log and if not present hide the modal's complie tab
+}
+function checkRuntimeData() {
+    // IF data has runtime log and if not present hide the modal's runtime tab
+} 

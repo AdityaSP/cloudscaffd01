@@ -37,7 +37,7 @@ public class ScaffoldEvents{
         try {
             List<GenericValue> scaffoldList = EntityQuery.use(delegator)
                     .select("id","sdId","xml","csStatus","compileLogs","runtimeLogs","createdBy").from("scaffold")
-                    .where("sdid", sdid)
+                    .where("sdId", sdid)
                     .queryList();
 
             if (scaffoldList != null) {

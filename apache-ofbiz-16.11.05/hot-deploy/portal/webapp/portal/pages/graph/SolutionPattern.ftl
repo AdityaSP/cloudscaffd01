@@ -136,7 +136,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body modalBody">
+      <div class="modal-body modalBody deploymentSummaryModalBody">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Compile Logs</a>
@@ -145,29 +145,37 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <table class="table table-striped">
+            <div class="compileTabData">
+            
+            </div>
+            <#--  <table class="table table-striped">
               <thead>
                 <tr>
-                  <#--  <th scope="col">Sl No</th>  -->
+                  <#--  <th scope="col">Sl No</th>  --
                   <th scope="col">Component Data</th>
                   <th scope="col">Creation Details</th>
                   <th scope="col">Comments</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <#--  <th scope="row">1</th>  -->
+              <tbody class="compileTabTable">
+                <#--  <tr>
+                  <th scope="row">1</th>
                   <td>Mark</td>
                   <td>Otto</td>
                   <td>@mdo</td>
-                </tr>
+                </tr>  --
               </tbody>
-            </table>
+            </table>  -->
           </div>
-          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="runtimeTabData">
+            
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
+        <span class="text-success mr-3 deploymentStatus"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
         <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn" style="display: none;">Proceed</button>
       </div>
