@@ -82,7 +82,7 @@ public class ScaffoldEvents {
     public static String getScaffoldSolutionDesignlogs(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
-        Map<String, List<GenericValue>> data = UtilMisc.toMap();
+        Map<String, Object> data = UtilMisc.toMap();
         try {
             List<GenericValue> scaffoldLogList = EntityQuery.use(delegator)
                     .select("id", "sdId", "xml", "csStatus", "compileLogs", "runtimeLogs", "createdBy")
@@ -91,17 +91,18 @@ public class ScaffoldEvents {
                     .queryList();
 
             if (scaffoldLogList != null) {
-                request.setAttribute("data", scaffoldLogList);
+                data.put("scaffoldLogList",scaffoldLogList);
             } else {
-                request.setAttribute("data", null);
+                data.put("scaffoldLogList",null);
             }
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("message", ERROR);
+            data.put("message", ERROR);
             return ERROR;
         }
 
-        request.setAttribute("message", SUCCESS);
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 }
