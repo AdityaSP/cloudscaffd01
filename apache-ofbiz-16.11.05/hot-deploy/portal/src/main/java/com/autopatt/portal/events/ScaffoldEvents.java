@@ -38,8 +38,10 @@ public class ScaffoldEvents{
     public static String getScaffoldBySdid(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
+        Map<String,Object> data = UtilMisc.toMap();
+        List<GenericValue> scaffoldList = null;
         try {
-            List<GenericValue> scaffoldList = EntityQuery.use(delegator)
+          scaffoldList = EntityQuery.use(delegator)
                     .select("id","sdId","xml","csStatus","compileLogs","runtimeLogs","createdBy").from("scaffold")
                     .where("sdId", sdid)
                     .queryList();
@@ -51,10 +53,16 @@ public class ScaffoldEvents{
             }
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request,response,"Data retrival failed!", ERROR);
+            data.put("info", "Data retrival failed!");
+            data.put("message", ERROR);
+            data.put("data", scaffoldList);
+            request.setAttribute("data", data);
             return ERROR;
         }
-        getResponse(request,response,"Data retrieval successfull", SUCCESS);
+        data.put("info", "Data retrieval successfull");
+        data.put("message", SUCCESS);
+        data.put("data", scaffoldList);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
@@ -82,17 +90,6 @@ public class ScaffoldEvents{
             post.releaseConnection();
         }
         return " ";
-    }
-
-    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
-                                                  String info, String message){
-        Map<String,Object> data = UtilMisc.toMap();
-        data.put("info", info);
-        data.put("message", message);
-        data.put("data", data);
-        System.out.println("message =" +message);
-        request.setAttribute("data", data);
-        return request;
     }
 
 }
