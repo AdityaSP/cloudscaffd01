@@ -401,6 +401,12 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
+	<request-map uri="getScaffoldBySdid">
+		<event type="java" path="com.autopatt.portal.events.ScaffoldEvents" invoke="getScaffoldBySdid" />
+		<response name="success" type="request" value="json"/>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen" page="component://portal/widget/PortalScreens.xml#home" />
 
