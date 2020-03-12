@@ -14,6 +14,10 @@ import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
 
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.PostMethod;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -47,11 +51,48 @@ public class ScaffoldEvents{
             }
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("message", ERROR);
+            getResponse(request,response,"Data retrival failed!", ERROR);
             return ERROR;
         }
-        request.setAttribute("message", SUCCESS);
+        getResponse(request,response,"Data retrieval successfull", SUCCESS);
         return SUCCESS;
+    }
+
+    public static String scaffoldAPI(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String sdid = request.getParameter("sdid");
+        String tenantId = (String) request.getAttribute("partyId"); // or its available in delagator.
+
+        final String targetURL = "https://postb.in/1583992299271-7542994602117";
+        final PostMethod post = new PostMethod(targetURL);
+        post.addParameter("param1", "paramValue1");
+        post.setParameter("param2", "paramValue2");
+        post.setParameter("param2", "paramValue2"); // list of parameter value to be set
+        final HttpClient httpclient = new HttpClient();
+        try {
+            final int result = httpclient.executeMethod((HttpMethod)post);
+            request.setAttribute("APIResult", result);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            post.releaseConnection();
+        }
+        return " ";
+    }
+
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        data.put("data", data);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
     }
 
 }
