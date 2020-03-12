@@ -35,11 +35,22 @@ public class ScaffoldEvents{
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
 
-    public static String getScaffoldBySdid(HttpServletRequest request, HttpServletResponse response) {
+    public static String compileScaffoldSolutionDesign(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
+        String tenantId = delegator.getDelegatorTenantId();
+        final String targetURL = "https://postb.in/1583992299271-7542994602117";
+        final PostMethod post = new PostMethod(targetURL);
+        post.addParameter("tenantId", "tenantId");
+        //post.setParameter("param2", "paramValue2");
+        final HttpClient httpclient = new HttpClient();
+        Map<String,Object> data = UtilMisc.toMap();
+        List<GenericValue> scaffoldList = null;
         try {
-            List<GenericValue> scaffoldList = EntityQuery.use(delegator)
+            final int result = httpclient.executeMethod((HttpMethod) post);
+            request.setAttribute("compileScaffoldSolutionDesignStatusCode", result);
+        } catch (Exception e) {
+          scaffoldList = EntityQuery.use(delegator)
                     .select("id","sdId","xml","csStatus","compileLogs","runtimeLogs","createdBy").from("scaffold")
                     .where("sdId", sdid)
                     .queryList();
@@ -51,20 +62,27 @@ public class ScaffoldEvents{
             }
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            getResponse(request,response,"Data retrival failed!", ERROR);
+            data.put("info", "Data retrival failed!");
+            data.put("message", ERROR);
+            data.put("data", scaffoldList);
+            request.setAttribute("data", data);
             return ERROR;
+        } finally {
+            post.releaseConnection();
         }
-        getResponse(request,response,"Data retrieval successfull", SUCCESS);
+
+        request.setAttribute("APIResult", result);
+        data.put("info", "Data retrieval successfull");
+        data.put("message", SUCCESS);
+        data.put("data", scaffoldList);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
-    public static String scaffoldAPI(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+    public static String deployScaffoldSolutionDesign(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
-        String tenantId = (String) request.getAttribute("partyId"); // or its available in delagator.
-
+        String tenantId = delegator.getDelegatorTenantId();
         final String targetURL = "https://postb.in/1583992299271-7542994602117";
         final PostMethod post = new PostMethod(targetURL);
         post.addParameter("param1", "paramValue1");
@@ -74,25 +92,40 @@ public class ScaffoldEvents{
         try {
             final int result = httpclient.executeMethod((HttpMethod)post);
             request.setAttribute("APIResult", result);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+            request.setAttribute("message", ERROR);
+            return ERROR;
+        } finally {
             post.releaseConnection();
         }
-        return " ";
+
+        request.setAttribute("APIResult", result);
+        return SUCCESS;
     }
 
-    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
-                                                  String info, String message){
-        Map<String,Object> data = UtilMisc.toMap();
-        data.put("info", info);
-        data.put("message", message);
-        data.put("data", data);
-        System.out.println("message =" +message);
-        request.setAttribute("data", data);
-        return request;
+    public static String getScaffoldSolutionDesignlogs(HttpServletRequest request, HttpServletResponse response) {
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        String sdid = request.getParameter("sdid");
+        try {
+                List<GenericValue> scaffoldList = EntityQuery.use(delegator)
+                .select("id", "sdId", "xml", "csStatus", "compileLogs", "runtimeLogs", "createdBy")
+                .from("scaffold")
+                .where("sdId", sdid)
+                .queryList();
+
+            if (scaffoldList != null) {
+                request.setAttribute("data", scaffoldList);
+            } else {
+                request.setAttribute("data", null);
+}
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+            request.setAttribute("message", ERROR);
+            return ERROR;
+        }
+        request.setAttribute("message", SUCCESS);
+        return SUCCESS;
     }
 
 }
