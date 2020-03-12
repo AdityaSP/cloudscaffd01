@@ -84,7 +84,7 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result) {
-                        //TODO: change URI
+                        //TODO: change URI compileScaffoldSolutionDesign
                         App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, compileDesign, "", "", "");
                         // After compilation change the status to compiled
                     }
@@ -253,6 +253,12 @@ function renderBasePattern(basePattern, bpid) {
                 }
             }
         }
+
+        $('#proceedBtn').on('click', function (e) {
+            // recompile and Call Deployment API
+            $(".deploy").click();
+        });
+
     } else {
         $('.title').text('Problem Statement');
         $('.basePatternForm').hide();
@@ -350,21 +356,24 @@ function checkImageAproval(isSolutionDesignApproved, id) {
 
 function getLogs() {
     // Display all the Logs in modal
+    // TODO: change URI to getScaffoldSolutionDesignlogs
     App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, renderDataToModal, "", "", "");
 }
 
 function renderDataToModal(data) {
 
-    if (data && data.length > 0) {//message == 'success')
+    if ((data.message == 'success') && data.length > 0) {
 
         $('.viewDeploymentSummaryBtn').show();
 
         for (let i = 0; i < data.length; i++) {
-
-            // let row = `<tr>
-            //             <td>${data[i].runtimeLogs}</td>
-            //             <td>Otto</td>
-            //             <td>@mdo</td></tr>`;
+            // let table = `<tr>
+            //                 <th scope="row">${i + 1}</th>
+            //                 <td>${data[i].name}</td>
+            //                 <td>${data[i].comments}</td>
+            //                 <td>${data[i].creationData}</td>
+            //             </tr>`;
+            // $('.compileTabTable').append(table);
 
             $('.deploymentStatus').text(data[i].csStatus.toUpperCase());
             $('.compileTabData').text(data[i].compileLogs);
@@ -379,18 +388,13 @@ function renderDataToModal(data) {
 
 function compileDesign(compileData) {
 
-    // App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
-
     // After Compilation open deployment summary modal then ask for proceed
     // if he preceeds call deploysolution()
     if (compileData.message == 'success') {
         $('#viewDeploymentSummaryModal').modal('show');
         $('#proceedBtn').show();
-        $('#proceedBtn').on('click', function (e) {
-            // Call Deployment API
-            deploySolutionDesign();
-        });
     } else {
+        // show error message in modal if possible
         console.log("Compilation Failed!!!")
     }
 
@@ -400,8 +404,9 @@ function deploySolutionDesign() {
     $('.deploymentStatus').text('Deployment inprogress');
     App.loader(".deploymentSummaryModalBody");
 
-    // App.modalFormResponse({ 'message': 'success', 'info': `${sdid}, ${psid}` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary', 'spanStatusTextClass': 'deploymentStatus' });
-    // App.genericFetch('#', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
+    // App.modalFormResponse({ 'message': 'success', 'info': `${ sdid }, ${ psid } ` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary', 'spanStatusTextClass': 'deploymentStatus' });
+
+    // App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
     // After successfull Deployment Change status to 'Deployed-Successful'
     // Display all the Logs in modal
 }

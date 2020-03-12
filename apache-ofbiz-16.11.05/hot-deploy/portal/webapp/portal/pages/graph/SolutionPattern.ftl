@@ -148,10 +148,11 @@
             <div class="compileTabData">
             
             </div>
-            <#--  <table class="table table-striped">
+            <div class="compileTabDataInTableDiv">
+            <table class="table table-striped">
               <thead>
                 <tr>
-                  <#--  <th scope="col">Sl No</th>  --
+                  <th scope="col">Sl No</th>
                   <th scope="col">Component Data</th>
                   <th scope="col">Creation Details</th>
                   <th scope="col">Comments</th>
@@ -163,9 +164,10 @@
                   <td>Mark</td>
                   <td>Otto</td>
                   <td>@mdo</td>
-                </tr>  --
+                </tr> -->
               </tbody>
-            </table>  -->
+            </table>
+            </div>
           </div>
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="runtimeTabData">
