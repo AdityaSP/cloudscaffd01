@@ -51,10 +51,10 @@ public class ScaffoldEvents{
             }
         } catch (GenericEntityException e) {
             e.printStackTrace();
-            request.setAttribute("message", ERROR);
+            getResponse(request,response,"Data retrival failed!", ERROR);
             return ERROR;
         }
-        request.setAttribute("message", SUCCESS);
+        getResponse(request,response,"Data retrieval successfull", SUCCESS);
         return SUCCESS;
     }
 
@@ -82,6 +82,17 @@ public class ScaffoldEvents{
             post.releaseConnection();
         }
         return " ";
+    }
+
+    private static HttpServletRequest getResponse(HttpServletRequest request, HttpServletResponse response,
+                                                  String info, String message){
+        Map<String,Object> data = UtilMisc.toMap();
+        data.put("info", info);
+        data.put("message", message);
+        data.put("data", data);
+        System.out.println("message =" +message);
+        request.setAttribute("data", data);
+        return request;
     }
 
 }
