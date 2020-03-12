@@ -84,8 +84,7 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result) {
-                        //TODO: change URI compileScaffoldSolutionDesign
-                        App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, compileDesign, "", "", "");
+                        compileDesign();
                         // After compilation change the status to compiled
                     }
                 }
@@ -331,8 +330,8 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     if (isSolutionDesignApproved == "approved") {
         $('.approve').hide();
 
-        //TODO: Check if deployment summary/log is available, if present show them in modal
-        App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, getLogs, "", "", "");
+        // Fetch Logs
+        getLogs();
 
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
@@ -355,29 +354,28 @@ function checkImageAproval(isSolutionDesignApproved, id) {
 }
 
 function getLogs() {
-    // Display all the Logs in modal
-    // TODO: change URI to getScaffoldSolutionDesignlogs
-    App.genericFetch('getScaffoldBySdid', 'POST', { 'sdid': sdid }, renderDataToModal, "", "", "");
+    //TODO: Check if deployment summary/log is available, if present show them in modal
+    App.genericFetch('getScaffoldSolutionDesignlogs', 'POST', { 'sdid': sdid }, renderDataToModal, "", "", "");
 }
 
-function renderDataToModal(data) {
-
-    if ((data.message == 'success') && data.length > 0) {
+function renderDataToModal(logs) {
+    // Display all the Logs in modal
+    if ((logs.message == 'success') && logs.length > 0) {
 
         $('.viewDeploymentSummaryBtn').show();
 
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < logs.length; i++) {
             // let table = `<tr>
             //                 <th scope="row">${i + 1}</th>
-            //                 <td>${data[i].name}</td>
-            //                 <td>${data[i].comments}</td>
-            //                 <td>${data[i].creationData}</td>
+            //                 <td>${logs[i].componentData}</td>
+            //                 <td>${logs[i].comments}</td>
+            //                 <td>${logs[i].creationDetails}</td>
             //             </tr>`;
             // $('.compileTabTable').append(table);
 
-            $('.deploymentStatus').text(data[i].csStatus.toUpperCase());
-            $('.compileTabData').text(data[i].compileLogs);
-            $('.runtimeTabData').text(data[i].runtimeLogs);
+            $('.deploymentStatus').text(logs[i].csStatus.toUpperCase());
+            $('.compileTabData').text(logs[i].compileLogs);
+            $('.runtimeTabData').text(logs[i].runtimeLogs);
         }
     } else {
         console.log("Pattern Approved but not deployed");
@@ -386,34 +384,45 @@ function renderDataToModal(data) {
     }
 }
 
-function compileDesign(compileData) {
+function compileDesign() {
+    // Compile Graph Design
+    App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': sdid }, checkCompilationData, "", "", "");
+}
 
-    // After Compilation open deployment summary modal then ask for proceed
-    // if he preceeds call deploysolution()
+function checkCompilationData(compileData) {
+    // IF data has comiplation log and if not present hide the modal's complie tab
+
     if (compileData.message == 'success') {
         $('#viewDeploymentSummaryModal').modal('show');
         $('#proceedBtn').show();
+
+        // After Compilation open deployment summary modal then ask for proceed
+        // if he preceeds call deploysolution()
+        deploySolutionDesign();
     } else {
         // show error message in modal if possible
         console.log("Compilation Failed!!!")
     }
-
 }
 
 function deploySolutionDesign() {
-    $('.deploymentStatus').text('Deployment inprogress');
+    $('.deploymentStatus').text('Deployment In Progress...');
     App.loader(".deploymentSummaryModalBody");
+
+    // remove the existing data in modal and show
 
     // App.modalFormResponse({ 'message': 'success', 'info': `${ sdid }, ${ psid } ` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary', 'spanStatusTextClass': 'deploymentStatus' });
 
-    // App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, App.modalFormResponse, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' }, App.outputResponse, "ERROR!");
+    // App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, checkDeploymentData, "", App.outputResponse, "ERROR!");
     // After successfull Deployment Change status to 'Deployed-Successful'
     // Display all the Logs in modal
 }
 
-function checkCompilationData() {
-    // IF data has comiplation log and if not present hide the modal's complie tab
+function checkDeploymentData(data) {
+    if (data.message == 'success') {
+        App.modalFormResponse(data.info, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
+        // remove all buttons like edit, deploy, approve,request
+    } else {
+        App.modalFormResponse(data.info, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
+    }
 }
-function checkRuntimeData() {
-    // IF data has runtime log and if not present hide the modal's runtime tab
-} 
