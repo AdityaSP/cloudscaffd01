@@ -4,9 +4,11 @@
 	border:none;
 	margin:0px;
 }
-.customSidebar, .dropdown-item{
+
+/* .customSidebar, .dropdown-item{
 	font-family:Helvetica,Arial,sans-serif !important;
-}
+} */
+
 .geEditor input[type=text]::-ms-clear {
 	display: none;
 }
@@ -344,6 +346,8 @@ div.mxWindow .geButton {
 /* .geSidebarContainer, .geToolbarContainer, .geMenubarContainer { */
 	/* left : 175px !important; */
 /* } */
+
+/* Pulled down to show navbar */
 .geMenubarContainer {
 	top : 55.6px !important;
 }

@@ -36,7 +36,8 @@ var ColorDialog = function (editorUi, color, apply, cancelFn) {
 	// Required for picker to render in IE
 	if (mxClient.IS_IE) {
 		input.style.marginTop = '10px';
-		document.querySelector(".mxGraph").appendChild(input);
+		// document.querySelector(".mxGraph").appendChild(input);
+		document.body.appendChild(input);
 	}
 
 	this.init = function () {
@@ -1328,88 +1329,85 @@ ExportDialog.exportFile = function (editorUi, name, format, bg, s, b, dpi) {
  * parameter and value to be used in the request in the form
  * key=value, where value should be URL encoded.
  */
-ExportDialog.
+ExportDialog.saveLocalFile = function (editorUi, data, filename, format) {
+	if (data.length < MAX_REQUEST_SIZE) {
+		editorUi.hideDialog();
+		var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
+			encodeURIComponent(filename) + '&format=' + format);
+		window.req = req;
 
+		if (format == 'svg') {
+			var svgString = data;
+			var svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
 
-	saveLocalFile = function (editorUi, data, filename, format) {
-		if (data.length < MAX_REQUEST_SIZE) {
-			editorUi.hideDialog();
-			var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
-				encodeURIComponent(filename) + '&format=' + format);
-			window.req = req;
+			var a = document.createElement("a");
+			a.download = filename;
+			a.href = URL.createObjectURL(svg);
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
+		else if (format == 'xml') {
 
-			if (format == 'svg') {
-				var svgString = data;
-				var svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+			// var XmlNode = new DOMParser().parseFromString(data, 'text/xml');
+			// var a1 = xmlToJson(XmlNode);
+			// console.log(a1);
+			// loadDoc(a1);
 
-				var a = document.createElement("a");
+			var a = document.createElement("a");
+			var blob = new Blob([data], { type: 'text/plain' });
+			var url = window.URL.createObjectURL(blob);
+			a.download = filename;
+			a.href = url;
+			a.innerHTML = data;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
+		else if (format == 'png') {
+
+			console.log(data)
+			var svgString = data;
+			var dataURI = "data:image/svg+xml;base64," + window.btoa(svgString);
+			var ctx = canvas.getContext("2d");
+			var image = new Image();
+			image.onload = function () {
+				ctx.drawImage(image, 0, 0, image.width, image.height);
+			}
+			image.src = dataURI;
+			image.onload = function () {
+				ctx.drawImage(image, 0, 0, image.width, image.height);
+
+				// toBlob(callback, mimeType, qualityArgument);
+				canvas.toBlob(function (blob) {
+					var newImg = document.createElement("img"),
+						url = URL.createObjectURL(blob);
+					newImg.onload = function () {
+						URL.revokeObjectURL(url);
+					};
+					newImg.src = url;
+				}, "image/jpeg", 0.8);
+				var event = new MouseEvent('click', {
+					'view': window,
+					'bubbles': true,
+					'cancelable': true
+				});
+
+				console.log(canvas.toDataURL('image/png'))
+
+				var a = document.createElement('a');
 				a.download = filename;
-				a.href = URL.createObjectURL(svg);
+				a.href = canvas.toDataURL('image/png');
 				document.body.appendChild(a);
 				a.click();
-				document.body.removeChild(a);
-			}
-			else if (format == 'xml') {
-
-				// var XmlNode = new DOMParser().parseFromString(data, 'text/xml');
-				// var a1 = xmlToJson(XmlNode);
-				// console.log(a1);
-				// loadDoc(a1);
-
-				var a = document.createElement("a");
-				var blob = new Blob([data], { type: 'text/plain' });
-				var url = window.URL.createObjectURL(blob);
-				a.download = filename;
-				a.href = url;
-				a.innerHTML = data;
-				document.body.appendChild(a);
-				a.click();
-				document.body.removeChild(a);
-			}
-			else if (format == 'png') {
-
-				console.log(data)
-				var svgString = data;
-				var dataURI = "data:image/svg+xml;base64," + window.btoa(svgString);
-				var ctx = canvas.getContext("2d");
-				var image = new Image();
-				image.onload = function () {
-					ctx.drawImage(image, 0, 0, image.width, image.height);
-				}
-				image.src = dataURI;
-				image.onload = function () {
-					ctx.drawImage(image, 0, 0, image.width, image.height);
-
-					// toBlob(callback, mimeType, qualityArgument);
-					canvas.toBlob(function (blob) {
-						var newImg = document.createElement("img"),
-							url = URL.createObjectURL(blob);
-						newImg.onload = function () {
-							URL.revokeObjectURL(url);
-						};
-						newImg.src = url;
-					}, "image/jpeg", 0.8);
-					var event = new MouseEvent('click', {
-						'view': window,
-						'bubbles': true,
-						'cancelable': true
-					});
-
-					console.log(canvas.toDataURL('image/png'))
-
-					var a = document.createElement('a');
-					a.download = filename;
-					a.href = canvas.toDataURL('image/png');
-					document.body.appendChild(a);
-					a.click();
-				}
 			}
 		}
-		else {
-			mxUtils.alert(mxResources.get('drawingTooLarge'));
-			mxUtils.popup(xml);
-		}
-	};
+	}
+	else {
+		mxUtils.alert(mxResources.get('drawingTooLarge'));
+		mxUtils.popup(xml);
+	}
+};
 
 
 // Changes XML to JSON
@@ -2331,8 +2329,10 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
 	this.window.setVisible(true);
 
 	this.window.setLocation = function (x, y) {
-		var iw = window.innerWidth || document.querySelector(".mxGraph").clientWidth || document.documentElement.clientWidth;
-		var ih = window.innerHeight || document.querySelector(".mxGraph").clientHeight || document.documentElement.clientHeight;
+		// var iw = window.innerWidth || document.querySelector(".mxGraph").clientWidth || document.documentElement.clientWidth;
+		// var ih = window.innerHeight || document.querySelector(".mxGraph").clientHeight || document.documentElement.clientHeight;
+		var iw = window.innerWidth || document.body.clientWidth || document.documentElement.clientWidth;
+		var ih = window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight;
 
 		x = Math.max(0, Math.min(x, iw - this.table.clientWidth));
 		y = Math.max(0, Math.min(y, ih - this.table.clientHeight - 48));
@@ -2981,8 +2981,11 @@ var LayersWindow = function (editorUi, x, y, w, h) {
 	this.refreshLayers = refresh;
 
 	this.window.setLocation = function (x, y) {
-		var iw = window.innerWidth || document.querySelector(".mxGraph").clientWidth || document.documentElement.clientWidth;
-		var ih = window.innerHeight || document.querySelector(".mxGraph").clientHeight || document.documentElement.clientHeight;
+		// var iw = window.innerWidth || document.querySelector(".mxGraph").clientWidth || document.documentElement.clientWidth;
+		// var ih = window.innerHeight || document.querySelector(".mxGraph").clientHeight || document.documentElement.clientHeight;
+
+		var iw = window.innerWidth || document.body.clientWidth || document.documentElement.clientWidth;
+		var ih = window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight;
 
 		x = Math.max(0, Math.min(x, iw - this.table.clientWidth));
 		y = Math.max(0, Math.min(y, ih - this.table.clientHeight - 48));

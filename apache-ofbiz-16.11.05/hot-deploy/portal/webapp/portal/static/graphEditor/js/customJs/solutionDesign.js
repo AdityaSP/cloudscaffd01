@@ -46,6 +46,7 @@ $(function () {
             case "Administrator": {
                 isAdmin = true;
                 $('.approve').attr("disabled", true);
+                // $('.requestApprove').show();
                 $('.deploy').attr("disabled", true);
             }; break;
             case "Deployer": {
@@ -84,7 +85,7 @@ $(function () {
                     if (result) {
                         // App.genericFetch("#", "POST", data, checkCompilationData, "", "", "");
                         // After compilation change the status to compiled 
-                        checkCompilationData();
+                        checkCompilationData(result);
                     }
                 }
             });

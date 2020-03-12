@@ -5,6 +5,7 @@
     </div>
   </div>
   <div class="d-flex" id="wrapper" style="display:none !important;">
+	<#--  canvas for svg to png conversion  -->
 	<canvas id="canvas" width="800" height="400"></canvas>
 	<script type="text/javascript">
 		// Extends EditorUi to update I/O action states based on availability of backend

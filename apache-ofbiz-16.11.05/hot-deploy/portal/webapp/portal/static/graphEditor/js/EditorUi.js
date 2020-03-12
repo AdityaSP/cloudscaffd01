@@ -1845,7 +1845,7 @@ EditorUi.prototype.initCanvas = function () {
 				{
 					startX: 0,
 					startY: 0,
-					scrollLeft: 175,
+					scrollLeft: 0,//changed from 175
 					scrollTop: 0,
 					mouseDown: function (sender, me) {
 						this.startX = me.getGraphX();
@@ -3342,8 +3342,8 @@ EditorUi.prototype.saveFile = function (forceDialog) {
 		this.save("Resaving Graph Data");
 	}
 	else {
-
 		this.save("Graph Data");
+		// Name change prompt dialog 
 		// var dlg = new FilenameDialog(this, this.editor.getOrCreateFilename(), mxResources.get('save'), mxUtils.bind(this, function (name) {
 		// 	this.save(name);
 		// 	console.log("else codtn")
@@ -3352,7 +3352,6 @@ EditorUi.prototype.saveFile = function (forceDialog) {
 		// 		return true;
 		// 	}
 		// 	mxUtils.confirm(mxResources.get('invalidName'));
-
 		// 	return false;
 		// }));
 		// this.showDialog(dlg.container, 300, 100, true, true);
@@ -3454,26 +3453,22 @@ EditorUi.prototype.save = function (name) {
 
 
 		try {
-			if (Editor.useLocalStorage) {
+			if (Editor.useLocalStorage) { // Resaving in local storage
 				if (localStorage.getItem(name) != null &&
 					!mxUtils.confirm(mxResources.get('replaceIt', [name]))) {
 					return;
 				}
-
 				localStorage.setItem(name, xml);
 				this.editor.setStatus(mxUtils.htmlEntities(mxResources.get('saved')) + ' ' + new Date());
 			}
 			else {
 				if (xml.length < MAX_REQUEST_SIZE) {
-
 					console.log("XML length is less than MAX_REQUEST_SIZE.");
 					// console.log(xml.length, MAX_REQUEST_SIZE);
-
 				}
 				else {
 					mxUtils.alert(mxResources.get('drawingTooLarge'));
 					mxUtils.popup(xml);
-
 					return;
 				}
 			}

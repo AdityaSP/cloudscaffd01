@@ -38,7 +38,7 @@
 
                 <span data-toggle="modal" data-target="#viewDeploymentSummaryModal">
                     <a class="btn btn-info pull-right mr-2 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
-                        data-toggle="tooltip" data-placement="left" title="Deployment Summary">
+                        data-toggle="tooltip" data-placement="left" title="Deployment Logs">
                         <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i></a>
                 </span>
                 
@@ -60,6 +60,7 @@
                 <div class="text-center p-2">
                 <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
                 <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
+                <button class="btn btn-primary m-1 p-1 requestApprove" style="width: 100px;display:none;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Request to Approve Pattern">Request</button>
                 <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Edit Design">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
@@ -126,17 +127,45 @@
 </div>
 
 <!-- View Deployment Summary Modal -->
-<div class="modal fade" id="viewDeploymentSummaryModal" tabindex="-1" role="dialog" aria-labelledby="viewDeploymentSummaryModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+<div class="modal fade bd-example-modal-lg" id="viewDeploymentSummaryModal" tabindex="-1" role="dialog" aria-labelledby="viewDeploymentSummaryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="viewDeploymentSummaryModalTitle">Deployment Summary</h5>
+        <h5 class="modal-title" id="viewDeploymentSummaryModalTitle">Deployment Log Summary</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body modalBody">
-            
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Compile Logs</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Runtime Logs</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <#--  <th scope="col">Sl No</th>  -->
+                  <th scope="col">Component Data</th>
+                  <th scope="col">Creation Details</th>
+                  <th scope="col">Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <#--  <th scope="row">1</th>  -->
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
