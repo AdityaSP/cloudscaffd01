@@ -74,8 +74,8 @@
                 <div class="toastMsg m-0"></div>
                 <#--  toastMsgForSolutionDesignCheck  -->
                 <div class="text-center p-2" id="allButtonsDiv">
-                  <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
-                  <button class="btn btn-primary m-1 p-1 requestApprove" style="width: 100px;display:none;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Request to Approve Pattern">Request</button>
+                  <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Design">Approve</button>
+                  <button class="btn btn-primary m-1 p-1 requestApprove" style="width: 100px;display:none;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Request to Approve Design">Request</button>
                   <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Edit Design">
                       <i class="fa fa-pencil" aria-hidden="true"></i></button>
                   <span class="deployCheck">

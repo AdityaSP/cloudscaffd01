@@ -1,5 +1,5 @@
 import { App } from './app.js';
-// import { Deployment } from './solutionDesignDeploy.js';
+import { Deployment } from './deployment.js';
 
 var urldata = App.urlParams(true);
 console.log(urldata);
@@ -77,7 +77,24 @@ $(function () {
         console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
         $('.deploy').on('click', function (e) {
-            confirmDeployAlertBox();
+            bootbox.confirm({
+                title: "Deploy Solution Design",
+                message: "Please confirm to deploy design",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        Deployment.compileDesign();
+                        // After compilation change the status to compiled
+                    }
+                }
+            });
         });
 
         // IF approved display only  deploy and edit
@@ -138,6 +155,8 @@ $(function () {
         );
 
         if (userRole == "Planner" || userRole == "Administrator") {
+
+            // Solution Design EDIT data
             $('#saveChangesBtn').on('click', function (e) {
                 let solutionDesignName = $('#solutionDesignProblem').val(),
                     solutionDesignDesc = $('#solutionDesignDescription').val(),
@@ -174,15 +193,15 @@ $(function () {
                     },
                     callback: function (result) {
                         if (result) {
-                            App.genericFetch('#', "POST", urldata, "", "", "", "");
+                            // TODO: replace URI
+                            App.genericFetch('#', "POST", urldata, requestApproveSolutionDesignStatus, "", "", "");
                         }
                     }
                 });
             });
         } else {
             // TODO:
-            $('.editSD').hide();
-            $('.deleteSD').hide();
+            $('.editSD').hide(); $('.deleteSD').hide();
         }
 
         $('.edit').on('click', function (evt) {
@@ -209,6 +228,11 @@ $(function () {
 function approveSolutionDesignStatus(data, id) {
     App.toastMsg(`${id} : Solution Design Approved`, 'success', '.toastMsg', true);
     $('.approve').hide();
+}
+
+function requestApproveSolutionDesignStatus() {
+    App.toastMsg(`Requested to approve solution design`, 'info', '.toastMsg', false);
+    $('.requestApprove').hide();
 }
 
 function renderProblemStmt(problemList, psid) {
@@ -325,10 +349,15 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     console.log(isSolutionDesignApproved);
 
     if (isSolutionDesignApproved == "approved") {
-        $('.approve').hide();
+        $('.requestApprove').hide(); $('.approve').hide();
         // Fetch Logs
-        getLogs();
-    } else {
+        Deployment.getLogs();
+    }
+    else if (isSolutionDesignApproved == 'approve-requested') {
+        $('.edit').attr("disabled", true);
+        requestApproveSolutionDesignStatus();
+    }
+    else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
 
         if (isApprover) {
@@ -347,167 +376,23 @@ function checkImageAproval(isSolutionDesignApproved, id) {
     }
 }
 
-function getLogs() {
-    //TODO: Check if deployment summary/log is available, if present show them in modal
-    App.genericFetch('getScaffoldSolutionDesignlogs', 'POST', { 'sdid': sdid }, renderDataToModal, "", "", "");
-}
-
-function renderDataToModal(logs) {
-
-    console.log(logs)
-    // Display all the Logs in modal
-    if (logs.message == 'success') {
-        $('.viewDeploymentSummaryBtn').show();
-
-        let logList = logs.scaffoldLogList;
-
-        for (let i = 0; i < logList.length; i++) {
-            let compileLog = JSON.parse(logList[i].compileLogs),
-                runtimeLog = JSON.parse(logList[i].runtimeLogs),
-                table;
-
-            if (!App.isEmpty(compileLog)) {
-                for (let j = 0; j < compileLog.length; j++) {
-                    table = `<tr>
-                                <th scope="row">${j + 1}</th>
-                                <td>${compileLog[j].componentData.label}</td>
-                                <td>${compileLog[j].creationDetails.AttachTime}</td>
-                                <td>${compileLog[j].comments}</td>
-                            </tr>`;
-                    $('.compileTabTable').append(table);
-                }
-            } else {
-                console.log('compileLog is empty');
-                $('.compileTabDataInTableDiv').hide();
-                $('.compileTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
-            }
-
-            if (!App.isEmpty(runtimeLog)) {
-                for (let k = 0; k < runtimeLog.length; k++) {
-                    table = `<tr>
-                                <th scope="row">${k + 1}</th>
-                                <td>${runtimeLog[k].componentData.label}</td>
-                                <td>${runtimeLog[k].creationDetails.AttachTime}</td>
-                                <td>${runtimeLog[k].comments}</td>
-                            </tr>`;
-                    $('.runtimeTabTable').append(table);
-                }
-            } else {
-                console.log('runtimeLog is empty');
-                $('.runtimeTabDataInTableDiv').hide();
-                $('.runtimeTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
-            }
-
-            $('.deploymentStatus').text(logList[i].csStatus.toUpperCase());
-            // $('.compileTabData').text(logList[i].compileLogs);
-            // $('.runtimeTabData').text(logList[i].runtimeLogs);
-        }
-    } else {
-        console.log("Pattern Approved but not deployed");
-        $('.runtimeTabData').text('No logs found');
-        $('.compileTabData').text('No logs found');
-    }
-}
-
-function compileDesign(str) {
-    let successResponseRenderMethod;
-
-    if (str && str == 'recompile') {
-        successResponseRenderMethod = deploySolutionDesign;
-    } else {
-        loadingModal('Compilation is in progress...');
-        successResponseRenderMethod = checkCompilationData;
-    }
-    // Compile Graph Design
-    App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': sdid }, successResponseRenderMethod, "", "", "");
-}
-
-function checkCompilationData(compileData) {
-    // IF data has comiplation log and if not present hide the modal's complie tab
-    closeLoadingModal();
-    if (!compileData) {//.message == 'success') {
-        // After Compilation open deployment summary modal then ask for proceed
-        $('#viewDeploymentSummaryModal').modal('show');
-        $('#proceedBtn').show();
-
-        $('#proceedBtn').on('click', function (e) {
-
-            // close the running modal
-            $('#viewDeploymentSummaryModal').modal('hide');
-            //change the span text status
-
-            // recompile and Call Deployment API
-            compileDesign('recompile');
-        });
-
-    } else {
-        // show error message in modal if possible
-        alertModal('Compilation Failed!!!');
-    }
-}
-
-function deploySolutionDesign() {
-    // Show loading modal
-    loadingModal('Deployment In progress...');
-    App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': sdid, 'psid': psid }, checkDeploymentData, "success", App.outputResponse, "error");
-    // After successfull Deployment Change status to 'Deployed-Successful'
-    // Display all the Logs in modal
-}
-
-function checkDeploymentData(data, param, res) {
-    closeLoadingModal();
-
-    if (param == "success") {//(data.message == 'success') {
-        alertModal('Deployment Successful');
-        // App.modalFormResponse({ 'message': 'success', 'info': `${ sdid }, ${ psid } ` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
-
-        // remove all buttons like edit, deploy, approve,request
-        $('#allButtonsDiv').hide();
-    } else {
-        alertModal('Deployment Failed');
-    }
-}
-
-function confirmDeployAlertBox() {
-    bootbox.confirm({
-        title: "Deploy Solution Design",
-        message: "Please confirm to deploy design",
-        buttons: {
-            cancel: {
-                label: '<i class="fa fa-times"></i> Cancel'
-            },
-            confirm: {
-                label: '<i class="fa fa-check"></i> Confirm'
-            }
-        },
-        callback: function (result) {
-            if (result) {
-                compileDesign();
-                // After compilation change the status to compiled
-            }
-        }
-    });
-}
-
-var dialog;
-function loadingModal(msg) {
-    dialog = bootbox.dialog({
-        message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>  ${msg}</p>`,
-        closeButton: false
-    });
-}
-function closeLoadingModal() {
-    dialog.modal('hide');
-}
-
-function alertModal(msg) {
-    bootbox.dialog({
-        message: `<p class="text-center alert mb-0 h3">${msg}</p>`,
-        buttons: {
-            cancel: {
-                label: 'Close',
-                className: 'btn-danger'
-            }
-        }
-    });
-}
+// function confirmDeployAlertBox() {
+//     bootbox.confirm({
+//         title: "Deploy Solution Design",
+//         message: "Please confirm to deploy design",
+//         buttons: {
+//             cancel: {
+//                 label: '<i class="fa fa-times"></i> Cancel'
+//             },
+//             confirm: {
+//                 label: '<i class="fa fa-check"></i> Confirm'
+//             }
+//         },
+//         callback: function (result) {
+//             if (result) {
+//                 Deployment.compileDesign();
+//                 // After compilation change the status to compiled
+//             }
+//         }
+//     });
+// }
