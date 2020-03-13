@@ -28,20 +28,23 @@ for(GenericValue apAdmin : adminDetails) {
     entry.put("adminUserLoginId", adminUserLoginId)
 
     def adminUserLoginGV  = delegator.findOne("UserLogin", ["userLoginId": adminUserLoginId], false)
-    String adminUserLoginEnabled = adminUserLoginGV.enabled
-    def userStatus = null;
-    if(adminUserLoginEnabled == null) {
-        userStatus = UserStatusConstants.INACTIVE
-    } else if(adminUserLoginEnabled.equalsIgnoreCase("Y")){
-        userStatus = UserStatusConstants.ACTIVE
-    } else {
-        if(adminUserLoginGV.disabledDateTime == null){
-            userStatus = UserStatusConstants.SUSPENDED
+    if(UtilValidate.isNotEmpty(adminUserLoginGV)) {
+        String adminUserLoginEnabled = adminUserLoginGV.enabled
+        def userStatus = null;
+        if(adminUserLoginEnabled == null) {
+            userStatus = UserStatusConstants.INACTIVE
+        } else if(adminUserLoginEnabled.equalsIgnoreCase("Y")){
+            userStatus = UserStatusConstants.ACTIVE
         } else {
-            userStatus = UserStatusConstants.LOCKED
+            if(adminUserLoginGV.disabledDateTime == null){
+                userStatus = UserStatusConstants.SUSPENDED
+            } else {
+                userStatus = UserStatusConstants.LOCKED
+            }
         }
+        entry.put("userStatus", userStatus)
     }
-    entry.put("userStatus", userStatus)
+
 
     def adminLoggedDetail = delegator.findByAnd("UserLoginHistory",
             UtilMisc.toMap("userLoginId",adminUserLoginGV.userLoginId, "successfulLogin", "Y"),
@@ -62,7 +65,6 @@ for(GenericValue apAdmin : adminDetails) {
                 context.loggedInUserLastLoggedIn = previousLoginHistory.fromDate
                 String previousLoginPrettyTime = prettyTime.format(new Date(previousLoginHistory.fromDate.getTime()))
                 context.previousLoginPrettyTime = previousLoginPrettyTime
-
             }
         }
     }
