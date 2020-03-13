@@ -83,7 +83,7 @@ public class SecurityGroupUtils {
 
             String existingGroupId = userLoginSecurityGroup.getString("groupId");
             // Change only if currently active group is different from new group-id
-            if(! newSecurityGroupId.equalsIgnoreCase(existingGroupId)) {
+            if(!UtilValidate.isEmpty(newSecurityGroupId) && ! newSecurityGroupId.equalsIgnoreCase(existingGroupId)) {
                 // thruDate an existing entry
                 userLoginSecurityGroup.set("thruDate", UtilDateTime.nowTimestamp());
                 userLoginSecurityGroup.store();
