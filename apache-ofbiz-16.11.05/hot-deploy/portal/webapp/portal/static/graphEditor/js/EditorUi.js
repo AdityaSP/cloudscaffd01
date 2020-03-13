@@ -931,11 +931,10 @@ EditorUi.prototype.init = function () {
 	window.editorUi = this;
 
 	var ids = App.urlParams(), type = App.getTypeOfPattern(ids)['typeOfPattern'],
-		id = App.getTypeOfPattern(ids)['id'], url, data;
+		id = App.getTypeOfPattern(ids)['id'], url, data,
+		bpid = ids['bpid'];
 
-	let bpid = ids['bpid'];
-
-	console.log("BPID: " + bpid);
+	console.log(ids);
 
 	if (type == 'solution_design') {
 		url = "getSolutionDesign";
@@ -957,7 +956,6 @@ EditorUi.prototype.init = function () {
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
 			window.currentSolutionDesignData = { xml, svg, png, id };
 
-			console.log(url);
 			if ((url != "getBasePattern") && bpid && App.isEmpty(xml)) {
 				fetchPatternFromDB(bpid, "Pattern");
 			} else {

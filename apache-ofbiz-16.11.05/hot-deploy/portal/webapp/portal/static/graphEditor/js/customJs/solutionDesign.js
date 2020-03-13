@@ -30,6 +30,10 @@ $(function () {
         $('#proceedBtn').hide();
         $('.approve').attr("disabled", true);
 
+        $('#viewDeploymentSummaryModal').on('hidden.bs.modal', function (e) {
+            $('#proceedBtn').hide();
+        });
+
         // Fetch and Rendering Solution Design
         if (sdid) {
             App.loader(".solutionDesignForm");
@@ -47,8 +51,9 @@ $(function () {
         switch (userRole) {
             case "Administrator": {
                 isAdmin = true;
-                $('.approve').attr("disabled", true);
-                // $('.requestApprove').show();
+                // $('.approve').attr("disabled", true);
+                $('.approve').hide();
+                $('.requestApprove').show(); //TODO: add to all roles
                 $('.deploy').attr("disabled", true);
             }; break;
             case "Deployer": {
@@ -117,27 +122,19 @@ $(function () {
                         $('.deploy').attr("disabled", true);
                         $('.title').text("Problem Statement");
                         urldata["sdid"] = null
-                    } else {
-                        console.log(result);
                     }
                 }
             });
         });
 
         $(".probStatement").hover(
-            function () {
-                $('.linkIcon').show();
-            }, function () {
-                $('.linkIcon').hide();
-            }
+            function () { $('.linkIcon').show(); }, // mouse enter
+            function () { $('.linkIcon').hide(); }  // mouse leave
         );
 
         $(".basePattern").hover(
-            function () {
-                $('.linkIconPT').show();
-            }, function () {
-                $('.linkIconPT').hide();
-            }
+            function () { $('.linkIconPT').show(); },
+            function () { $('.linkIconPT').hide(); }
         );
 
         if (userRole == "Planner" || userRole == "Administrator") {
@@ -159,6 +156,28 @@ $(function () {
                 } else {
                     App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
                 }
+            });
+
+            // IF approved display only  deploy and edit
+            // Only Admin and Planner can request approval
+            $('.requestApprove').on('click', function (e) {
+                bootbox.confirm({
+                    title: "Solution Design Approval",
+                    message: "Request to approve design",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Cancel'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> Request'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            App.genericFetch('#', "POST", urldata, "", "", "", "");
+                        }
+                    }
+                });
             });
         } else {
             // TODO:
@@ -236,7 +255,6 @@ function renderBasePattern(basePattern, bpid) {
                 }
             }
         }
-
     } else {
         $('.title').text('Problem Statement');
         $('.basePatternForm').hide();
@@ -308,10 +326,8 @@ function checkImageAproval(isSolutionDesignApproved, id) {
 
     if (isSolutionDesignApproved == "approved") {
         $('.approve').hide();
-
         // Fetch Logs
         getLogs();
-
     } else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
 
@@ -319,14 +335,13 @@ function checkImageAproval(isSolutionDesignApproved, id) {
             $('.approve').attr("disabled", false);
             idToBeApproved = id;
         } else {
-            App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg');
+            App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
         }
     }
 
     if (isDeployer) {
         if (isSolutionDesignApproved == "approved") {
             $('.deploy').attr("disabled", false);
-
         }
         else { console.log("cannot deploy"); }
     }
@@ -350,24 +365,37 @@ function renderDataToModal(logs) {
             let compileLog = JSON.parse(logList[i].compileLogs),
                 runtimeLog = JSON.parse(logList[i].runtimeLogs),
                 table;
-            for (let j = 0; j < compileLog.length; j++) {
-                table = `<tr>
-                            <th scope="row">${j + 1}</th>
-                            <td>${compileLog[j].componentData.label}</td>
-                            <td>${JSON.stringify(compileLog[j].creationDetails.AttachTime)}</td>
-                            <td>${compileLog[j].comments}</td>
-                        </tr>`;
-                $('.compileTabTable').append(table);
+
+            if (!App.isEmpty(compileLog)) {
+                for (let j = 0; j < compileLog.length; j++) {
+                    table = `<tr>
+                                <th scope="row">${j + 1}</th>
+                                <td>${compileLog[j].componentData.label}</td>
+                                <td>${compileLog[j].creationDetails.AttachTime}</td>
+                                <td>${compileLog[j].comments}</td>
+                            </tr>`;
+                    $('.compileTabTable').append(table);
+                }
+            } else {
+                console.log('compileLog is empty');
+                $('.compileTabDataInTableDiv').hide();
+                $('.compileTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
             }
 
-            for (let k = 0; k < runtimeLog.length; k++) {
-                table = `<tr>
-                            <th scope="row">${k + 1}</th>
-                            <td>${runtimeLog[k].componentData.label}</td>
-                            <td>${JSON.stringify(runtimeLog[k].creationDetails.AttachTime)}</td>
-                            <td>${runtimeLog[k].comments}</td>
-                        </tr>`;
-                $('.runtimeTabTable').append(table);
+            if (!App.isEmpty(runtimeLog)) {
+                for (let k = 0; k < runtimeLog.length; k++) {
+                    table = `<tr>
+                                <th scope="row">${k + 1}</th>
+                                <td>${runtimeLog[k].componentData.label}</td>
+                                <td>${runtimeLog[k].creationDetails.AttachTime}</td>
+                                <td>${runtimeLog[k].comments}</td>
+                            </tr>`;
+                    $('.runtimeTabTable').append(table);
+                }
+            } else {
+                console.log('runtimeLog is empty');
+                $('.runtimeTabDataInTableDiv').hide();
+                $('.runtimeTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
             }
 
             $('.deploymentStatus').text(logList[i].csStatus.toUpperCase());
@@ -382,16 +410,16 @@ function renderDataToModal(logs) {
 }
 
 function compileDesign(str) {
-    let succesResponseRenderMethod;
+    let successResponseRenderMethod;
 
     if (str && str == 'recompile') {
-        succesResponseRenderMethod = deploySolutionDesign;
+        successResponseRenderMethod = deploySolutionDesign;
     } else {
         loadingModal('Compilation is in progress...');
-        succesResponseRenderMethod = checkCompilationData;
+        successResponseRenderMethod = checkCompilationData;
     }
     // Compile Graph Design
-    App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': sdid }, succesResponseRenderMethod, "", "", "");
+    App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': sdid }, successResponseRenderMethod, "", "", "");
 }
 
 function checkCompilationData(compileData) {
@@ -410,7 +438,6 @@ function checkCompilationData(compileData) {
 
             // recompile and Call Deployment API
             compileDesign('recompile');
-
         });
 
     } else {
@@ -435,6 +462,7 @@ function checkDeploymentData(data, param, res) {
         // App.modalFormResponse({ 'message': 'success', 'info': `${ sdid }, ${ psid } ` }, { 'submitBtn': 'proceedBtn', 'closeBtn': 'closeBtnForDeploymentSummary' });
 
         // remove all buttons like edit, deploy, approve,request
+        $('#allButtonsDiv').hide();
     } else {
         alertModal('Deployment Failed');
     }

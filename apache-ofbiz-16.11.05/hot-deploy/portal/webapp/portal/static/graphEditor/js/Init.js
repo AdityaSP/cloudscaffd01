@@ -11,6 +11,7 @@ window.SAVE_URL = window.SAVE_URL || '../static/graphEditor/save';
 window.OPEN_URL = window.OPEN_URL || '../pages/graph/open.ftl';
 window.RESOURCES_PATH = window.RESOURCES_PATH || '../static/graphEditor/resources';
 window.RESOURCE_BASE = window.RESOURCE_BASE || window.RESOURCES_PATH + '/grapheditor';
+window.RESOURCES_CUSTOM_ATTRIBUTES = window.RESOURCES_CUSTOM_ATTRIBUTES || window.RESOURCES_PATH + '/customAttributesForStencil';
 window.STENCIL_PATH = window.STENCIL_PATH || '../static/graphEditor/stencils';
 window.IMAGE_PATH = window.IMAGE_PATH || '../static/graphEditor/images';
 window.STYLE_PATH = window.STYLE_PATH || '../static/graphEditor/styles';

@@ -73,16 +73,14 @@
         <div class="col-12 px-3">
                 <div class="toastMsg m-0"></div>
                 <#--  toastMsgForSolutionDesignCheck  -->
-                <div class="text-center p-2">
-                <#--  <span class="d-inline-block deployCheck" tabindex="0" data-toggle="tooltip" title="">  -->
-                <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
-                <button class="btn btn-primary m-1 p-1 requestApprove" style="width: 100px;display:none;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Request to Approve Pattern">Request</button>
-                <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Edit Design">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </button>
-                <span class="deployCheck">
-                    <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" tabindex="0" data-toggle="tooltip" data-placement="right" title="Deploy Design">Deploy</button>
-                </span>
+                <div class="text-center p-2" id="allButtonsDiv">
+                  <button class="btn btn-primary m-1 p-1 approve" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="left" title="Approve Pattern">Approve</button>
+                  <button class="btn btn-primary m-1 p-1 requestApprove" style="width: 100px;display:none;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Request to Approve Pattern">Request</button>
+                  <button class="btn btn-primary m-1 p-1 edit" style="width: 100px;" tabindex="0" data-toggle="tooltip" data-placement="top" title="Edit Design">
+                      <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <span class="deployCheck">
+                      <button class="btn btn-primary m-1 p-1 deploy" style="width: 100px;" type="button" tabindex="0" data-toggle="tooltip" data-placement="right" title="Deploy Design">Deploy</button>
+                  </span>
                 </div>
                 <#--<img src="" srcset="" class="img-fluid img-thumbnail w-100 h-100" alt="..." id="solutionDesignImg">-->
                 <div class='svgDiv img-fluid img-thumbnail w-100 p-2' style="height:auto;"></div>
@@ -96,7 +94,7 @@
 				    <#--  <img src="" alt="" style="width:100%">  -->
                     <div class='BPsvgDiv img-fluid img-thumbnail p-1' style="overflow:auto;"></div>
 			    </div>
-			<div class="modal-footer">
+			  <div class="modal-footer">
                 <span class="BPStatus"></span>
 				<button class="btn btn-outline-danger btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Close</button>
 			</div>
@@ -155,14 +153,14 @@
       <div class="modal-body modalBody deploymentSummaryModalBody">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Compile Logs</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Runtime Logs</a>
+            <a class="nav-item nav-link active" id="nav-compile-tab" data-toggle="tab" href="#nav-compile" role="tab" aria-controls="nav-compile" aria-selected="true">Compile Logs</a>
+            <a class="nav-item nav-link" id="nav-runtime-tab" data-toggle="tab" href="#nav-runtime" role="tab" aria-controls="nav-runtime" aria-selected="false">Runtime Logs</a>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div class="compileTabData text-center">
-                    Compilation Logs
+          <div class="tab-pane fade show active" id="nav-compile" role="tabpanel" aria-labelledby="nav-compile-tab">
+            <div class="compileTabData text-center p-2">
+                
             </div>
             <div class="compileTabDataInTableDiv">
               <table class="table table-striped border">
@@ -180,11 +178,11 @@
             </table>
             </div>
           </div>
-          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="runtimeTabData text-center">
-                Runtime Logs
+          <div class="tab-pane fade" id="nav-runtime" role="tabpanel" aria-labelledby="nav-runtime-tab">
+          <div class="runtimeTabData text-center p-2">
+                
             </div>
-            <div class="compileTabDataInTableDiv">
+            <div class="runtimeTabDataInTableDiv">
               <table class="table table-striped">
               <thead>
                 <tr>
@@ -203,7 +201,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span class="text-success mr-3 deploymentStatus"></span>
+        <span class="text-warning mr-3 p-2 deploymentStatus"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
         <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn">Proceed</button>
       </div>
