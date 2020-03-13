@@ -48,12 +48,12 @@ $(function () {
             $('.basePatternForm').hide();
         }
 
+        /* Only Admin / Planner Can request approval */
         switch (userRole) {
             case "Administrator": {
                 isAdmin = true;
-                // $('.approve').attr("disabled", true);
                 $('.approve').hide();
-                $('.requestApprove').show(); //TODO: add to all roles
+                $('.requestApprove').show();
                 $('.deploy').attr("disabled", true);
             }; break;
             case "Deployer": {
@@ -68,7 +68,8 @@ $(function () {
             }; break;
             case "Planner": {
                 isPlanner = true;
-                $('.approve').attr("disabled", true);
+                $('.approve').hide();
+                $('.requestApprove').show();
                 $('.deploy').attr("disabled", true);
             }; break;
             default: break;
@@ -231,6 +232,7 @@ function approveSolutionDesignStatus(data, id) {
 }
 
 function requestApproveSolutionDesignStatus() {
+    $('.edit').attr("disabled", true);
     App.toastMsg(`Requested to approve solution design`, 'info', '.toastMsg', false);
     $('.requestApprove').hide();
 }
@@ -354,7 +356,6 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         Deployment.getLogs();
     }
     else if (isSolutionDesignApproved == 'approve-requested') {
-        $('.edit').attr("disabled", true);
         requestApproveSolutionDesignStatus();
     }
     else {
@@ -375,24 +376,3 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         else { console.log("cannot deploy"); }
     }
 }
-
-// function confirmDeployAlertBox() {
-//     bootbox.confirm({
-//         title: "Deploy Solution Design",
-//         message: "Please confirm to deploy design",
-//         buttons: {
-//             cancel: {
-//                 label: '<i class="fa fa-times"></i> Cancel'
-//             },
-//             confirm: {
-//                 label: '<i class="fa fa-check"></i> Confirm'
-//             }
-//         },
-//         callback: function (result) {
-//             if (result) {
-//                 Deployment.compileDesign();
-//                 // After compilation change the status to compiled
-//             }
-//         }
-//     });
-// }

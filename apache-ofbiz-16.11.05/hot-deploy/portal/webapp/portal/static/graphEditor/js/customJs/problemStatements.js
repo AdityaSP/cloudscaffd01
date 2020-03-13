@@ -233,7 +233,6 @@ function renderSearchResults(data, type) {
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
 
-
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a>
                         <span class="pull-right ${colorForStatus(solutionDesigns[i].status)}" style="padding: 6px;">
@@ -285,13 +284,13 @@ function ajaxTest(searchStr) {
     });
 }
 
-function colorForStatus(status){
+function colorForStatus(status) {
     status = status.toLowerCase();
-    switch(status){
-    case 'created' : return 'badge badge-light';break;
-    case 'under-development' : return 'badge badge-secondary';break;
-    case 'approved' : return 'badge badge-primary';break;
-    case 'successfull' : return 'badge badge-success';break;
-    default:console.log("Status Not found "+status);break;
+    switch (status) {
+        case 'created': return 'badge badge-light'; break;
+        case 'under-development': return 'badge badge-secondary'; break;
+        case 'approved': return 'badge badge-primary'; break;
+        case 'successfull': return 'badge badge-success'; break;
+        default: console.log("Status Not found: " + status); return 'badge'; break;
     }
 }
