@@ -1,6 +1,22 @@
 
 <style>
-
+    .modal-lg{
+        width: 80% !important;
+        height: 80% !important;
+        margin: 2% 10% 0 10% !important;
+        padding: 0 !important;
+        max-width:none !important;
+    }
+   .modal-lg > .modal-content {
+        height: auto !important;
+        min-height: 80% !important;
+    }
+    .modal-lg > .modal-header {
+        border-bottom: 1px solid #9ea2a2 !important;
+    }
+    .modal-lg > .modal-footer {
+        border-top: 1px solid #9ea2a2 !important;
+    }
 </style>
 
 <div class="container-fluid">
@@ -145,11 +161,11 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div class="compileTabData">
-            
+            <div class="compileTabData text-center">
+                    Compilation Logs
             </div>
             <div class="compileTabDataInTableDiv">
-            <#--  <table class="table table-striped">
+              <table class="table table-striped border">
               <thead>
                 <tr>
                   <th scope="col">Sl No</th>
@@ -161,12 +177,27 @@
               <tbody class="compileTabTable">
                 
               </tbody>
-            </table>  -->
+            </table>
             </div>
           </div>
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <div class="runtimeTabData">
-            
+          <div class="runtimeTabData text-center">
+                Runtime Logs
+            </div>
+            <div class="compileTabDataInTableDiv">
+              <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Sl No</th>
+                  <th scope="col">Component Data</th>
+                  <th scope="col">Creation Details</th>
+                  <th scope="col">Comments</th>
+                </tr>
+              </thead>
+              <tbody class="runtimeTabTable">
+                
+              </tbody>
+            </table>
             </div>
           </div>
         </div>
@@ -174,7 +205,7 @@
       <div class="modal-footer">
         <span class="text-success mr-3 deploymentStatus"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
-        <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn" style="display: none;">Proceed</button>
+        <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn">Proceed</button>
       </div>
     </div>
   </div>
