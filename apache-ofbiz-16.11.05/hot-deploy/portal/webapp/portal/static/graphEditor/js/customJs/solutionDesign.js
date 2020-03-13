@@ -321,9 +321,6 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 if (solutionDesign[i].svg) {
                     psid = solutionDesign[i].psid;
                     if (solutionDesign[i].bpid) { bpid = solutionDesign[i].bpid }
-
-                    // $("#solutionDesignImg")[0].src = solutionDesign[i].png;
-                    //$("#solutionDesignImg")[0].srcset = solutionDesign[i].svg;
                     $('.svgDiv').append(solutionDesign[i].svg);
                     $('svg').attr({
                         "min-width": "100px",
@@ -336,7 +333,6 @@ function renderSolutionDesign(solutionDesign, sdid) {
                 } else {
                     App.toastMsg('No Solution Design Created', 'failed', '.toastMsg', false);
                     $('.svgDiv').hide();
-                    // $('.edit').attr("disabled", false);
                 }
             }
         }

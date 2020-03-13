@@ -28,38 +28,45 @@
     <div class="col-12 pb-2 h3 text-center title">Solution Design</div>
         ​<div class="col-12 p-3">
             <div class="form-group probStatementForm">
-                <a href="#" class="text-dark probStatementLink"><span class="probStatement h5"></span> <i class="fa fa-link linkIcon" aria-hidden="true" style="display:none;"></i></a>
-                <p class="probStatementDescription"></p>
+                <a href="#" class="text-dark probStatementLink"><span class="text-justify probStatement h5"></span> <i class="fa fa-link linkIcon" aria-hidden="true" style="display:none;"></i></a>
+                <p class="text-justify probStatementDescription"></p>
                 <hr class="my-4">
             </div>
             <div class="form-group basePatternForm">
-                <a href="#" class="text-dark basePatternLink"><span class="basePattern h5"></span></a>
+                <a href="#" class="text-dark basePatternLink"><span class="text-justify basePattern h5"></span></a>
                 <span class="typeDataBP"></span> <i class="fa fa-link linkIconPT" aria-hidden="true" style="display:none;"></i>
 
                 <a class="badge badge-secondary p-2 pull-right viewBpImage"  data-toggle="tooltip" data-placement="left" title="View Pattern" href="javascript:void(0);">
                     <i class="fa fa-picture-o fa-2x" data-target="#modalIMG" data-toggle="modal" aria-hidden="true"></i></a>
-                <p class="basePatternDescription"></p>
+                <p class="text-justify basePatternDescription"></p>
                 <hr class="my-4">
             </div>
             <div class="form-group solutionDesignForm">
-                <label class="solutionDesign h5"></label><span class="typeDataSD"></span>
-                <a class="btn btn-danger pull-right deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
-                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+              <div class="row">
+                <label class="col-10 solutionDesign text-justify h5 pr-0"></label>
+                <div class="col-2 text-center">
+                  <span class="typeDataSD"></span>
+                  <div class="mt-3">
+                    <span data-toggle="modal" data-target="#viewDeploymentSummaryModal">
+                        <a class="btn btn-info mr-2 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
+                            data-toggle="tooltip" data-placement="left" title="Deployment Logs">
+                            <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i></a>
+                    </span>
 
-                <span data-toggle="modal" data-target="#editFormModal">
-                    <a class="btn btn-info pull-right mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
-                        data-toggle="tooltip" data-placement="top" title="Edit data">
-                        <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                </span>
+                    <span data-toggle="modal" data-target="#editFormModal">
+                        <a class="btn btn-info mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
+                            data-toggle="tooltip" data-placement="top" title="Edit data">
+                            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                    </span>
 
-                <span data-toggle="modal" data-target="#viewDeploymentSummaryModal">
-                    <a class="btn btn-info pull-right mr-2 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
-                        data-toggle="tooltip" data-placement="left" title="Deployment Logs">
-                        <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i></a>
-                </span>
-                
-                <p class="solutionDesignDescription"></p>
-                <div class="p-4 row">
+                    <a class="btn btn-danger deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
+                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+
+                  </div>
+                </div>
+              </div>  
+                <p class="row-12 solutionDesignDescription text-justify"></p>
+                <div class="p-3 row">
                     <div class="col-6 border rounded">
                         <label for="solutionDesignForces h5"><b>Forces</b></label><hr class="m-0">
                         <p class="solutionDesignForces"></p>

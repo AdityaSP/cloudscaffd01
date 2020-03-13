@@ -76,8 +76,15 @@ export const Deployment = {
             Deployment.loadingModal('Compilation is in progress...');
             successResponseRenderMethod = Deployment.checkCompilationData;
         }
-        // Compile Graph Design
-        App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, "", "", "");
+
+        try {
+            // Compile Graph Design
+            App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, "", "", "");
+        } catch (error) {
+            console.log(error);
+            Deployment.alertModal('Failed to Compile!!!');
+            Deployment.closeLoadingModal();
+        }
     },
 
     checkCompilationData(compileData) {
@@ -90,7 +97,6 @@ export const Deployment = {
             $('#proceedBtn').show();
 
             $('#proceedBtn').on('click', function (e) {
-
                 // close the running modal
                 $('#viewDeploymentSummaryModal').modal('hide');
                 //change the span text status
@@ -106,11 +112,15 @@ export const Deployment = {
     },
 
     deploySolutionDesign() {
-        // Show loading modal
-        Deployment.loadingModal('Deployment In progress...');
-        App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid, 'psid': Deployment.psid }, Deployment.checkDeploymentData, "success", App.outputResponse, "error");
-        // After successfull Deployment Change status to 'Deployed-Successful'
-        // Display all the Logs in modal
+        try {
+            Deployment.loadingModal('Deployment In progress...');
+            App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid, 'psid': Deployment.psid }, Deployment.checkDeploymentData, "success", App.outputResponse, "error");
+            // After successfull Deployment Change status to 'Deployed-Successful'
+            // Display all the Logs in modal
+        } catch (error) {
+            console.log(error);
+            Deployment.alertModal('Failed to Deploy!!!');
+        }
     },
 
     checkDeploymentData(data, param, res) {

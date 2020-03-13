@@ -43,8 +43,10 @@
                                     <div class="btn-group has-search  w-100">
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="inputSearch" class="form-control inputSearch" required placeholder="Search">
-                                        <span class="btn btn-link pull-right border rounded ml-1"  data-toggle="tooltip" data-placement="right" title="Filter">
-                                            <i class="fa fa-filter filterToggler" aria-hidden="true" type="button" data-toggle="collapse" data-target="#collapsePatternType" aria-expanded="false" aria-controls="collapseExample"></i>
+                                        <span class="" type="button" data-toggle="collapse" data-target="#collapsePatternType" aria-expanded="false" aria-controls="collapseExample">
+                                            <span class="btn btn-link pull-right border rounded ml-1" data-toggle="tooltip" data-placement="right" title="Filter" >
+                                                <i class="fa fa-filter filterToggler" aria-hidden="true"></i>
+                                            </span>
                                         </span>
                                     </div>
                                     
