@@ -89,11 +89,11 @@
                                     <label>Search Result</label>
                                     <div id="accordion">
                                       <div class="card">
-                                        <div class="card-header" id="psHeading">
+                                        <div class="card-header" style="cursor:pointer;" id="psHeading" data-toggle="collapse" data-target="#collapsePS" aria-expanded="true" aria-controls="collapsePS">
                                           <h5 class="mb-0">
-                                            <button class="btn" data-toggle="collapse" data-target="#collapsePS" aria-expanded="true" aria-controls="collapsePS">
+                                            <span class="">
                                               Problem Statement
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapsePS" class="collapse show" aria-labelledby="psHeading" data-parent="#accordion">
@@ -103,11 +103,11 @@
                                         </div>
                                       </div>
                                       <div class="card">
-                                        <div class="card-header" id="ptHeading">
+                                        <div class="card-header" style="cursor:pointer;" id="ptHeading" data-toggle="collapse" data-target="#collapsePT" aria-expanded="false" aria-controls="collapsePT">
                                           <h5 class="mb-0">
-                                            <button class="btn collapsed" data-toggle="collapse" data-target="#collapsePT" aria-expanded="false" aria-controls="collapsePT">
+                                            <span class="">
                                               Pattern
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapsePT" class="collapse" aria-labelledby="ptHeading" data-parent="#accordion">
@@ -117,11 +117,11 @@
                                         </div>
                                       </div>
                                       <div class="card">
-                                        <div class="card-header" id="sdHeading">
+                                        <div class="card-header" style="cursor:pointer;" id="sdHeading" data-toggle="collapse" data-target="#collapseSD" aria-expanded="false" aria-controls="collapseSD">
                                           <h5 class="mb-0">
-                                            <button class="btn collapsed" data-toggle="collapse" data-target="#collapseSD" aria-expanded="false" aria-controls="collapseSD">
+                                            <span class="">
                                               Solution Design
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapseSD" class="collapse" aria-labelledby="sdHeading" data-parent="#accordion">

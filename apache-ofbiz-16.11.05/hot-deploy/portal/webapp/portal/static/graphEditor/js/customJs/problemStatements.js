@@ -158,6 +158,8 @@ function clearSearchResults() {
     $('.collapsiblePSResults').children().remove();
     $('.collapsiblePTResults').children().remove();
     $('.collapsibleSDResults').children().remove();
+    $('#ptHeading').hide();
+    $('#sdHeading').hide();
     $('.searchResultsList').text('');
     App.loader('.searchResultsList');
 }
@@ -208,7 +210,8 @@ function renderSearchResults(data, type) {
 
             var row = `<li class="list-group-item"><a href="basePattern?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${patterns[i].id} : ${patterns[i].baseName}</a>
-                        <span class="pull-right">${App.titleCase(patterns[i].status)}</span></li>`;
+                        <span class="pull-right ${colorForStatus(patterns[i].status)}" style="padding: 6px;">
+                            ${App.titleCase(patterns[i].status)}</span></li>`;
             document.querySelector('.collapsiblePTResults').insertAdjacentHTML("afterbegin", row);
         }
         checkTheMatchingType(type);
@@ -229,9 +232,12 @@ function renderSearchResults(data, type) {
                 bpid = solutionDesigns[i].bpid;
                 queryStr = `${queryStr}&bpid=${bpid}`;
             }
+
+
             var row = `<li class="list-group-item"><a href="solutionPattern?${App.encrypt(queryStr)}"
                         rel="noopener noreferrer">${solutionDesigns[i].id} : ${solutionDesigns[i].solutionDesignName}</a>
-                        <span class="pull-right">${App.titleCase(solutionDesigns[i].status)}</span></li>`;
+                        <span class="pull-right ${colorForStatus(solutionDesigns[i].status)}" style="padding: 6px;">
+                            ${App.titleCase(solutionDesigns[i].status)}</span></li>`;
             document.querySelector('.collapsibleSDResults').insertAdjacentHTML("afterbegin", row);
         }
         checkTheMatchingType(type);
@@ -277,4 +283,15 @@ function ajaxTest(searchStr) {
             console.log(err);
         }
     });
+}
+
+function colorForStatus(status){
+    status = status.toLowerCase();
+    switch(status){
+    case 'created' : return 'badge badge-light';break;
+    case 'under-development' : return 'badge badge-secondary';break;
+    case 'approved' : return 'badge badge-primary';break;
+    case 'successfull' : return 'badge badge-success';break;
+    default:console.log("Status Not found "+status);break;
+    }
 }

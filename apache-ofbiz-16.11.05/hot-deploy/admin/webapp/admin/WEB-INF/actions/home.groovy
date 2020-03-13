@@ -28,44 +28,48 @@ for(GenericValue apAdmin : adminDetails) {
     entry.put("adminUserLoginId", adminUserLoginId)
 
     def adminUserLoginGV  = delegator.findOne("UserLogin", ["userLoginId": adminUserLoginId], false)
-    String adminUserLoginEnabled = adminUserLoginGV.enabled
-    def userStatus = null;
-    if(adminUserLoginEnabled == null) {
-        userStatus = UserStatusConstants.INACTIVE
-    } else if(adminUserLoginEnabled.equalsIgnoreCase("Y")){
-        userStatus = UserStatusConstants.ACTIVE
-    } else {
-        if(adminUserLoginGV.disabledDateTime == null){
-            userStatus = UserStatusConstants.SUSPENDED
+    if(UtilValidate.isNotEmpty(adminUserLoginGV)) {
+        String adminUserLoginEnabled = adminUserLoginGV.enabled
+        def userStatus = null;
+        if(adminUserLoginEnabled == null) {
+            userStatus = UserStatusConstants.INACTIVE
+        } else if(adminUserLoginEnabled.equalsIgnoreCase("Y")){
+            userStatus = UserStatusConstants.ACTIVE
         } else {
-            userStatus = UserStatusConstants.LOCKED
+            if(adminUserLoginGV.disabledDateTime == null){
+                userStatus = UserStatusConstants.SUSPENDED
+            } else {
+                userStatus = UserStatusConstants.LOCKED
+            }
         }
-    }
-    entry.put("userStatus", userStatus)
+        entry.put("userStatus", userStatus)
 
-    def adminLoggedDetail = delegator.findByAnd("UserLoginHistory",
-            UtilMisc.toMap("userLoginId",adminUserLoginGV.userLoginId, "successfulLogin", "Y"),
-            UtilMisc.toList("fromDate DESC"),false)
-    if(adminLoggedDetail != null && adminLoggedDetail.size() > 0 ){
-        def userDetail = adminLoggedDetail.get(0);
-        Timestamp lastLoggedInTs = userDetail.fromDate
+        def adminLoggedDetail = delegator.findByAnd("UserLoginHistory",
+                UtilMisc.toMap("userLoginId",adminUserLoginGV.userLoginId, "successfulLogin", "Y"),
+                UtilMisc.toList("fromDate DESC"),false)
+        if(adminLoggedDetail != null && adminLoggedDetail.size() > 0 ){
+            def userDetail = adminLoggedDetail.get(0);
+            Timestamp lastLoggedInTs = userDetail.fromDate
 
-        String lastLoggedInPrettyTime = prettyTime.format(new Date(lastLoggedInTs.getTime()))
-        entry.put("lastLoggedInDate", userDetail.fromDate)
-        entry.put("lastLoggedInPrettyTime", lastLoggedInPrettyTime)
+            String lastLoggedInPrettyTime = prettyTime.format(new Date(lastLoggedInTs.getTime()))
+            entry.put("lastLoggedInDate", userDetail.fromDate)
+            entry.put("lastLoggedInPrettyTime", lastLoggedInPrettyTime)
 
-        if(adminUserLoginId == userLogin.userLoginId && adminLoggedDetail.size()>1) {
-            // Current User - prev login info
-            def previousLoginHistory = adminLoggedDetail.get(1);
+            if(adminUserLoginId == userLogin.userLoginId && adminLoggedDetail.size()>1) {
+                // Current User - prev login info
+                def previousLoginHistory = adminLoggedDetail.get(1);
 
-            if(UtilValidate.isNotEmpty(previousLoginHistory)) {
-                context.loggedInUserLastLoggedIn = previousLoginHistory.fromDate
-                String previousLoginPrettyTime = prettyTime.format(new Date(previousLoginHistory.fromDate.getTime()))
-                context.previousLoginPrettyTime = previousLoginPrettyTime
-
+                if(UtilValidate.isNotEmpty(previousLoginHistory)) {
+                    context.loggedInUserLastLoggedIn = previousLoginHistory.fromDate
+                    String previousLoginPrettyTime = prettyTime.format(new Date(previousLoginHistory.fromDate.getTime()))
+                    context.previousLoginPrettyTime = previousLoginPrettyTime
+                }
             }
         }
     }
+
+
+
 
     adminList.add(entry)
     if(adminList.size()>maxUsersToShow) break;
