@@ -91,9 +91,9 @@
                                       <div class="card">
                                         <div class="card-header" style="cursor:pointer;" id="psHeading" data-toggle="collapse" data-target="#collapsePS" aria-expanded="true" aria-controls="collapsePS">
                                           <h5 class="mb-0">
-                                            <button class="btn">
+                                            <span class="">
                                               Problem Statement
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapsePS" class="collapse show" aria-labelledby="psHeading" data-parent="#accordion">
@@ -105,9 +105,9 @@
                                       <div class="card">
                                         <div class="card-header" style="cursor:pointer;" id="ptHeading" data-toggle="collapse" data-target="#collapsePT" aria-expanded="false" aria-controls="collapsePT">
                                           <h5 class="mb-0">
-                                            <button class="btn">
+                                            <span class="">
                                               Pattern
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapsePT" class="collapse" aria-labelledby="ptHeading" data-parent="#accordion">
@@ -119,9 +119,9 @@
                                       <div class="card">
                                         <div class="card-header" style="cursor:pointer;" id="sdHeading" data-toggle="collapse" data-target="#collapseSD" aria-expanded="false" aria-controls="collapseSD">
                                           <h5 class="mb-0">
-                                            <button class="btn">
+                                            <span class="">
                                               Solution Design
-                                            </button>
+                                            </span>
                                           </h5>
                                         </div>
                                         <div id="collapseSD" class="collapse" aria-labelledby="sdHeading" data-parent="#accordion">
