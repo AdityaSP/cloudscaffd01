@@ -1,7 +1,10 @@
 
 <style>
+    .modal{
+      overflow-y:auto;
+    }
     .modal-lg{
-        width: 96 % !important;
+        width: 96% !important;
         height: 90% !important;
         margin: 2% !important;
         padding: 0 !important;
@@ -171,7 +174,7 @@
                 
             </div>
             <div class="compileTabDataInTableDiv">
-              <table class="table table-striped table-condensed">
+              <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">Step Name</th>
@@ -217,5 +220,46 @@
     </div>
   </div>
 </div>
+
+<#--  Loading Spinner Modal  -->
+<div class="modal fade" id="loadingSpinnerModal" tabindex="-1" role="dialog" aria-labelledby="loadingSpinnerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i><span class="loadingSpinnerMsg"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<#--  Approval Reject Modal  -->
+<div class="modal fade" id="approvalRejectModal" tabindex="-1" role="dialog" aria-labelledby="approvalRejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="approvalRejectModalLabel">Solution Design Approval</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <center class="h5 mt-2">Please confirm to approve design or reject with comments.</center>
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Comments:</label>
+            <textarea class="form-control" id="comments" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning approvalRejectBtn">Reject</button>
+        <button type="button" class="btn btn-primary approveBtn">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="module" src="../static/graphEditor/js/customJs/solutionDesign.js"></script>

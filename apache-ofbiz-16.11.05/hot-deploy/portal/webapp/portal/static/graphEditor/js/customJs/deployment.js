@@ -54,6 +54,35 @@ export const Deployment = {
                         $('.compileTabDataInTableDiv').hide();
                     }
                 }
+
+                if (runtimeLog.status) { $('.runtimeStatus').addClass('text-success'); }
+                else { $('.runtimeStatus').addClass('text-danger'); }
+                runtimeStatus = `RUNTIME ${runtimeLog.status_code.toUpperCase()}`;
+                document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
+
+                if (runtimeData && runtimeData.length > 0) {
+                    count = 0;
+                    for (let k = 0; k < runtimeData.length; k++) {
+
+                        let stepRuntimeResults = runtimeData[k].step_compile_results; // TODO: change key name
+                        // Rendering Runtime Log's All Steps
+                        Deployment.renderLogSteps(runtimeData[k], '.runtimeTabData');
+
+                        count = count + stepRuntimeResults.length;
+                        if (!App.isEmpty(stepRuntimeResults)) {
+                            for (let l = 0; l < stepRuntimeResults.length; l++) {
+
+                                //Rendring row data
+                                Deployment.renderTableRow(runtimeData[k].step_name, stepRuntimeResults[l], '.runtimeTabTable')
+                            }
+                        } else {
+                            // console.log('runtimeLog is empty');
+                        }
+                    }
+                    if (count <= 0) {
+                        $('.runtimeTabDataInTableDiv').hide();
+                    }
+                }
             }
         } else {
             console.log("Pattern Approved but not deployed");
@@ -137,14 +166,33 @@ export const Deployment = {
 
     dialog: "",
 
-    loadingModal(msg) {
-        Deployment.dialog = bootbox.dialog({
-            message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>  ${msg}</p>`,
-            closeButton: false
+    initModal() {
+        dialog = bootbox.dialog({
+            // overflow-x: hidden;
+            // overflow-y: auto;
         });
     },
 
+    loadingModal(msg) {
+        Deployment.dialog = bootbox.dialog({
+            message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>  ${msg}</p>`,
+            closeButton: false,
+        });
+        // $('.loadingSpinnerMsg').text(`  ${msg}`);
+        // $('#loadingSpinnerModal').modal('show');
+
+        // Deployment.dialog.on('shown.bs.modal', function (e) {
+        //     // do something...
+        //     // console.log(e);
+        //     console.log(e.target.style)
+        //     e.target.style.overflowX = "hidden";
+        //     e.target.style.overflowY = "auto";
+        // });
+
+    },
+
     closeLoadingModal() {
+        // $('#loadingSpinnerModal').modal('hide');
         Deployment.dialog.modal('hide');
     },
 
