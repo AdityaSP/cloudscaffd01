@@ -130,13 +130,12 @@
 
 
     <entity entity-name="scaffold" package-name="org.apache.scaffold" title="scaffold Entity">
-        <field name="id" type="id"></field>
         <field name="sdId" type="name"></field>
         <field name="xml" type="object"></field>
         <field name="csStatus" type="name"></field>
         <field name="compileLogs" type="very-long"></field>
         <field name="runtimeLogs" type="very-long"></field>
         <field name="createdBy" type="name"></field>
-        <prim-key field="id"/>
+        <prim-key field="sdId"/>
     </entity>
 </entitymodel>
