@@ -44,6 +44,7 @@ public class ScaffoldEvents {
         String createdBy = userLogin.getString("userLoginId");
         final String targetURL = "http://3.8.1.169:5000/compile";
         final PostMethod post = new PostMethod(targetURL);
+        Map<String, Object> data = UtilMisc.toMap();
         //post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
         post.setParameter("tenant_name", tenantId);
         post.setParameter("sd_id", sdid);
@@ -52,20 +53,21 @@ public class ScaffoldEvents {
         try {
             final int result = httpclient.executeMethod((HttpMethod) post);
             if(result == 200) {
-                request.setAttribute("compileScaffoldSolutionDesignResponse", post.getResponseBodyAsString());
+                data.put("compileScaffoldSolutionDesignResponse", post.getResponseBodyAsString());
+                request.setAttribute("message", SUCCESS);
             } else {
-                request.setAttribute("message", "Unable reach the server");
+                data.put("message", "Unable reach the server");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("message", ERROR);
+            data.put("message", ERROR);
             return ERROR;
         } finally {
             post.releaseConnection();
         }
 
-        request.setAttribute("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
@@ -102,7 +104,7 @@ public class ScaffoldEvents {
         Map<String, Object> data = UtilMisc.toMap();
         try {
             List<GenericValue> scaffoldLogList = EntityQuery.use(delegator)
-                    .select("id", "sdId", "xml", "csStatus", "compileLogs", "runtimeLogs", "createdBy")
+                    .select("sdId", "xml", "csStatus", "compileLogs", "runtimeLogs", "createdBy")
                     .from("scaffold")
                     .where("sdId", sdid)
                     .queryList();
