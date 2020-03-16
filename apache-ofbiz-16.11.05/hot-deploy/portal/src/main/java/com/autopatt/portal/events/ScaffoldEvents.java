@@ -41,10 +41,12 @@ public class ScaffoldEvents {
         String tenantId = delegator.getDelegatorTenantId();
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        String createdBy = userLogin.getString("userLoginId");
         final String targetURL = "https://postb.in/1583992299271-7542994602117";
         final PostMethod post = new PostMethod(targetURL);
         post.addParameter("tenantId", tenantId);
         post.addParameter("sdid", sdid);
+        post.addParameter("createdBy",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
             final int result = httpclient.executeMethod((HttpMethod) post);
@@ -62,10 +64,14 @@ public class ScaffoldEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
         String tenantId = delegator.getDelegatorTenantId();
+        HttpSession session = request.getSession();
+        GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        String createdBy = userLogin.getString("userLoginId");
         final String targetURL = "https://postb.in/1583992299271-7542994602117";
         final PostMethod post = new PostMethod(targetURL);
         post.addParameter("tenantId", tenantId);
         post.addParameter("sdid", sdid);
+        post.addParameter("createdBy",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
             final int result = httpclient.executeMethod((HttpMethod) post);
