@@ -12,9 +12,9 @@ export const Deployment = {
 
     renderDataToModal(logs) {
 
-        // console.log(logs)
+        console.log(logs)
         // Display all the Logs in modal
-        if (logs.message == 'success') {
+        if (logs.message == 'success' && logs.scaffoldLogList.length > 0) {
             $('.viewDeploymentSummaryBtn').show();
 
             let logList = logs.scaffoldLogList;
@@ -22,73 +22,38 @@ export const Deployment = {
             for (let i = 0; i < logList.length; i++) {
                 let compileLog = JSON.parse(logList[i].compileLogs),
                     runtimeLog = JSON.parse(logList[i].runtimeLogs),
-                    table,
-                    compileData = compileLog.compile_data;
+                    compileStatus, runtimeStatus,
+                    compileData = compileLog.compile_data,
+                    runtimeData = runtimeLog.compile_data, // TODO: replce with "runtime_data"
+                    count = 0;
 
                 if (compileLog.status) { $('.compileStatus').addClass('text-success'); }
                 else { $('.compileStatus').addClass('text-danger'); }
+                compileStatus = `COMPILE ${compileLog.status_code.toUpperCase()}`;
 
-                $('.compileStatus').text(`COMPILE ${compileLog.status_code.toUpperCase()}`)
+                document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
 
                 if (compileData && compileData.length > 0) {
                     for (let l = 0; l < compileData.length; l++) {
-                        let step = `
-                        <div class="text-justify my-1 step-${l + 1}">
-                            <span class="h5 stepName">${compileData[l].step_name}</span> ( <span class="text-${compileData[l].step_status_code.toLowerCase()} stepStatusCode">${compileData[l].step_status_code}</span> )
-                            <span class="stepMessage">${compileData[l].step_message}</span>
-                        </div>`,
-                            stepCompileResults = compileData[l].step_compile_results;
-                        $('.compileTabData').append(step);
 
-                        console.log(stepCompileResults)
+                        let stepCompileResults = compileData[l].step_compile_results;
+                        // Rendering Compile Log's All Steps
+                        Deployment.renderLogSteps(compileData[l], '.compileTabData')
+                        count = count + stepCompileResults.length;
 
                         if (!App.isEmpty(stepCompileResults)) {
                             for (let j = 0; j < stepCompileResults.length; j++) {
-                                let jsonData = stepCompileResults[j].component;
 
-                                if (typeof (jsonData) != 'string') {
-                                    jsonData = `<pre>${JSON.stringify(jsonData,null,'\t')}</pre>`;
-                                    console.log(jsonData)
-                                }
-
-                                let table = `<tr>
-                                            <td>${compileData[l].step_name}</td>
-                                            <td>${jsonData}</td>
-                                            <td>${stepCompileResults[j].messages[0]}</td>
-                                            <td>${stepCompileResults[j].satus_code}</td>
-                                        </tr>`;
-                                $('.compileTabTable').append(table);
+                                Deployment.renderTableRow(compileData[l].step_name, stepCompileResults[j], '.compileTabTable')
                             }
                         } else {
-                            console.log('stepCompileResults is empty');
-                            // $('.compileTabDataInTableDiv').hide();
-                            // $('.compileTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
+                            // console.log('stepCompileResults is empty');
                         }
                     }
+                    if (count <= 0) {
+                        $('.compileTabDataInTableDiv').hide();
+                    }
                 }
-
-                console.log(compileLog);
-
-                // if (!App.isEmpty(runtimeLog)) {
-                //     for (let k = 0; k < runtimeLog.length; k++) {
-                //         table = `<tr>
-                //                     <th scope="row">${k + 1}</th>
-                //                     <td>${runtimeLog[k].componentData.label}</td>
-                //                     <td>${runtimeLog[k].creationDetails.AttachTime}</td>
-                //                     <td>${runtimeLog[k].comments}</td>
-                //                 </tr>`;
-                //         $('.runtimeTabTable').append(table);
-                //     }
-                // } else {
-                //     console.log('runtimeLog is empty');
-                //     $('.runtimeTabDataInTableDiv').hide();
-                //     $('.runtimeTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
-                // }
-
-
-                // $('.deploymentStatus').text(logs.message.toUpperCase());
-                // $('.compileTabData').text(logList[i].compileLogs);
-                // $('.runtimeTabData').text(logList[i].runtimeLogs);
             }
         } else {
             console.log("Pattern Approved but not deployed");
@@ -194,4 +159,35 @@ export const Deployment = {
             }
         });
     },
+    checkStatus(status) {
+        status = status.toLowerCase();
+        switch (status) {
+            case 'success': return 'text text-success'; break;
+            case 'warning': return 'text text-warning'; break;
+            case 'error': return 'text text-danger'; break;
+            default: console.log("Status Not found: " + status); return 'text-muted'; break;
+        }
+    },
+    renderLogSteps(data, place) {
+        let step = `
+            <div class="text-justify my-1 step">
+                <span class="h5 stepName">${data.step_name}</span> ( <span class="${Deployment.checkStatus(data.step_status_code)} stepStatusCode">${data.step_status_code}</span> )
+                <span class="stepMessage">${data.step_message}</span>
+            </div>`;
+        $(place).append(step);
+    },
+    renderTableRow(stepName, rowData, place) {
+        let jsonData = rowData.component, row;
+        if (typeof (jsonData) != 'string') {
+            jsonData = `<pre>${JSON.stringify(jsonData, null, '\t')}</pre>`;
+        }
+        row = `<tr>
+                    <td>${stepName}</td>
+                    <td>${jsonData}</td>
+                    <td>${rowData.messages[0]}</td>
+                    <td class='${Deployment.checkStatus(rowData.satus_code)}'>${rowData.satus_code}</td>
+                </tr>`;
+        $(place).append(row);
+    },
 }
+

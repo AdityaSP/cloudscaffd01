@@ -166,15 +166,12 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-compile" role="tabpanel" aria-labelledby="nav-compile-tab">
-            <span class="h4 compileStatus"></span>
+            <center class="h4 mt-2 compileStatus"></center>
             <div class="compileTabData p-2">
-                <#--  <div class="step_count">
-                  <span class="h5 stepName">Validate Tenant</span> (<span class="text-success stepStatusCode">SUCCESS</span>)
-                  <p class="text-justify stepMessage">Cloud Scaffolding configured for: xyzcorp</p>
-                </div>  -->
+                
             </div>
             <div class="compileTabDataInTableDiv">
-              <table class="table table-striped border">
+              <table class="table table-striped table-condensed">
               <thead>
                 <tr>
                   <th scope="col">Step Name</th>
@@ -190,14 +187,14 @@
             </div>
           </div>
           <div class="tab-pane fade" id="nav-runtime" role="tabpanel" aria-labelledby="nav-runtime-tab">
-          <div class="runtimeTabData text-center p-2">
+          <center class="h4 mt-2 runtimeStatus"></center>
+          <div class="runtimeTabData p-2">
                 
             </div>
             <div class="runtimeTabDataInTableDiv">
-              <table class="table table-responsive table-striped">
+              <table class="table table-striped table-condensed">
               <thead>
                 <tr>
-                  <th scope="col">Sl No</th>
                   <th scope="col">Step Name</th>
                   <th scope="col">Component Data</th>
                   <th scope="col">Creation Details</th>

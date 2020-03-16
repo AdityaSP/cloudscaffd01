@@ -5,7 +5,8 @@ var urldata = App.urlParams(true);
 console.log(urldata);
 var psid = urldata['psid'];
 var sdid = urldata['sdid'];
-var bpid, isSolutionDesignApproved, isAdmin = false, isDeployer = false, isApprover = false, isPlanner = false, idToBeApproved, xml;
+var bpid, isSolutionDesignApproved, isAdmin = false, isDeployer = false, isApprover = false, isPlanner = false, idToBeApproved, xml,
+    admin = "Administrator", planner = "Planner", deployer = "Deployer", approver = "Approver";
 
 $(function () {
     $('.py-3').contents().filter(function () {
@@ -50,23 +51,25 @@ $(function () {
 
         /* Only Admin / Planner Can request approval */
         switch (userRole) {
-            case "Administrator": {
+            case admin: {
                 isAdmin = true;
                 $('.approve').hide();
                 $('.requestApprove').show();
                 $('.deploy').attr("disabled", true);
             }; break;
-            case "Deployer": {
+            case deployer: {
                 isDeployer = true;
                 $('.approve').attr("disabled", true);
                 $('.edit').attr("disabled", true);
+                $('.editSD').hide(); $('.deleteSD').hide();
             }; break;
-            case "Approver": {
+            case approver: {
                 isApprover = true;
                 $('.deploy').attr("disabled", true);
                 $('.edit').attr("disabled", true);
+                $('.editSD').hide(); $('.deleteSD').hide();
             }; break;
-            case "Planner": {
+            case planner: {
                 isPlanner = true;
                 $('.approve').hide();
                 $('.requestApprove').show();
@@ -90,9 +93,11 @@ $(function () {
                     }
                 },
                 callback: function (result) {
-                    if (result) {
+                    if (result && userRole == deployer) {
                         Deployment.compileDesign();
                         // After compilation change the status to compiled
+                    } else {
+                        Deployment.alertModal("You Do not have Permission");
                     }
                 }
             });
@@ -112,8 +117,10 @@ $(function () {
                     }
                 },
                 callback: function (result) {
-                    if (result) {
+                    if (result && userRole == approver) {
                         App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
+                    } else {
+                        Deployment.alertModal("You Do not have Permission");
                     }
                 }
             });
@@ -132,7 +139,7 @@ $(function () {
                     }
                 },
                 callback: function (result) {
-                    if (result) {
+                    if (result && (userRole == admin || userRole == planner)) {
                         App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
                         $('.solutionDesignForm').hide(); $('.svgDiv').hide();
                         App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
@@ -140,25 +147,41 @@ $(function () {
                         $('.deploy').attr("disabled", true);
                         $('.title').text("Problem Statement");
                         urldata["sdid"] = null
+                    } else {
+                        Deployment.alertModal("You Do not have Permission");
                     }
                 }
             });
         });
 
-        $(".probStatement").hover(
-            function () { $('.linkIcon').show(); }, // mouse enter
-            function () { $('.linkIcon').hide(); }  // mouse leave
-        );
+        // IF approved display only  deploy and edit
+        // Only Admin and Planner can request approval
+        $('.requestApprove').on('click', function (e) {
+            bootbox.confirm({
+                title: "Solution Design Approval",
+                message: "Request to approve design",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Request'
+                    }
+                },
+                callback: function (result) {
+                    if (result && (userRole == admin || userRole == planner)) {
+                        App.genericFetch('updateStatusToApproveRequested', "POST", urldata, requestApproveSolutionDesignStatus, "", "", "");
+                    } else {
+                        Deployment.alertModal("You Do not have Permission");
+                    }
+                }
+            });
+        });
 
-        $(".basePattern").hover(
-            function () { $('.linkIconPT').show(); },
-            function () { $('.linkIconPT').hide(); }
-        );
+        // Solution Design EDIT data
+        $('#saveChangesBtn').on('click', function (e) {
+            if (userRole == planner || userRole == admin) {
 
-        if (userRole == "Planner" || userRole == "Administrator") {
-
-            // Solution Design EDIT data
-            $('#saveChangesBtn').on('click', function (e) {
                 let solutionDesignName = $('#solutionDesignProblem').val(),
                     solutionDesignDesc = $('#solutionDesignDescription').val(),
                     solutionForces = $('#solutionDesignForces').val(),
@@ -176,34 +199,21 @@ $(function () {
                 } else {
                     App.toastMsg('Please Enter all the details', 'failed', '.formToastMsg', true);
                 }
-            });
+            } else {
+                Deployment.alertModal("You Do not have Permission");
+            }
+        });
 
-            // IF approved display only  deploy and edit
-            // Only Admin and Planner can request approval
-            $('.requestApprove').on('click', function (e) {
-                bootbox.confirm({
-                    title: "Solution Design Approval",
-                    message: "Request to approve design",
-                    buttons: {
-                        cancel: {
-                            label: '<i class="fa fa-times"></i> Cancel'
-                        },
-                        confirm: {
-                            label: '<i class="fa fa-check"></i> Request'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            // TODO: replace URI
-                            App.genericFetch('#', "POST", urldata, requestApproveSolutionDesignStatus, "", "", "");
-                        }
-                    }
-                });
-            });
-        } else {
-            // TODO:
-            $('.editSD').hide(); $('.deleteSD').hide();
-        }
+
+        $(".probStatement").hover(
+            function () { $('.linkIcon').show(); }, // mouse enter
+            function () { $('.linkIcon').hide(); }  // mouse leave
+        );
+
+        $(".basePattern").hover(
+            function () { $('.linkIconPT').show(); },
+            function () { $('.linkIconPT').hide(); }
+        );
 
         $('.edit').on('click', function (evt) {
             let urlParam;
@@ -231,10 +241,16 @@ function approveSolutionDesignStatus(data, id) {
     $('.approve').hide();
 }
 
-function requestApproveSolutionDesignStatus() {
-    $('.edit').attr("disabled", true);
-    App.toastMsg(`Requested to approve solution design`, 'info', '.toastMsg', false);
-    $('.requestApprove').hide();
+function requestApproveSolutionDesignStatus(data, isParamTrue) {
+    if (isParamTrue || (data && data.message == 'success')) {
+        $('.edit').attr("disabled", true);
+        App.toastMsg(`Requested to approve solution design`, 'info', '.toastMsg', false);
+        $('.requestApprove').hide();
+    } else {
+        if (data && data.message == 'error') {
+            Deployment.alertModal(data.info);
+        }
+    }
 }
 
 function renderProblemStmt(problemList, psid) {
@@ -352,7 +368,11 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         Deployment.getLogs();
     }
     else if (isSolutionDesignApproved == 'approve-requested') {
-        requestApproveSolutionDesignStatus();
+        requestApproveSolutionDesignStatus("initial check for solution design approved?", true);
+        if (isApprover) {
+            $('.approve').attr("disabled", false);
+            idToBeApproved = id;
+        }
     }
     else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
