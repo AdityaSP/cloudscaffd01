@@ -91,7 +91,7 @@ export const Deployment = {
         // IF data has comiplation log and if not present hide the modal's complie tab
         Deployment.closeLoadingModal();
 
-        if (compileData) {//.message == 'success') {
+        if (!compileData) {//.message == 'success') {
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
             $('#proceedBtn').show();

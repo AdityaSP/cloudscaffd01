@@ -1,9 +1,9 @@
 
 <style>
     .modal-lg{
-        width: 80% !important;
-        height: 80% !important;
-        margin: 2% 10% 0 10% !important;
+        width: 94% !important;
+        height: 90% !important;
+        margin: 2% 3% 0 3% !important;
         padding: 0 !important;
         max-width:none !important;
     }
