@@ -10,6 +10,7 @@
                     <option value="ALL">All</option>
                     <option value="ACTIVE" <#if status?? && status=="ACTIVE">selected</#if>>Active</option>
                     <option value="INACTIVE" <#if status?? && status=="INACTIVE">selected</#if>>Expired</option>
+                    <option value="FUTURE" <#if status?? && status=="FUTURE">selected</#if>>Future</option>
                 </select>
             </div>
 

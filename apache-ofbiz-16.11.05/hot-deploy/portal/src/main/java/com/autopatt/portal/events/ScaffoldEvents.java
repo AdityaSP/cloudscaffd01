@@ -41,20 +41,31 @@ public class ScaffoldEvents {
         String tenantId = delegator.getDelegatorTenantId();
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        final String targetURL = "https://postb.in/1583992299271-7542994602117";
+        String createdBy = userLogin.getString("userLoginId");
+        final String targetURL = "http://3.8.1.169:5000/compile";
         final PostMethod post = new PostMethod(targetURL);
-        post.addParameter("tenantId", tenantId);
-        post.addParameter("sdid", sdid);
+        //post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
+        post.setParameter("tenant_name", tenantId);
+        post.setParameter("sd_id", sdid);
+        post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
             final int result = httpclient.executeMethod((HttpMethod) post);
-            request.setAttribute("compileScaffoldSolutionDesignStatusCode", result);
+            if(result == 200) {
+                request.setAttribute("compileScaffoldSolutionDesignResponse", post.getResponseBodyAsString());
+            } else {
+                request.setAttribute("message", "Unable reach the server");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            request.setAttribute("message", ERROR);
             return ERROR;
         } finally {
             post.releaseConnection();
         }
+
+        request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
 
@@ -62,10 +73,14 @@ public class ScaffoldEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String sdid = request.getParameter("sdid");
         String tenantId = delegator.getDelegatorTenantId();
+        HttpSession session = request.getSession();
+        GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        String createdBy = userLogin.getString("userLoginId");
         final String targetURL = "https://postb.in/1583992299271-7542994602117";
         final PostMethod post = new PostMethod(targetURL);
         post.addParameter("tenantId", tenantId);
         post.addParameter("sdid", sdid);
+        post.addParameter("createdBy",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
             final int result = httpclient.executeMethod((HttpMethod) post);
