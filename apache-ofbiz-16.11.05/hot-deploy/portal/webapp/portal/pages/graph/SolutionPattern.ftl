@@ -1,9 +1,9 @@
 
 <style>
     .modal-lg{
-        width: 94% !important;
+        width: 96 % !important;
         height: 90% !important;
-        margin: 2% 3% 0 3% !important;
+        margin: 2% !important;
         padding: 0 !important;
         max-width:none !important;
     }
@@ -47,19 +47,19 @@
                 <div class="col-2 text-center">
                   <span class="typeDataSD"></span>
                   <div class="mt-3">
-                    <span data-toggle="modal" data-target="#viewDeploymentSummaryModal">
-                        <a class="btn btn-info mr-2 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
+                    <span data-toggle="modal" data-target="#viewDeploymentSummaryModal" class="">
+                        <a class="btn btn-info m-1 viewDeploymentSummaryBtn" href="javascript:void(0);" aria-label="Edit"
                             data-toggle="tooltip" data-placement="left" title="Deployment Logs">
                             <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i></a>
                     </span>
 
                     <span data-toggle="modal" data-target="#editFormModal">
-                        <a class="btn btn-info mr-2 editSD" href="javascript:void(0);" aria-label="Edit"
+                        <a class="btn btn-info m-1 editSD" href="javascript:void(0);" aria-label="Edit"
                             data-toggle="tooltip" data-placement="top" title="Edit data">
                             <i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                     </span>
 
-                    <a class="btn btn-danger deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
+                    <a class="btn btn-danger m-1 deleteSD" data-toggle="tooltip" data-placement="top" title="Delete Solution Design" href="javascript:void(0);" aria-label="Delete">
                         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
 
                   </div>
@@ -111,7 +111,7 @@
 
 <!-- Edit Modal -->
 <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editFormModalTitle">Edit User Defined Design</h5>
@@ -123,12 +123,12 @@
             <form id="solutionDesignPatternForm">
                 <div class="form-group">
                     <label for="solutionDesignProblem">Solution Design Name</label>
-                    <input type="text" name="solutionDesignName" class="form-control" required id="solutionDesignProblem">
+                    <textarea type="text" name="solutionDesignName" class="form-control" required id="solutionDesignProblem"></textarea>
                 </div>
                 <input type="hidden" class="psid" name="psid" id="psid" value="">
                 <div class="form-group">
                     <label for="solutionDesignDescription">Description</label>
-                    <input class="form-control" name="solutionDesignDescription" required id="solutionDesignDescription" rows="3"/>
+                    <textarea class="form-control" name="solutionDesignDescription" required id="solutionDesignDescription" rows="3"></textarea>
                 </div>
                 <div class="form-group m-0">
                     <label>Forces</label>
@@ -166,14 +166,18 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-compile" role="tabpanel" aria-labelledby="nav-compile-tab">
-            <div class="compileTabData text-center p-2">
-                
+            <span class="h4 compileStatus"></span>
+            <div class="compileTabData p-2">
+                <#--  <div class="step_count">
+                  <span class="h5 stepName">Validate Tenant</span> (<span class="text-success stepStatusCode">SUCCESS</span>)
+                  <p class="text-justify stepMessage">Cloud Scaffolding configured for: xyzcorp</p>
+                </div>  -->
             </div>
             <div class="compileTabDataInTableDiv">
               <table class="table table-striped border">
               <thead>
                 <tr>
-                  <th scope="col">Sl No</th>
+                  <th scope="col">Step Name</th>
                   <th scope="col">Component Data</th>
                   <th scope="col">Creation Details</th>
                   <th scope="col">Comments</th>
@@ -190,10 +194,11 @@
                 
             </div>
             <div class="runtimeTabDataInTableDiv">
-              <table class="table table-striped">
+              <table class="table table-responsive table-striped">
               <thead>
                 <tr>
                   <th scope="col">Sl No</th>
+                  <th scope="col">Step Name</th>
                   <th scope="col">Component Data</th>
                   <th scope="col">Creation Details</th>
                   <th scope="col">Comments</th>
@@ -208,7 +213,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span class="text-warning mr-3 p-2 deploymentStatus"></span>
+        <span class="text mr-3 p-2 deploymentStatus"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
         <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn">Proceed</button>
       </div>

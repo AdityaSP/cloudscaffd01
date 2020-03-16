@@ -66,7 +66,7 @@ export const App = {
             // async: false,
             cache: false,
             success: function (res) {
-                console.log(res);
+                // console.log(res);
                 if (renderFunction) {
                     renderFunction(res.data, rparams, res);
                     App.clearLoader();

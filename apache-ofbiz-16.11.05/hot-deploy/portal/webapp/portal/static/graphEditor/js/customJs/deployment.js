@@ -12,7 +12,7 @@ export const Deployment = {
 
     renderDataToModal(logs) {
 
-        console.log(logs)
+        // console.log(logs)
         // Display all the Logs in modal
         if (logs.message == 'success') {
             $('.viewDeploymentSummaryBtn').show();
@@ -22,41 +22,71 @@ export const Deployment = {
             for (let i = 0; i < logList.length; i++) {
                 let compileLog = JSON.parse(logList[i].compileLogs),
                     runtimeLog = JSON.parse(logList[i].runtimeLogs),
-                    table;
+                    table,
+                    compileData = compileLog.compile_data;
 
-                if (!App.isEmpty(compileLog)) {
-                    for (let j = 0; j < compileLog.length; j++) {
-                        table = `<tr>
-                                    <th scope="row">${j + 1}</th>
-                                    <td>${compileLog[j].componentData.label}</td>
-                                    <td>${compileLog[j].creationDetails.AttachTime}</td>
-                                    <td>${compileLog[j].comments}</td>
-                                </tr>`;
-                        $('.compileTabTable').append(table);
+                if (compileLog.status) { $('.compileStatus').addClass('text-success'); }
+                else { $('.compileStatus').addClass('text-danger'); }
+
+                $('.compileStatus').text(`COMPILE ${compileLog.status_code.toUpperCase()}`)
+
+                if (compileData && compileData.length > 0) {
+                    for (let l = 0; l < compileData.length; l++) {
+                        let step = `
+                        <div class="text-justify my-1 step-${l + 1}">
+                            <span class="h5 stepName">${compileData[l].step_name}</span> ( <span class="text-${compileData[l].step_status_code.toLowerCase()} stepStatusCode">${compileData[l].step_status_code}</span> )
+                            <span class="stepMessage">${compileData[l].step_message}</span>
+                        </div>`,
+                            stepCompileResults = compileData[l].step_compile_results;
+                        $('.compileTabData').append(step);
+
+                        console.log(stepCompileResults)
+
+                        if (!App.isEmpty(stepCompileResults)) {
+                            for (let j = 0; j < stepCompileResults.length; j++) {
+                                let jsonData = stepCompileResults[j].component;
+
+                                if (typeof (jsonData) != 'string') {
+                                    jsonData = `<pre>${JSON.stringify(jsonData,null,'\t')}</pre>`;
+                                    console.log(jsonData)
+                                }
+
+                                let table = `<tr>
+                                            <td>${compileData[l].step_name}</td>
+                                            <td>${jsonData}</td>
+                                            <td>${stepCompileResults[j].messages[0]}</td>
+                                            <td>${stepCompileResults[j].satus_code}</td>
+                                        </tr>`;
+                                $('.compileTabTable').append(table);
+                            }
+                        } else {
+                            console.log('stepCompileResults is empty');
+                            // $('.compileTabDataInTableDiv').hide();
+                            // $('.compileTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
+                        }
                     }
-                } else {
-                    console.log('compileLog is empty');
-                    $('.compileTabDataInTableDiv').hide();
-                    $('.compileTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
                 }
 
-                if (!App.isEmpty(runtimeLog)) {
-                    for (let k = 0; k < runtimeLog.length; k++) {
-                        table = `<tr>
-                                    <th scope="row">${k + 1}</th>
-                                    <td>${runtimeLog[k].componentData.label}</td>
-                                    <td>${runtimeLog[k].creationDetails.AttachTime}</td>
-                                    <td>${runtimeLog[k].comments}</td>
-                                </tr>`;
-                        $('.runtimeTabTable').append(table);
-                    }
-                } else {
-                    console.log('runtimeLog is empty');
-                    $('.runtimeTabDataInTableDiv').hide();
-                    $('.runtimeTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
-                }
+                console.log(compileLog);
 
-                $('.deploymentStatus').text(logList[i].csStatus.toUpperCase());
+                // if (!App.isEmpty(runtimeLog)) {
+                //     for (let k = 0; k < runtimeLog.length; k++) {
+                //         table = `<tr>
+                //                     <th scope="row">${k + 1}</th>
+                //                     <td>${runtimeLog[k].componentData.label}</td>
+                //                     <td>${runtimeLog[k].creationDetails.AttachTime}</td>
+                //                     <td>${runtimeLog[k].comments}</td>
+                //                 </tr>`;
+                //         $('.runtimeTabTable').append(table);
+                //     }
+                // } else {
+                //     console.log('runtimeLog is empty');
+                //     $('.runtimeTabDataInTableDiv').hide();
+                //     $('.runtimeTabData').html(`<span class="m-2 compileDivTitle">No logs found</span>`);
+                // }
+
+
+                // $('.deploymentStatus').text(logs.message.toUpperCase());
                 // $('.compileTabData').text(logList[i].compileLogs);
                 // $('.runtimeTabData').text(logList[i].runtimeLogs);
             }
@@ -68,9 +98,11 @@ export const Deployment = {
     },
 
     compileDesign(str) {
-        let successResponseRenderMethod;
+        let successResponseRenderMethod, reCompile = false;
 
         if (str && str == 'recompile') {
+            Deployment.loadingModal('Deployment In progress...');
+            reCompile = true;
             successResponseRenderMethod = Deployment.deploySolutionDesign;
         } else {
             Deployment.loadingModal('Compilation is in progress...');
@@ -79,7 +111,7 @@ export const Deployment = {
 
         try {
             // Compile Graph Design
-            App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, "", "", "");
+            App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, reCompile, "", "");
         } catch (error) {
             console.log(error);
             Deployment.alertModal('Failed to Compile!!!');
@@ -111,9 +143,10 @@ export const Deployment = {
         }
     },
 
-    deploySolutionDesign() {
+    deploySolutionDesign(data, param, res) {
         try {
-            Deployment.loadingModal('Deployment In progress...');
+            if (!param) { Deployment.loadingModal('Deployment In progress...'); } // if param(true) i.e. = "Re Compile"
+
             App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid, 'psid': Deployment.psid }, Deployment.checkDeploymentData, "success", App.outputResponse, "error");
             // After successfull Deployment Change status to 'Deployed-Successful'
             // Display all the Logs in modal
