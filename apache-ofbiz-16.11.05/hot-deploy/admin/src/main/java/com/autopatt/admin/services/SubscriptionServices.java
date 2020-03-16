@@ -157,7 +157,9 @@ public class SubscriptionServices {
                         subscriptionsList.add(subscriptionMap);
                     } else if ("INACTIVE".equals(status) && "INACTIVE".equals(subscriptionMap.get("status"))) {
                         subscriptionsList.add(subscriptionMap);
-                    } else if ("ACTIVE".equals(status) && ("ACTIVE".equals(subscriptionMap.get("status")) || "FUTURE".equals(subscriptionMap.get("status")))) {
+                    } else if ("ACTIVE".equals(status) && "ACTIVE".equals(subscriptionMap.get("status"))) {
+                        subscriptionsList.add(subscriptionMap);
+                    } else if ("FUTURE".equals(status) && "FUTURE".equals(subscriptionMap.get("status"))){
                         subscriptionsList.add(subscriptionMap);
                     }
                 }
