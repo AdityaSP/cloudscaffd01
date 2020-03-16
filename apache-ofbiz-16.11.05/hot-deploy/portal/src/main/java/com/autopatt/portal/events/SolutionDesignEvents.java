@@ -272,6 +272,38 @@ System.out.println("updatedBy ="+updatedBy);
         return solutionDesignApcType;
     }
 
+
+    public static String updateStatusToApproveRequested(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        Delegator delegator = (Delegator) request.getAttribute("delegator");
+        GenericValue userLoginData = (GenericValue) session.getAttribute("userLogin");
+        Map<String,Object> data = UtilMisc.toMap();
+        // Check Permission
+        if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
+            getResponse(request, response, "You do not have permission.", ERROR);
+            return ERROR;
+        }
+
+        String sdid = request.getParameter("sdid");
+        String updatedBy = userLoginData.getString("userLoginId");
+        String status = "approve-requested";
+        Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
+        try {
+            GenericValue approveRequestedData = delegator.findOne("solutionDesignApc", inputs, false);
+            approveRequestedData.setString("updatedBy", updatedBy);
+            approveRequestedData.set("status", status);
+            delegator.store(approveRequestedData);
+
+        } catch (GenericEntityException e) {
+            e.printStackTrace();
+            getResponse(request, response, "Status change failed!", ERROR);
+            return ERROR;
+        }
+        getResponse(request, response, "Status changed successfully", SUCCESS);
+        return SUCCESS;
+    }
+
     private static boolean getSecurityPermission(HttpServletRequest request, HttpServletResponse response,
                                                  String permissionName, GenericValue userLogin){
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");

@@ -418,6 +418,13 @@
 		<response name="error" type="request" value="json"/>
 	</request-map>
 
+	<request-map uri="updateStatusToApproveRequested">
+		<security https="true" auth="true" />
+		<event type="java" path="com.autopatt.portal.events.SolutionDesignEvents" invoke="updateStatusToApproveRequested" />
+		<response name="success" type="request" value="json"></response>
+		<response name="error" type="request" value="json"/>
+	</request-map>
+
 	<!-- View Mappings - START -->
 	<view-map name="home" type="screen" page="component://portal/widget/PortalScreens.xml#home" />
 
