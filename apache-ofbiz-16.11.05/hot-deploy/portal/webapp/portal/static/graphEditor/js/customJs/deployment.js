@@ -14,7 +14,7 @@ export const Deployment = {
 
         console.log(logs)
         // Display all the Logs in modal
-        if (logs.message == 'success' && logs.scaffoldLogList.length > 0) {
+        if (logs && logs.message == 'success' && logs.scaffoldLogList.length > 0) {
             $('.viewDeploymentSummaryBtn').show();
 
             let logList = logs.scaffoldLogList;
@@ -86,8 +86,8 @@ export const Deployment = {
             }
         } else {
             console.log("Pattern Approved but not deployed");
-            $('.runtimeTabData').text('No logs found');
-            $('.compileTabData').text('No logs found');
+            $('.runtimeTabData').text('No logs found'); $('.runtimeTabDataInTableDiv').hide();
+            $('.compileTabData').text('No logs found'); $('.compileTabDataInTableDiv').hide();
         }
     },
 
@@ -113,11 +113,19 @@ export const Deployment = {
         }
     },
 
-    checkCompilationData(compileData) {
+    checkCompilationData(compileData, isParam, res) {
         // IF data has comiplation log and if not present hide the modal's complie tab
         Deployment.closeLoadingModal();
 
-        if (!compileData) {//.message == 'success') {
+        console.log(compileData);
+
+        // If isParam(false) thwn it first time / its not recompiling
+        if (!isParam) {
+            // Render Data to Modal Table
+            Deployment.getLogs();
+        }
+
+        if (res.message == 'success') { // TODO : compileData.message
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
             $('#proceedBtn').show();

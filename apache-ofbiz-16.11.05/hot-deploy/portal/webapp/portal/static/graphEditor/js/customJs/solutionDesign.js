@@ -105,42 +105,49 @@ $(function () {
 
         // IF approved display only  deploy and edit
         $('.approve').on('click', function (e) {
-            $('#approvalRejectModal').modal('show');
 
-            let comments = $('#comments').val();
+            // $('#approvalRejectModal').modal('show');
+            // let comments = $('#comments').val();
 
-            $('.approvalRejectBtn').on('click', function (e) {
+            // console.log(comments);
 
-            });
-
-            $('.approveBtn').on('click', function (e) {
-                if (comments && userRole == approver) {
-                    App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
-                } else {
-                    $('#approvalRejectModal').modal('hide');
-                    Deployment.alertModal("You Do not have Permission");
-                }
-            });
-
-            // bootbox.confirm({
-            //     title: "Solution Design Approval",
-            //     message: "Please confirm to approve design",
-            //     buttons: {
-            //         cancel: {
-            //             label: '<i class="fa fa-times"></i> Cancel'
-            //         },
-            //         confirm: {
-            //             label: '<i class="fa fa-check"></i> Confirm'
-            //         }
-            //     },
-            //     callback: function (result) {
-            //         if (result && userRole == approver) {
-            //             App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
-            //         } else {
-            //             Deployment.alertModal("You Do not have Permission");
-            //         }
+            // $('.approvalRejectBtn').on('click', function (e) {
+            //     if (!App.isEmpty(comments) && userRole == approver) {
+            //         App.genericFetch('#', "POST", urldata, App.outputResponse, sdid, "", "");
+            //     } else {
+            //         $('#approvalRejectModal').modal('hide');
+            //         Deployment.alertModal("You Do not have Permission");
             //     }
             // });
+
+            // $('.approveBtn').on('click', function (e) {
+            //     if (!App.isEmpty(comments) && userRole == approver) {
+            //         App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
+            //     } else {
+            //         $('#approvalRejectModal').modal('hide');
+            //         Deployment.alertModal("You Do not have Permission");
+            //     }
+            // });
+
+            bootbox.confirm({
+                title: "Solution Design Approval",
+                message: "Please confirm to approve design",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                    if (result && userRole == approver) {
+                        App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
+                    } else {
+                        Deployment.alertModal("You Do not have Permission");
+                    }
+                }
+            });
         });
 
         $('.deleteSD').on('click', function (e) {
@@ -410,70 +417,3 @@ function checkImageAproval(isSolutionDesignApproved, id) {
         else { console.log("cannot deploy"); }
     }
 }
-
-
-// function approveSD() {
-//     var dialog = bootbox.dialog({
-//         title: 'Solution Design Approval',
-//         message: "<p>Please confirm to approve design or reject with comments.</p>",
-//         buttons: {
-//             cancel: {
-//                 label: '<i class="fa fa-times"></i> Cancel',
-//                 className: 'btn-danger'
-//             },
-//             noclose: {
-//                 label: '<i class="fa fa-ban" aria-hidden="true"></i> Reject',
-//                 className: 'btn-warning noCLose',
-//                 callback: function () {
-//                     rejectApproval();
-//                 }
-//             },
-//             ok: {
-//                 label: '<i class="fa fa-check"></i> Confirm',
-//                 className: 'btn-primary',
-//                 callback: function (result) {
-//                     console.log("Approved");
-//                     if (result && "admin" == approver) { // TODO: chane userRoel
-//                         App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
-//                     } else {
-//                         Deployment.alertModal("You Do not have Permission");
-//                     }
-//                 }
-//             }
-//         }
-//     });
-// }
-
-// function rejectApproval() {
-//     bootbox.prompt({
-//         title: "Enter the comments",
-//         inputType: 'textarea',
-//         // required: true,
-
-//         cancel: {
-//             className: 'btn-danger',
-//             label: '<i class="fa fa-times"></i> Close',
-//         },
-//         confirm: {
-//             className: 'btn-warning',
-//             label: '<i class="fa fa-ban" aria-hidden="true"></i> Reject'
-//         },
-//         callback: function (result) {
-//             console.log(result);
-//             if (result && "admin" == approver) {
-//                 App.genericFetch('approveSolutionDesign', "POST", urldata, approveSolutionDesignStatus, sdid, "", "");
-//             } else {
-//                 // Deployment.alertModal('Comments cannot be empty');
-//                 // rejectApproval();
-//                 bootbox.alert({
-//                     message: "This is an alert with a callback!",
-//                     callback: function () {
-//                         // rejectApproval();
-//                         console.log('This was logged in the callback!');
-//                     }
-//                 })
-
-//             }
-//         }
-//     });
-// }
