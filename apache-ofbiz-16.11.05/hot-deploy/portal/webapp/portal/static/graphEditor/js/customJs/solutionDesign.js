@@ -205,11 +205,10 @@ $(function () {
         // Solution Design EDIT data
         $('#saveChangesBtn').on('click', function (e) {
             if (userRole == planner || userRole == admin) {
-
-                let solutionDesignName = $('#solutionDesignProblem').val(),
-                    solutionDesignDesc = $('#solutionDesignDescription').val(),
-                    solutionForces = $('#solutionDesignForces').val(),
-                    solutionConsequences = $('#solutionDesignConsequences').val(),
+                let solutionDesignName = App.unescapeHtmlText($('#solutionDesignProblem').val()),
+                    solutionDesignDesc = App.unescapeHtmlText($('#solutionDesignDescription').val()),
+                    solutionForces = App.unescapeHtmlText($('#solutionDesignForces').val()),
+                    solutionConsequences = App.unescapeHtmlText($('#solutionDesignConsequences').val()),
                     formData = {
                         "solutionDesignName": solutionDesignName,
                         "solutionDesignDesc": solutionDesignDesc,

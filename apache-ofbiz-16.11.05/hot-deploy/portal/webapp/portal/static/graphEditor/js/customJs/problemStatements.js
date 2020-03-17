@@ -110,9 +110,9 @@ $(function () {
     });
     if (userRole == "Planner" || userRole == "Administrator") {
         $("#problemStmtFormSubmitBtn").on('click', function (e) {
-            let tag = App.getUniqueArray($('#tagInput').val().split(' ')),
-                problemStatement = $('#problemStatement').val(),
-                problemDescription = $('#problemDescription').val(),
+            let tag = App.getUniqueArray(App.unescapeHtmlText($('#tagInput').val()).split(' ')),
+                problemStatement = App.unescapeHtmlText($('#problemStatement').val()),
+                problemDescription = App.unescapeHtmlText($('#problemDescription').val()),
                 formData = {
                     "problemStatement": problemStatement,
                     "problemDescription": problemDescription,
@@ -135,12 +135,12 @@ $(function () {
 function submitForm(data) {
     $('.submitBtn').hide();
     if (data.message == 'success') {
-        App.toastMsg('Creation Successful', 'success', '.formToastMsg', true);
+        App.toastMsg(data.info, 'success', '.formToastMsg', true);
         setTimeout(function () {
             window.location.reload();
         }, 1000);
     } else {
-        App.toastMsg('Failed to create', 'failed', '.formToastMsg', 1500);
+        App.toastMsg(data.info, 'failed', '.formToastMsg', 1500);
         App.clearInput('input:not(:button)');
         setTimeout(function () {
             $('.submitBtn').val('Create');

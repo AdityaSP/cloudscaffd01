@@ -12,13 +12,14 @@ import org.apache.ofbiz.entity.datasource.GenericHelperInfo;
 import org.apache.ofbiz.entity.jdbc.SQLProcessor;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.LocalDispatcher;
-
+import org.apache.ofbiz.base.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.security.Security;
@@ -40,6 +41,7 @@ public class ProblemStatementEvents{
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
+        List<String> errorList = new ArrayList<>();
         Map<String,Object> data = UtilMisc.toMap();
 
         // Check permission
@@ -48,13 +50,21 @@ public class ProblemStatementEvents{
             return ERROR;
         }
 
-        String problemStatement = request.getParameter("problemStatement");
-        String problemDescription = request.getParameter("problemDescription");
-        String [] tag = request.getParameter("tag").split(",");
+        String problemStatement = UtilCodec.checkStringForHtmlStrictNone("Problem Statement",request.getParameter("problemStatement"),errorList);
+        String problemDescription = UtilCodec.checkStringForHtmlStrictNone("Problem Description",request.getParameter("problemDescription"),errorList);
+        String [] tag = UtilCodec.checkStringForHtmlStrictNone("Tag",request.getParameter("tag"),errorList).split(",");
+
         String problemStatementId = null;
         String createdBy = userLogin.getString("userLoginId");
         String type = "user defined";
         String psid = null;
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
+
         try {
             GenericValue newProblemStatement = delegator.makeValue("problemStatementApc");
             problemStatementId = delegator.getNextSeqId("Quote");
