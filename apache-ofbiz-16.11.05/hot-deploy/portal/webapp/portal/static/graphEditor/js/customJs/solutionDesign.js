@@ -93,7 +93,7 @@ $(function () {
                     }
                 },
                 callback: function (result) {
-                    if (result && userRole == deployer) { // TODO:remove admin role
+                    if (result && userRole == deployer) {
                         Deployment.compileDesign();
                         // After compilation change the status to compiled
                     } else {

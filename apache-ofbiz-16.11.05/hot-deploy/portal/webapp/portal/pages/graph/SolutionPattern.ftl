@@ -1,23 +1,23 @@
 
 <style>
-    .modal{
+    #viewDeploymentSummaryModal > .modal{
       overflow-y:auto;
     }
-    .modal-lg{
+    #viewDeploymentSummaryModal > .modal-lg{
         width: 96% !important;
         height: 90% !important;
         margin: 2% !important;
         padding: 0 !important;
         max-width:none !important;
     }
-   .modal-lg > .modal-content {
+   #viewDeploymentSummaryModal > .modal-lg > .modal-content {
         height: auto !important;
         min-height: 80% !important;
     }
-    .modal-lg > .modal-header {
+    #viewDeploymentSummaryModal > .modal-lg > .modal-header {
         border-bottom: 1px solid #9ea2a2 !important;
     }
-    .modal-lg > .modal-footer {
+    #viewDeploymentSummaryModal > .modal-lg > .modal-footer {
         border-top: 1px solid #9ea2a2 !important;
     }
 </style>
