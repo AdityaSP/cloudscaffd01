@@ -92,7 +92,7 @@ public class ScaffoldEvents {
             final int httpStatusCode = httpclient.executeMethod((HttpMethod) post);
             if(httpStatusCode == 200) {
                 Map<String, Object> deployScaffoldSolutionDesignResponse = UtilMisc.toMap();
-                deployScaffoldSolutionDesignResponse.put("deployLogs", post.getResponseBodyAsString());
+                deployScaffoldSolutionDesignResponse.put("runtimeLogs", post.getResponseBodyAsString());
                 deployScaffoldSolutionDesignResponse.put("message", SUCCESS);
                 data.put("deployScaffoldSolutionDesignResponse",deployScaffoldSolutionDesignResponse);
             } else {
