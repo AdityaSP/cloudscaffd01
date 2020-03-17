@@ -12,38 +12,44 @@ export const Deployment = {
 
     renderDataToModal(logs) {
 
-        // console.log(logs);
-        let logList;
+        let logList, message;
 
         if (logs.compileScaffoldSolutionDesignResponse) {
-            logList = logs.compileScaffoldSolutionDesignResponse
+            logList = logs.compileScaffoldSolutionDesignResponse;
+            (logList.message) ? message = logList.message : message = 'error';
         } else if (logs.scaffoldLogList) {
             logList = logs.scaffoldLogList;
+            (logs.message) ? message = logs.message : message = 'error';
         } else {
             logList = [];
         }
 
-        console.log(logList)
-
         // Display all the Logs in modal
-        if (logs && logs.message == 'success' && logList.length > 0) {
+        if (logs && message == 'success' && logList) {
             $('.viewDeploymentSummaryBtn').show();
             $('.edit').attr("disabled", true);
 
+            console.log(logList);
+
             for (let i = 0; i < logList.length; i++) {
-                let compileLog, runtimeLog, compileStatus, runtimeStatus, compileData, runtimeData, count = 0;
+                let compileLog, runtimeLog, compileResults, runtimeResults,
+                    compileStatus, runtimeStatus, compileData, runtimeData, count = 0;
 
                 (logList[i].compileLogs) ? compileLog = JSON.parse(logList[i].compileLogs) : compileLog = null;
                 (logList[i].runtimeLogs) ? runtimeLog = JSON.parse(logList[i].runtimeLogs) : runtimeLog = null;
 
-                (compileLog.compile_data) ? compileData = compileLog.compile_data : compileData = null;
-                (runtimeLog.runtime_data) ? runtimeData = runtimeLog.runtime_data : runtimeData = null;
+                (compileLog.compile_results) ? compileResults = compileLog.compile_results : compileResults = null;
+                (runtimeLog.deploy_results) ? runtimeResults = runtimeLog.deploy_results : runtimeResults = null;
 
-                // console.log(compileLog)//, runtimeLog, compileStatus, runtimeStatus, compileData, runtimeData)
+                (compileResults.compile_data) ? compileData = compileResults.compile_data : compileData = null;
+                (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
 
-                if (compileLog.status) { $('.compileStatus').addClass('text-success'); }
+                console.log(compileResults)
+
+                if (compileResults.status) { $('.compileStatus').addClass('text-success'); }
                 else { $('.compileStatus').addClass('text-danger'); }
-                compileStatus = `COMPILE ${compileLog.status_code.toUpperCase()}`;
+
+                compileStatus = `COMPILE ${compileResults.status_code}`;
 
                 document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
 
@@ -69,9 +75,9 @@ export const Deployment = {
                     }
                 }
 
-                if (runtimeLog.status) { $('.runtimeStatus').addClass('text-success'); }
+                if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
                 else { $('.runtimeStatus').addClass('text-danger'); }
-                runtimeStatus = `RUNTIME ${runtimeLog.status_code.toUpperCase()}`;
+                runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
                 document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
 
                 if (runtimeData && runtimeData.length > 0) {
@@ -130,8 +136,6 @@ export const Deployment = {
     checkCompilationData(compileData, isParam, res) {
         // IF data has comiplation log and if not present hide the modal's complie tab
         Deployment.closeLoadingModal();
-
-        console.log(compileData);
 
         // If isParam(false) thwn it first time / its not recompiling
         // if (isParam) {
@@ -263,3 +267,9 @@ export const Deployment = {
     },
 }
 
+function clearRuntimeTabData() {
+    
+    $('#nav-runtime-tab').hide();
+
+
+}

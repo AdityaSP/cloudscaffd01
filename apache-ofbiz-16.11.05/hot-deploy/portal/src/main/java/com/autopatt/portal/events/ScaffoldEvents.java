@@ -45,9 +45,10 @@ public class ScaffoldEvents {
         final String targetURL = "http://3.8.1.169:5000/compile";
         final PostMethod post = new PostMethod(targetURL);
         Map<String, Object> data = UtilMisc.toMap();
-       // post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
-        post.setParameter("tenant_name", tenantId);
-        post.setParameter("sd_id", sdid);
+       post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
+        // post.setParameter("tenant_name", tenantId);
+        // post.setParameter("sd_id", sdid);
+        post.setParameter("sd_id", "SD-10097");
         post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
@@ -112,8 +113,10 @@ public class ScaffoldEvents {
                     .queryList();
 
             if (scaffoldLogList != null) {
+                data.put("message", SUCCESS);
                 data.put("scaffoldLogList",scaffoldLogList);
             } else {
+                data.put("message", ERROR);
                 data.put("scaffoldLogList",null);
             }
         } catch (GenericEntityException e) {
