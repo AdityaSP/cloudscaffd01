@@ -12,7 +12,7 @@ export const Deployment = {
 
     renderDataToModal(logs) {
 
-        console.log(logs);
+        // console.log(logs);
         let logList;
 
         if (logs.compileScaffoldSolutionDesignResponse) {
@@ -23,19 +23,23 @@ export const Deployment = {
             logList = [];
         }
 
-        console.log(logList);
+        console.log(logList)
 
         // Display all the Logs in modal
         if (logs && logs.message == 'success' && logList.length > 0) {
             $('.viewDeploymentSummaryBtn').show();
+            $('.edit').attr("disabled", true);
 
             for (let i = 0; i < logList.length; i++) {
-                let compileLog = JSON.parse(logList[i].compileLogs),
-                    runtimeLog = JSON.parse(logList[i].runtimeLogs),
-                    compileStatus, runtimeStatus,
-                    compileData = compileLog.compile_data,
-                    runtimeData = runtimeLog.compile_data, // TODO: replce with "runtime_data"
-                    count = 0;
+                let compileLog, runtimeLog, compileStatus, runtimeStatus, compileData, runtimeData, count = 0;
+
+                (logList[i].compileLogs) ? compileLog = JSON.parse(logList[i].compileLogs) : compileLog = null;
+                (logList[i].runtimeLogs) ? runtimeLog = JSON.parse(logList[i].runtimeLogs) : runtimeLog = null;
+
+                (compileLog.compile_data) ? compileData = compileLog.compile_data : compileData = null;
+                (runtimeLog.runtime_data) ? runtimeData = runtimeLog.runtime_data : runtimeData = null;
+
+                // console.log(compileLog)//, runtimeLog, compileStatus, runtimeStatus, compileData, runtimeData)
 
                 if (compileLog.status) { $('.compileStatus').addClass('text-success'); }
                 else { $('.compileStatus').addClass('text-danger'); }
@@ -135,7 +139,7 @@ export const Deployment = {
         // Deployment.getLogs();
         // }
 
-        if (compileData ){//&& compileData.message == 'success') { // TODO : compileData.message
+        if (compileData) {//&& compileData.message == 'success') { // TODO : compileData.message
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
             $('#proceedBtn').show();
