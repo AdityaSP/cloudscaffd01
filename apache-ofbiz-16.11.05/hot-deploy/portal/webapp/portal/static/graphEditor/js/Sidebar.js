@@ -3604,7 +3604,7 @@ this.pattAttributeData = {
 		"ec2": [
 			{
 				"name": "region",
-				"value": "us-a",
+				"value": "us-east-1",
 				"required": true
 			},
 			{
@@ -3677,57 +3677,63 @@ this.pattAttributeData = {
 		],
 		"virtual_private_cloud": [
 			{
+				"name": "region",
+				"value": "",
+				"required": true
+			},
+			{
 				"name": "CidrBlock",
-				"value": "abc",
+				"value": "us-east-1",
+				"required": true
 			},
 			{
 				"name": "tag_key_1",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "tag_value_1",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "EnableDnsSupport",
-				"value": "abc",
+				"value": "true",
 			}, {
 				"name": "EnableDnsHostnames",
-				"value": "abc",
+				"value": "true",
 			}, {
 				"name": "EnableInternetGateway",
-				"value": "abc",
+				"value": "true",
 			}, {
 				"name": "DestinationCidrBlock",
-				"value": "abc",
+				"value": "true",
 			}, {
 				"name": "CidrBlock",
-				"value": "abc",
+				"value": "",
 			},
 		],
 		"vpc_subnet": [
 			{
 				"name": "CidrBlock",
-				"value": "abc",
+				"value": "",
 			},
 		],
 		"security_group": [
 			{
 				"name": "Group_1_Name",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "Group_1_Desc",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "Group_1_CidrIp_1",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "Group_1_IpProtocol",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "Group_1_FromPort",
-				"value": "abc",
+				"value": "",
 			}, {
 				"name": "Group_1_ToPort",
-				"value": "abc",
+				"value": "",
 			},
 		],
 
@@ -3799,10 +3805,12 @@ function selectJSONdata(json, name) {
 
 function replaceSpecialCharacters(str) {
 
+	console.log(str)
+
 	// if (str.search(" ") >= 0) {
 	str = str.split(' ').join('');
 	// } else {
-	str = str.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '_');
+	str = str.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '_');
 	// }
 	return str;
 
