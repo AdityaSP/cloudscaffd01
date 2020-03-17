@@ -20,13 +20,15 @@ export const Deployment = {
             logList = [];
         }
 
+        console.log(logs)
+
         // Display all the Logs in modal
         if (logs && logs.message == 'success') {
             $('.viewDeploymentSummaryBtn').show();
             $('.edit').attr("disabled", true);
 
             if (isJustCompile) {
-                
+
                 Deployment.renderCompileData(logList);
                 Deployment.renderRuntimeData();
 
@@ -90,7 +92,6 @@ export const Deployment = {
 
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
-            $('#proceedBtn').show();
 
             $('#proceedBtn').on('click', function (e) {
                 // close the running modal
@@ -144,10 +145,14 @@ export const Deployment = {
             message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>   ${msg}</p>`,
             closeButton: false,
         });
+        setTimeout(function () {
+            Deployment.dialog.modal('hide');
+        }, 5000);
     },
 
     closeLoadingModal() {
         Deployment.dialog.modal('hide');
+        bootbox.hideAll();
     },
 
     alertModal(msg) {
@@ -170,9 +175,9 @@ export const Deployment = {
             default: console.log("Status Not found: " + status); return 'text-muted'; break;
         }
     },
-    checkLoadingModalIsStill() {
+    checkLoadingModalIsStillPresent() {
         if ($('.modal:visible').length == 2) {
-            $('.modal:visible')[1].removeAttribute("class");
+            bootbox.hideAll();
         }
     },
     renderLogSteps(data, place) {
@@ -197,7 +202,6 @@ export const Deployment = {
         $(place).append(row);
     },
     renderCompileData(logList) {
-
         if (logList) {
             $('#nav-compile-tab').show();
 
@@ -210,8 +214,13 @@ export const Deployment = {
             //Removing modal data
             Deployment.clearCompileTabData();
 
-            if (compileResults.status) { $('.compileStatus').addClass('text-success'); }
-            else { $('.compileStatus').addClass('text-danger'); }
+            if (compileResults.status) {
+                $('.compileStatus').addClass('text-success');
+                $('#proceedBtn').show();
+            }
+            else {
+                $('.compileStatus').addClass('text-danger');
+            }
             compileStatus = `COMPILE ${compileResults.status_code}`;
             document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
 
@@ -235,7 +244,7 @@ export const Deployment = {
                 if (count <= 0) {
                     $('.compileTabDataInTableDiv').hide();
                 }
-                Deployment.checkLoadingModalIsStill();
+                Deployment.checkLoadingModalIsStillPresent();
             }
         } else {
             $('#nav-compile-tab').hide();
@@ -281,7 +290,7 @@ export const Deployment = {
                 if (count <= 0) {
                     $('.runtimeTabDataInTableDiv').hide();
                 }
-                Deployment.checkLoadingModalIsStill();
+                Deployment.checkLoadingModalIsStillPresent();
             }
         } else {
             $('#nav-runtime-tab').hide();
