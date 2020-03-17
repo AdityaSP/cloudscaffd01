@@ -838,18 +838,19 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
             for (Cookie autoLoginCookie: cookies) {
                 String autoLoginName = autoLoginCookie.getName().replace(".autoUserLoginId", "");
                 WebappInfo webappInfo = ComponentConfig.getWebappInfo("default-server", autoLoginName);
+                Debug.logInfo("Before if condition webappInfo:::"+webappInfo,module);
                 if (webappInfo != null && !webappInfo.getKeepAutologinCookie()) {
+                    Debug.logInfo("webappInfo:::"+webappInfo,module);
                     autoLoginCookie.setMaxAge(0);
                     autoLoginCookie.setPath("/");
                     response.addCookie(autoLoginCookie);
                 }
             }
         }
-
         // remove the session attributes
         session.removeAttribute("autoUserLogin");
         session.removeAttribute("autoName");
-
+        session.invalidate();
         request.setAttribute("_AUTO_LOGIN_LOGOUT_", Boolean.TRUE);
         return "success";
     }

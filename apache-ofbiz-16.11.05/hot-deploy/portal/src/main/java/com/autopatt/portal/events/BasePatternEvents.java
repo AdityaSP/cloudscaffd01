@@ -13,12 +13,13 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
-
+import org.apache.ofbiz.base.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TimeZone;
 import java.sql.Timestamp;
@@ -38,6 +39,7 @@ public class BasePatternEvents{
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         Map<String,Object> data = UtilMisc.toMap();
+        List<String> errorList = new ArrayList<>();
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             getResponse(request, response, "You do not have permission.", ERROR);
@@ -45,12 +47,17 @@ public class BasePatternEvents{
         }
 
         String psid = request.getParameter("psid");
-        String baseName = request.getParameter("baseName");
-        String baseDescription = request.getParameter("baseDescription");
-        String baseForces = request.getParameter("baseForces");
-        String baseConsequences = request.getParameter("baseConsequences");
-
+        String baseName = UtilCodec.checkStringForHtmlStrictNone("Pattern Name",request.getParameter("baseName"),errorList);
+        String baseDescription = UtilCodec.checkStringForHtmlStrictNone("Pattern Description",request.getParameter("baseDescription"),errorList);
+        String baseForces = UtilCodec.checkStringForHtmlStrictNone("Forces",request.getParameter("baseForces"),errorList);
+        String baseConsequences = UtilCodec.checkStringForHtmlStrictNone("Consequences",request.getParameter("baseConsequences"),errorList);
         request.setAttribute("psid", psid);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
 
         try {
             Map<String, Object> addBasePatternResp = dispatcher.runSync("createBasePattern",
@@ -239,6 +246,8 @@ public class BasePatternEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         Map<String,Object> data = UtilMisc.toMap();
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+
+        List<String> errorList = new ArrayList<>();
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
             getResponse(request, response, "You do not have permission.", ERROR);
@@ -246,12 +255,19 @@ public class BasePatternEvents{
         }
 
         String bpid = request.getParameter("bpid");
-        String baseName = request.getParameter("baseName");
-        String baseDescription = request.getParameter("baseDescription");
-        String baseForces = request.getParameter("baseForces");
-        String baseConsequences = request.getParameter("baseConsequences");
+
+        String baseName = UtilCodec.checkStringForHtmlStrictNone("Pattern Name",request.getParameter("baseName"),errorList);
+        String baseDescription = UtilCodec.checkStringForHtmlStrictNone("Pattern Description",request.getParameter("baseDescription"),errorList);
+        String baseForces = UtilCodec.checkStringForHtmlStrictNone("Forces",request.getParameter("baseForces"),errorList);
+        String baseConsequences = UtilCodec.checkStringForHtmlStrictNone("Consequences",request.getParameter("baseConsequences"),errorList);
         String updatedBy = userLoginData.getString("userLoginId");
         Map<String, Object> inputs = UtilMisc.toMap("id", bpid);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
 
         String type = "pre-defined";
         String basePatternType = getBasePatternType(request,response,bpid);

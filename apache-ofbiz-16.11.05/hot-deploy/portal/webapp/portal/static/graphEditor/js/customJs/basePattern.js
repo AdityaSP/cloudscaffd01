@@ -127,10 +127,10 @@ $(function () {
 
         if (userRole == "Planner" || userRole == "Administrator") {
             $('#saveChangesBtn').on('click', function (e) {
-                let baseName = $('#baseProblem').val(),
-                    baseDescription = $('#baseProblemDescription').val(),
-                    baseForces = $('#baseForces').val(),
-                    baseConsequences = $('#baseConsequences').val(),
+                let baseName = App.unescapeHtmlText($('#baseProblem').val()),
+                    baseDescription = App.unescapeHtmlText($('#baseProblemDescription').val()),
+                    baseForces = App.unescapeHtmlText($('#baseForces').val()),
+                    baseConsequences = App.unescapeHtmlText($('#baseConsequences').val()),
                     formData = {
                         "baseName": baseName,
                         "baseDescription": baseDescription,

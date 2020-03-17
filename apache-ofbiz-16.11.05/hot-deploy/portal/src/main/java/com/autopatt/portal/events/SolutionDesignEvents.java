@@ -10,11 +10,12 @@ import org.apache.ofbiz.entity.*;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
-
+import org.apache.ofbiz.base.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TimeZone;
 import java.sql.Timestamp;
@@ -35,7 +36,7 @@ public class SolutionDesignEvents{
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         Map<String,Object> data = UtilMisc.toMap();
-
+        List<String> errorList = new ArrayList<>();
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_CREATE_APC",userLogin)){
             getResponse(request, response, "You do not have permission.", ERROR);
@@ -43,12 +44,17 @@ public class SolutionDesignEvents{
         }
         String psid = request.getParameter("psid");
         String bpid = request.getParameter("bpid");
-        String solutionDesignName = request.getParameter("solutionDesignName");
-        String solutionDesignDesc = request.getParameter("solutionDesignDesc");
-        String solutionForces = request.getParameter("solutionForces");
-        String solutionConsequences = request.getParameter("solutionConsequences");
+        String solutionDesignName = UtilCodec.checkStringForHtmlStrictNone("Solution Design Name",request.getParameter("solutionDesignName"),errorList);
+        String solutionDesignDesc = UtilCodec.checkStringForHtmlStrictNone("Description",request.getParameter("solutionDesignDesc"),errorList);
+        String solutionForces = UtilCodec.checkStringForHtmlStrictNone("Forces",request.getParameter("solutionForces"),errorList);
+        String solutionConsequences = UtilCodec.checkStringForHtmlStrictNone("Consequences",request.getParameter("solutionConsequences"),errorList);
         request.setAttribute("psid", psid);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         try {
             Map<String, Object> addSolutionDesignResp = dispatcher.runSync("createSolutionDesign",
                     UtilMisc.<String, Object>toMap("psid", psid,"bpid", bpid, "solutionDesignName", solutionDesignName,
@@ -210,6 +216,7 @@ public class SolutionDesignEvents{
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Map<String,Object> data = UtilMisc.toMap();
+        List<String> errorList = new ArrayList<>();
 
         // Check permission
         if(!getSecurityPermission(request, response, "PORTAL_EDIT_APC",userLoginData)){
@@ -218,15 +225,21 @@ public class SolutionDesignEvents{
         }
 
         String sdid = request.getParameter("sdid");
-        String solutionDesignName = request.getParameter("solutionDesignName");
-        String solutionDesignDesc = request.getParameter("solutionDesignDesc");
-        String solutionForces = request.getParameter("solutionForces");
-        String solutionConsequences = request.getParameter("solutionConsequences");
+        String solutionDesignName = UtilCodec.checkStringForHtmlStrictNone("Solution Design Name",request.getParameter("solutionDesignName"),errorList);
+        String solutionDesignDesc = UtilCodec.checkStringForHtmlStrictNone("Description",request.getParameter("solutionDesignDesc"),errorList);
+        String solutionForces = UtilCodec.checkStringForHtmlStrictNone("Forces",request.getParameter("solutionForces"),errorList);
+        String solutionConsequences = UtilCodec.checkStringForHtmlStrictNone("Consequences",request.getParameter("solutionConsequences"),errorList);
         String updatedBy = userLoginData.getString("userLoginId");
         Map<String, Object> inputs = UtilMisc.toMap("id", sdid);
-System.out.println("updatedBy ="+updatedBy);
+        System.out.println("updatedBy ="+updatedBy);
         String type = "pre-defined";
         String solutionDesignType = getSolutionDesignType(request,response,sdid);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
 
         if(!solutionDesignType.equals(type)) {
             try {
