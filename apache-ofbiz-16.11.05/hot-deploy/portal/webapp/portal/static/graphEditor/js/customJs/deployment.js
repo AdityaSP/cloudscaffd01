@@ -71,6 +71,8 @@ export const Deployment = {
                         }
                     }
 
+                    Deployment.clearRuntimeTabData();
+
                     if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
                     else { $('.runtimeStatus').addClass('text-danger'); }
                     runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
@@ -298,7 +300,6 @@ export const Deployment = {
 
         let runtimeLog, runtimeResults, runtimeStatus, runtimeData, count = 0;
 
-
         (logList.runtimeLogs) ? runtimeLog = JSON.parse(logList.runtimeLogs) : runtimeLog = null;
 
         (logList.deployLogs) ? runtimeLog = JSON.parse(logList.deployLogs) : runtimeLog = null; //TODO remove later
@@ -306,9 +307,6 @@ export const Deployment = {
         (runtimeLog.compile_results) ? runtimeResults = runtimeLog.compile_results : runtimeResults = null;//TODO
         (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
 
-        console.log(runtimeLog)
-        console.log(runtimeResults)
-        console.log(runtimeData)
         //Removing modal data
         Deployment.clearRuntimeTabData();
 

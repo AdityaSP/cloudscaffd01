@@ -44,10 +44,10 @@ public class ScaffoldEvents {
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.compileURL","false");
         final PostMethod post = new PostMethod(targetURL);
         Map<String, Object> data = UtilMisc.toMap();
-       post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
-        // post.setParameter("tenant_name", tenantId);
-        // post.setParameter("sd_id", sdid);
-        post.setParameter("sd_id", "SD-10097");
+    //    post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
+        post.setParameter("tenant_name", tenantId);
+        post.setParameter("sd_id", sdid);
+        // post.setParameter("sd_id", "SD-10097");
         post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
