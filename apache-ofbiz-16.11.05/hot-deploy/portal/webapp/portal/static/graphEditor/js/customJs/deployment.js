@@ -12,12 +12,22 @@ export const Deployment = {
 
     renderDataToModal(logs) {
 
-        console.log(logs)
-        // Display all the Logs in modal
-        if (logs && logs.message == 'success' && logs.scaffoldLogList.length > 0) {
-            $('.viewDeploymentSummaryBtn').show();
+        console.log(logs);
+        let logList;
 
-            let logList = logs.scaffoldLogList;
+        if (logs.compileScaffoldSolutionDesignResponse) {
+            logList = logs.compileScaffoldSolutionDesignResponse
+        } else if (logs.scaffoldLogList) {
+            logList = logs.scaffoldLogList;
+        } else {
+            logList = [];
+        }
+
+        console.log(logList);
+
+        // Display all the Logs in modal
+        if (logs && logs.message == 'success' && logList.length > 0) {
+            $('.viewDeploymentSummaryBtn').show();
 
             for (let i = 0; i < logList.length; i++) {
                 let compileLog = JSON.parse(logList[i].compileLogs),
@@ -120,15 +130,17 @@ export const Deployment = {
         console.log(compileData);
 
         // If isParam(false) thwn it first time / its not recompiling
-        if (!isParam) {
-            // Render Data to Modal Table
-            Deployment.getLogs();
-        }
+        // if (isParam) {
+        // Render Data to Modal Table
+        // Deployment.getLogs();
+        // }
 
-        if (res.message == 'success') { // TODO : compileData.message
+        if (compileData ){//&& compileData.message == 'success') { // TODO : compileData.message
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
             $('#proceedBtn').show();
+
+            Deployment.renderDataToModal(compileData);
 
             $('#proceedBtn').on('click', function (e) {
                 // close the running modal

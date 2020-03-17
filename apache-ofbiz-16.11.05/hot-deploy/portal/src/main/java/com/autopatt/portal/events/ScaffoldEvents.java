@@ -45,9 +45,10 @@ public class ScaffoldEvents {
         final String targetURL = "http://3.8.1.169:5000/compile";
         final PostMethod post = new PostMethod(targetURL);
         Map<String, Object> data = UtilMisc.toMap();
-        //post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
-        post.setParameter("tenant_name", tenantId);
-        post.setParameter("sd_id", sdid);
+        post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
+        // post.setParameter("tenant_name", tenantId);
+        post.setParameter("sd_id", "SD-10097");
+        // post.setParameter("sd_id", sdid);
         post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
@@ -58,7 +59,6 @@ public class ScaffoldEvents {
             } else {
                 data.put("message", "Unable reach the server");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             data.put("message", ERROR);

@@ -273,7 +273,7 @@ function renderTags(tags) {
 function ajaxTest(searchStr) {
     $.ajax({
         method: "POST",
-        url: "getScaffoldBySdid",
+        url: "compileScaffoldSolutionDesign",
         data: { "sdid": searchStr },
         success: function (res) {
             console.log(res);

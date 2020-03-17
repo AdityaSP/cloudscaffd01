@@ -68,8 +68,8 @@
                   </div>
                 </div>
               </div>  
-                <p class="row-12 solutionDesignDescription text-justify"></p>
                 <div class="p-3 row">
+                  <p class="col-12 p-1 solutionDesignDescription text-justify"></p>
                     <div class="col-6 border rounded">
                         <label for="solutionDesignForces h5"><b>Forces</b></label><hr class="m-0">
                         <p class="solutionDesignForces"></p>
