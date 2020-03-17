@@ -26,82 +26,18 @@ export const Deployment = {
             $('.edit').attr("disabled", true);
 
             if (isJustCompile) {
+                
                 Deployment.renderCompileData(logList);
-            } else {
+                Deployment.renderRuntimeData();
 
+            } else {
                 if (logList.length > 0) {
                     for (let i = 0; i < logList.length; i++) {
-                        let compileLog, runtimeLog, compileResults, runtimeResults,
-                            compileStatus, runtimeStatus, compileData, runtimeData, count = 0;
-
-                        (logList[i].compileLogs) ? compileLog = JSON.parse(logList[i].compileLogs) : compileLog = null;
-                        (logList[i].runtimeLogs) ? runtimeLog = JSON.parse(logList[i].runtimeLogs) : runtimeLog = null;
-
-                        (compileLog.compile_results) ? compileResults = compileLog.compile_results : compileResults = null;
-                        (runtimeLog.deploy_results) ? runtimeResults = runtimeLog.deploy_results : runtimeResults = null;
-
-                        (compileResults.compile_data) ? compileData = compileResults.compile_data : compileData = null;
-                        (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
-
-                        console.log(compileLog)
-
-                        if (compileResults.status) { $('.compileStatus').addClass('text-success'); }
-                        else { $('.compileStatus').addClass('text-danger'); }
-                        compileStatus = `COMPILE ${compileResults.status_code}`;
-                        document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus);
-
-                        if (compileData && compileData.length > 0) {
-                            for (let l = 0; l < compileData.length; l++) {
-
-                                let stepCompileResults = compileData[l].step_compile_results;
-                                // Rendering Compile Log's All Steps
-                                Deployment.renderLogSteps(compileData[l], '.compileTabData')
-                                count = count + stepCompileResults.length;
-
-                                if (!App.isEmpty(stepCompileResults)) {
-                                    for (let j = 0; j < stepCompileResults.length; j++) {
-
-                                        Deployment.renderTableRow(compileData[l].step_name, stepCompileResults[j], '.compileTabTable')
-                                    }
-                                } else {
-                                    // console.log('stepCompileResults is empty');
-                                }
-                            }
-                            if (count <= 0) {
-                                $('.compileTabDataInTableDiv').hide();
-                            }
-                        }
+                        Deployment.clearCompileTabData();
+                        Deployment.renderCompileData(logList[i]);
 
                         Deployment.clearRuntimeTabData();
-
-                        if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
-                        else { $('.runtimeStatus').addClass('text-danger'); }
-                        runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
-                        document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
-
-                        if (runtimeData && runtimeData.length > 0) {
-                            count = 0;
-                            for (let k = 0; k < runtimeData.length; k++) {
-
-                                let stepRuntimeResults = runtimeData[k].step_compile_results; // TODO: change key name
-                                // Rendering Runtime Log's All Steps
-                                Deployment.renderLogSteps(runtimeData[k], '.runtimeTabData');
-
-                                count = count + stepRuntimeResults.length;
-                                if (!App.isEmpty(stepRuntimeResults)) {
-                                    for (let l = 0; l < stepRuntimeResults.length; l++) {
-
-                                        //Rendring row data
-                                        Deployment.renderTableRow(runtimeData[k].step_name, stepRuntimeResults[l], '.runtimeTabTable')
-                                    }
-                                } else {
-                                    // console.log('runtimeLog is empty');
-                                }
-                            }
-                            if (count <= 0) {
-                                $('.runtimeTabDataInTableDiv').hide();
-                            }
-                        }
+                        Deployment.renderRuntimeData(logList[i]);
                     }
                 } else {
                     $('.viewDeploymentSummaryBtn').hide();
@@ -149,13 +85,12 @@ export const Deployment = {
 
         if (compileData && compileData.message == 'success') {
 
-            // After Compilation open deployment summary modal then ask for proceed
-            $('#viewDeploymentSummaryModal').modal('show');
-            $('#proceedBtn').show();
-
             Deployment.renderDataToModal(compileData);
             Deployment.clearRuntimeTabData();
 
+            // After Compilation open deployment summary modal then ask for proceed
+            $('#viewDeploymentSummaryModal').modal('show');
+            $('#proceedBtn').show();
 
             $('#proceedBtn').on('click', function (e) {
                 // close the running modal
@@ -189,12 +124,7 @@ export const Deployment = {
     checkDeploymentData(data, param, res) {
         Deployment.closeLoadingModal();
 
-        console.log(data)
-
         if (data.message == 'success') {
-
-            //TODO : render deploy_results in runtime tab
-
             Deployment.renderRuntimeData(data.deployScaffoldSolutionDesignResponse);
 
             Deployment.closeLoadingModal();
@@ -214,12 +144,9 @@ export const Deployment = {
             message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>   ${msg}</p>`,
             closeButton: false,
         });
-        // $('.loadingSpinnerMsg').text(`  ${msg}`);
-        // $('#loadingSpinnerModal').modal('show');
     },
 
     closeLoadingModal() {
-        // $('#loadingSpinnerModal').modal('hide');
         Deployment.dialog.modal('hide');
     },
 
@@ -241,6 +168,11 @@ export const Deployment = {
             case 'warning': return 'text text-warning'; break;
             case 'error': return 'text text-danger'; break;
             default: console.log("Status Not found: " + status); return 'text-muted'; break;
+        }
+    },
+    checkLoadingModalIsStill() {
+        if ($('.modal:visible').length == 2) {
+            $('.modal:visible')[1].removeAttribute("class");
         }
     },
     renderLogSteps(data, place) {
@@ -265,105 +197,109 @@ export const Deployment = {
         $(place).append(row);
     },
     renderCompileData(logList) {
-        let compileLog, compileResults, compileData, compileStatus, count = 0;
 
-        (logList.compileLogs) ? compileLog = JSON.parse(logList.compileLogs) : compileLog = null;
-        (compileLog.compile_results) ? compileResults = compileLog.compile_results : compileResults = null;
-        (compileResults.compile_data) ? compileData = compileResults.compile_data : compileData = null;
+        if (logList) {
+            $('#nav-compile-tab').show();
 
-        //Removing modal data
-        Deployment.clearCompileTabData();
+            let compileLog, compileResults, compileData, compileStatus, count = 0;
 
-        if (compileResults.status) { $('.compileStatus').addClass('text-success'); }
-        else { $('.compileStatus').addClass('text-danger'); }
-        compileStatus = `COMPILE ${compileResults.status_code}`;
-        document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
+            (logList.compileLogs) ? compileLog = JSON.parse(logList.compileLogs) : compileLog = null;
+            (compileLog.compile_results) ? compileResults = compileLog.compile_results : compileResults = null;
+            (compileResults.compile_data) ? compileData = compileResults.compile_data : compileData = null;
 
-        //TODO: same condition inside for loop ,change it
-        if (compileData && compileData.length > 0) {
-            for (let l = 0; l < compileData.length; l++) {
+            //Removing modal data
+            Deployment.clearCompileTabData();
 
-                let stepCompileResults = compileData[l].step_compile_results;
-                // Rendering Compile Log's All Steps
-                Deployment.renderLogSteps(compileData[l], '.compileTabData')
-                count = count + stepCompileResults.length;
+            if (compileResults.status) { $('.compileStatus').addClass('text-success'); }
+            else { $('.compileStatus').addClass('text-danger'); }
+            compileStatus = `COMPILE ${compileResults.status_code}`;
+            document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
 
-                if (!App.isEmpty(stepCompileResults)) {
-                    for (let j = 0; j < stepCompileResults.length; j++) {
+            if (compileData && compileData.length > 0) {
+                for (let l = 0; l < compileData.length; l++) {
 
-                        Deployment.renderTableRow(compileData[l].step_name, stepCompileResults[j], '.compileTabTable')
+                    let stepCompileResults = compileData[l].step_compile_results;
+                    // Rendering Compile Log's All Steps
+                    Deployment.renderLogSteps(compileData[l], '.compileTabData')
+                    count = count + stepCompileResults.length;
+
+                    if (!App.isEmpty(stepCompileResults)) {
+                        for (let j = 0; j < stepCompileResults.length; j++) {
+
+                            Deployment.renderTableRow(compileData[l].step_name, stepCompileResults[j], '.compileTabTable')
+                        }
+                    } else {
+                        // console.log('stepCompileResults is empty');
                     }
-                } else {
-                    // console.log('stepCompileResults is empty');
                 }
+                if (count <= 0) {
+                    $('.compileTabDataInTableDiv').hide();
+                }
+                Deployment.checkLoadingModalIsStill();
             }
-            if (count <= 0) {
-                $('.compileTabDataInTableDiv').hide();
-            }
+        } else {
+            $('#nav-compile-tab').hide();
         }
     },
     renderRuntimeData(logList) {
+        if (logList) {
+            $('#nav-runtime-tab').show();
 
-        console.log(logList)
+            let runtimeLog, runtimeResults, runtimeStatus, runtimeData, count = 0;
 
-        let runtimeLog, runtimeResults, runtimeStatus, runtimeData, count = 0;
+            (logList.runtimeLogs) ? runtimeLog = JSON.parse(logList.runtimeLogs) : runtimeLog = null;
+            (runtimeLog.compile_results) ? runtimeResults = runtimeLog.compile_results : runtimeResults = null;
+            (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
 
-        (logList.runtimeLogs) ? runtimeLog = JSON.parse(logList.runtimeLogs) : runtimeLog = null;
-        (runtimeLog.compile_results) ? runtimeResults = runtimeLog.compile_results : runtimeResults = null;
-        (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
+            //Removing modal data
+            Deployment.clearRuntimeTabData();
 
-        //Removing modal data
-        Deployment.clearRuntimeTabData();
+            if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
+            else { $('.runtimeStatus').addClass('text-danger'); }
+            runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
+            document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
 
-        if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
-        else { $('.runtimeStatus').addClass('text-danger'); }
-        runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
-        document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
+            if (runtimeData && runtimeData.length > 0) {
+                count = 0;
+                for (let k = 0; k < runtimeData.length; k++) {
 
-        if (runtimeData && runtimeData.length > 0) {
-            count = 0;
-            for (let k = 0; k < runtimeData.length; k++) {
+                    let stepRuntimeResults = runtimeData[k].step_compile_results;
+                    // Rendering Runtime Log's All Steps
+                    Deployment.renderLogSteps(runtimeData[k], '.runtimeTabData');
 
-                let stepRuntimeResults = runtimeData[k].step_compile_results;
-                // Rendering Runtime Log's All Steps
-                Deployment.renderLogSteps(runtimeData[k], '.runtimeTabData');
+                    count = count + stepRuntimeResults.length;
+                    if (!App.isEmpty(stepRuntimeResults)) {
+                        for (let l = 0; l < stepRuntimeResults.length; l++) {
 
-                count = count + stepRuntimeResults.length;
-                if (!App.isEmpty(stepRuntimeResults)) {
-                    for (let l = 0; l < stepRuntimeResults.length; l++) {
-
-                        //Rendring row data
-                        Deployment.renderTableRow(runtimeData[k].step_name, stepRuntimeResults[l], '.runtimeTabTable')
+                            //Rendring row data
+                            Deployment.renderTableRow(runtimeData[k].step_name, stepRuntimeResults[l], '.runtimeTabTable')
+                        }
+                    } else {
+                        // console.log('runtimeLog is empty');
                     }
-                } else {
-                    // console.log('runtimeLog is empty');
                 }
+                if (count <= 0) {
+                    $('.runtimeTabDataInTableDiv').hide();
+                }
+                Deployment.checkLoadingModalIsStill();
             }
-            if (count <= 0) {
-                $('.runtimeTabDataInTableDiv').hide();
-            }
+        } else {
+            $('#nav-runtime-tab').hide();
         }
     },
     clearCompileTabData() {
-        // $('#nav-runtime-tab').hide();
-
         //Clear the Compile status
         $('.compileStatus').text('');
-
         // Removing steps
         $('.compileTabData').children().remove()
-
         // Removing Row data
         $('.compileTabTable').children().remove();
-
     },
     clearRuntimeTabData() {
         //Clear the Compile status
         $('.runtimeStatus').text('');
-
         // Removing steps
         $('.runtimeTabData').children().remove()
-
         // Removing Row data
         $('.runtimeTabTable').children().remove();
     },
