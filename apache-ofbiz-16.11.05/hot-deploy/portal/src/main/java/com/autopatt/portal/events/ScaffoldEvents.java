@@ -21,10 +21,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import org.apache.ofbiz.base.util.*;
+import java.util.*;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.security.Security;
@@ -34,6 +32,7 @@ public class ScaffoldEvents {
     public final static String module = ScaffoldEvents.class.getName();
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
+    private static Properties SCAFFOLD_URL_PROPERTIES = UtilProperties.getProperties("scaffoldURL.properties");
 
     public static String compileScaffoldSolutionDesign(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
@@ -42,7 +41,7 @@ public class ScaffoldEvents {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         String createdBy = userLogin.getString("userLoginId");
-        final String targetURL = "http://3.8.1.169:5000/compile";
+        String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.compileURL","false");
         final PostMethod post = new PostMethod(targetURL);
         Map<String, Object> data = UtilMisc.toMap();
        // post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
@@ -51,8 +50,8 @@ public class ScaffoldEvents {
         post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
-            final int result = httpclient.executeMethod((HttpMethod) post);
-            if(result == 200) {
+            final int httpStatusCode = httpclient.executeMethod((HttpMethod) post);
+            if(httpStatusCode == 200) {
                 Map<String, Object> compileScaffoldSolutionDesignResponse = UtilMisc.toMap();
                 compileScaffoldSolutionDesignResponse.put("compileLogs", post.getResponseBodyAsString());
                 compileScaffoldSolutionDesignResponse.put("message", SUCCESS);
@@ -69,8 +68,8 @@ public class ScaffoldEvents {
             post.releaseConnection();
         }
 
+        data.put("message", SUCCESS);
         request.setAttribute("data", data);
-        request.setAttribute("message", SUCCESS);
         return SUCCESS;
     }
 
@@ -81,23 +80,33 @@ public class ScaffoldEvents {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         String createdBy = userLogin.getString("userLoginId");
-        final String targetURL = "https://postb.in/1583992299271-7542994602117";
+        Map<String, Object> data = UtilMisc.toMap();
+        String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.deployURL","false");
         final PostMethod post = new PostMethod(targetURL);
-        post.addParameter("tenantId", tenantId);
-        post.addParameter("sdid", sdid);
-        post.addParameter("createdBy",createdBy);
+        post.setParameter("tenant_name", tenantId);
+        post.setParameter("sd_id", sdid);
+        post.setParameter("user",createdBy);
         final HttpClient httpclient = new HttpClient();
         try {
-            final int result = httpclient.executeMethod((HttpMethod) post);
-            request.setAttribute("APIResult", result);
+            final int httpStatusCode = httpclient.executeMethod((HttpMethod) post);
+            if(httpStatusCode == 200) {
+                Map<String, Object> deployScaffoldSolutionDesignResponse = UtilMisc.toMap();
+                deployScaffoldSolutionDesignResponse.put("deployLogs", post.getResponseBodyAsString());
+                deployScaffoldSolutionDesignResponse.put("message", SUCCESS);
+                data.put("deployScaffoldSolutionDesignResponse",deployScaffoldSolutionDesignResponse);
+            } else {
+                data.put("info", "Unable reach the server");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("message", ERROR);
+            data.put("message", ERROR);
             return ERROR;
         } finally {
             post.releaseConnection();
         }
 
+        data.put("message", SUCCESS);
+        request.setAttribute("data", data);
         return SUCCESS;
     }
 
