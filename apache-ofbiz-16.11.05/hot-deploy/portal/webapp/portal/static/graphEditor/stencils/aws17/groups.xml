@@ -1,4 +1,4 @@
-<shapes name="mxgraph.aws.groups">
+<shapes name="mxgraph.aws">
 	<shape name="Auto Scaling Group" h="60" w="59" aspect="variable" strokewidth="inherit">
 		<connections>
 			<constraint x="0.5" y="0" perimeter="0" name="N"/>

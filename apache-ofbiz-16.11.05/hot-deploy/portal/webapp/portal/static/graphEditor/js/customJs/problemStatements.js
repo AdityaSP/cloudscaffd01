@@ -151,10 +151,12 @@ function submitForm(data) {
 }
 
 function clearSearchResults() {
+    
     let isExpanded = $('.filterToggler').attr("aria-expanded");
     if (isExpanded == 'true') {
         $('.filterToggler').click();
     }
+
     $('.collapsiblePSResults').children().remove();
     $('.collapsiblePTResults').children().remove();
     $('.collapsibleSDResults').children().remove();

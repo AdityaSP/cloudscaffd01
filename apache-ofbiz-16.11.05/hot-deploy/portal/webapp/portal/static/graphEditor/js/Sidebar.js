@@ -3555,6 +3555,8 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 
 		console.log(x);
 
+		console.log(value)
+
 		if (value != '') {
 			type = value.split("-")[0];
 
@@ -3571,6 +3573,8 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 			b = a.substr(a.indexOf('mxgraph') + 8);
 			type = b.split('.')[0];
 			lab = b.split('.')[1];
+
+			console.log(a)
 		}
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('object');
@@ -3671,6 +3675,62 @@ this.pattAttributeData = {
 				"value": "No",
 			},
 		],
+		"virtual_private_cloud": [
+			{
+				"name": "CidrBlock",
+				"value": "abc",
+			},
+			{
+				"name": "tag_key_1",
+				"value": "abc",
+			}, {
+				"name": "tag_value_1",
+				"value": "abc",
+			}, {
+				"name": "EnableDnsSupport",
+				"value": "abc",
+			}, {
+				"name": "EnableDnsHostnames",
+				"value": "abc",
+			}, {
+				"name": "EnableInternetGateway",
+				"value": "abc",
+			}, {
+				"name": "DestinationCidrBlock",
+				"value": "abc",
+			}, {
+				"name": "CidrBlock",
+				"value": "abc",
+			},
+		],
+		"vpc_subnet": [
+			{
+				"name": "CidrBlock",
+				"value": "abc",
+			},
+		],
+		"security_group": [
+			{
+				"name": "Group_1_Name",
+				"value": "abc",
+			}, {
+				"name": "Group_1_Desc",
+				"value": "abc",
+			}, {
+				"name": "Group_1_CidrIp_1",
+				"value": "abc",
+			}, {
+				"name": "Group_1_IpProtocol",
+				"value": "abc",
+			}, {
+				"name": "Group_1_FromPort",
+				"value": "abc",
+			}, {
+				"name": "Group_1_ToPort",
+				"value": "abc",
+			},
+		],
+
 	},
 	"azure": [
 		{
@@ -3696,7 +3756,7 @@ setCustomAttribute = function (type, graph, cell, value, name) {
 		case "aws": {
 			let json = this.pattAttributeData.aws;
 			json = selectJSONdata(json, name);
-			// console.log(json);
+			console.log(json);
 			addCustomAttributes(json, type, name, value, graph, cell);
 		}; break;
 
@@ -3726,7 +3786,7 @@ function selectJSONdata(json, name) {
 		name = removeTags(name);
 	}
 	//name.replace("_", " ");
-	// console.log(name)
+	console.log(name)
 	let isTrue = json.hasOwnProperty(name);
 	if (isTrue) {
 		let res = json[name];
