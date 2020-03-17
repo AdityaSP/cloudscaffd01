@@ -11,7 +11,7 @@ $(function () {
         psid = urlParams['psid']; console.log(urlParams, userRole);
 
     if (!App.isEmpty(urlParams)) {
-        $(".psid").val(psid); // For create forms 
+        $(".psid").val(psid); // For create forms
         $(".psid").text(psid); // For Modal
 
         // Fetch and render Problem Statement
@@ -40,10 +40,10 @@ $(function () {
             });
 
             $("#basePatternFormSubmitBtn").on('click', function (e) {
-                let baseName = $('#baseProblem').val(),
-                    baseDescription = $('#baseProblemDescription').val(),
-                    baseForces = $('#baseForces').val(),
-                    baseConsequences = $('#baseConsequences').val(),
+                let baseName = App.unescapeHtmlText($('#baseProblem').val()),
+                    baseDescription = App.unescapeHtmlText($('#baseProblemDescription').val()),
+                    baseForces = App.unescapeHtmlText($('#baseForces').val()),
+                    baseConsequences = App.unescapeHtmlText($('#baseConsequences').val()),
                     psid = $('.psid').val(),
                     formData = {
                         "baseName": baseName,
@@ -65,10 +65,10 @@ $(function () {
             });
 
             $("#solutionDesignFormSubmitBtn").on('click', function (e) {
-                let solutionDesignName = $('#solutionDesignName').val(),
-                    solutionDesignDesc = $('#solutionDesignDescription').val(),
-                    solutionForces = $('#solutionForces').val(),
-                    solutionConsequences = $('#solutionConsequences').val(),
+                let solutionDesignName = App.unescapeHtmlText($('#solutionDesignName').val()),
+                    solutionDesignDesc = App.unescapeHtmlText($('#solutionDesignDescription').val()),
+                    solutionForces = App.unescapeHtmlText($('#solutionForces').val()),
+                    solutionConsequences = App.unescapeHtmlText($('#solutionConsequences').val()),
                     psid = $('.psid').val(),
                     bpid = $('.bpid').val(),
                     formData = {
@@ -125,12 +125,12 @@ $(function () {
 function submitForm(data, params) {
     $(`${params.submitBtn}`).hide();
     if (data.message == 'success') {
-        App.toastMsg('Creation Successful', 'success', `.${params.toastMsgDiv}`, true);
+        App.toastMsg(data.info, 'success', `.${params.toastMsgDiv}`, true);
         setTimeout(function () {
             window.location.reload();
         }, 1000);
     } else {
-        App.toastMsg('Failed to create', 'failed', `.${params.toastMsgDiv}`, 1500);
+        App.toastMsg(data.info, 'failed', `.${params.toastMsgDiv}`, 1500);
         App.clearInput('input:not(:button)');
         setTimeout(function () {
             $(`.${params.toastMsgDiv}`).val('Create');
@@ -204,7 +204,7 @@ function renderProblemStmt(problemStmt, psid) {
             $('.sdCount').text(solutionDesignList.length + "-Solution Design");
 
             for (let j = 0; j < solutionDesignList.length; j++) {
-                var solutionDesignsHtml = `<li class="list-group-item solutionDesigns" 
+                var solutionDesignsHtml = `<li class="list-group-item solutionDesigns"
                 data-psid="${psid}" data-sdid="${solutionDesignList[j].id}">
                 ${solutionDesignList[j].solutionDesignName}</li>`;
                 document.querySelector(".solutionPatternResults").insertAdjacentHTML("afterbegin", solutionDesignsHtml);

@@ -113,7 +113,7 @@ export const App = {
         // console.log(data);
         if (data && data.message == "success") {
             $('.modalBody').addClass('alert alert-success m-2');
-            $('.modalBody').html(`<b>Success!</b> ${data.info.toUpperCase()}`);
+            $('.modalBody').html(`<b>Success!</b> ${data.info}`);
             if (!modalData) {
                 $('#closeBtn').hide();
                 $('#saveChangesBtn').hide();
@@ -126,7 +126,7 @@ export const App = {
             }, 1500);
         } else {
             $('.modalBody').addClass('alert alert-danger m-2');
-            $('.modalBody').html(`<b>Failed</b> : ${data.info.toUpperCase()}`);
+            $('.modalBody').html(`<b>Failed</b> : ${data.info}`);
             if (!modalData) {
                 $('#closeBtn').hide();
                 $('#saveChangesBtn').hide();
@@ -273,7 +273,7 @@ export const App = {
             a.click();
         }
     },
-    xmlToJson(xml) { // Need to pass Dom parsed xml string i.e new DOMParser().parseFromString(xml, 'text/xml') 
+    xmlToJson(xml) { // Need to pass Dom parsed xml string i.e new DOMParser().parseFromString(xml, 'text/xml')
         // Create the return object
         var obj = {};
         if (xml.nodeType == 1) { // element
@@ -342,6 +342,9 @@ export const App = {
         }
         // console.log(sentence)
         return sentence;
-    }
+    },
+      unescapeHtmlText: function(text) {
+            return jQuery('<div />').html(text).text()
+        }
 };
 window.App = App;
