@@ -14,6 +14,8 @@ export const Deployment = {
 
         let logList, message;
 
+        console.log(logs)
+
         if (logs.compileScaffoldSolutionDesignResponse) {
             logList = logs.compileScaffoldSolutionDesignResponse;
             (logList.message) ? message = logList.message : message = 'error';
@@ -29,7 +31,7 @@ export const Deployment = {
             $('.viewDeploymentSummaryBtn').show();
             $('.edit').attr("disabled", true);
 
-            console.log(logList);
+            // console.log(logList);
 
             for (let i = 0; i < logList.length; i++) {
                 let compileLog, runtimeLog, compileResults, runtimeResults,
@@ -117,6 +119,8 @@ export const Deployment = {
         if (str && str == 'recompile') {
             Deployment.loadingModal('Deployment In progress...');
             reCompile = true;
+
+            //TODO: Clear All data in Deployment Modal
             successResponseRenderMethod = Deployment.deploySolutionDesign;
         } else {
             Deployment.loadingModal('Compilation is in progress...');
@@ -268,7 +272,7 @@ export const Deployment = {
 }
 
 function clearRuntimeTabData() {
-    
+
     $('#nav-runtime-tab').hide();
 
 

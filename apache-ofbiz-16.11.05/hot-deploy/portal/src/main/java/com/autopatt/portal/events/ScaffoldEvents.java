@@ -60,6 +60,7 @@ public class ScaffoldEvents {
             } else {
                 data.put("info", "Unable reach the server");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             data.put("message", ERROR);
@@ -122,10 +123,8 @@ public class ScaffoldEvents {
                     .queryList();
 
             if (scaffoldLogList != null) {
-                data.put("message", SUCCESS);
                 data.put("scaffoldLogList",scaffoldLogList);
             } else {
-                data.put("message", ERROR);
                 data.put("scaffoldLogList",null);
             }
         } catch (GenericEntityException e) {
