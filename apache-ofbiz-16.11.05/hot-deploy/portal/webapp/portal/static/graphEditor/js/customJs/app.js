@@ -343,8 +343,8 @@ export const App = {
         // console.log(sentence)
         return sentence;
     },
-      unescapeHtmlText: function(text) {
-            return jQuery('<div />').html(text).text()
-        }
+    unescapeHtmlText: function (text) {
+        return jQuery('<div />').html(text).text()
+    }
 };
 window.App = App;

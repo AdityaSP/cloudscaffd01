@@ -398,6 +398,10 @@ function checkImageAproval(isSolutionDesignApproved, id) {
             idToBeApproved = id;
         }
     }
+    else if (isSolutionDesignApproved == 'Deployment-Successfull') {
+        //Remove All the btns like edit, deploy, approve etc...
+        $('#allButtonsDiv').hide();
+    }
     else {
         App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
 
