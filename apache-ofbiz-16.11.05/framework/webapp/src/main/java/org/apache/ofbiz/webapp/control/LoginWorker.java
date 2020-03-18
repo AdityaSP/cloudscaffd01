@@ -195,11 +195,13 @@ public class LoginWorker {
 
             try {
                 beganTransaction = TransactionUtil.begin();
-
+                Debug.logInfo("userLoginId in setLoggedOut::: "+ "  beganTransaction flag :: "+ beganTransaction + userLoginId,module);
                 GenericValue userLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", userLoginId).queryOne();
+                Debug.logInfo("after query for userLogin "+ userLogin,module);
                 if (userLogin == null) {
                     Debug.logError("Could not find UserLogin record for setLoggedOut with userLoginId [" + userLoginId + "]", module);
                 } else {
+                    Debug.logInfo("set flag hasLoggedOut to Y ",module);
                     userLogin.set("hasLoggedOut", "Y");
                     userLogin.store();
                 }
@@ -217,9 +219,11 @@ public class LoginWorker {
                 } catch (GenericTransactionException e) {
                     Debug.logError(e, "Could not commit nested transaction: " + e.getMessage(), module);
                 }
+                Debug.logInfo("finally 1 exexured",module);
             }
         } finally {
             // resume/restore parent transaction
+            Debug.logInfo("finally 2 exexured",module);
             if (parentTx != null) {
                 try {
                     TransactionUtil.resume(parentTx);
@@ -372,18 +376,18 @@ public class LoginWorker {
      *         JSP should generate its own content. This allows an event to override the default content.
      */
     public static String login(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();  
-        
-        // Prevent session fixation by making Tomcat generate a new jsessionId (ultimately put in cookie). 
-        if (!session.isNew()) {  // Only do when really signing in. 
+        HttpSession session = request.getSession();
+
+        // Prevent session fixation by making Tomcat generate a new jsessionId (ultimately put in cookie).
+        if (!session.isNew()) {  // Only do when really signing in.
             request.changeSessionId();
         }
-        
+
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String username = request.getParameter("USERNAME");
         String password = request.getParameter("PASSWORD");
         String forgotPwdFlag = request.getParameter("forgotPwdFlag");
-        
+
         // password decryption
         EntityCrypto entityDeCrypto = null;
         try {
@@ -391,7 +395,7 @@ public class LoginWorker {
         } catch (EntityCryptoException e1) {
             Debug.logError(e1.getMessage(), module);
         }
-        
+
         if(entityDeCrypto != null && "true".equals(forgotPwdFlag)) {
             try {
                 Object decryptedPwd = entityDeCrypto.decrypt(keyValue, ModelField.EncryptMethod.TRUE, password);
@@ -565,7 +569,7 @@ public class LoginWorker {
             }
             // start with a clean state, in case the user has quit the session w/o login out
             autoLogoutCleanCookies(userLogin, request, response);
-            
+
             // finally do the main login routine to set everything else up in the session, etc
             return doMainLogin(request, response, userLogin, userLoginSession);
         } else {
@@ -673,9 +677,9 @@ public class LoginWorker {
 
         // invalidate the security group list cache
         GenericValue userLogin = (GenericValue) request.getSession().getAttribute("userLogin");
-
+        Debug.logInfo("userLogin in logout before doBasicLogout:::"+userLogin,module);
         doBasicLogout(userLogin, request, response);
-        
+
         autoLogoutCleanCookies(userLogin, request, response);
         if (request.getAttribute("_AUTO_LOGIN_LOGOUT_") == null) {
             return autoLoginCheck(request, response);
@@ -694,7 +698,9 @@ public class LoginWorker {
         }
 
         // set the logged out flag
+        Debug.logInfo("userLogin in doBasicLogout before if (userLogin != null) { :::"+userLogin,module);
         if (userLogin != null) {
+            Debug.logInfo("userLogin is empty:::",module);
             LoginWorker.setLoggedOut(userLogin.getString("userLoginId"), delegator);
         }
 
@@ -827,9 +833,9 @@ public class LoginWorker {
         }
         return "success";
     }
-    
+
     // Removes all the autoLoginCookies but if the webapp requires keeping it
-public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletRequest request, HttpServletResponse response) {
+    public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
         Cookie[] cookies = request.getCookies();
@@ -1097,7 +1103,7 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
 
         // make sure the autoUserLogin is set to the same and that the client cookie has the correct userLoginId
         LoginWorker.autoLoginSet(request, response);
-        
+
         return "success";
     }
 
@@ -1203,7 +1209,7 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
     }
 
     public static boolean isAjax(HttpServletRequest request) {
-       return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
     public static String autoChangePassword(HttpServletRequest request, HttpServletResponse response) {

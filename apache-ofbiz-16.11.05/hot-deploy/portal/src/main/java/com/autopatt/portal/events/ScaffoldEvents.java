@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.ofbiz.base.util.*;
 import java.util.*;
-import java.sql.Timestamp;
+
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.security.Security;
 import com.autopatt.portal.utils.CommonUtils;
@@ -51,7 +51,7 @@ public class ScaffoldEvents {
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.compileURL","false");
         final PostMethod post = new PostMethod(targetURL);
         Map<String, Object> data = UtilMisc.toMap();
-    //    post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
+        //post.setParameter("tenant_name", "xyzcorp");// hardcoded value to work with dev environment
         post.setParameter("tenant_name", tenantId);
         post.setParameter("sd_id", sdid);
         // post.setParameter("sd_id", "SD-10097");
