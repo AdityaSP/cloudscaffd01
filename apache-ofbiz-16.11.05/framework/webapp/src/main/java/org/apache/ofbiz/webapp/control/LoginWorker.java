@@ -850,6 +850,8 @@ public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletR
         // remove the session attributes
         session.removeAttribute("autoUserLogin");
         session.removeAttribute("autoName");
+        session.removeAttribute("userLogin");
+        session.setAttribute("userLogin",null);
         session.invalidate();
         request.setAttribute("_AUTO_LOGIN_LOGOUT_", Boolean.TRUE);
         return "success";

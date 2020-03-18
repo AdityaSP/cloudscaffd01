@@ -294,6 +294,7 @@ public class RequestHandler {
             }
 
             // Check for HTTPS client (x.509) security
+            Debug.logInfo("request.isSecure() ::: "+request.isSecure() +"   request security cert:::"+ requestMap.securityCert,module);
             if (request.isSecure() && requestMap.securityCert) {
                 X509Certificate[] clientCerts = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate"); // 2.2 spec
                 if (clientCerts == null) {
@@ -837,6 +838,7 @@ public class RequestHandler {
     }
     private void renderView(String view, boolean allowExtView, HttpServletRequest req, HttpServletResponse resp, String saveName) throws RequestHandlerException {
         GenericValue userLogin = (GenericValue) req.getSession().getAttribute("userLogin");
+        Debug.logInfo("userLogin::"+userLogin,module);
         // workaround if we are in the root webapp
         String cname = UtilHttp.getApplicationName(req);
         String oldView = view;

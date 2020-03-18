@@ -107,7 +107,7 @@ public class ControlServlet extends HttpServlet {
         }
 
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        //Debug.logInfo("Cert Chain: " + request.getAttribute("javax.servlet.request.X509Certificate"), module);
+        Debug.logInfo("userLogin in controlServlet:::: " + userLogin, module);
 
         // set the Entity Engine user info if we have a userLogin
         if (userLogin != null) {
