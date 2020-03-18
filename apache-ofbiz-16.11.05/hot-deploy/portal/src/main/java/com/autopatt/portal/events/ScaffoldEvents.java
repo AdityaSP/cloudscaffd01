@@ -26,6 +26,7 @@ import java.util.*;
 import java.sql.Timestamp;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.security.Security;
+import com.autopatt.portal.utils.CommonUtils;
 
 public class ScaffoldEvents {
 
@@ -40,6 +41,12 @@ public class ScaffoldEvents {
         String tenantId = delegator.getDelegatorTenantId();
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+
+        // Check permission
+        if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
+            CommonUtils.getResponse(request, response, "You do not have permission.", ERROR);
+            return ERROR;
+        }
         String createdBy = userLogin.getString("userLoginId");
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.compileURL","false");
         final PostMethod post = new PostMethod(targetURL);
@@ -80,6 +87,11 @@ public class ScaffoldEvents {
         String tenantId = delegator.getDelegatorTenantId();
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        // Check permission
+        if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
+            CommonUtils.getResponse(request, response, "You do not have permission.", ERROR);
+            return ERROR;
+        }
         String createdBy = userLogin.getString("userLoginId");
         Map<String, Object> data = UtilMisc.toMap();
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.deployURL","false");

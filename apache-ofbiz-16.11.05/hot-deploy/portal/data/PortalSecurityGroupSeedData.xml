@@ -52,6 +52,6 @@ under the License.
 
 
     <!-- Security Group Permissions for AP_DEPLOYER -->
-
+    <SecurityGroupPermission groupId="AP_DEPLOYER" permissionId="PORTAL_DEPLOY_APC"/>
 
 </entity-engine-xml>

@@ -36,5 +36,6 @@ under the License.
     <SecurityPermission description="Edit APC" permissionId="PORTAL_EDIT_APC"/>
     <SecurityPermission description="Delete APC" permissionId="PORTAL_DELETE_APC"/>
     <SecurityPermission description="Approve APC" permissionId="PORTAL_APPROVE_APC"/>
+    <SecurityPermission description="Deploy APC" permissionId="PORTAL_DEPLOY_APC"/>
 
 </entity-engine-xml>
