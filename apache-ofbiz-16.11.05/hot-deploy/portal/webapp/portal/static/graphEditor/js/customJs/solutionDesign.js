@@ -27,13 +27,9 @@ $(function () {
         App.genericFetch('getProblemStatements', "POST", { "psid": psid }, renderProblemStmt, psid);
 
         $('.deploy').attr("disabled", true);
-        $('.viewDeploymentSummaryBtn').hide();
+        // $('.viewDeploymentSummaryBtn').hide();
         $('#proceedBtn').hide();
         $('.approve').attr("disabled", true);
-
-        $('#viewDeploymentSummaryModal').on('hidden.bs.modal', function (e) {
-            $('#proceedBtn').hide();
-        });
 
         // Fetch and Rendering Solution Design
         if (sdid) {
@@ -94,10 +90,10 @@ $(function () {
                 },
                 callback: function (result) {
                     if (result && userRole == deployer) {
-                        Deployment.compileDesign();
+                        Deployment.compileDesign('compile');
                         // After compilation change the status to compiled
                     } else {
-                        Deployment.alertModal("You Do not have Permission");
+                        Deployment.alertModal("You do not have Permission");
                     }
                 }
             });
@@ -252,6 +248,12 @@ $(function () {
             window.location.href = `graphEditor?${window.btoa(urlParam)}`
         });
 
+        $('#viewDeploymentSummaryModal').on('shown.bs.modal', function () {
+            Deployment.clearCompileTabData(); Deployment.clearRuntimeTabData();
+            App.loader('.deploymentSummaryModalBody');
+            Deployment.getLogs('fetchLogs');
+        });
+
     } else {
         $('.title').html(`No Data Found`);
         $('.basePatternForm').hide(); $('.solutionDesignForm').hide();
@@ -369,9 +371,10 @@ function renderSolutionDesign(solutionDesign, sdid) {
 
                     //Check If Solution Design is apporoved or not
                     isSolutionDesignApproved = solutionDesign[i].status;
-                    checkImageAproval(isSolutionDesignApproved, solutionDesign[i].id);
+                    checkSolutionDesignStatus(isSolutionDesignApproved, solutionDesign[i].id);
                 } else {
                     App.toastMsg('No Solution Design Created', 'failed', '.toastMsg', false);
+                    $('.requestApprove').hide();
                     $('.svgDiv').hide();
                 }
             }
@@ -383,38 +386,42 @@ function renderSolutionDesign(solutionDesign, sdid) {
     }
 }
 
-function checkImageAproval(isSolutionDesignApproved, id) {
-    console.log(isSolutionDesignApproved);
+function checkSolutionDesignStatus(solutionDesignStatus, id) {
+    console.log(solutionDesignStatus);
+    solutionDesignStatus = solutionDesignStatus.toLowerCase();
 
-    if (isSolutionDesignApproved == "approved") {
-        $('.requestApprove').hide(); $('.approve').hide();
-        // Fetch Logs
-        Deployment.getLogs();
-    }
-    else if (isSolutionDesignApproved == 'approve-requested') {
-        requestApproveSolutionDesignStatus("initial check for solution design approved?", true);
-        if (isApprover) {
-            $('.approve').attr("disabled", false);
-            idToBeApproved = id;
-        }
-    }
-    else if (isSolutionDesignApproved == 'Deployment-Successfull') {
-        //Remove All the btns like edit, deploy, approve etc...
-        $('#allButtonsDiv').hide();
-    }
-    else {
-        App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
-
-        if (isApprover) {
-            $('.approve').attr("disabled", false);
-            idToBeApproved = id;
-        } else {
+    switch (solutionDesignStatus) {
+        case "approve-requested": {
+            requestApproveSolutionDesignStatus("initial check for solution design approved?", true);
+            if (isApprover) {
+                $('.approve').attr("disabled", false);
+                idToBeApproved = id;
+            }
+        }; break;
+        case "approved": {
+            $('.requestApprove').hide(); $('.approve').hide();
+            // Fetch Logs
+            // Deployment.getLogs();
+        }; break;
+        case "compiled": { }; break;
+        case "deployment-successful": {
+            //Remove All the btns like edit, deploy, approve etc...
+            // $('#allButtonsDiv').hide();
+            $('.viewDeploymentSummaryBtn').show();
+        }; break;
+        default: {
             App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
+            if (isApprover) {
+                $('.approve').attr("disabled", false);
+                idToBeApproved = id;
+            } else {
+                App.toastMsg("Solution Design is not Approved", 'failed', '.toastMsg', false);
+            }
         }
     }
 
     if (isDeployer) {
-        if (isSolutionDesignApproved == "approved") {
+        if (isSolutionDesignApproved.toLowerCase() == "approved") {
             $('.deploy').attr("disabled", false);
         }
         else { console.log("cannot deploy"); }

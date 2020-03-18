@@ -345,6 +345,7 @@ export const App = {
     },
     unescapeHtmlText: function (text) {
         return jQuery('<div />').html(text).text()
-    }
+    },
+    checkFlow: { isDeploying: false, isCompiling: false, isReCompiling: false },
 };
 window.App = App;

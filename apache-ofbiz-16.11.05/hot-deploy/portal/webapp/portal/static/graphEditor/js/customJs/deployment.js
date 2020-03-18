@@ -5,69 +5,72 @@ export const Deployment = {
     sdid: App.urlParams()['sdid'],
     psid: App.urlParams()['psid'],
 
-    getLogs() {
-        App.genericFetch('getScaffoldSolutionDesignlogs', 'POST', { 'sdid': Deployment.sdid }, Deployment.renderDataToModal, "", "", "");
+    getLogs(checkFlow) { // From deployment geting deployed value
+        console.log("Fetching logs from db")
+        App.genericFetch('getScaffoldSolutionDesignlogs', 'POST', { 'sdid': Deployment.sdid }, Deployment.renderDataToModal, checkFlow, App.outputResponse, "getScaffoldSolutionDesignlogs Fetch Error!");
     },
 
-    renderDataToModal(logs) {
-        let logList, isJustCompile = false;
+    renderDataToModal(logs, checkFlow) {
+        let logList;
 
         if (logs.compileScaffoldSolutionDesignResponse) {
-            logList = logs.compileScaffoldSolutionDesignResponse; isJustCompile = true;
+            logList = logs.compileScaffoldSolutionDesignResponse;
         } else if (logs.scaffoldLogList) {
             logList = logs.scaffoldLogList;
         } else {
             logList = [];
         }
 
-        console.log(logs)
-
         // Display all the Logs in modal
         if (logs && logs.message == 'success') {
-            $('.viewDeploymentSummaryBtn').show();
+            // $('.viewDeploymentSummaryBtn').show();
             $('.edit').attr("disabled", true);
 
-            if (isJustCompile) {
-
-                Deployment.renderCompileData(logList);
-                Deployment.renderRuntimeData();
-
+            if (checkFlow == 'compile') {
+                Deployment.renderCompileData(logList, checkFlow);
+                Deployment.renderRuntimeData(false, checkFlow); // this will disable the runtime tab
             } else {
                 if (logList.length > 0) {
-                    for (let i = 0; i < logList.length; i++) {
-                        Deployment.clearCompileTabData();
-                        Deployment.renderCompileData(logList[i]);
 
-                        Deployment.clearRuntimeTabData();
-                        Deployment.renderRuntimeData(logList[i]);
-                    }
+                    Deployment.renderCompileData(logList[0]);
+                    Deployment.renderRuntimeData(logList[0]);
+
                 } else {
-                    $('.viewDeploymentSummaryBtn').hide();
+                    // Checking that, deployment response data is empty and getLogs() is calling after Deployment
+                    if (checkFlow == 'deploy') {
+                        $('.runtimeTabData').text('No data found');
+                        $('.runtimeTabDataInTableDiv').hide();
+                    }
+                    // Checking that fetch response data is empty and getLogs() is calling on click of viewDeploymentSummaryBtn
+                    else if (checkFlow == 'fetchLogs') {
+                        Deployment.showNoDataFoundForCompileTab();
+                        Deployment.showNoDataFoundForRuntimeTab();
+                    }
                 }
             }
         } else {
             console.log("Pattern Approved but not deployed");
-            $('.viewDeploymentSummaryBtn').hide();
-            $('.runtimeTabData').text('No logs found'); $('.runtimeTabDataInTableDiv').hide();
-            $('.compileTabData').text('No logs found'); $('.compileTabDataInTableDiv').hide();
+            // $('.viewDeploymentSummaryBtn').hide();
+            Deployment.showNoDataFoundForCompileTab();
+            Deployment.showNoDataFoundForRuntimeTab();
         }
     },
 
-    compileDesign(str) {
-        let successResponseRenderMethod, reCompile = false;
+    compileDesign(checkFlow) {
+        let successResponseRenderMethod;
 
-        if (str && str == 'recompile') {
-            Deployment.loadingModal('Deployment In progress...');
-            reCompile = true;
-            successResponseRenderMethod = Deployment.deploySolutionDesign;
-        } else {
+        if (checkFlow && checkFlow == 'compile') {
             Deployment.loadingModal('Compilation is in progress...');
             successResponseRenderMethod = Deployment.checkCompilationData;
+        }
+        else if (checkFlow && checkFlow == 'recompile') {
+            Deployment.loadingModal('Deployment In progress...');
+            successResponseRenderMethod = Deployment.deploySolutionDesign;
         }
 
         try {
             // Compile Graph Design
-            App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, reCompile, "", "");
+            App.genericFetch('compileScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, successResponseRenderMethod, checkFlow, App.outputResponse, "Fetch Error!!");
         } catch (error) {
             console.log(error);
             Deployment.alertModal('Failed to Compile!!!');
@@ -75,64 +78,76 @@ export const Deployment = {
         }
     },
 
-    checkCompilationData(compileData, isParam, res) {
+    checkCompilationData(compileData, checkFlow) {
         // IF data has comiplation log and if not present hide the modal's complie tab
         Deployment.closeLoadingModal();
 
-        // If isParam(false) thwn it first time / its not recompiling
-        if (isParam) {
+        // If "reCompile" thwn it first time / its not recompiling
+        if (checkFlow == 'reCompile') {
             // Render Data to Modal Table
             Deployment.renderDataToModal(compileData);
         }
 
-        if (compileData && compileData.message == 'success') {
+        if (checkFlow == 'compile' && compileData && compileData.message == 'success') {
 
-            Deployment.renderDataToModal(compileData);
+            Deployment.renderDataToModal(compileData, checkFlow);
             Deployment.clearRuntimeTabData();
 
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
 
-            $('#proceedBtn').on('click', function (e) {
-                // close the running modal
+            $('#proceedBtn').on('click', function () {
                 $('#viewDeploymentSummaryModal').modal('hide');
                 //change the span text status
 
                 // recompile and Call Deployment API
-                Deployment.compileDesign('recompile');
+                checkFlow = 'recompile';
+                Deployment.compileDesign(checkFlow);
             });
 
-        } else {
+        }
+        else if (compileData && compileData.message == 'error') {
+            Deployment.alertModal(compileData.info);
+        }
+        else {
             // show error message in modal if possible
             Deployment.alertModal('Compilation Failed!!!');
         }
     },
 
-    deploySolutionDesign(data, param, res) {
+    deploySolutionDesign(data, checkFlow, res) {
         Deployment.closeLoadingModal();
         try {
-            // if (param) { Deployment.loadingModal('Deployment In progress...'); } // if param(true) i.e. = "Re Compile"
-
-            App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, Deployment.checkDeploymentData, "success", App.outputResponse, "error");
-            // After successfull Deployment Change status to 'Deployed-Successful'
-            // Display all the Logs in modal
+            if (checkFlow == 'recompile') {
+                checkFlow = 'deploy';
+                App.genericFetch('deployScaffoldSolutionDesign', 'POST', { 'sdid': Deployment.sdid }, Deployment.checkDeploymentData, checkFlow,
+                    App.outputResponse, "deployScaffoldSolutionDesign Fetch Error");
+                // After successfull Deployment Change status to 'Deployed-Successful'
+            }
         } catch (error) {
             console.log(error);
             Deployment.alertModal('Failed to Deploy!!!');
+        } finally {
+            Deployment.checkLoadingModalIsStillPresent();
         }
     },
 
-    checkDeploymentData(data, param, res) {
+    checkDeploymentData(data, param) {
         Deployment.closeLoadingModal();
 
         if (data.message == 'success') {
-            Deployment.renderRuntimeData(data.deployScaffoldSolutionDesignResponse);
-
-            Deployment.closeLoadingModal();
-            setTimeout(function () { $('#viewDeploymentSummaryModal').modal('show'); }, 250);
+            Deployment.alertModal("Deployment started click on logs button to view logs");
+            try {
+                // Fetching the latest Logs
+                Deployment.getLogs(param); // if param == 'deploy' represents deployed data
+            } catch (error) {
+                Deployment.alertModal(error);
+            } finally {
+                Deployment.checkLoadingModalIsStillPresent();
+            }
 
             // remove all buttons like edit, deploy, approve,request
-            $('#allButtonsDiv').hide();
+            // $('#allButtonsDiv').hide();
         } else {
             Deployment.alertModal('Deployment Failed');
         }
@@ -147,7 +162,7 @@ export const Deployment = {
         });
         setTimeout(function () {
             Deployment.dialog.modal('hide');
-        }, 5000);
+        }, 3000);
     },
 
     closeLoadingModal() {
@@ -201,33 +216,54 @@ export const Deployment = {
                 </tr>`;
         $(place).append(row);
     },
-    renderCompileData(logList) {
-        if (logList) {
+    renderCompileData(logList, checkFlow) {
+        if (!App.isEmpty(logList)) {
             $('#nav-compile-tab').show();
+            Deployment.clearCompileTabData();
 
-            let compileLog, compileResults, compileData, compileStatus, count = 0;
+            let compileLog, compileResults, compileData, compileStatus,
+                scaffoldStatus = logList.csStatus.toLowerCase(), count = 0;
 
-            (logList.compileLogs) ? compileLog = JSON.parse(logList.compileLogs) : compileLog = null;
-            (compileLog.compile_results) ? compileResults = compileLog.compile_results : compileResults = null;
-            (compileResults.compile_data) ? compileData = compileResults.compile_data : compileData = null;
+            (!App.isEmpty(logList.compileLogs)) ?
+                compileLog = JSON.parse(logList.compileLogs) : compileLog = null;
+
+            (!App.isEmpty(compileLog) && !App.isEmpty(compileLog.compile_results)) ?
+                compileResults = compileLog.compile_results : compileResults = null;
+
+            if (!App.isEmpty(compileLog) && !App.isEmpty(compileResults.compile_data)) {
+                compileData = compileResults.compile_data;
+
+                if (compileResults.status) {
+                    $('.compileStatus').addClass('text-success');
+                    checkFlow = 'deploy';
+                    if (scaffoldStatus == 'deploy_success') {
+                        $('#proceedBtn').hide();
+                    } else {
+                        $('#proceedBtn').show();
+                    }
+                }
+                else {
+                    $('.compileStatus').addClass('text-danger');
+                }
+                compileStatus = `COMPILE ${compileResults.status_code}`;
+                document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus);
+
+                $('.deploymentStatus').show();
+                if (!App.isEmpty(scaffoldStatus)) $('.deploymentStatus').text(`( ${scaffoldStatus.toUpperCase()} )`);
+            }
+            else {
+                compileData = false;
+            }
 
             //Removing modal data
             Deployment.clearCompileTabData();
-
-            if (compileResults.status) {
-                $('.compileStatus').addClass('text-success');
-                $('#proceedBtn').show();
-            }
-            else {
-                $('.compileStatus').addClass('text-danger');
-            }
-            compileStatus = `COMPILE ${compileResults.status_code}`;
-            document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus)
 
             if (compileData && compileData.length > 0) {
                 for (let l = 0; l < compileData.length; l++) {
 
                     let stepCompileResults = compileData[l].step_compile_results;
+                    $('.compileTabDataInTableDiv').show();
+
                     // Rendering Compile Log's All Steps
                     Deployment.renderLogSteps(compileData[l], '.compileTabData')
                     count = count + stepCompileResults.length;
@@ -237,14 +273,12 @@ export const Deployment = {
 
                             Deployment.renderTableRow(compileData[l].step_name, stepCompileResults[j], '.compileTabTable')
                         }
-                    } else {
-                        // console.log('stepCompileResults is empty');
-                    }
+                    }// steps results
                 }
-                if (count <= 0) {
-                    $('.compileTabDataInTableDiv').hide();
-                }
+                if (count <= 0) { $('.compileTabDataInTableDiv').hide(); }
                 Deployment.checkLoadingModalIsStillPresent();
+            } else {
+                Deployment.showNoDataFoundForCompileTab();
             }
         } else {
             $('#nav-compile-tab').hide();
@@ -253,44 +287,56 @@ export const Deployment = {
     renderRuntimeData(logList) {
         if (logList) {
             $('#nav-runtime-tab').show();
+            Deployment.clearRuntimeTabData();
 
             let runtimeLog, runtimeResults, runtimeStatus, runtimeData, count = 0;
 
-            (logList.runtimeLogs) ? runtimeLog = JSON.parse(logList.runtimeLogs) : runtimeLog = null;
-            (runtimeLog.compile_results) ? runtimeResults = runtimeLog.compile_results : runtimeResults = null;
-            (runtimeResults.compile_data) ? runtimeData = runtimeResults.compile_data : runtimeData = null;
+            (!App.isEmpty(logList.runtimeLogs)) ?
+                runtimeLog = JSON.parse(logList.runtimeLogs) : runtimeLog = null;
+
+            (!App.isEmpty(runtimeLog) && !App.isEmpty(runtimeLog.deploy_results)) ?
+                runtimeResults = runtimeLog.deploy_results : runtimeResults = null;
+
+            if (!App.isEmpty(runtimeResults) && !App.isEmpty(runtimeResults.compile_data)) {
+                runtimeData = runtimeResults.compile_data;
+                if (runtimeResults.status) {
+                    $('.runtimeStatus').addClass('text-success');
+                }
+                else {
+                    $('.runtimeStatus').addClass('text-danger');
+                }
+                runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
+                document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus);
+            }
+            else { runtimeData = false; }
 
             //Removing modal data
             Deployment.clearRuntimeTabData();
-
-            if (runtimeResults.status) { $('.runtimeStatus').addClass('text-success'); }
-            else { $('.runtimeStatus').addClass('text-danger'); }
-            runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
-            document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus)
 
             if (runtimeData && runtimeData.length > 0) {
                 count = 0;
                 for (let k = 0; k < runtimeData.length; k++) {
 
                     let stepRuntimeResults = runtimeData[k].step_compile_results;
+                    $('.runtimeTabDataInTableDiv').show();
+
                     // Rendering Runtime Log's All Steps
                     Deployment.renderLogSteps(runtimeData[k], '.runtimeTabData');
 
                     count = count + stepRuntimeResults.length;
                     if (!App.isEmpty(stepRuntimeResults)) {
                         for (let l = 0; l < stepRuntimeResults.length; l++) {
-
                             //Rendring row data
                             Deployment.renderTableRow(runtimeData[k].step_name, stepRuntimeResults[l], '.runtimeTabTable')
                         }
-                    } else {
-                        // console.log('runtimeLog is empty');
-                    }
+                    }// steps results
                 }
                 if (count <= 0) {
                     $('.runtimeTabDataInTableDiv').hide();
                 }
                 Deployment.checkLoadingModalIsStillPresent();
+            } else {
+                Deployment.showNoDataFoundForRuntimeTab();
             }
         } else {
             $('#nav-runtime-tab').hide();
@@ -312,5 +358,20 @@ export const Deployment = {
         // Removing Row data
         $('.runtimeTabTable').children().remove();
     },
-
+    showNoDataFoundForCompileTab() {
+        App.clearLoader(); Deployment.checkLoadingModalIsStillPresent();
+        // Set compiletime tab data as no data found
+        // Deployment.clearCompileTabData();
+        $('.compileStatus').text('No Data Found');
+        $('.compileTabDataInTableDiv').hide();
+    },
+    showNoDataFoundForRuntimeTab() {
+        App.clearLoader(); Deployment.checkLoadingModalIsStillPresent();
+        // Set runtime tab data as no data found
+        // Deployment.clearRuntimeTabData();
+        $('.runtimeStatus').text('No Data Found');
+        $('.runtimeTabDataInTableDiv').hide();
+    },
 }
+
+window.Deployment = Deployment;

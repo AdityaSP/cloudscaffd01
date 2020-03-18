@@ -1,6 +1,6 @@
 
 <style>
-    #viewDeploymentSummaryModal > .modal{
+    .modal{
       overflow-y:auto;
     }
     #viewDeploymentSummaryModal > .modal-lg{
@@ -156,6 +156,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="viewDeploymentSummaryModalTitle">Deployment Log Summary</h5>
+        <span class="text-secondary ml-3 p-1 pull-right deploymentStatus"></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -213,7 +214,6 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span class="text mr-3 p-2 deploymentStatus"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtnForDeploymentSummary">Close</button>
         <button type="button" class="btn btn-primary proceedBtn" id="proceedBtn">Proceed</button>
       </div>
