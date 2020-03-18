@@ -3625,6 +3625,11 @@ this.pattAttributeData = {
 		],
 		"appservicemesh": [
 			{
+				"name": "region",
+				"value": "us-east-1",
+				"required": true
+			},
+			{
 				"name": "Client_Token",
 				"value": "1234",
 			},
@@ -3638,6 +3643,11 @@ this.pattAttributeData = {
 			}
 		],
 		"t3_instance": [
+			{
+				"name": "region",
+				"value": "us-east-1",
+				"required": true
+			},
 			{
 				"name": "ACL",
 				"value": "qwer",
@@ -3678,7 +3688,7 @@ this.pattAttributeData = {
 		"virtual_private_cloud": [
 			{
 				"name": "region",
-				"value": "",
+				"value": "us-east-1",
 				"required": true
 			},
 			{
@@ -3711,11 +3721,21 @@ this.pattAttributeData = {
 		],
 		"vpc_subnet": [
 			{
+				"name": "region",
+				"value": "us-east-1",
+				"required": true
+			},
+			{
 				"name": "CidrBlock",
 				"value": "",
 			},
 		],
 		"security_group": [
+			{
+				"name": "region",
+				"value": "us-east-1",
+				"required": true
+			},
 			{
 				"name": "Group_1_Name",
 				"value": "",
@@ -3739,6 +3759,11 @@ this.pattAttributeData = {
 
 	},
 	"azure": [
+		{
+			"name": "region",
+			"value": "us-east-1",
+			"required": true
+		},
 		{
 			"name": "azure",
 			"value": "data"
@@ -3810,7 +3835,7 @@ function replaceSpecialCharacters(str) {
 	// if (str.search(" ") >= 0) {
 	str = str.split(' ').join('');
 	// } else {
-	str = str.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '_');
+	str = str.replace(/[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi, '_');
 	// }
 	return str;
 
