@@ -18,6 +18,9 @@ import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
 import org.owasp.esapi.User;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class EmployeeEvents {
     public final static String module = EmployeeEvents.class.getName();
@@ -135,14 +138,19 @@ public class EmployeeEvents {
     public static String updateEmployee(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        //String orgPartyId = request.getParameter("orgPartyId");
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org party id",request.getParameter("orgPartyId"),errorList);
         request.setAttribute("orgPartyId", orgPartyId);
 
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
 
-        String firstname=request.getParameter("firstname");
+        /*String firstname=request.getParameter("firstname");
         String lastname=request.getParameter("lastname");
-        String partyId = request.getParameter("partyId");
+        String partyId = request.getParameter("partyId");*/
+        String firstname = UtilCodec.checkStringForHtmlStrictNone("First name",request.getParameter("firstname"),errorList);
+        String lastname = UtilCodec.checkStringForHtmlStrictNone("Last name",request.getParameter("lastname"),errorList);
+        String partyId = UtilCodec.checkStringForHtmlStrictNone("Party Id",request.getParameter("partyId"),errorList);
 
         Map<String, Object> inputs = UtilMisc.toMap("partyId", partyId); // party id should come from request
         try {

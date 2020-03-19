@@ -76,7 +76,7 @@ public class PasswordMgmtEvents {
 
     public static String resetPassword(HttpServletRequest request, HttpServletResponse response) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
-        List<String> errorList = new ArrayList<>();
+        List<String> errorListForXss = new ArrayList<>();
 
      /*   String token = request.getParameter("token");
         String newPasswordVerify = request.getParameter("newPasswordVerify");
@@ -86,9 +86,9 @@ public class PasswordMgmtEvents {
         String newPassword = UtilCodec.checkStringForHtmlStrictNone("New Password",request.getParameter("newPassword"),errorList);
         request.setAttribute("token", token);
 
-        if(!errorList.isEmpty()){
-            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
-            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+        if(!errorListForXss.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorListForXss);
+            CommonUtils.getResponse(request, response, errorListForXss.get(0), ERROR);
             return ERROR;
         }
 

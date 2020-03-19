@@ -1,9 +1,21 @@
-
-
+<#if requestAttributes.errorMessageList?has_content><#assign errorMessageList=requestAttributes.errorMessageList></#if>
+<#if !errorMessage?has_content>
+<#assign errorMessage = requestAttributes._ERROR_MESSAGE_!>
+</#if>
+<#if !errorMessageList?has_content>
+<#assign errorMessageList = requestAttributes._ERROR_MESSAGE_LIST_!>
+</#if>
 <form action="<@ofbizUrl>updateEmployee</@ofbizUrl>" id="update-employee-form" method="post">
     <input type="hidden" id="updateEmployee_partyId" name="partyId" value="${partyId!}"/>
     <input type="hidden" id="updateEmployee_orgPartyId" name="orgPartyId" value="${orgPartyId!}"/>
     <div class="col-md-12 my-3">
+        <div>
+            <#list errorMessageList as error>
+            <div class="alert alert-danger" role="alert">
+                ${error}
+            </div>
+        </#list>
+        </div>
         <div class="form-group row required">
             <label for="fnamacc" class="col-sm-10 col-form-label">First Name <span class="mandatory">*</span></label>
             <div class="col-sm-10">
