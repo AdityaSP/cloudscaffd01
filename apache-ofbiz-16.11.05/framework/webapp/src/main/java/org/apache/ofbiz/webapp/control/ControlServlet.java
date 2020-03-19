@@ -145,6 +145,7 @@ public class ControlServlet extends HttpServlet {
         // try to get it from the session first so that we can have a delegator/dispatcher/security for a certain user if desired
         Delegator delegator = null;
         String delegatorName = (String) session.getAttribute("delegatorName");
+        Debug.logInfo("delegatorName :: "+delegatorName,module);
         if (UtilValidate.isNotEmpty(delegatorName)) {
             delegator = DelegatorFactory.getDelegator(delegatorName);
         }

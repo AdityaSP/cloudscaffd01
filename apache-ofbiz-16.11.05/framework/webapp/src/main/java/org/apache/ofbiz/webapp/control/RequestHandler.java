@@ -144,6 +144,8 @@ public class RequestHandler {
 
         // Grab data from request object to process
         String defaultRequestUri = RequestHandler.getRequestUri(request.getPathInfo());
+        Debug.logInfo("defaultRequestUri :: " + defaultRequestUri,module);
+        Debug.logInfo("targetRequestUri :: " + request.getAttribute("targetRequestUri"),module);
         if (request.getAttribute("targetRequestUri") == null) {
             if (request.getSession().getAttribute("_PREVIOUS_REQUEST_") != null) {
                 request.setAttribute("targetRequestUri", request.getSession().getAttribute("_PREVIOUS_REQUEST_"));
@@ -151,7 +153,7 @@ public class RequestHandler {
                 request.setAttribute("targetRequestUri", "/" + defaultRequestUri);
             }
         }
-
+        Debug.logInfo("after update targetRequestUri :: " + request.getAttribute("targetRequestUri"),module);
         String overrideViewUri = RequestHandler.getOverrideViewUri(request.getPathInfo());
 
         String requestMissingErrorMessage = "Unknown request [" + defaultRequestUri + "]; this request does not exist or cannot be called directly.";
@@ -294,7 +296,6 @@ public class RequestHandler {
             }
 
             // Check for HTTPS client (x.509) security
-            Debug.logInfo("request.isSecure() ::: "+request.isSecure() +"   request security cert:::"+ requestMap.securityCert,module);
             if (request.isSecure() && requestMap.securityCert) {
                 X509Certificate[] clientCerts = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate"); // 2.2 spec
                 if (clientCerts == null) {

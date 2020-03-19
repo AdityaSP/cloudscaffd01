@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -376,18 +377,18 @@ public class LoginWorker {
      *         JSP should generate its own content. This allows an event to override the default content.
      */
     public static String login(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-
-        // Prevent session fixation by making Tomcat generate a new jsessionId (ultimately put in cookie).
-        if (!session.isNew()) {  // Only do when really signing in.
+        HttpSession session = request.getSession();  
+        
+        // Prevent session fixation by making Tomcat generate a new jsessionId (ultimately put in cookie). 
+        if (!session.isNew()) {  // Only do when really signing in. 
             request.changeSessionId();
         }
-
+        
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         String username = request.getParameter("USERNAME");
         String password = request.getParameter("PASSWORD");
         String forgotPwdFlag = request.getParameter("forgotPwdFlag");
-
+        
         // password decryption
         EntityCrypto entityDeCrypto = null;
         try {
@@ -395,7 +396,7 @@ public class LoginWorker {
         } catch (EntityCryptoException e1) {
             Debug.logError(e1.getMessage(), module);
         }
-
+        
         if(entityDeCrypto != null && "true".equals(forgotPwdFlag)) {
             try {
                 Object decryptedPwd = entityDeCrypto.decrypt(keyValue, ModelField.EncryptMethod.TRUE, password);
@@ -569,7 +570,7 @@ public class LoginWorker {
             }
             // start with a clean state, in case the user has quit the session w/o login out
             autoLogoutCleanCookies(userLogin, request, response);
-
+            
             // finally do the main login routine to set everything else up in the session, etc
             return doMainLogin(request, response, userLogin, userLoginSession);
         } else {
@@ -679,7 +680,7 @@ public class LoginWorker {
         GenericValue userLogin = (GenericValue) request.getSession().getAttribute("userLogin");
         Debug.logInfo("userLogin in logout before doBasicLogout:::"+userLogin,module);
         doBasicLogout(userLogin, request, response);
-
+        
         autoLogoutCleanCookies(userLogin, request, response);
         if (request.getAttribute("_AUTO_LOGIN_LOGOUT_") == null) {
             return autoLoginCheck(request, response);
@@ -721,6 +722,15 @@ public class LoginWorker {
         session.invalidate();
         session = request.getSession(true);
 
+        if (EntityUtilProperties.propertyValueEquals("security", "security.login.tomcat.sso", "true")){
+            Debug.logInfo("security.login.tomcat.sso",module);
+            try {
+                // log out from Tomcat SSO
+                request.logout();
+            } catch (ServletException e) {
+                Debug.logError(e, module);
+            }
+        }
         // setup some things that should always be there
         UtilHttp.setInitialRequestInfo(request);
 
@@ -833,9 +843,9 @@ public class LoginWorker {
         }
         return "success";
     }
-
+    
     // Removes all the autoLoginCookies but if the webapp requires keeping it
-    public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletRequest request, HttpServletResponse response) {
+public static String autoLogoutCleanCookies(GenericValue userLogin, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
         Cookie[] cookies = request.getCookies();
@@ -843,7 +853,10 @@ public class LoginWorker {
         if (cookies != null && userLogin != null) {
             for (Cookie autoLoginCookie: cookies) {
                 String autoLoginName = autoLoginCookie.getName().replace(".autoUserLoginId", "");
+                String loginName = autoLoginCookie.getName().replace(".userLoginId", "");
                 WebappInfo webappInfo = ComponentConfig.getWebappInfo("default-server", autoLoginName);
+                WebappInfo webappInfo1 = ComponentConfig.getWebappInfo("default-server", loginName);
+
                 Debug.logInfo("Before if condition webappInfo:::"+webappInfo,module);
                 if (webappInfo != null && !webappInfo.getKeepAutologinCookie()) {
                     Debug.logInfo("webappInfo:::"+webappInfo,module);
@@ -1103,7 +1116,7 @@ public class LoginWorker {
 
         // make sure the autoUserLogin is set to the same and that the client cookie has the correct userLoginId
         LoginWorker.autoLoginSet(request, response);
-
+        
         return "success";
     }
 
@@ -1209,7 +1222,7 @@ public class LoginWorker {
     }
 
     public static boolean isAjax(HttpServletRequest request) {
-        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+       return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
     public static String autoChangePassword(HttpServletRequest request, HttpServletResponse response) {
