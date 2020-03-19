@@ -222,7 +222,7 @@ export const Deployment = {
             Deployment.clearCompileTabData();
 
             let compileLog, compileResults, compileData, compileStatus,
-                scaffoldStatus = logList.csStatus.toLowerCase(), count = 0;
+                scaffoldStatus = logList.csStatus, count = 0;
 
             (!App.isEmpty(logList.compileLogs)) ?
                 compileLog = JSON.parse(logList.compileLogs) : compileLog = null;
@@ -230,13 +230,13 @@ export const Deployment = {
             (!App.isEmpty(compileLog) && !App.isEmpty(compileLog.compile_results)) ?
                 compileResults = compileLog.compile_results : compileResults = null;
 
-            if (!App.isEmpty(compileLog) && !App.isEmpty(compileResults.compile_data)) {
+            if (!App.isEmpty(compileResults) && !App.isEmpty(compileResults.compile_data)) {
                 compileData = compileResults.compile_data;
 
                 if (compileResults.status) {
                     $('.compileStatus').addClass('text-success');
                     checkFlow = 'deploy';
-                    if (scaffoldStatus == 'deploy_success') {
+                    if (scaffoldStatus == 'DEPLOY_SUCCESS') {
                         $('#proceedBtn').hide();
                     } else {
                         $('#proceedBtn').show();
