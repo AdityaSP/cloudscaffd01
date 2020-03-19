@@ -43,10 +43,10 @@ public class ScaffoldEvents {
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
         // Check permission
-       /* if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
+        if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
             CommonUtils.getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
-        }*/
+        }
         String createdBy = userLogin.getString("userLoginId");
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.compileURL","false");
         final PostMethod post = new PostMethod(targetURL);
@@ -88,10 +88,10 @@ public class ScaffoldEvents {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
         // Check permission
-       /* if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
+        if(!CommonUtils.getSecurityPermission(request, response, "PORTAL_DEPLOY_APC",userLogin)){
             CommonUtils.getResponse(request, response, "You do not have permission.", ERROR);
             return ERROR;
-        }*/
+        }
         String createdBy = userLogin.getString("userLoginId");
         Map<String, Object> data = UtilMisc.toMap();
         String targetURL = SCAFFOLD_URL_PROPERTIES.getProperty("autopatt.APC.deployURL","false");
