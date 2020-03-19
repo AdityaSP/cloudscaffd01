@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class PasswordMgmtEvents {
 
@@ -31,9 +34,17 @@ public class PasswordMgmtEvents {
     public static String sendPasswordResetLink(HttpServletRequest request, HttpServletResponse response) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
-        String emailId = request.getParameter("USERNAME");
+        List<String> errorList = new ArrayList<>();
+
+        String emailId = UtilCodec.checkStringForHtmlStrictNone("Email Id",request.getParameter("USERNAME"),errorList);
+        //String emailId = request.getParameter("USERNAME");
 
         Map<String, Object> result = null;
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         try {
             result = dispatcher.runSync("generatePasswordResetToken", UtilMisc.<String, Object>toMap("userLoginId", emailId));
             if (!ServiceUtil.isSuccess(result)) {

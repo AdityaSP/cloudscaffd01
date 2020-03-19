@@ -304,9 +304,12 @@ function addEmployeeDetails() {
 }
 
 function initResetEmployeePwd() {
-    var orgPartyId = $('input[id="resetPasswordOrgPartyId"]').val();
+  /*  var orgPartyId = $('input[id="resetPasswordOrgPartyId"]').val();
     var userLoginId = $('input[id="resetPasswordUserLoginId"]').val();
-    var postData = {"orgPartyId": orgPartyId, "userLoginId":userLoginId};
+    var postData = {"orgPartyId": orgPartyId, "userLoginId":userLoginId};*/
+    var orgPartyId = App.unescapeHtmlText($('input[id="resetPasswordOrgPartyId"]').val());
+    var userLoginId = App.unescapeHtmlText($('input[id="resetPasswordUserLoginId"]').val());
+   var postData = {"orgPartyId": orgPartyId, "userLoginId":userLoginId};
     var formURL = getUrl("initResetEmployeePwd");
     $.ajax(
         {
