@@ -1,5 +1,5 @@
 package com.autopatt.portal.events;
-​
+
 import com.autopatt.common.utils.PasswordPolicyHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ofbiz.base.util.*;
@@ -10,20 +10,20 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.service.*;
 import org.apache.ofbiz.webapp.WebAppUtil;
 import org.apache.ofbiz.webapp.control.LoginWorker;
-​
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
-​
+
 public class AutopattLoginWorker extends LoginWorker{
-​
+
     public final static String module = AutopattLoginWorker.class.getName();
-​
+
     public static String SUCCESS = "success";
     public static String ERROR = "error";
-​
+
     public static String extensionCheckLogin(HttpServletRequest request, HttpServletResponse response) {
         String res = LoginWorker.extensionCheckLogin(request, response);
         if (!SUCCESS.equals(res)) {
@@ -59,7 +59,7 @@ public class AutopattLoginWorker extends LoginWorker{
         request.setAttribute("_ERROR_MESSAGE_", errMsg);
         return ERROR;
     }
-​
+
     public static String login(HttpServletRequest request, HttpServletResponse response) {
         String userTenantId = request.getParameter("userTenantId");
         if(UtilValidate.isNotEmpty(userTenantId)) {
@@ -77,7 +77,7 @@ public class AutopattLoginWorker extends LoginWorker{
             request.setAttribute("_ERROR_MESSAGE_", "Invalid Organization Id");
             return "error";
         }
-​
+
         String res = LoginWorker.login(request, response);
         request.setAttribute("USERNAME", request.getParameter("USERNAME"));
         if (!SUCCESS.equals(res)) {
@@ -85,7 +85,7 @@ public class AutopattLoginWorker extends LoginWorker{
         }
         return overridePreviousLogInSession(request) ? SUCCESS : ERROR;
     }
-​
+
     private static boolean overridePreviousLogInSession(HttpServletRequest request) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         HttpSession session = request.getSession();
@@ -118,7 +118,7 @@ public class AutopattLoginWorker extends LoginWorker{
         request.setAttribute("_ERROR_MESSAGE_", errMsg);
         return false;
     }
-​
+
     public static String changePassword(HttpServletRequest request, HttpServletResponse response) {
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
         if(!errorList.isEmpty()){
@@ -136,7 +136,7 @@ public class AutopattLoginWorker extends LoginWorker{
         }
         return overridePreviousLogInSession(request) ? SUCCESS : ERROR;
     }
-​
+
     public static String updatePassword(HttpServletRequest request, HttpServletResponse response) {
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(request.getParameter("PASSWORD"));
         if(!errorList.isEmpty()){
@@ -176,7 +176,5 @@ public class AutopattLoginWorker extends LoginWorker{
         request.setAttribute("info","Password updated successfully");
         return SUCCESS;
     }
-​
-​
-​
+
 }
