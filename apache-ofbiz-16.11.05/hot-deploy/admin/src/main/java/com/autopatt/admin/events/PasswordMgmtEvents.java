@@ -76,10 +76,21 @@ public class PasswordMgmtEvents {
 
     public static String resetPassword(HttpServletRequest request, HttpServletResponse response) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
-        String token = request.getParameter("token");
+        List<String> errorList = new ArrayList<>();
+
+     /*   String token = request.getParameter("token");
         String newPasswordVerify = request.getParameter("newPasswordVerify");
-        String newPassword = request.getParameter("newPassword");
+        String newPassword = request.getParameter("newPassword");*/
+        String token = UtilCodec.checkStringForHtmlStrictNone("Token",request.getParameter("token"),errorList);
+        String newPasswordVerify = UtilCodec.checkStringForHtmlStrictNone("New Password Verify",request.getParameter("newPasswordVerify"),errorList);
+        String newPassword = UtilCodec.checkStringForHtmlStrictNone("New Password",request.getParameter("newPassword"),errorList);
         request.setAttribute("token", token);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
 
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(newPassword);
         if(!errorList.isEmpty()){

@@ -79,11 +79,16 @@ function restrictSpecialCharacters(event) {
 
 function updatePassword() {
     $('.changePasswordFormSubmitBtn').on('click', function (evt) {
-        let formData = {
+       /* let formData = {
             "PASSWORD": $('#password').val(),
             "newPassword": $('#newPassword').val(),
             "newPasswordVerify": $('#newPasswordVerify').val()
-        }
+        }*/
+        let formData = {
+                    "PASSWORD": App.unescapeHtmlText($('#password').val()),
+                    "newPassword": App.unescapeHtmlText($('#newPassword').val()),
+                    "newPasswordVerify": App.unescapeHtmlText($('#newPasswordVerify').val())
+                }
         $.ajax({
             url: "updatePassword",
             type: "POST",
