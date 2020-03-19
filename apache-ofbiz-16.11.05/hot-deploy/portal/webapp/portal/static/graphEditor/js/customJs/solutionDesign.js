@@ -77,23 +77,25 @@ $(function () {
         console.log(`Role: ${userRole}, isSolutionDesignApproved: ${isSolutionDesignApproved}, isApprover: ${isApprover}, isDeployer: ${isDeployer}`);
 
         $('.deploy').on('click', function (e) {
-            bootbox.confirm({
+            let dialog = bootbox.dialog({
                 title: "Deploy Solution Design",
                 message: "Please confirm to deploy design",
                 buttons: {
                     cancel: {
-                        label: '<i class="fa fa-times"></i> Cancel'
+                        label: '<i class="fa fa-times"></i> Cancel',
+                        className: 'btn-danger',
+                        callback: function () { }
                     },
-                    confirm: {
-                        label: '<i class="fa fa-check"></i> Confirm'
-                    }
-                },
-                callback: function (result) {
-                    if (result && userRole == deployer) {
-                        Deployment.compileDesign('compile');
-                        // After compilation change the status to compiled
-                    } else {
-                        Deployment.alertModal("You do not have Permission");
+                    ok: {
+                        label: '<i class="fa fa-check"></i> Confirm',
+                        className: 'btn-info',
+                        callback: function (result) {
+                            if (result && userRole == deployer) {
+                                Deployment.compileDesign('compile');
+                            } else {
+                                Deployment.alertModal("You do not have Permission");
+                            }
+                        }
                     }
                 }
             });
@@ -147,28 +149,31 @@ $(function () {
         });
 
         $('.deleteSD').on('click', function (e) {
-            bootbox.confirm({
+            let dialog = bootbox.dialog({
                 title: "Delete Solution Design",
                 message: "Are sure you want to delete?",
                 buttons: {
                     cancel: {
-                        label: '<i class="fa fa-times"></i> Cancel'
+                        label: '<i class="fa fa-times"></i> Cancel',
+                        className: 'btn-danger',
+                        callback: function () { }
                     },
-                    confirm: {
-                        label: '<i class="fa fa-check"></i> Confirm'
-                    }
-                },
-                callback: function (result) {
-                    if (result && (userRole == admin || userRole == planner)) {
-                        App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
-                        $('.solutionDesignForm').hide(); $('.svgDiv').hide();
-                        App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
-                        $('.edit').attr("disabled", true);
-                        $('.deploy').attr("disabled", true);
-                        $('.title').text("Problem Statement");
-                        urldata["sdid"] = null
-                    } else {
-                        Deployment.alertModal("You Do not have Permission");
+                    ok: {
+                        label: '<i class="fa fa-check"></i> Confirm',
+                        className: 'btn-info',
+                        callback: function (result) {
+                            if (result && (userRole == admin || userRole == planner)) {
+                                App.genericFetch('deleteSolutionDesign', "POST", { "sdid": sdid }, "", "", "", "");
+                                $('.solutionDesignForm').hide(); $('.svgDiv').hide();
+                                App.toastMsg(`<u><a href="javascript:(function(){window.history.back();})()">Go back</a></u> to create a new solution design`, 'info', '.toastMsg')
+                                $('.edit').attr("disabled", true);
+                                $('.deploy').attr("disabled", true);
+                                $('.title').text("Problem Statement");
+                                urldata["sdid"] = null
+                            } else {
+                                Deployment.alertModal("You Do not have Permission");
+                            }
+                        }
                     }
                 }
             });
@@ -248,10 +253,14 @@ $(function () {
             window.location.href = `graphEditor?${window.btoa(urlParam)}`
         });
 
-        $('#viewDeploymentSummaryModal').on('shown.bs.modal', function () {
+        $('.viewDeploymentSummaryBtn').on('click', function () {
             Deployment.clearCompileTabData(); Deployment.clearRuntimeTabData();
             App.loader('.deploymentSummaryModalBody');
             Deployment.getLogs('fetchLogs');
+        });
+
+        $('#viewDeploymentSummaryModal').on('shown.bs.modal', function () {
+            $('#nav-compile-tab').click();
         });
 
     } else {

@@ -6,7 +6,6 @@ export const Deployment = {
     psid: App.urlParams()['psid'],
 
     getLogs(checkFlow) { // From deployment geting deployed value
-        console.log("Fetching logs from db")
         App.genericFetch('getScaffoldSolutionDesignlogs', 'POST', { 'sdid': Deployment.sdid }, Deployment.renderDataToModal, checkFlow, App.outputResponse, "getScaffoldSolutionDesignlogs Fetch Error!");
     },
 
@@ -31,9 +30,10 @@ export const Deployment = {
                 Deployment.renderRuntimeData(false, checkFlow); // this will disable the runtime tab
             } else {
                 if (logList.length > 0) {
+                    if (checkFlow == 'fetchLogs') $('.viewDeploymentSummaryBtn').show();
 
-                    Deployment.renderCompileData(logList[0]);
-                    Deployment.renderRuntimeData(logList[0]);
+                    Deployment.renderCompileData(logList[0], checkFlow);
+                    Deployment.renderRuntimeData(logList[0], checkFlow);
 
                 } else {
                     // Checking that, deployment response data is empty and getLogs() is calling after Deployment
@@ -64,7 +64,7 @@ export const Deployment = {
             successResponseRenderMethod = Deployment.checkCompilationData;
         }
         else if (checkFlow && checkFlow == 'recompile') {
-            Deployment.loadingModal('Deployment In progress...');
+            // Deployment.loadingModal('Deployment is in progress...', 0);
             successResponseRenderMethod = Deployment.deploySolutionDesign;
         }
 
@@ -85,13 +85,12 @@ export const Deployment = {
         // If "reCompile" thwn it first time / its not recompiling
         if (checkFlow == 'reCompile') {
             // Render Data to Modal Table
-            Deployment.renderDataToModal(compileData);
+            Deployment.renderDataToModal(compileData, checkFlow);
         }
 
         if (checkFlow == 'compile' && compileData && compileData.message == 'success') {
 
             Deployment.renderDataToModal(compileData, checkFlow);
-            Deployment.clearRuntimeTabData();
 
             // After Compilation open deployment summary modal then ask for proceed
             $('#viewDeploymentSummaryModal').modal('show');
@@ -116,7 +115,7 @@ export const Deployment = {
     },
 
     deploySolutionDesign(data, checkFlow, res) {
-        Deployment.closeLoadingModal();
+        // Deployment.closeLoadingModal();
         try {
             if (checkFlow == 'recompile') {
                 checkFlow = 'deploy';
@@ -155,19 +154,21 @@ export const Deployment = {
 
     dialog: "",
 
-    loadingModal(msg) {
+    loadingModal(msg, timer) {
         Deployment.dialog = bootbox.dialog({
             message: `<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i>   ${msg}</p>`,
             closeButton: false,
         });
+        (timer) ? timer = timer : timer = 1500;
         setTimeout(function () {
             Deployment.dialog.modal('hide');
-        }, 3000);
+        }, timer);
     },
 
     closeLoadingModal() {
         Deployment.dialog.modal('hide');
         bootbox.hideAll();
+        Deployment.checkLoadingModalIsStillPresent();
     },
 
     alertModal(msg) {
@@ -206,19 +207,23 @@ export const Deployment = {
     renderTableRow(stepName, rowData, place) {
         let jsonData = rowData.component, row;
         if (typeof (jsonData) != 'string') {
+            if (jsonData.hasOwnProperty("mxCell")) delete jsonData['mxCell'];
+            if (jsonData.hasOwnProperty("immediate_parent")) delete jsonData['immediate_parent'];
+            if (jsonData.hasOwnProperty("parents")) delete jsonData['parents'];
             jsonData = `<pre>${JSON.stringify(jsonData, null, '\t')}</pre>`;
         }
         row = `<tr>
                     <td>${stepName}</td>
                     <td>${jsonData}</td>
                     <td>${rowData.messages[0]}</td>
-                    <td class='${Deployment.checkStatus(rowData.satus_code)}'>${rowData.satus_code}</td>
+                    <td class='${Deployment.checkStatus(rowData.status_code)}'>${rowData.status_code}</td>
                 </tr>`;
         $(place).append(row);
     },
     renderCompileData(logList, checkFlow) {
         if (!App.isEmpty(logList)) {
             $('#nav-compile-tab').show();
+            //Removing modal data
             Deployment.clearCompileTabData();
 
             let compileLog, compileResults, compileData, compileStatus,
@@ -233,6 +238,7 @@ export const Deployment = {
             if (!App.isEmpty(compileResults) && !App.isEmpty(compileResults.compile_data)) {
                 compileData = compileResults.compile_data;
 
+                console.log(compileResults)
                 if (compileResults.status) {
                     $('.compileStatus').addClass('text-success');
                     checkFlow = 'deploy';
@@ -246,7 +252,7 @@ export const Deployment = {
                     $('.compileStatus').addClass('text-danger');
                 }
                 compileStatus = `COMPILE ${compileResults.status_code}`;
-                document.querySelector('.compileStatus').insertAdjacentHTML('afterbegin', compileStatus);
+                $('.compileStatus').text(compileStatus);
 
                 $('.deploymentStatus').show();
                 if (!App.isEmpty(scaffoldStatus)) $('.deploymentStatus').text(`( ${scaffoldStatus.toUpperCase()} )`);
@@ -254,9 +260,6 @@ export const Deployment = {
             else {
                 compileData = false;
             }
-
-            //Removing modal data
-            Deployment.clearCompileTabData();
 
             if (compileData && compileData.length > 0) {
                 for (let l = 0; l < compileData.length; l++) {
@@ -281,12 +284,13 @@ export const Deployment = {
                 Deployment.showNoDataFoundForCompileTab();
             }
         } else {
-            $('#nav-compile-tab').hide();
+            Deployment.hideCompileTab();
         }
     },
-    renderRuntimeData(logList) {
+    renderRuntimeData(logList, checkFlow) {
         if (logList) {
             $('#nav-runtime-tab').show();
+            //Removing modal data
             Deployment.clearRuntimeTabData();
 
             let runtimeLog, runtimeResults, runtimeStatus, runtimeData, count = 0;
@@ -306,12 +310,9 @@ export const Deployment = {
                     $('.runtimeStatus').addClass('text-danger');
                 }
                 runtimeStatus = `RUNTIME ${runtimeResults.status_code}`;
-                document.querySelector('.runtimeStatus').insertAdjacentHTML('afterbegin', runtimeStatus);
+                $('.runtimeStatus').text(runtimeStatus);
             }
             else { runtimeData = false; }
-
-            //Removing modal data
-            Deployment.clearRuntimeTabData();
 
             if (runtimeData && runtimeData.length > 0) {
                 count = 0;
@@ -337,9 +338,10 @@ export const Deployment = {
                 Deployment.checkLoadingModalIsStillPresent();
             } else {
                 Deployment.showNoDataFoundForRuntimeTab();
+                if (checkFlow == 'fetchLogs') $('#proceedBtn').hide();
             }
         } else {
-            $('#nav-runtime-tab').hide();
+            Deployment.hideRuntimeTab();
         }
     },
     clearCompileTabData() {
@@ -370,6 +372,14 @@ export const Deployment = {
         // Set runtime tab data as no data found
         // Deployment.clearRuntimeTabData();
         $('.runtimeStatus').text('No Data Found');
+        $('.runtimeTabDataInTableDiv').hide();
+    },
+    hideCompileTab() {
+        $('#nav-compile-tab').hide();
+        $('.compileTabDataInTableDiv').hide();
+    },
+    hideRuntimeTab() {
+        $('#nav-runtime-tab').hide();
         $('.runtimeTabDataInTableDiv').hide();
     },
 }

@@ -3609,7 +3609,7 @@ this.pattAttributeData = {
 			},
 			{
 				"name": "imageId",
-				"value": "ami-0704c1f72e2fa523d",
+				"value": "ami-07ebfd5b3428b6f4d",
 				"required": true
 			},
 			{
