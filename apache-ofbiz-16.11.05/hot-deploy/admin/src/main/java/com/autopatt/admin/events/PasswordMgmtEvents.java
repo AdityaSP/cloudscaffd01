@@ -81,9 +81,9 @@ public class PasswordMgmtEvents {
      /*   String token = request.getParameter("token");
         String newPasswordVerify = request.getParameter("newPasswordVerify");
         String newPassword = request.getParameter("newPassword");*/
-        String token = UtilCodec.checkStringForHtmlStrictNone("Token",request.getParameter("token"),errorList);
-        String newPasswordVerify = UtilCodec.checkStringForHtmlStrictNone("New Password Verify",request.getParameter("newPasswordVerify"),errorList);
-        String newPassword = UtilCodec.checkStringForHtmlStrictNone("New Password",request.getParameter("newPassword"),errorList);
+        String token = UtilCodec.checkStringForHtmlStrictNone("Token",request.getParameter("token"),errorListForXss);
+        String newPasswordVerify = UtilCodec.checkStringForHtmlStrictNone("New Password Verify",request.getParameter("newPasswordVerify"),errorListForXss);
+        String newPassword = UtilCodec.checkStringForHtmlStrictNone("New Password",request.getParameter("newPassword"),errorListForXss);
         request.setAttribute("token", token);
 
         if(!errorListForXss.isEmpty()){
