@@ -63,8 +63,16 @@ public class PasswordMgmtEvents {
     }
 
     public static String validateJWTToken(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getParameter("token");
+        List<String> errorList = new ArrayList<>();
+        //String token = request.getParameter("token");
+        String token = UtilCodec.checkStringForHtmlStrictNone("Token",request.getParameter("token"),errorList);
         request.setAttribute("token", token);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
+
         try {
             JWTHelper.parseJWTToken(token);
         } catch (Exception e) {
@@ -129,8 +137,16 @@ public class PasswordMgmtEvents {
     public static String sendEmployeePasswordResetLink(HttpServletRequest request, HttpServletResponse response) {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        String userLoginId = request.getParameter("userLoginId");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        /*String userLoginId = request.getParameter("userLoginId");
+        String orgPartyId = request.getParameter("orgPartyId");*/
+        String userLoginId = UtilCodec.checkStringForHtmlStrictNone("User Login Id",request.getParameter("userLoginId"),errorList);
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         String userTenantId = TenantCommonUtils.getTenantIdForOrgPartyId(delegator, orgPartyId);
 
         Map<String, Object> result = null;
@@ -194,7 +210,14 @@ public class PasswordMgmtEvents {
     }
 
     public static String validatePasswordPolicy(HttpServletRequest request, HttpServletResponse response) {
-        String password = request.getParameter("password");
+        List<String> errorListXss = new ArrayList<>();
+       // String password = request.getParameter("password");
+        String password = UtilCodec.checkStringForHtmlStrictNone("Password",request.getParameter("password"),errorListXss);
+        if(!errorListXss.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorListXss);
+            CommonUtils.getResponse(request, response, errorListXss.get(0), ERROR);
+            return ERROR;
+        }
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(password);
         if(!errorList.isEmpty()){
             request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);

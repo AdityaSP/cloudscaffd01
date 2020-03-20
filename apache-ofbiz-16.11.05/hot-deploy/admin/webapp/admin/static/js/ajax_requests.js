@@ -34,17 +34,22 @@ $("#new_customer_form").submit(function (event) {
 });
 
 function listSubscriptions() {
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+   /* var orgPartyId = $('input[name="orgPartyId"]').val();
     var status = $('select[id="filterSubscriptionsByStatus"]').val();
-    var productId = $('select[id="filterSubscriptionsByProduct"]').val();
+    var productId = $('select[id="filterSubscriptionsByProduct"]').val();*/
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
+    var status = HtmlTagsXss.unescapeHtmlText($('select[id="filterSubscriptionsByStatus"]').val());
+    var productId = HtmlTagsXss.unescapeHtmlText($('select[id="filterSubscriptionsByProduct"]').val();
     $("#customer_subscriptions").load(getUrl("filter_subscriptions?orgPartyId=" + orgPartyId + "&status=" + status + "&productId=" + productId),
     function() {
         initializeOrgSubscriptionModals();
     });
 }
 function deleteSubscription() {
-    var subscriptionId = $("#deleteSubscription_partyId").val()
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+   /* var subscriptionId = $("#deleteSubscription_partyId").val()
+    var orgPartyId = $('input[name="orgPartyId"]').val();*/
+    var subscriptionId = HtmlTagsXss.unescapeHtmlText($("#deleteSubscription_partyId").val())
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
     var postData = {orgPartyId: orgPartyId, subscriptionId: subscriptionId};
     var formURL = $("#delete_subscription_form").attr("action");
     $.ajax(
@@ -71,15 +76,18 @@ function deleteSubscription() {
 
 
 function loadOrgEmployees() {
-    var orgPartyId = $('#orgPartyId').val();
+   // var orgPartyId = $('#orgPartyId').val();
+   var orgPartyId = HtmlTagsXss.unescapeHtmlText($('#orgPartyId').val());
     $("#customer_employees").load(getUrl("org_employees?orgPartyId=" + orgPartyId), function () {
         initializeOrgEmployeeModals();
     });
 }
 
 function suspendOrgEmployee() {
-    var employeePartyId = $("#suspendEmployee_partyId").val()
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+/*    var employeePartyId = $("#suspendEmployee_partyId").val()
+    var orgPartyId = $('input[name="orgPartyId"]').val();*/
+    var employeePartyId = HtmlTagsXss.unescapeHtmlText($("#suspendEmployee_partyId").val())
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
     var postData = {orgPartyId: orgPartyId, orgEmployeePartyId: employeePartyId};
     var formURL = $("#suspend_org_employee_form").attr("action");
     $.ajax(
@@ -102,8 +110,10 @@ function suspendOrgEmployee() {
 
 
 function activateOrgEmployee() {
-    var employeePartyId = $("#enableEmployee_partyId").val()
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+/*    var employeePartyId = $("#enableEmployee_partyId").val()
+    var orgPartyId = $('input[name="orgPartyId"]').val();*/
+    var employeePartyId = HtmlTagsXss.unescapeHtmlText($("#enableEmployee_partyId").val())
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
     var postData = {orgPartyId: orgPartyId, orgEmployeePartyId: employeePartyId};
     var formURL = $("#enable_user_form").attr("action");
     $.ajax(
@@ -125,8 +135,10 @@ function activateOrgEmployee() {
 }
 
 function deleteOrgEmployee() {
-    var employeePartyId = $("#deleteEmployee_partyId").val()
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+    /*var employeePartyId = $("#deleteEmployee_partyId").val()
+    var orgPartyId = $('input[name="orgPartyId"]').val();*/
+    var employeePartyId = HtmlTagsXss.unescapeHtmlText($("#deleteEmployee_partyId").val())
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
     var postData = {orgPartyId: orgPartyId, orgEmployeePartyId: employeePartyId};
     var formURL = $("#delete_org_employee_form").attr("action");
     $.ajax(
@@ -148,10 +160,14 @@ function deleteOrgEmployee() {
 }
 
 function addNewSubscription() {
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+ /*   var orgPartyId = $('input[name="orgPartyId"]').val();
     var productId = $('select[id="productId"]').val();
     var validFrom = $('input[name="validFrom"]').val();
-    var validTo = $('input[name="validTo"]').val();
+    var validTo = $('input[name="validTo"]').val();*/
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
+    var productId = HtmlTagsXss.unescapeHtmlText($('select[id="productId"]').val());
+    var validFrom = HtmlTagsXss.unescapeHtmlText($('input[name="validFrom"]').val());
+    var validTo = HtmlTagsXss.unescapeHtmlText($('input[name="validTo"]').val());
     var postData = {"orgPartyId": orgPartyId, productId: productId, "validFrom": validFrom, "validTo": validTo};
     var formURL = getUrl("createSubscription");
     $.ajax(
@@ -178,10 +194,14 @@ function addNewSubscription() {
 }
 
 function revokeSubscription() {
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+   /* var orgPartyId = $('input[name="orgPartyId"]').val();
     var subscriptionId = $('input[id="subscriptionId"]').val();
     var revokeEffective = $('input[name="revokeNow"]:checked').val();
-    var validTo = $('input[name="revokeValidTo"]').val();
+    var validTo = $('input[name="revokeValidTo"]').val();*/
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
+    var subscriptionId = HtmlTagsXss.unescapeHtmlText($('input[id="subscriptionId"]').val());
+    var revokeEffective = HtmlTagsXss.unescapeHtmlText($('input[name="revokeNow"]:checked').val());
+    var validTo = HtmlTagsXss.unescapeHtmlText($('input[name="revokeValidTo"]').val());
     var postData = {"orgPartyId": orgPartyId, "subscriptionId":subscriptionId, "revokeEffective": revokeEffective, "validTo": validTo};
     var formURL = getUrl("revokeSubscription");
     var now = new Date();
@@ -214,10 +234,14 @@ function revokeSubscription() {
 
 
 function renewSubscription() {
-    var orgPartyId = $('input[name="orgPartyId"]').val();
+/*    var orgPartyId = $('input[name="orgPartyId"]').val();
     var renewSubscriptionId = $('input[id="renewSubscriptionId"]').val();
     var renewEffective = $('input[name="renewEffective"]:checked').val();
-    var validTo = $('input[name="renewTillDate"]').val();
+    var validTo = $('input[name="renewTillDate"]').val();*/
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[name="orgPartyId"]').val());
+    var renewSubscriptionId = HtmlTagsXss.unescapeHtmlText($('input[id="renewSubscriptionId"]').val());
+    var renewEffective = HtmlTagsXss.unescapeHtmlText($('input[name="renewEffective"]:checked').val());
+    var validTo = HtmlTagsXss.unescapeHtmlText($('input[name="renewTillDate"]').val());
     var postData = {"orgPartyId": orgPartyId, "subscriptionId":renewSubscriptionId, "renewEffective": renewEffective, "validTo": validTo};
     var formURL = getUrl("renewSubscription");
     $.ajax(
@@ -239,12 +263,18 @@ function renewSubscription() {
 }
 
 function saveEmployeeDetails() {
-    var userPartId = $("#updateEmployee_partyId").val();
+   /* var userPartId = $("#updateEmployee_partyId").val();
     var userOrgPartId = $("#updateEmployee_orgPartyId").val();
     var firstName = $("#updateEmployee_firstName").val();
     var lastName = $("#updateEmployee_lastName").val();
     var userEmail = $("#updateEmployee_email").val();
-    var userRole = $("#updateEmployee_role").val();
+    var userRole = $("#updateEmployee_role").val();*/
+    var userPartId = HtmlTagsXss.unescapeHtmlText($("#updateEmployee_partyId").val());
+    var userOrgPartId =HtmlTagsXss.unescapeHtmlText($("#updateEmployee_orgPartyId").val());
+    var firstName = HtmlTagsXss.unescapeHtmlText($("#updateEmployee_firstName").val());
+    var lastName = HtmlTagsXss.unescapeHtmlText($("#updateEmployee_lastName").val());
+    var userEmail = HtmlTagsXss.unescapeHtmlText($("#updateEmployee_email").val());
+    var userRole = HtmlTagsXss.unescapeHtmlText$("#updateEmployee_role").val());
     var postData = {partyId: userPartId, orgPartyId:userOrgPartId, firstname: firstName, lastname: lastName, email: userEmail, securityGroupId: userRole};
     var formURL = $("#update-employee-form").attr("action");
     $.ajax(
@@ -265,12 +295,12 @@ function saveEmployeeDetails() {
         });
 }
 function addEmployeeDetails() {
-    var userOrgPartId = $("#createEmployee_orgPartyId").val();
-    var firstName = $("#createEmployee_firstName").val();
-    var lastName = $("#createEmployee_lastName").val();
-    var empEmail = $("#createEmployee_email").val();
-    var empRole = $("#createEmployee_role").val();
-    var empPassword = $("#createEmployee_password").val();
+    var userOrgPartId = HtmlTagsXss.unescapeHtmlText($("#createEmployee_orgPartyId").val());
+    var firstName = HtmlTagsXss.unescapeHtmlText($("#createEmployee_firstName").val());
+    var lastName = HtmlTagsXss.unescapeHtmlText($("#createEmployee_lastName").val());
+    var empEmail = HtmlTagsXss.unescapeHtmlText($("#createEmployee_email").val());
+    var empRole = HtmlTagsXss.unescapeHtmlText($("#createEmployee_role").val());
+    var empPassword = HtmlTagsXss.unescapeHtmlText($("#createEmployee_password").val());
     var postData = {
         orgPartyId: userOrgPartId,
         firstName: firstName,
@@ -307,8 +337,8 @@ function initResetEmployeePwd() {
   /*  var orgPartyId = $('input[id="resetPasswordOrgPartyId"]').val();
     var userLoginId = $('input[id="resetPasswordUserLoginId"]').val();
     var postData = {"orgPartyId": orgPartyId, "userLoginId":userLoginId};*/
-    var orgPartyId = App.unescapeHtmlText($('input[id="resetPasswordOrgPartyId"]').val());
-    var userLoginId = App.unescapeHtmlText($('input[id="resetPasswordUserLoginId"]').val());
+    var orgPartyId = HtmlTagsXss.unescapeHtmlText($('input[id="resetPasswordOrgPartyId"]').val());
+    var userLoginId = HtmlTagsXss.unescapeHtmlText($('input[id="resetPasswordUserLoginId"]').val());
    var postData = {"orgPartyId": orgPartyId, "userLoginId":userLoginId};
     var formURL = getUrl("initResetEmployeePwd");
     $.ajax(
@@ -329,8 +359,10 @@ function initResetEmployeePwd() {
 }
 
 function filterUsersForReport() {
-    var status = $('select[id="filterUsersByStatus"]').val();
-    var tenantId = $('select[id="filterUsersByTenant"]').val();
+/*    var status = $('select[id="filterUsersByStatus"]').val();
+    var tenantId = $('select[id="filterUsersByTenant"]').val();*/
+    var status = HtmlTagsXss.unescapeHtmlText($('select[id="filterUsersByStatus"]').val());
+    var tenantId = HtmlTagsXss.unescapeHtmlText($('select[id="filterUsersByTenant"]').val());
     $("#users_report").load(getUrl("filterUsersForReport?status=" + status + "&tenantId=" + tenantId),
         function () {
             showSuccessToast("Users loaded successfully");
@@ -338,9 +370,12 @@ function filterUsersForReport() {
 }
 
 function filterSubscriptionsForReport() {
-    var status = $('select[id="filterSubscriptionsReportByStatus"]').val();
+/*    var status = $('select[id="filterSubscriptionsReportByStatus"]').val();
     var tenantId = $('select[id="filterSubscriptionReportByTenant"]').val();
-    var planId = $('select[id="filterSubscriptionsReportByProduct"]').val();
+    var planId = $('select[id="filterSubscriptionsReportByProduct"]').val();*/
+    var status = HtmlTagsXss.unescapeHtmlText($('select[id="filterSubscriptionsReportByStatus"]').val());
+    var tenantId = HtmlTagsXss.unescapeHtmlText($('select[id="filterSubscriptionReportByTenant"]').val());
+    var planId = HtmlTagsXss.unescapeHtmlText($('select[id="filterSubscriptionsReportByProduct"]').val());
     $("#subscriptions_report").load(getUrl("filterSubscriptionsForReport?status=" + status + "&tenantId=" + tenantId + "&planId=" + planId),
         function () {
             showSuccessToast("Subscriptions loaded successfully");
@@ -348,8 +383,10 @@ function filterSubscriptionsForReport() {
 }
 
 function checkEmailEmp() {
-    var userOrgPartId = $("#createEmployee_orgPartyId").val();
-    var email = $("#createEmployee_email").val()
+    /*var userOrgPartId = $("#createEmployee_orgPartyId").val();
+    var email = $("#createEmployee_email").val()*/
+    var userOrgPartId = HtmlTagsXss.unescapeHtmlText($("#createEmployee_orgPartyId").val());
+    var email = HtmlTagsXss.unescapeHtmlText($("#createEmployee_email").val())
     var postData = {email: email, orgPartyId: userOrgPartId};
     var formURL = getUrl("checkEmailForEmp");
     $("#email_notExists").addClass("d-none");
@@ -372,7 +409,8 @@ function checkEmailEmp() {
 }
 
 function checkPasswordPolicy(textFieldId, errorDivId) {
-    var password = $('input[id="'+textFieldId+'"]').val();
+    //var password = $('input[id="'+textFieldId+'"]').val();
+    var password = HtmlTagsXss.unescapeHtmlText($('input[id="'+textFieldId+'"]').val());
     var postData = {password: password};
     var formURL = getUrl("validatePasswordPolicy");
     $('#'+errorDivId).html("");

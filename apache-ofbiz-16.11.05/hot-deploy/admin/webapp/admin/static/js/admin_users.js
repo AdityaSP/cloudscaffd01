@@ -5,7 +5,8 @@ $(function () {
     updatePassword();
 });
 function _removeUser() {
-    var userPartyId = $("#deleteAdminUser_partyId").val();
+    //var userPartyId = $("#deleteAdminUser_partyId").val();
+    var userPartyId = HtmlTagsXss.unescapeHtmlText($("#deleteAdminUser_partyId").val());
     console.log("deleting " + userPartyId)
     var postData = { adminPartyId: userPartyId };
     var formURL = $("#delete_admin_user_form").attr("action");
@@ -27,7 +28,8 @@ function _removeUser() {
 
 // Check if email already exists for admin user
 function checkIfAdminEmailExists() {
-    var email = $("#userEmail").val()
+    //var email = $("#userEmail").val()
+    var email = HtmlTagsXss.unescapeHtmlText($("#userEmail").val())
     var postData = { email: email };
     var formURL = getUrl("checkIfEmailAlreadyExists");
     $("#email_notAvailable").addClass("d-none");
@@ -47,7 +49,8 @@ function checkIfAdminEmailExists() {
         });
 }
 function checkIfOrgIdExists() {
-    var tenantId = $("#organizationId").val()
+    //var tenantId = $("#organizationId").val()
+    var tenantId = HtmlTagsXss.unescapeHtmlText($("#organizationId").val())
     var postData = { tenantId: tenantId };
     var formURL = getUrl("checkIfOrgIdAlreadyExists");
     $("#orgId_notAvailable").addClass("d-none");
@@ -85,9 +88,9 @@ function updatePassword() {
             "newPasswordVerify": $('#newPasswordVerify').val()
         }*/
         let formData = {
-                    "PASSWORD": App.unescapeHtmlText($('#password').val()),
-                    "newPassword": App.unescapeHtmlText($('#newPassword').val()),
-                    "newPasswordVerify": App.unescapeHtmlText($('#newPasswordVerify').val())
+                    "PASSWORD": HtmlTagsXss.unescapeHtmlText($('#password').val()),
+                    "newPassword": HtmlTagsXss.unescapeHtmlText($('#newPassword').val()),
+                    "newPasswordVerify": HtmlTagsXss.unescapeHtmlText($('#newPasswordVerify').val())
                 }
         $.ajax({
             url: "updatePassword",

@@ -18,6 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class SubscriptionEvents {
 
@@ -31,11 +37,21 @@ public class SubscriptionEvents {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+       /* String orgPartyId = request.getParameter("orgPartyId");
         String productId = request.getParameter("productId");
         String validFromStr = request.getParameter("validFrom");
-        String validToStr = request.getParameter("validTo");
+        String validToStr = request.getParameter("validTo");*/
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("org Party Id",request.getParameter("orgPartyId"),errorList);
+        String productId = UtilCodec.checkStringForHtmlStrictNone("product Id",request.getParameter("productId"),errorList);
+        String validFromStr = UtilCodec.checkStringForHtmlStrictNone("valid From",request.getParameter("validFrom"),errorList);
+        String validToStr = UtilCodec.checkStringForHtmlStrictNone("valid To",request.getParameter("validTo"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Debug.log("Received request to assign product " + productId + " subscription to org party " + orgPartyId, module);
         Map<String, Object> resp = null;
 
@@ -98,10 +114,19 @@ public class SubscriptionEvents {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String subscriptionId = request.getParameter("subscriptionId");
+        List<String> errorList = new ArrayList<>();
+       /* String subscriptionId = request.getParameter("subscriptionId");
         String validToStr = request.getParameter("validTo");
-        String revokeEffective = request.getParameter("revokeEffective");
+        String revokeEffective = request.getParameter("revokeEffective");*/
+        String subscriptionId = UtilCodec.checkStringForHtmlStrictNone("subscription Id",request.getParameter("subscriptionId"),errorList);
+        String validToStr = UtilCodec.checkStringForHtmlStrictNone("valid To",request.getParameter("validTo"),errorList);
+        String revokeEffective = UtilCodec.checkStringForHtmlStrictNone("revoke Effective",request.getParameter("revokeEffective"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Debug.log("Received request to revoke subscription " + subscriptionId, module);
         Map<String, Object> resp = null;
 
@@ -154,9 +179,18 @@ public class SubscriptionEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String subscriptionId = request.getParameter("subscriptionId");
+        List<String> errorList = new ArrayList<>();
+      /*  String subscriptionId = request.getParameter("subscriptionId");
         String validToStr = request.getParameter("validTo");
-        String renewEffective = request.getParameter("renewEffective");
+        String renewEffective = request.getParameter("renewEffective");*/
+        String subscriptionId = UtilCodec.checkStringForHtmlStrictNone("subscription Id",request.getParameter("subscriptionId"),errorList);
+        String validToStr = UtilCodec.checkStringForHtmlStrictNone("valid To",request.getParameter("validTo"),errorList);
+        String renewEffective = UtilCodec.checkStringForHtmlStrictNone("renew Effective",request.getParameter("renewEffective"),errorList);
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
 
         Debug.log("Received request to renew subscription " + subscriptionId, module);
         Map<String, Object> resp = null;
@@ -251,7 +285,15 @@ public class SubscriptionEvents {
 
     public static String ajaxDeleteSubscription(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        String subscriptionId = request.getParameter("subscriptionId");
+        List<String> errorList = new ArrayList<>();
+        //String subscriptionId = request.getParameter("subscriptionId");
+        String subscriptionId = UtilCodec.checkStringForHtmlStrictNone("Consequences",request.getParameter("subscriptionId"),errorList);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         try {
             GenericValue subscription = delegator.findOne("Subscription", UtilMisc.toMap("subscriptionId", subscriptionId),false);

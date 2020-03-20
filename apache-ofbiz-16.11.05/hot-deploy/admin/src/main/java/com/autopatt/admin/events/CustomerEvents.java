@@ -9,12 +9,16 @@ import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
 import org.apache.ofbiz.service.ServiceUtil;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.UUID;
+
+import java.util.List;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class CustomerEvents {
     public final static String module = CustomerEvents.class.getName();
@@ -26,15 +30,30 @@ public class CustomerEvents {
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        List<String> errorList = new ArrayList<>();
 
         Debug.log("Initiating the process to onboard new customer", module);
-        String tenantId = request.getParameter("tenantId");
+        /*String tenantId = request.getParameter("tenantId");
         String organizationName = request.getParameter("organizationName");
         String contactFirstName = request.getParameter("contactFirstName");
         String contactLastName = request.getParameter("contactLastName");
         String contactEmail = request.getParameter("contactEmail");
         String contactPassword = request.getParameter("contactPassword");
-        String sendNotificationToContact = request.getParameter("sendNotificationToContact");
+        String sendNotificationToContact = request.getParameter("sendNotificationToContact");*/
+        String tenantId = UtilCodec.checkStringForHtmlStrictNone("Tenant Id",request.getParameter("tenantId"),errorList);
+        String organizationName = UtilCodec.checkStringForHtmlStrictNone("Organization Name",request.getParameter("organizationName"),errorList);
+        String contactFirstName = UtilCodec.checkStringForHtmlStrictNone("Contact First Name",request.getParameter("contactFirstName"),errorList);
+        String contactLastName = UtilCodec.checkStringForHtmlStrictNone("Contact Last Name",request.getParameter("contactLastName"),errorList);
+        String contactEmail = UtilCodec.checkStringForHtmlStrictNone("Contact Email",request.getParameter("contactEmail"),errorList);
+        String contactPassword = UtilCodec.checkStringForHtmlStrictNone("Contact Password",request.getParameter("contactPassword"),errorList);
+        String sendNotificationToContact = UtilCodec.checkStringForHtmlStrictNone("Send Notification to Contact",request.getParameter("sendNotificationToContact"),errorList);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
+
         if (UtilValidate.isEmpty(sendNotificationToContact)) sendNotificationToContact = "N";
 
         if(UtilValidate.isEmpty(tenantId)) {
@@ -92,11 +111,19 @@ public class CustomerEvents {
     public static String UpdateCustomerDetails(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        //String orgPartyId = request.getParameter("orgPartyId");
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
         request.setAttribute("orgPartyId", orgPartyId);
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        String organizationName = request.getParameter("organizationName");
+       // String organizationName = request.getParameter("organizationName");
+        String organizationName = UtilCodec.checkStringForHtmlStrictNone("Organization Name",request.getParameter("organizationName"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Map<String, Object> inputs = UtilMisc.toMap("partyId", orgPartyId);
         try {
             GenericValue partygroup = delegator.findOne("PartyGroup", inputs, false);
@@ -113,7 +140,14 @@ public class CustomerEvents {
 
     public static String checkIfOrgIdAlreadyExists(HttpServletRequest request, HttpServletResponse response) {
         GenericDelegator mainDelegator = (GenericDelegator) DelegatorFactory.getDelegator("default");
-        String tenantId = request.getParameter("tenantId");
+        List<String> errorList = new ArrayList<>();
+        String tenantId = UtilCodec.checkStringForHtmlStrictNone("Tenant Id",request.getParameter("tenantId"),errorList);
+        // String tenantId = request.getParameter("tenantId");
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         try {
             GenericValue tenant = mainDelegator.findOne("Tenant", UtilMisc.toMap("tenantId", tenantId), false);
             if (tenant == null) {

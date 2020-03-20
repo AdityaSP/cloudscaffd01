@@ -1,7 +1,7 @@
 
-export const App = {
+export const HtmlTagsXss = {
     unescapeHtmlText: function (text) {
         return jQuery('<div />').html(text).text()
     }
 };
-window.App = App;
+window.HtmlTagsXss = HtmlTagsXss;

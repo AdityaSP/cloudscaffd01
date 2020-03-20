@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class AdminMgmtEvents {
     public final static String module = AdminMgmtEvents.class.getName();
@@ -28,16 +31,26 @@ public class AdminMgmtEvents {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
 
-        String firstName = request.getParameter("firstname");
+        List<String> errorListXss = new ArrayList<>();
+      /*  String firstName = request.getParameter("firstname");
         String lastName = request.getParameter("lastname");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String password = request.getParameter("password");*/
+        String firstName = UtilCodec.checkStringForHtmlStrictNone("First Name",request.getParameter("firstname"),errorListXss);
+        String lastName = UtilCodec.checkStringForHtmlStrictNone("Last Name",request.getParameter("lastname"),errorListXss);
+        String email = UtilCodec.checkStringForHtmlStrictNone("Eamil",request.getParameter("email"),errorListXss);
+        String password = UtilCodec.checkStringForHtmlStrictNone("Password",request.getParameter("password"),errorListXss);
+
+        if(!errorListXss.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorListXss);
+            CommonUtils.getResponse(request, response, errorListXss.get(0), ERROR);
+            return ERROR;
+        }
         List<String> errorList = PasswordPolicyHelper.validatePasswordPolicy(password);
         if(!errorList.isEmpty()){
             request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
             return ERROR;
         }
-
         try {
             Map<String, Object> createPersonResp = dispatcher.runSync("createPerson",
                     UtilMisc.<String, Object>toMap("firstName", firstName, "lastName", lastName, "userLogin", userLogin));
@@ -112,11 +125,21 @@ public class AdminMgmtEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        List<String> errorList = new ArrayList<>();
 
-        String firstname = request.getParameter("firstname");
+       /* String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
-        String partyId = request.getParameter("partyId");
+        String partyId = request.getParameter("partyId");*/
+        String firstname = UtilCodec.checkStringForHtmlStrictNone("First Name",request.getParameter("firstname"),errorList);
+        String lastname = UtilCodec.checkStringForHtmlStrictNone("Last Name",request.getParameter("lastname"),errorList);
+        String partyId = UtilCodec.checkStringForHtmlStrictNone("Party Id",request.getParameter("partyId"),errorList);
         Map<String, Object> inputs = UtilMisc.toMap("partyId",partyId );
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         try {
             GenericValue person = delegator.findOne("Person", inputs, false);
             person.set("firstName", firstname);
@@ -136,8 +159,16 @@ public class AdminMgmtEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        List<String> errorList = new ArrayList<>();
 
-        String adminPartyId = request.getParameter("adminPartyId");
+        //String adminPartyId = request.getParameter("adminPartyId");
+        String adminPartyId =  UtilCodec.checkStringForHtmlStrictNone("Admin Party Id",request.getParameter("adminPartyId"),errorList);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         System.out.println("Deleting... " + adminPartyId);
 
         try {
@@ -174,7 +205,15 @@ public class AdminMgmtEvents {
 
     public static String checkIfEmailAlreadyExists(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        String email = request.getParameter("email");
+        List<String> errorList = new ArrayList<>();
+        //String email = request.getParameter("email");
+        String email = UtilCodec.checkStringForHtmlStrictNone("Email",request.getParameter("email"),errorList);
+
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         try {
             // TODO: handle deleted user's email check
 

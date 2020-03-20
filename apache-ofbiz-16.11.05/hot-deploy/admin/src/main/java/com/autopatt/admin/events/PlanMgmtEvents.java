@@ -7,12 +7,17 @@ import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class PlanMgmtEvents {
 
@@ -22,12 +27,23 @@ public class PlanMgmtEvents {
 
     public static String updatePlan(HttpServletRequest request, HttpServletResponse response) {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
-        String productName = request.getParameter("productName");
+        List<String> errorList = new ArrayList<>();
+      /*  String productName = request.getParameter("productName");
         String productId = request.getParameter("planId");
         String priceStr = request.getParameter("price");
         String attrName=request.getParameter("maxAdmin");
-        String attrValue=request.getParameter("maxUserLogins");
+        String attrValue=request.getParameter("maxUserLogins");*/
+        String productName = UtilCodec.checkStringForHtmlStrictNone("Product Name",request.getParameter("productName"),errorList);
+        String productId = UtilCodec.checkStringForHtmlStrictNone("Plan Id",request.getParameter("planId"),errorList);
+        String priceStr = UtilCodec.checkStringForHtmlStrictNone("Price",request.getParameter("price"),errorList);
+        String attrName = UtilCodec.checkStringForHtmlStrictNone("Max Admin",request.getParameter("maxAdmin"),errorList);
+        String attrValue = UtilCodec.checkStringForHtmlStrictNone("Max User Logins",request.getParameter("maxUserLogins"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         BigDecimal price = null;
         try{
             price = new BigDecimal(priceStr);

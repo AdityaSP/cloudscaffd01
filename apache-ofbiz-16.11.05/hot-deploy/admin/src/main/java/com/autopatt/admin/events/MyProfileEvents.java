@@ -18,6 +18,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import org.apache.ofbiz.webapp.control.LoginWorker;
+import org.apache.ofbiz.base.util.*;
+import java.util.ArrayList;
+import com.autopatt.admin.utils.CommonUtils;
 
 public class MyProfileEvents {
     public final static String module = MyProfileEvents.class.getName();
@@ -28,9 +31,17 @@ public class MyProfileEvents {
         Delegator delegator = (Delegator) request.getAttribute("delegator");
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
+        List<String> errorList = new ArrayList<>();
+        /*String firstname=request.getParameter("firstname");
+        String lastname=request.getParameter("lastname");*/
+        String firstname= UtilCodec.checkStringForHtmlStrictNone("First Name",request.getParameter("firstname"),errorList);
+        String lastname= UtilCodec.checkStringForHtmlStrictNone("Last Name",request.getParameter("lastname"),errorList);
 
-        String firstname=request.getParameter("firstname");
-        String lastname=request.getParameter("lastname");
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Map<String, Object> inputs = UtilMisc.toMap("partyId", userLogin.get("partyId"));
         try {
             GenericValue person = delegator.findOne("Person", inputs , false);

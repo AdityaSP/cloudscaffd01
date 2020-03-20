@@ -30,18 +30,30 @@ public class EmployeeEvents {
     public static String createEmployee(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
+        //String orgPartyId = request.getParameter("orgPartyId");
         request.setAttribute("orgPartyId", orgPartyId);
 
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
         LocalDispatcher tenantDispatcher = TenantCommonUtils.getTenantDispatcherByOrgPartyId(orgPartyId);
 
-        String firstName = request.getParameter("firstName");
+        /*String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String empEmail = request.getParameter("email");
         String empPassword = request.getParameter("empPassword");
-        String securityGroupId = request.getParameter("securityGroupId");
+        String securityGroupId = request.getParameter("securityGroupId");*/
+        String firstName = UtilCodec.checkStringForHtmlStrictNone("First Name",request.getParameter("firstName"),errorList);
+        String lastName = UtilCodec.checkStringForHtmlStrictNone("Last Name",request.getParameter("lastName"),errorList);
+        String empEmail = UtilCodec.checkStringForHtmlStrictNone("Email",request.getParameter("email"),errorList);
+        String empPassword = UtilCodec.checkStringForHtmlStrictNone("Emp Password",request.getParameter("empPassword"),errorList);
+        String securityGroupId = UtilCodec.checkStringForHtmlStrictNone("Security Group Id",request.getParameter("securityGroupId"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         // Use system userlogin to perform operations which require authorized user
         GenericValue sysUserLogin = UserLoginUtils.getSystemUserLogin(tenantDelegator);
 
@@ -152,6 +164,11 @@ public class EmployeeEvents {
         String lastname = UtilCodec.checkStringForHtmlStrictNone("Last name",request.getParameter("lastname"),errorList);
         String partyId = UtilCodec.checkStringForHtmlStrictNone("Party Id",request.getParameter("partyId"),errorList);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Map<String, Object> inputs = UtilMisc.toMap("partyId", partyId); // party id should come from request
         try {
             GenericValue person = tenantDelegator.findOne("Person", inputs , false);
@@ -181,12 +198,20 @@ public class EmployeeEvents {
     public static String suspendEmployee(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        //String orgPartyId = request.getParameter("orgPartyId");
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
         request.setAttribute("orgPartyId", orgPartyId);
 
-        String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        //String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        String orgEmployeePartyId = UtilCodec.checkStringForHtmlStrictNone("Org Employee Party Id",request.getParameter("orgEmployeePartyId"),errorList);
         request.setAttribute("orgEmployeePartyId", orgEmployeePartyId);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         //TODO: Add user permission check
 
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
@@ -223,12 +248,20 @@ public class EmployeeEvents {
     public static String activateEmployee(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        //String orgPartyId = request.getParameter("orgPartyId");
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
         request.setAttribute("orgPartyId", orgPartyId);
 
-        String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        //String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        String orgEmployeePartyId = UtilCodec.checkStringForHtmlStrictNone("Org Employee Party Id",request.getParameter("orgEmployeePartyId"),errorList);
         request.setAttribute("orgEmployeePartyId", orgEmployeePartyId);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         //TODO: Add user permission check
 
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
@@ -267,11 +300,19 @@ public class EmployeeEvents {
     public static String ajaxDeleteOrgUser(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         GenericValue userLogin = (GenericValue) session.getAttribute("userLogin");
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        //String orgPartyId = request.getParameter("orgPartyId");
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
         request.setAttribute("orgPartyId", orgPartyId);
-        String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        //String orgEmployeePartyId = request.getParameter("orgEmployeePartyId");
+        String orgEmployeePartyId = UtilCodec.checkStringForHtmlStrictNone("Org Employee Party Id",request.getParameter("orgEmployeePartyId"),errorList);
         request.setAttribute("orgEmployeePartyId", orgEmployeePartyId);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         //TODO: Add user permission check
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
         LocalDispatcher tenantDispatcher = TenantCommonUtils.getTenantDispatcherByOrgPartyId(orgPartyId);
@@ -295,9 +336,16 @@ public class EmployeeEvents {
 
     public static String checkEmailForEmp(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        String orgPartyId = request.getParameter("orgPartyId");
+        List<String> errorList = new ArrayList<>();
+        String orgPartyId = UtilCodec.checkStringForHtmlStrictNone("Org Party Id",request.getParameter("orgPartyId"),errorList);
+       // String orgPartyId = request.getParameter("orgPartyId");
         request.setAttribute("orgPartyId", orgPartyId);
 
+        if(!errorList.isEmpty()){
+            request.setAttribute("_ERROR_MESSAGE_LIST_", errorList);
+            CommonUtils.getResponse(request, response, errorList.get(0), ERROR);
+            return ERROR;
+        }
         Delegator tenantDelegator = TenantCommonUtils.getTenantDelegatorByOrgPartyId(orgPartyId);
 
         String email = request.getParameter("email");
