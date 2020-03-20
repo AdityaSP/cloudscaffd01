@@ -64,7 +64,6 @@ export const Deployment = {
             successResponseRenderMethod = Deployment.checkCompilationData;
         }
         else if (checkFlow && checkFlow == 'recompile') {
-            // Deployment.loadingModal('Deployment is in progress...', 0);
             successResponseRenderMethod = Deployment.deploySolutionDesign;
         }
 
@@ -115,7 +114,7 @@ export const Deployment = {
     },
 
     deploySolutionDesign(data, checkFlow, res) {
-        // Deployment.closeLoadingModal();
+        Deployment.closeLoadingModal();
         try {
             if (checkFlow == 'recompile') {
                 checkFlow = 'deploy';
@@ -132,10 +131,14 @@ export const Deployment = {
     },
 
     checkDeploymentData(data, param) {
-        Deployment.closeLoadingModal();
-
+        // Deployment.closeLoadingModal();
         if (data.message == 'success') {
-            Deployment.alertModal("Deployment started click on logs button to view logs");
+            Deployment.loadingModal('Deployment is in progress...');
+            setTimeout(function () {
+                Deployment.closeLoadingModal();
+                Deployment.checkLoadingModalIsStillPresent();
+                Deployment.alertModal("Deployment started click on logs button to view logs");
+            }, 2000);
             try {
                 // Fetching the latest Logs
                 Deployment.getLogs(param); // if param == 'deploy' represents deployed data

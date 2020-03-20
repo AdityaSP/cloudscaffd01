@@ -1,4 +1,6 @@
 
+// import Attributes from '';
+
 export const App = {
     userRole: $('.userRoleName').text(),
     userName: $('.userName').text(),
@@ -346,6 +348,11 @@ export const App = {
     unescapeHtmlText: function (text) {
         return jQuery('<div />').html(text).text()
     },
-    checkFlow: { isDeploying: false, isCompiling: false, isReCompiling: false },
+    fetchCustomAttributes: function (filename) {
+        App.genericFetch(`../static/graphEditor/resources/${filename}`, "GET", 'data', function (data, params, res) {
+            App.attributes = JSON.parse(res);
+        }, 'success', App.outputResponse, 'error');
+    },
+
 };
 window.App = App;

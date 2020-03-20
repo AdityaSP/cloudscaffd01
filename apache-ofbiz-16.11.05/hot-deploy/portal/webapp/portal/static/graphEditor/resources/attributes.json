@@ -1,0 +1,182 @@
+{
+  "aws": {
+    "ec2": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true,
+        "editable": false
+      },
+      {
+        "name": "imageId",
+        "value": "ami-07ebfd5b3428b6f4d",
+        "required": true
+      },
+      {
+        "name": "instance_type",
+        "value": "t2.micro",
+        "required": true
+      },
+      {
+        "name": "key_name",
+        "value": "ec2-Mongokeypair",
+        "required": true
+      }
+    ],
+    "appservicemesh": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "Client_Token",
+        "value": "1234"
+      },
+      {
+        "name": "Mesh_Name",
+        "value": "abc"
+      },
+      {
+        "name": "Egress_Filter_Type",
+        "value": "HTTP"
+      }
+    ],
+    "t3_instance": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "ACL",
+        "value": "qwer"
+      },
+      {
+        "name": "Bucket Name",
+        "value": "qwer"
+      },
+      {
+        "name": "Location Constraint",
+        "value": "qwer"
+      },
+      {
+        "name": "Grant Full Control",
+        "value": "Yes"
+      },
+      {
+        "name": "Grant Read",
+        "value": "Yes"
+      },
+      {
+        "name": "Grant Read ACP",
+        "value": "No"
+      },
+      {
+        "name": "Grant Write",
+        "value": "Yes"
+      },
+      {
+        "name": "Grant Write ACP",
+        "value": "Yes"
+      },
+      {
+        "name": "Object Lock Enabled",
+        "value": "No"
+      }
+    ],
+    "virtual_private_cloud": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "CidrBlock",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "tag_key_1",
+        "value": ""
+      },
+      {
+        "name": "tag_value_1",
+        "value": ""
+      },
+      {
+        "name": "EnableDnsSupport",
+        "value": "true"
+      },
+      {
+        "name": "EnableDnsHostnames",
+        "value": "true"
+      },
+      {
+        "name": "EnableInternetGateway",
+        "value": "true"
+      },
+      {
+        "name": "DestinationCidrBlock",
+        "value": "true"
+      },
+      {
+        "name": "CidrBlock",
+        "value": ""
+      }
+    ],
+    "vpc_subnet": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "CidrBlock",
+        "value": ""
+      }
+    ],
+    "security_group": [
+      {
+        "name": "region",
+        "value": "us-east-1",
+        "required": true
+      },
+      {
+        "name": "Group_1_Name",
+        "value": ""
+      },
+      {
+        "name": "Group_1_Desc",
+        "value": ""
+      },
+      {
+        "name": "Group_1_CidrIp_1",
+        "value": ""
+      },
+      {
+        "name": "Group_1_IpProtocol",
+        "value": ""
+      },
+      {
+        "name": "Group_1_FromPort",
+        "value": ""
+      },
+      {
+        "name": "Group_1_ToPort",
+        "value": ""
+      }
+    ]
+  },
+  "azure": [
+    {
+      "name": "region",
+      "value": "us-east-1",
+      "required": true
+    },
+    {
+      "name": "azure",
+      "value": "data"
+    }
+  ]
+}

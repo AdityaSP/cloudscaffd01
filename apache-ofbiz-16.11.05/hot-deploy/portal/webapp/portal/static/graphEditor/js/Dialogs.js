@@ -4,6 +4,9 @@
 /**
  * Constructs a new open dialog.
  */
+
+var App = window.App;
+
 var OpenDialog = function () {
 	var iframe = document.createElement('iframe');
 	iframe.style.backgroundColor = 'transparent';
@@ -1565,12 +1568,10 @@ var EditDataDialog = function (ui, cell) {
 		var removeAttrFn = (function (name) {
 			return function () {
 				var count = 0;
-
 				for (var j = 1; j < names.length; j++) {
 					if (names[j] == name) {
 						texts[j] = null;
 						form.table.deleteRow(count + ((id != null) ? 1 : 0));
-
 						break;
 					}
 
@@ -1590,24 +1591,34 @@ var EditDataDialog = function (ui, cell) {
 		parent.appendChild(wrapper);
 	};
 
-	var addTextArea = function (index, name, value) {
+	var addTextArea = function (index, name, value, componentType) {
 		names[index] = name;
 		texts[index] = form.addTextarea(names[count] + ':', value, 2);
 		texts[index].style.width = '100%';
 
-		let req = pattAttributeData.aws.ec2;
-		var isRequired = false;
+		let req = App.attributes["aws"][componentType],
+			isRequired = false;
 
-		isRequired = getKeyByValue(req, name);
+		// console.log(req);
 
-		if (!isRequired) {
-			addRemoveButton(texts[index], name);
+		if (req) {
+			isRequired = getKeyByValue(req, name);
+		}
+
+		if (name == 'componentType' || name == 'infraType') {
+			texts[index].setAttribute('disabled', true);
+		} else {
+			if (isRequired) {
+				// texts[index].setAttribute('disabled', true);
+			} else {
+				addRemoveButton(texts[index], name);
+			}
 		}
 	};
 
 	var getKeyByValue = function (req, name) {
 		for (var i = 0; i < req.length; i++) {
-			if (req[i]["name"] == name && req[i]["infraType"] != "" || req[i]["required"] == true) {
+			if (req[i]["name"] == name && req[i]["required"] == true) {
 				return true;
 			}
 		}
@@ -1645,10 +1656,15 @@ var EditDataDialog = function (ui, cell) {
 		form.addField(mxResources.get('id') + ':', text);
 	}
 
-	// console.log(temp)
+	let componentType;
+	for (let i = 0; i < temp.length; i++) {
+		if (temp[i].name == 'componentType') {
+			componentType = temp[i].value;
+		}
+	}
 
 	for (var i = 0; i < temp.length; i++) {
-		addTextArea(count, temp[i].name, temp[i].value);
+		addTextArea(count, temp[i].name, temp[i].value, componentType);
 		count++;
 	}
 
@@ -1770,7 +1786,6 @@ var EditDataDialog = function (ui, cell) {
 			}
 
 			// Updates the value of the cell (undoable)
-			console.log("From Dialog " + cell);
 			graph.getModel().setValue(cell, value);
 		}
 		catch (e) {

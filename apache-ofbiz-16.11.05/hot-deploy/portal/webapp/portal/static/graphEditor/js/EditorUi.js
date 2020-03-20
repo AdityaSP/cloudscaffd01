@@ -952,7 +952,7 @@ EditorUi.prototype.init = function () {
 		data: data,
 		cache: true,
 		success: function (res) {
-			console.log(res.data[0]);
+			// console.log(res.data[0]);
 			let data = res.data[0], xml = data.xml, svg = data.svg, png = data.png, id = data.id;
 			window.currentSolutionDesignData = { xml, svg, png, id };
 
@@ -3364,15 +3364,14 @@ EditorUi.prototype.save = function (name) {
 		if (this.editor.graph.isEditing()) {
 			this.editor.graph.stopEditing();
 		}
-		// console.log(name);
-		//???DB Save
+
+		//DB Save
 		var that = this;
 		var xml = mxUtils.getXml(this.editor.getGraphXml()),
 			svgData = mxUtils.getXml(this.editor.graph.getSvg(this.editor.graph.background, 1, 0)),
 			pngData = svgToPng(svgData);
 
 		let ids = App.urlParams();
-		console.log(ids);
 		let typeOfPattern, parentId, psid = ids['psid'], bpid = ids['bpid'], sdid = ids['sdid'], url;
 
 		if (bpid != null && sdid != null) {
@@ -3461,7 +3460,7 @@ EditorUi.prototype.save = function (name) {
 			}
 			else {
 				if (xml.length < MAX_REQUEST_SIZE) {
-					console.log("XML length is less than MAX_REQUEST_SIZE.");
+					// console.log("XML length is less than MAX_REQUEST_SIZE.");
 					// console.log(xml.length, MAX_REQUEST_SIZE);
 				}
 				else {

@@ -684,7 +684,8 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape aspect="variable" h="56.6" name="EC2 Spot Instance" strokewidth="inherit" w="53">
+
+	<!-- <shape aspect="variable" h="56.6" name="EC2 Spot Instance" strokewidth="inherit" w="53">
     <connections/>
     <foreground>
         <fillcolor color="#F58435"/>
@@ -749,7 +750,8 @@
         <fontfamily family="HelveticaNeueLTStd-Md"/>
         <text str="¢" valign="bottom" x="11.96" y="40.91"/>
     </foreground>
-	</shape>
+	</shape> -->
+
 	<shape name="Elastic Beanstalk Container" h="64.66" w="61.01" aspect="variable" strokewidth="inherit">
 		<connections>
 			<constraint x="0.5" y="0.06" perimeter="0" name="N"/>
@@ -985,10 +987,10 @@
 			<constraint x="0.975" y="0.975" perimeter="0" name="SE"/>
 		</connections>
 		<foreground>
-			<strokecolor color="#000000"/>
+			<strokecolor color="#FF0000"/>
 			<roundrect x="0" y="0" w="58.5" h="58" arcsize="10.300618921308576"/>
 			<stroke/>
-			<strokecolor color="#FF0000"/>
+			<strokecolor color="#fff"/>
 			<dashed dashed="1"/>
 			<dashpattern pattern="1 6"/>
 			<roundrect x="0" y="0" w="58.5" h="58" arcsize="10.300618921308576"/>
@@ -1054,8 +1056,8 @@
 			</path>
 			<stroke/>
 			<restore/>
-			<fillcolor color="#282560"/>
-			<fillcolor color="#282560"/>
+			<fillcolor color="#D86613"/>
+			<fillcolor color="#D86613"/>
 			<linejoin join="miter"/>
 			<linecap cap="butt"/>
 			<miterlimit limit="4"/>
@@ -1217,7 +1219,7 @@
 			<fillstroke/>
 		</foreground>
 	</shape>
-	<shape aspect="variable" h="11.01" name="AWS Cloud Icon" strokewidth="inherit" w="17.33">
+	<!-- <shape aspect="variable" h="11.01" name="AWS Cloud Icon" strokewidth="inherit" w="17.33">
 		<connections/>
 		<foreground>
 			<save/>
@@ -1653,6 +1655,6 @@
 			</path>
 			<fillstroke/>
 		</foreground>
-	</shape>
+	</shape> -->
 
 </shapes>

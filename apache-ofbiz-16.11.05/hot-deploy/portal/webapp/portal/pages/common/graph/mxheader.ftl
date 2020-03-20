@@ -24,8 +24,6 @@
 
 	<link rel="stylesheet" type="text/css" href="../static/graphEditor/styles/grapheditor.css">
 	<#--  <link rel="stylesheet" href="styles/customUI.css">  -->
-	<#--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  -->
 	<script type="text/javascript">
 		// Parses URL parameters. Supported parameters are:
 		// - lang=xy: Specifies the language of the user interface.

@@ -5,6 +5,7 @@
  * Construcs a new sidebar for the given editor.
  */
 
+var App = window.App;
 function Sidebar(editorUi, container) {
 	this.editorUi = editorUi;
 	this.container = container;
@@ -114,7 +115,9 @@ Sidebar.prototype.init = function () {
 	this.addStencilPalette('AWS', 'AWS Developer Tools', dir + '/aws17/developer tools.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Game Development', dir + '/aws17/game development.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS General', dir + '/aws17/general.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
-	this.addStencilPalette('AWS', 'AWS Groups', dir + '/aws17/groups.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
+
+	this.addStencilPalette('AWS', 'AWS Groups', dir + '/aws17/groups.xml', '');
+
 	this.addStencilPalette('AWS', 'AWS Internet Of Things', dir + '/aws17/internet of things.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Management Tools', dir + '/aws17/management tools.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
 	this.addStencilPalette('AWS', 'AWS Messaging', dir + '/aws17/messaging.xml', ';whiteSpace=wrap;html=1;fillColor=#D86613;strokeColor=#D86613;strokeWidth=1');
@@ -136,6 +139,9 @@ Sidebar.prototype.init = function () {
 	// 		'Wireless_Router_N': 'wireless router switch wap wifi access point wlan',
 	// 		'Router_Icon': 'router switch'
 	// });
+
+	App.fetchCustomAttributes('attributes.json');
+
 };
 
 /**
@@ -3553,9 +3559,7 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 		x = graph.getSelectionCell()
 		var value = x.getValue();
 
-		console.log(x);
-
-		console.log(value)
+		// console.log(x);console.log(value)
 
 		if (value != '') {
 			type = value.split("-")[0];
@@ -3566,16 +3570,14 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 			} else {
 				lab = value.split("-")[1];
 			}
-
 		} else {
 			let a, b;
 			a = x.style.split(';')[0];
 			b = a.substr(a.indexOf('mxgraph') + 8);
 			type = b.split('.')[0];
 			lab = b.split('.')[1];
-
-			console.log(a)
 		}
+
 		var doc = mxUtils.createXmlDocument();
 		var obj = doc.createElement('object');
 		obj.setAttribute('label', lab || '');
@@ -3585,191 +3587,193 @@ Sidebar.prototype.addClickHandler = function (elt, ds, cells) {
 
 		setCustomAttribute(type, graph, x, value, lab);
 
-		// console.log(type, graph, x, value, lab);
-
-		// console.log(graph.getStylesheet().getDefaultEdgeStyle())//.put(mxConstants.STYLE_NOLABEL, "1")
-
-		// var style = graph.getStylesheet().getDefaultVertexStyle();
-		// style[mxConstants.STYLE_SHAPE] = mxConstants.STYLE_NOLABEL;
-
-
 		// Blocks tooltips on this element after single click
 		sb.currentElt = elt;
 	};
 };
 
-this.pattAttributeData = {
-	"autopatt": {},
-	"aws": {
-		"ec2": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "imageId",
-				"value": "ami-07ebfd5b3428b6f4d",
-				"required": true
-			},
-			{
-				"name": "instance_type",
-				"value": "t2.micro",
-				"required": true
-			},
-			{
-				"name": "key_name",
-				"value": "ec2-Mongokeypair",
-				"required": true
-			}
-		],
-		"appservicemesh": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "Client_Token",
-				"value": "1234",
-			},
-			{
-				"name": "Mesh_Name",
-				"value": "abc",
-			},
-			{
-				"name": "Egress_Filter_Type",
-				"value": "HTTP",
-			}
-		],
-		"t3_instance": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "ACL",
-				"value": "qwer",
-			},
-			{
-				"name": "Bucket Name",
-				"value": "qwer",
-			},
-			{
-				"name": "Location Constraint",
-				"value": "qwer",
-			},
-			{
-				"name": "Grant Full Control",
-				"value": "Yes",
-			},
-			{
-				"name": "Grant Read",
-				"value": "Yes",
-			},
-			{
-				"name": "Grant Read ACP",
-				"value": "No",
-			},
-			{
-				"name": "Grant Write",
-				"value": "Yes",
-			},
-			{
-				"name": "Grant Write ACP",
-				"value": "Yes",
-			},
-			{
-				"name": "Object Lock Enabled",
-				"value": "No",
-			},
-		],
-		"virtual_private_cloud": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "CidrBlock",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "tag_key_1",
-				"value": "",
-			}, {
-				"name": "tag_value_1",
-				"value": "",
-			}, {
-				"name": "EnableDnsSupport",
-				"value": "true",
-			}, {
-				"name": "EnableDnsHostnames",
-				"value": "true",
-			}, {
-				"name": "EnableInternetGateway",
-				"value": "true",
-			}, {
-				"name": "DestinationCidrBlock",
-				"value": "true",
-			}, {
-				"name": "CidrBlock",
-				"value": "",
-			},
-		],
-		"vpc_subnet": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "CidrBlock",
-				"value": "",
-			},
-		],
-		"security_group": [
-			{
-				"name": "region",
-				"value": "us-east-1",
-				"required": true
-			},
-			{
-				"name": "Group_1_Name",
-				"value": "",
-			}, {
-				"name": "Group_1_Desc",
-				"value": "",
-			}, {
-				"name": "Group_1_CidrIp_1",
-				"value": "",
-			}, {
-				"name": "Group_1_IpProtocol",
-				"value": "",
-			}, {
-				"name": "Group_1_FromPort",
-				"value": "",
-			}, {
-				"name": "Group_1_ToPort",
-				"value": "",
-			},
-		],
+// this.pattAttributeData = {
+// 	"autopatt": {},
+// 	"aws": {
+// 		"ec2":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "imageId",
+// 					"value": "ami-07ebfd5b3428b6f4d",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "instance_type",
+// 					"value": "t2.micro",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "key_name",
+// 					"value": "ec2-Mongokeypair",
+// 					"required": true
+// 				}
+// 			],
+// 		"appservicemesh":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "Client_Token",
+// 					"value": "1234",
+// 				},
+// 				{
+// 					"name": "Mesh_Name",
+// 					"value": "abc",
+// 				},
+// 				{
+// 					"name": "Egress_Filter_Type",
+// 					"value": "HTTP",
+// 				}
+// 			],
+// 		"t3_instance":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "ACL",
+// 					"value": "qwer",
+// 				},
+// 				{
+// 					"name": "Bucket Name",
+// 					"value": "qwer",
+// 				},
+// 				{
+// 					"name": "Location Constraint",
+// 					"value": "qwer",
+// 				},
+// 				{
+// 					"name": "Grant Full Control",
+// 					"value": "Yes",
+// 				},
+// 				{
+// 					"name": "Grant Read",
+// 					"value": "Yes",
+// 				},
+// 				{
+// 					"name": "Grant Read ACP",
+// 					"value": "No",
+// 				},
+// 				{
+// 					"name": "Grant Write",
+// 					"value": "Yes",
+// 				},
+// 				{
+// 					"name": "Grant Write ACP",
+// 					"value": "Yes",
+// 				},
+// 				{
+// 					"name": "Object Lock Enabled",
+// 					"value": "No",
+// 				},
+// 			],
+// 		"virtual_private_cloud":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "CidrBlock",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "tag_key_1",
+// 					"value": "",
+// 				}, {
+// 					"name": "tag_value_1",
+// 					"value": "",
+// 				}, {
+// 					"name": "EnableDnsSupport",
+// 					"value": "true",
+// 				}, {
+// 					"name": "EnableDnsHostnames",
+// 					"value": "true",
+// 				}, {
+// 					"name": "EnableInternetGateway",
+// 					"value": "true",
+// 				}, {
+// 					"name": "DestinationCidrBlock",
+// 					"value": "true",
+// 				}, {
+// 					"name": "CidrBlock",
+// 					"value": "",
+// 				},
+// 			],
+// 		"vpc_subnet":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "CidrBlock",
+// 					"value": "",
+// 				},
+// 			],
+// 		"security_group":
+// 			[
+// 				{
+// 					"name": "region",
+// 					"value": "us-east-1",
+// 					"required": true
+// 				},
+// 				{
+// 					"name": "Group_1_Name",
+// 					"value": "",
+// 				}, {
+// 					"name": "Group_1_Desc",
+// 					"value": "",
+// 				}, {
+// 					"name": "Group_1_CidrIp_1",
+// 					"value": "",
+// 				}, {
+// 					"name": "Group_1_IpProtocol",
+// 					"value": "",
+// 				}, {
+// 					"name": "Group_1_FromPort",
+// 					"value": "",
+// 				}, {
+// 					"name": "Group_1_ToPort",
+// 					"value": "",
+// 				},
+// 			],
 
-	},
-	"azure": [
-		{
-			"name": "region",
-			"value": "us-east-1",
-			"required": true
-		},
-		{
-			"name": "azure",
-			"value": "data"
-		}
-	]
-};
+// 	},
+// 	"azure":
+// 		[
+// 			{
+// 				"name": "region",
+// 				"value": "us-east-1",
+// 				"required": true
+// 			},
+// 			{
+// 				"name": "azure",
+// 				"value": "data"
+// 			}
+// 		]
+// };
+
+// Fetching the custom from json file
+// App.fetchCustomAttributes('attributes.json');
 
 // set custom attribute for each pallete's diagram
 setCustomAttribute = function (type, graph, cell, value, name) {
@@ -3779,27 +3783,26 @@ setCustomAttribute = function (type, graph, cell, value, name) {
 
 	switch (type) {
 		case "autopatt": {
-			let json = this.pattAttributeData.autopatt;
+			let json = App.attributes["autopatt"];// this.pattAttributeData.autopatt;
 			json = selectJSONdata(json, name);
 			addCustomAttributes(json, type, name, value, graph, cell);
 		}; break;
 
 		case "aws": {
-			let json = this.pattAttributeData.aws;
+			let json = App.attributes["aws"];//this.pattAttributeData.aws;
 			json = selectJSONdata(json, name);
-			console.log(json);
 			addCustomAttributes(json, type, name, value, graph, cell);
 		}; break;
 
 		case "azure": {
-			let json = this.pattAttributeData.azure;
+			let json = App.attributes["azure"];
 			json = selectJSONdata(json, name);
 			addCustomAttributes(json, type, name, value, graph, cell);
 		}; break;
 
 		default: {
-			let json = this.pattAttributeData.default;
-			addCustomAttributes(json, type, name, value, graph, cell);
+			// let json = App.attributes["default"]
+			// addCustomAttributes(json, type, name, value, graph, cell);
 		}
 	}
 };
@@ -3816,8 +3819,7 @@ function selectJSONdata(json, name) {
 	if (name.search("<") >= 0) {
 		name = removeTags(name);
 	}
-	//name.replace("_", " ");
-	console.log(name)
+
 	let isTrue = json.hasOwnProperty(name);
 	if (isTrue) {
 		let res = json[name];
@@ -3830,7 +3832,7 @@ function selectJSONdata(json, name) {
 
 function replaceSpecialCharacters(str) {
 
-	console.log(str)
+	// console.log(str)
 
 	// if (str.search(" ") >= 0) {
 	str = str.split(' ').join('');
@@ -3882,7 +3884,7 @@ function xmlToJson(xml) {
 
 addCustomAttributes = function (json, type, name, value, graph, cell) {
 
-	console.log(json, type, name, value, graph, cell)
+	// console.log(json, type, name, value, graph, cell)
 
 	if (json != null) {
 		if (name.includes("<b>", 0)) {
