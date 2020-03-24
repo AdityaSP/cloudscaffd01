@@ -554,6 +554,7 @@ public final class UtilHttp {
         }
 
         String fullRequestUrl = getFullRequestUrl(request);
+        Debug.logInfo("full request url:::"+fullRequestUrl,module);
 
         session.setAttribute("_WEBAPP_NAME_", getApplicationName(request));
         session.setAttribute("_CLIENT_LOCALE_", request.getLocale());
@@ -586,6 +587,7 @@ public final class UtilHttp {
         requestUrl.append("://" + request.getServerName());
         if (request.getServerPort() != 80 && request.getServerPort() != 443)
             requestUrl.append(":" + request.getServerPort());
+        Debug.logInfo("Request URL::"+requestUrl,module);
         return requestUrl;
     }
 

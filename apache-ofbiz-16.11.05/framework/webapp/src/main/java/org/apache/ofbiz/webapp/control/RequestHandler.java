@@ -418,6 +418,7 @@ public class RequestHandler {
             } catch (EventHandlerException e) {
                 throw new RequestHandlerException(e.getMessage(), e);
             }
+            Debug.logInfo("request.getHeader(\"X-Requested-With\") :: "+request.getHeader("X-Requested-With"),module);
             if (!"success".equalsIgnoreCase(checkLoginReturnString)) {
                 // previous URL already saved by event, so just do as the return says...
                 eventReturn = checkLoginReturnString;
@@ -842,6 +843,7 @@ public class RequestHandler {
         Debug.logInfo("userLogin::"+userLogin,module);
         // workaround if we are in the root webapp
         String cname = UtilHttp.getApplicationName(req);
+        Debug.logInfo("cname :: "+cname,module);
         String oldView = view;
 
         if (UtilValidate.isNotEmpty(view) && view.charAt(0) == '/') {
@@ -916,7 +918,7 @@ public class RequestHandler {
         } else {
             nextPage = viewMap.page;
         }
-
+        Debug.logInfo("nextPage:::"+nextPage,module);
         if (Debug.verboseOn()) Debug.logVerbose("[Mapped To]: " + nextPage + showSessionId(req), module);
 
         long viewStartTime = System.currentTimeMillis();
